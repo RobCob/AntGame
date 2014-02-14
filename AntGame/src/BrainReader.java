@@ -254,6 +254,7 @@ public class BrainReader {
 	}
 	
 	public static void main(String[] args) {
+		// Testing
 		BrainReader br = new BrainReader();
 		String input = "sampleant.brain";
 		State[] s =  br.createStateList(br.separateLines(br.readFromFile(input)));
