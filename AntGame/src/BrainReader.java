@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class BrainReader {
 	
@@ -63,14 +60,14 @@ public class BrainReader {
 			// If there are no errors, create appropriate state and add it to the output list of states.
 			// Catch all exceptions thrown.
 			try{
-				switch(currentState[0]){
-				case "Sense":
+				switch(currentState[0].toUpperCase()){
+				case "SENSE":
 					SenseDir direction = checkSenseDirection(currentState[1]);
 					int st1 = checkState(currentState[2]);
 					int st2 = checkState(currentState[3]);
 					Condition condition = checkCondition(currentState[4]);
 					// Extra variable needed if the state is sensing for a Marker
-					if(condition == Condition.Marker){
+					if(condition == Condition.MARKER){
 						int scent = checkMark(currentState[5]);						
 						output[i] = new Sense(direction, st1, st2, condition, scent);
 					}else{
@@ -78,42 +75,42 @@ public class BrainReader {
 					}
 					continue;
 					
-				case "Mark":
+				case "MARK":
 						int scent = checkMark(currentState[1]);
 						st1 = checkState(currentState[2]);
 						output[i] = new Mark(scent, st1);
 					continue;
 					
-				case "Unmark":
+				case "UNMARK":
 						scent = checkMark(currentState[1]);
 						st1 = checkState(currentState[2]);
 						output[i] = new Mark(scent, st1);
 					continue;
 					
-				case "PickUp":
+				case "PICKUP":
 						st1 = checkState(currentState[1]);
 						st2 = checkState(currentState[2]);
 						output[i] = new PickUp(st1, st2);
 					continue;
 					
-				case "Drop":
+				case "DROP":
 						st1 = checkState(currentState[1]);
 						output[i] = new Drop(st1);
 					continue;
 					
-				case "Turn":
+				case "TURN":
 						TurnDir turnDirection = checkTurnDirection(currentState[1]);
 						st1 = checkState(currentState[2]);
 						output[i] = new Turn(turnDirection, st1);
 					continue;
 					
-				case "Move":
+				case "MOVE":
 						st1 = checkState(currentState[1]);
 						st2 = checkState(currentState[2]);
 						output[i] = new Move(st1, st2);
 					continue;
 					
-				case "Flip":
+				case "FLIP":
 						int p = Integer.parseInt(currentState[1]);
 						st1 = checkState(currentState[2]);
 						st2 = checkState(currentState[3]);
@@ -168,18 +165,18 @@ public class BrainReader {
 	 */
 	private SenseDir checkSenseDirection(String s) throws Exception{
 		SenseDir direction;
-		switch(s)	{
-		case "Here":
-			direction = SenseDir.Here;
+		switch(s.toUpperCase()){
+		case "HERE":
+			direction = SenseDir.HERE;
 			break;
-		case "Ahead":
-			direction = SenseDir.Ahead;
+		case "AHEAD":
+			direction = SenseDir.AHEAD;
 			break;
-		case "LeftAhead":
-			direction = SenseDir.LeftAhead;
+		case "LEFTAHEAD":
+			direction = SenseDir.LEFTAHEAD;
 			break;
-		case "RightAhead":
-			direction = SenseDir.RightAhead;
+		case "RIGHTAHEAD":
+			direction = SenseDir.RIGHTAHEAD;
 			break;
 		default:
 			throw new Exception("False direction: " + s);
@@ -195,12 +192,12 @@ public class BrainReader {
 	 */
 	private TurnDir checkTurnDirection(String s) throws Exception {
 		TurnDir direction;
-		switch(s)	{
-		case "Left":
-			direction = TurnDir.Left;
+		switch(s.toUpperCase())	{
+		case "LEFT":
+			direction = TurnDir.LEFT;
 			break;
-		case "Right":
-			direction = TurnDir.Right;
+		case "RIGHT":
+			direction = TurnDir.RIGHT;
 			break;
 		default:
 			throw new Exception("False turn direction: " + s);
@@ -216,36 +213,36 @@ public class BrainReader {
 	 */
 	private Condition checkCondition(String s) throws Exception{
 		Condition condition;
-		switch(s){
-		case "Friend":
-			condition = Condition.Friend;
+		switch(s.toUpperCase()){
+		case "FRIEND":
+			condition = Condition.FRIEND;
 			break;
-		case "Foe":
-			condition = Condition.Foe;
+		case "FOE":
+			condition = Condition.FOE;
 			break;
-		case "FriendWithFood":
-			condition = Condition.FriendWithFood;
+		case "FRIENDWITHFOOD":
+			condition = Condition.FRIENDWITHFOOD;
 			break;
-		case "FoeWithFood":
-			condition = Condition.FoeWithFood;
+		case "FOEWITHFOOD":
+			condition = Condition.FOEWITHFOOD;
 			break;
-		case "Food":
-			condition = Condition.Food;
+		case "FOOD":
+			condition = Condition.FOOD;
 			break;
-		case "Rock":
-			condition = Condition.Rock;
+		case "ROCK":
+			condition = Condition.ROCK;
 			break;
-		case "Marker":
-			condition = Condition.Marker;
+		case "MARKER":
+			condition = Condition.MARKER;
 			break;
-		case "FoeMarker":
-			condition = Condition.FoeMarker;
+		case "FOEMARKER":
+			condition = Condition.FOEMARKER;
 			break;
-		case "Home":
-			condition = Condition.Home;
+		case "HOME":
+			condition = Condition.HOME;
 			break;
-		case "FoeHome":
-			condition = Condition.FoeHome;
+		case "FOEHOME":
+			condition = Condition.FOEHOME;
 			break;
 		default:
 			throw new Exception("False Condition: " + s);

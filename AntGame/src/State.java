@@ -2,28 +2,28 @@ abstract class State{
 	public abstract void execute(Ant ant);
 }
 enum SenseDir{
-	Here,
-    Ahead,
-    LeftAhead,
-    RightAhead
+	HERE,
+    AHEAD,
+    LEFTAHEAD,
+    RIGHTAHEAD
 }
 
 enum Condition{
-	Friend,
-    Foe,
-    FriendWithFood,
-    FoeWithFood,
-    Food,
-    Rock,
-    Marker,
-    FoeMarker,
-    Home,
-    FoeHome
+	FRIEND,
+    FOE,
+    FRIENDWITHFOOD,
+    FOEWITHFOOD,
+    FOOD,
+    ROCK,
+    MARKER,
+    FOEMARKER,
+    HOME,
+    FOEHOME
 }
 
 enum TurnDir{
-	Left,
-	Right
+	LEFT,
+	RIGHT
 }
 
 class Sense extends State{
