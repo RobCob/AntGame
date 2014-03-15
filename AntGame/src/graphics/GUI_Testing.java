@@ -4,16 +4,22 @@ import javax.swing.*;
 
 public class GUI_Testing{
 	public static void main(String args[]) {
-		int rows = 20;
 		int cols = 15;
-		int size =  20;
-		int strokeWidth = 2;
-		HexGrid grid = new HexGrid(rows, cols, size, strokeWidth);
-		
+		int rows = 20;
+		int size = 30;
+		int strokeWidth = 1;
+		HexGrid grid = new HexGrid(cols, rows, size, strokeWidth);
+		grid.setMinimumSize(new Dimension(cols*size, rows*size*2));
+		grid.setPreferredSize(new Dimension(cols*size*2, rows*size*2));
+
+		JScrollPane scrollPane = new JScrollPane(grid,
+		        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+		        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		JFrame window = new JFrame();
 		window.setSize(640, 420);
+		window.setResizable(false);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.add(grid);
+		window.add(scrollPane);
 		window.setVisible(true);
 		
 		
