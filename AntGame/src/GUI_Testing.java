@@ -1,5 +1,4 @@
 import java.awt.*;
-
 import javax.swing.*;
 
 public class GUI_Testing{
@@ -64,10 +63,10 @@ class Hexagon extends Polygon {
 	private Color outline;
 	private int centerX; // Centre x co-ord (px)
 	private int centerY; // Centre y co-ord (px)
-	private final int SIZE; // Size of hexagon (like the radius)
+	private final int SIZE; // Size of hexagon (similar to the radius)
 	
 	public Hexagon(int x, int y, int size) {
-		SIZE = size;
+		this.SIZE = size;
 		this.fill = Color.WHITE;
 		this.outline = Color.BLACK;
 		
@@ -109,7 +108,7 @@ class Hexagon extends Polygon {
 		this.fill = fill;
 	}
 	
-	public void setOutlineColor(Color fill) {
+	public void setOutlineColor(Color outline) {
 		this.outline = outline;
 	}
 }
