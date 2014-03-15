@@ -4,10 +4,16 @@ import javax.swing.*;
 
 public class GUI_Testing{
 	public static void main(String args[]) {
+		
+		int rows = 22;
+		int cols = 14;
+		int size = 16;
+		HexGrid grid = new HexGrid(rows, cols, size);
+		
 		JFrame window = new JFrame();
 		window.setSize(640, 420);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.add(new HexGrid(22, 14, 16));
+		window.add(grid);
 		window.setVisible(true);
 	}
 }
