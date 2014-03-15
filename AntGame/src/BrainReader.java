@@ -1,3 +1,4 @@
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -10,22 +11,22 @@ public class BrainReader {
 	 */
 	public String readFromFile(String path){
 		String output = "";
-		FileReader inputStream = null;
+		BufferedReader inputBuffer = null;
 
         try {
-            inputStream = new FileReader(path);
+            inputBuffer = new BufferedReader(new FileReader(path));
 
-            int c;
-            while ((c = inputStream.read()) != -1) {
-                output += (char)c;
+            String line;
+            while (( line = inputBuffer.readLine() ) != null) {
+                output += line;
             }
         }catch(Exception e){
         	System.out.println(e.getMessage());
         }finally {
         
-            if (inputStream != null) {
+            if (inputBuffer != null) {
                 try {
-					inputStream.close();
+					inputBuffer.close();
 				} catch (IOException e) {
 					System.out.println(e.getMessage());
 				}
@@ -45,86 +46,85 @@ public class BrainReader {
 	
 	/**
 	 * Iterates through each string in the stateList matching it to a State token
-	 * @param stateList
+	 * @param state
 	 * @return An array of States
 	 */
-	public State[] createStateList(String[] stateList){
-		State[] output = new State[stateList.length];
+	public State classifyState(String state){
+		State output = null;
 		// For each line
-		for(int i = 0; i<stateList.length;i++) {
-			// Trim input sentence and then split into 'words' (strings separated by whitespace)
-			//TODO: Decide how strict input checking should be. Should I trim or should it cause an error? eg " Drop 2 "
-			String[] currentState = stateList[i].trim().split(" ");
-			// Try matching the first word in the line to each of the instructions. 
-			// Check the appropriate words and convert them to ints/enums, throwing exceptions on each error.
-			// If there are no errors, create appropriate state and add it to the output list of states.
-			// Catch all exceptions thrown.
-			try{
-				switch(currentState[0].toUpperCase()){
-				case "SENSE":
-					SenseDir direction = checkSenseDirection(currentState[1]);
-					int st1 = checkState(currentState[2]);
-					int st2 = checkState(currentState[3]);
-					Condition condition = checkCondition(currentState[4]);
-					// Extra variable needed if the state is sensing for a Marker
-					if(condition == Condition.MARKER){
-						int scent = checkMark(currentState[5]);						
-						output[i] = new Sense(direction, st1, st2, condition, scent);
-					}else{
-						output[i] = new Sense(direction, st1, st2, condition);
-					}
-					continue;
-					
-				case "MARK":
-						int scent = checkMark(currentState[1]);
-						st1 = checkState(currentState[2]);
-						output[i] = new Mark(scent, st1);
-					continue;
-					
-				case "UNMARK":
-						scent = checkMark(currentState[1]);
-						st1 = checkState(currentState[2]);
-						output[i] = new Mark(scent, st1);
-					continue;
-					
-				case "PICKUP":
-						st1 = checkState(currentState[1]);
-						st2 = checkState(currentState[2]);
-						output[i] = new PickUp(st1, st2);
-					continue;
-					
-				case "DROP":
-						st1 = checkState(currentState[1]);
-						output[i] = new Drop(st1);
-					continue;
-					
-				case "TURN":
-						TurnDir turnDirection = checkTurnDirection(currentState[1]);
-						st1 = checkState(currentState[2]);
-						output[i] = new Turn(turnDirection, st1);
-					continue;
-					
-				case "MOVE":
-						st1 = checkState(currentState[1]);
-						st2 = checkState(currentState[2]);
-						output[i] = new Move(st1, st2);
-					continue;
-					
-				case "FLIP":
-						int p = Integer.parseInt(currentState[1]);
-						st1 = checkState(currentState[2]);
-						st2 = checkState(currentState[3]);
-						output[i] = new Flip(p, st1, st2);
-					continue;
-					
-				default:
-					throw new Exception("Invalid state");
-					
+		
+		// Trim input sentence and then split into 'words' (strings separated by whitespace)
+		//TODO: Decide how strict input checking should be. Should I trim or should it cause an error? eg " Drop 2 "
+		String[] stateTokens = state.trim().split(" ");
+		// Try matching the first word in the line to each of the instructions. 
+		// Check the appropriate words and convert them to ints/enums, throwing exceptions on each error.
+		// If there are no errors, create appropriate state and add it to the output list of states.
+		// Catch all exceptions thrown.
+		try{
+			switch(stateTokens[0].toUpperCase()){
+			case "SENSE":
+				SenseDir direction = checkSenseDirection(stateTokens[1]);
+				int st1 = checkState(stateTokens[2]);
+				int st2 = checkState(stateTokens[3]);
+				Condition condition = checkCondition(stateTokens[4]);
+				// Extra variable needed if the state is sensing for a Marker
+				if(condition == Condition.MARKER){
+					int scent = checkMark(stateTokens[5]);						
+					output = new Sense(direction, st1, st2, condition, scent);
+				}else{
+					output = new Sense(direction, st1, st2, condition);
 				}
-			}catch(Exception e){
-				System.out.println("Error on string: " + stateList[i] +"\nLine number " + i);
-				System.out.println(e.getMessage());
+				break;
+				
+			case "MARK":
+					int scent = checkMark(stateTokens[1]);
+					st1 = checkState(stateTokens[2]);
+					output = new Mark(scent, st1);
+				break;
+				
+			case "UNMARK":
+					scent = checkMark(stateTokens[1]);
+					st1 = checkState(stateTokens[2]);
+					output = new Mark(scent, st1);
+				break;
+				
+			case "PICKUP":
+					st1 = checkState(stateTokens[1]);
+					st2 = checkState(stateTokens[2]);
+					output = new PickUp(st1, st2);
+				break;
+				
+			case "DROP":
+					st1 = checkState(stateTokens[1]);
+					output = new Drop(st1);
+				break;
+				
+			case "TURN":
+					TurnDir turnDirection = checkTurnDirection(stateTokens[1]);
+					st1 = checkState(stateTokens[2]);
+					output = new Turn(turnDirection, st1);
+				break;
+				
+			case "MOVE":
+					st1 = checkState(stateTokens[1]);
+					st2 = checkState(stateTokens[2]);
+					output = new Move(st1, st2);
+				break;
+				
+			case "FLIP":
+					int p = Integer.parseInt(stateTokens[1]);
+					st1 = checkState(stateTokens[2]);
+					st2 = checkState(stateTokens[3]);
+					output = new Flip(p, st1, st2);
+				break;
+				
+			default:
+				throw new Exception("Invalid state");
+				
 			}
+		}catch(Exception e){
+			System.out.println("Error on string: " + state);
+			System.out.println(e.getMessage());
 		}
 		return output;
 	}
@@ -254,9 +254,9 @@ public class BrainReader {
 		// Testing
 		BrainReader br = new BrainReader();
 		String input = "sampleant.brain";
-		State[] s =  br.createStateList(br.separateLines(br.readFromFile(input)));
-		for(int i = 0; i < s.length; i++){
-			System.out.println(s[i].getClass().getName());
-		}
+//		State[] s =  br.classifyState(br.separateLines(br.readFromFile(input)));
+//		for(int i = 0; i < s.length; i++){
+//			System.out.println(s[i].getClass().getName());
+//		}
 	}
 }

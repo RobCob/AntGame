@@ -1,6 +1,6 @@
 public class Ant {
 	int id, state, x, y, direction, resting;
-	boolean isBlack, has_food;
+	boolean has_food;
 	AntBrain brain;
 	
 	public Ant(AntBrain brain){
