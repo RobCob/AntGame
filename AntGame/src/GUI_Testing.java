@@ -5,8 +5,8 @@ public class GUI_Testing{
 	public static void main(String args[]) {
 		int rows = 40;
 		int cols = 30;
-		int size = 8;
-		int strokeWidth = 1;
+		int size = 200;
+		int strokeWidth = 2;
 		HexGrid grid = new HexGrid(rows, cols, size, strokeWidth);
 		
 		JFrame window = new JFrame();
@@ -91,29 +91,29 @@ class Hexagon extends Polygon {
 		this.outlineColor = Color.BLACK;
 		this.strokeWidth = strokeWidth;
 		
-		int xOffset = 0; // Used to interleave hexagons 
-		int yOffset = 0; // Used to interleave hexagons
+		double xOffset = 0; // Used to interleave hexagons 
+		double yOffset = 0; // Used to interleave hexagons
 		
-		int height = SIZE * 2 + strokeWidth/2;
-		int width = (int) (Math.sqrt(3)/2 * height)+ strokeWidth/2; 
+		int height = SIZE * 2;// + strokeWidth/2;
+		double width = (Math.sqrt(3)/2 * height);// + strokeWidth/2; 
 		
 		// If odd row, shift right.
 		if (y % 2 != 0 && y != 0) {
-			xOffset = width/2 + 1;
+			xOffset = width/2;
 		}
 		
 		// Shift hexagons up, so they interleave.
 		yOffset = -y*height/4;
 		
 		// Set the centre x and y co-ords.
-		int centerX = width*x + SIZE + xOffset;
-		int centerY = height*y + SIZE + yOffset;
+		double centerX = width*x + SIZE + xOffset;
+		double centerY = height*y + SIZE + yOffset;
 		
 		
 		// Set the points of the hexagon, corresponding to the centre points and size.
 	    for (int i = 0; i < 6; i++) {
 	    	double angle = 2 * Math.PI /6* (i+0.5);
-	    	this.addPoint((int)(centerX + SIZE*Math.cos(angle)), (int)(centerY + SIZE*Math.sin(angle)));
+	    	this.addPoint((int)Math.round(centerX + SIZE*Math.cos(angle)), (int)Math.round(centerY + SIZE*Math.sin(angle)));
 	    }
 	}
 	
