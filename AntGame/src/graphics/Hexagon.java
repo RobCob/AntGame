@@ -15,8 +15,8 @@ public class Hexagon extends Polygon {
 	private Color fillColor;
 	private Color outlineColor;
 	private int strokeWidth;
-	private int centerX; // Centre x co-ord (px)
-	private int centerY; // Centre y co-ord (px)
+	private double centerX; // Centre x co-ord (px)
+	private double centerY; // Centre y co-ord (px)
 	private final int SIZE; // Size of hexagon (similar to the radius)
 		
 	public Hexagon(int x, int y, int size, int strokeWidth) {
@@ -40,19 +40,28 @@ public class Hexagon extends Polygon {
 		yOffset = -y*height/4;
 		
 		// Set the centre x and y co-ords.
-		double centerX = width*x + SIZE + xOffset;
-		double centerY = height*y + SIZE + yOffset;
+		centerX = width*x + SIZE + xOffset;
+		centerY = height*y + SIZE + yOffset;
 		
 		
 		// Set the points of the hexagon, corresponding to the centre points and size.
-	    for (int i = 0; i < 6; i++) {
+	    setPoints();
+	}
+	private void setPoints(){
+		this.reset();
+		for (int i = 0; i < 6; i++) {
 	    	double angle = 2 * Math.PI /6* (i+0.5);
-	    	this.addPoint((int)Math.round(centerX + SIZE*Math.cos(angle)), (int)Math.round(centerY + SIZE*Math.sin(angle)));
+	    	this.addPoint((int)Math.round(centerX + (SIZE-strokeWidth/2)*Math.cos(angle)), (int)Math.round(centerY + (SIZE-strokeWidth/2)*Math.sin(angle)));
 	    }
 	}
 	
 	public int getStrokeWidth() {
 		return this.strokeWidth;
+	}
+	
+	public void setStrokeWidth(int strokeWidth) {
+		this.strokeWidth = strokeWidth;
+		setPoints();
 	}
 
 	public Color getFillColor() {
