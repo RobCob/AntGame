@@ -51,7 +51,9 @@ public class Hexagon extends Polygon {
 		this.reset();
 		for (int i = 0; i < 6; i++) {
 	    	double angle = 2 * Math.PI /6* (i+0.5);
-	    	this.addPoint((int)Math.round(centerX + (SIZE-strokeWidth/2)*Math.cos(angle)), (int)Math.round(centerY + (SIZE-strokeWidth/2)*Math.sin(angle)));
+	    	int xPoint = (int)Math.round(centerX + (SIZE-strokeWidth/2)*Math.cos(angle));
+	    	int yPoint = (int)Math.round(centerY + (SIZE-strokeWidth/2)*Math.sin(angle));
+	    	this.addPoint(xPoint, yPoint);
 	    }
 	}
 	
