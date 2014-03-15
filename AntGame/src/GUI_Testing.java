@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class GUI_Testing{
 	public static void main(String args[]) {
-		
 		int rows = 22;
 		int cols = 14;
 		int size = 16;
@@ -43,25 +42,29 @@ class HexGrid extends JPanel {
 	}
 	
 	public void drawHexagon(Graphics g, Hexagon h) {
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) g; // Graphics2D has a load of useful methods.
+		
 		// Draw the inside (fill)
 		g2.setColor(h.getFillColor());
 		g2.fillPolygon(h);
+		
 		// Draw the outline.
 		g2.setStroke(new BasicStroke(1));
-		g2.setColor(h.getOutlineColour());
+		g2.setColor(h.getOutlineColor());
 		g2.drawPolygon(h);
 	}
 }
 
 
 class Hexagon extends Polygon {
+	public static final Color redAntColor = Color.RED; 
+	public static final Color blackAntColor = Color.BLACK;
+	
 	private Color fill;
-	private Color outline = Color.DARK_GRAY;
+	private Color outline;
 	private int centerX; // Centre x co-ord (px)
 	private int centerY; // Centre y co-ord (px)
 	private final int SIZE; // Size of hexagon (like the radius)
-	
 	
 	public Hexagon(int x, int y, int size) {
 		SIZE = size;
@@ -98,7 +101,15 @@ class Hexagon extends Polygon {
 		return this.fill;
 	}
 	
-	public Color getOutlineColour() {
+	public Color getOutlineColor() {
 		return this.outline;
+	}
+	
+	public void setFillColor(Color fill) {
+		this.fill = fill;
+	}
+	
+	public void setOutlineColor(Color fill) {
+		this.outline = outline;
 	}
 }
