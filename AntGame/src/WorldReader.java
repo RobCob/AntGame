@@ -82,11 +82,11 @@ public class WorldReader {
 					default:
 						throw new Exception("Invalid tile");
 					}
+				}
+			}catch(Exception e){
+				System.out.println("Error on string: " + tile);
+				System.out.println(e.getMessage());
 			}
-		}catch(Exception e){
-			System.out.println("Error on string: " + tile);
-			System.out.println(e.getMessage());
-		}
 		}
 		return output;
 	}
