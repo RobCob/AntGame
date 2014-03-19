@@ -1,7 +1,5 @@
 package graphics;
 import java.awt.*;
-import java.sql.NClob;
-
 import javax.swing.*;
 
 public class GUI_Testing{
