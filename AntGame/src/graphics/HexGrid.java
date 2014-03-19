@@ -4,8 +4,16 @@ import javax.swing.*;
 
 public  class HexGrid extends JPanel {
 	private Hexagon[][] grid;
+	private int rows;
+	private int cols;
+	private int size;
+	private int strokeWidth;
 	
 	public HexGrid(int rows, int cols, int size, int strokeWidth) {
+		this.rows = rows;
+		this.cols = cols;
+		this.size = size;
+		this.strokeWidth = strokeWidth;
 		this.setOpaque(true);
 		this.setBackground(Color.black);
 		grid = new Hexagon[rows][cols];
@@ -50,6 +58,19 @@ public  class HexGrid extends JPanel {
 	
 	public Hexagon getHexagon(int x, int y) {
 		return grid[x][y];
+	}
+
+	public void refresh() {
+		this.paintComponent(this.getGraphics());
+	}
+	
+	public void clearAll() {
+		grid = new Hexagon[rows][cols];
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				grid[row][col] = new Hexagon(row, col, size, strokeWidth);
+			}
+		}
 	}
 }
 
