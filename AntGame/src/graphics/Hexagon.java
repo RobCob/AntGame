@@ -17,7 +17,7 @@ public class Hexagon extends Polygon {
 	private int strokeWidth;
 	private double centerX; // Centre x co-ord (px)
 	private double centerY; // Centre y co-ord (px)
-	private final int SIZE; // Size of hexagon (similar to the radius)
+	private int SIZE; // Size of hexagon (similar to the radius)
 		
 	public Hexagon(int x, int y, int size, int strokeWidth) {
 		this.SIZE = size;
