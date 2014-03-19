@@ -65,10 +65,9 @@ public  class HexGrid extends JPanel {
 	}
 	
 	public void clearAll() {
-		grid = new Hexagon[rows][cols];
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
-				grid[row][col] = new Hexagon(row, col, size, strokeWidth);
+				grid[row][col].setFillColor(Hexagon.EMPTY_CELL_COLOR);
 			}
 		}
 	}
