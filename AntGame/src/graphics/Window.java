@@ -4,9 +4,14 @@ import java.awt.*;
 import java.util.Stack;
 import javax.swing.*;
 
+/**
+ * The main window of the game.
+ */
 public class Window extends JFrame{
 	private CardLayout cardLayout = new CardLayout(); // Allows JPanels to be changed in and out.
 	private JPanel screens = new JPanel(cardLayout);  // Holds all of the different screens.
+	private static final int WIDTH = 1024;
+	private static final int HEIGHT = (WIDTH/16)*9;
 	
 	// Initialise all of the games screens.
 	private JPanel mainMenuPanel = new MainMenuPanel(this);
@@ -25,9 +30,9 @@ public class Window extends JFrame{
 		
 		// JFrame properties 
 		this.add(screens);
-		this.setTitle("Ant Game");
-		this.setSize(640, 420);
-		this.setResizable(true);
+		this.setTitle("Ant Game " + "(" + WIDTH + "x" + HEIGHT + ")");
+		this.setSize(WIDTH, HEIGHT);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}

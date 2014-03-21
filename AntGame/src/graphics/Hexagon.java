@@ -7,6 +7,7 @@ public class Hexagon extends Polygon {
 	public static final Color RED_ANT_COLOR = Color.RED; 
 	public static final Color BLACK_ANT_COLOR = Color.GRAY;
 	public static final Color EMPTY_CELL_COLOR = Color.WHITE;
+	public static final Color DEFAULT_OUTLINE_COLOR = Color.BLACK; 
 	public static final Color RED_ANTHILL_COLOR = Color.ORANGE;
 	public static final Color BLACK_ANTHILL_COLOR = Color.BLACK;
 	public static final Color ROCK_COLOR = Color.DARK_GRAY;
@@ -23,8 +24,8 @@ public class Hexagon extends Polygon {
 		
 	public Hexagon(int x, int y, int size, int strokeWidth) {
 		this.size = size;
-		this.fillColor = Color.WHITE;
-		this.outlineColor = Color.BLACK;
+		this.fillColor = EMPTY_CELL_COLOR;
+		this.outlineColor = DEFAULT_OUTLINE_COLOR;
 		this.strokeWidth = strokeWidth;
 		this.x = x;
 		this.y = y;
@@ -65,27 +66,51 @@ public class Hexagon extends Polygon {
 		setPoints();
 	}
 	
+	/**
+	 * Gets the hexagon's current stroke width.
+	 * @return the width of the hexagon's current stroke.
+	 */
 	public int getStrokeWidth() {
 		return this.strokeWidth;
 	}
 	
+	/**
+	 * Changes the stroke width and updates the points of the hexagons.
+	 * @param strokeWidth the stroke width for the hexagon.
+	 */
 	public void setStrokeWidth(int strokeWidth) {
 		this.strokeWidth = strokeWidth;
 		setPoints();
 	}
 
+	/**
+	 * Gets the fill colour of the hexagon.
+	 * @return the fill Color of the Hexagon.
+	 */
 	public Color getFillColor() {
 		return this.fillColor;
 	}
 	
+	/**
+	 * Gets the outline colour of the hexagon.
+	 * @return the Color of the Hexagon's outline.
+	 */
 	public Color getOutlineColor() {
 		return this.outlineColor;
 	}
 	
+	/**
+	 * Set the fill colour of the hexagon.
+	 * @param fill the fill Color of the Hexagon.
+	 */
 	public void setFillColor(Color fill) {
 		this.fillColor = fill;
 	}
 	
+	/**
+	 * Set the stroke colour of the hexagon.
+	 * @param outline the outline Color of the Hexagon.
+	 */
 	public void setOutlineColor(Color outline) {
 		this.outlineColor = outline;
 	}

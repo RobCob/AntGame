@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,8 +23,7 @@ public class MatchPanel extends JPanel {
 		
 		int cols = 150;
 		int rows = 150;
-		final int size = 8;
-
+		int size = 8;
 		int strokeWidth = 1;
 		
 		// GRID
@@ -52,28 +52,44 @@ public class MatchPanel extends JPanel {
 			}
 		});
 		
-		JButton changeGridTestButton = new JButton("+");
-		changeGridTestButton.addActionListener(new ActionListener() {
-			int hexSize = size;
+		JButton increaseSizeButton = new JButton("+");
+		increaseSizeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				grid.resize(hexSize+2);
-				hexSize += 2;
+				grid.increaseSize();
 				grid.revalidate();
 				scrollPane.paintAll(scrollPane.getGraphics());
 				grid.refresh();
 			}
 		});
 		
-		
+		JButton decreaseSizeButton = new JButton("-");
+		decreaseSizeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				grid.decreaseSize();
+				grid.revalidate();
+				scrollPane.paintAll(scrollPane.getGraphics());
+				grid.refresh();
+			}
+		});
 		
 		hud.add(addAntTestButton);
 		hud.add(removeAllButton);
-		hud.add(changeGridTestButton);
-
+		hud.add(increaseSizeButton);
+		hud.add(decreaseSizeButton);
 		
 		this.setLayout(new BorderLayout());
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(hud, BorderLayout.EAST);
+	}
+	
+}
+
+class MatchListener implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String componentString = e.getSource().toString();
+		System.out.println(componentString);
 	}
 	
 }

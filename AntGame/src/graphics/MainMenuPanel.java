@@ -9,14 +9,18 @@ import javax.swing.JPanel;
 public class MainMenuPanel extends JPanel{
 	
 	
-	public MainMenuPanel(final Window parent){
+	
+	public MainMenuPanel(Window parent){
+		final Window parentWindow = parent;
 		JButton testButton = new JButton("TEST A CHANGE OF SCREEN");
 		testButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				parent.switchScreen("Match");
+			public void actionPerformed(ActionEvent a) {
+				parentWindow.switchScreen("Match");
 			}
 		});
 		
 		this.add(testButton);
 	}
+	
+	
 }
