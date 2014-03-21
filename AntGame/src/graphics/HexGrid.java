@@ -73,10 +73,7 @@ public  class HexGrid extends JPanel {
 		}
 		
 		// TODO SORT OUT DIMENSION.
-		Dimension dimension = new Dimension((int)(cols*size*1.74), (int)(rows*size*1.51));
-		this.setMinimumSize(dimension);
-		this.setPreferredSize(dimension);
-		this.setMaximumSize(dimension);
+		setDimensions((int)(cols*size*1.74), (int)(rows*size*1.51));
 	}
 	
 	public void resize(int size){
@@ -89,7 +86,11 @@ public  class HexGrid extends JPanel {
 		}
 		
 		// TODO - SORT OUT DIMENSION.
-		Dimension dimension = new Dimension((int)(cols*size*1.74), (int)(rows*size*1.51));
+		setDimensions((int)(cols*size*1.74), (int)(rows*size*1.51));
+	}
+	
+	public void setDimensions(int width, int height){
+		Dimension dimension = new Dimension(width, height);
 		this.setMinimumSize(dimension);
 		this.setPreferredSize(dimension);
 		this.setMaximumSize(dimension);

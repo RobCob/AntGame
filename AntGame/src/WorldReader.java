@@ -61,7 +61,7 @@ public class WorldReader {
 	public Tile[] createStateList(String worldLine){
 		Tile[] output = new Tile[worldLine.length()];
 		String[] tiles = new String[worldLine.length()];
-		//have to use for each as split() creates on undisired character at the start
+		//have to use for each as split() creates on undesired character at the start
 		for(int i = 0; i < tiles.length; i++){
 			tiles[i] = "" + worldLine.charAt(i);
 		}
