@@ -1,5 +1,6 @@
 package graphics;
 import java.awt.*;
+
 import javax.swing.*;
 
 public  class HexGrid extends JPanel {
@@ -10,18 +11,11 @@ public  class HexGrid extends JPanel {
 	private int strokeWidth;
 	
 	public HexGrid(int rows, int cols, int size, int strokeWidth) {
-		this.rows = rows;
-		this.cols = cols;
 		this.size = size;
 		this.strokeWidth = strokeWidth;
-		this.setOpaque(true);
-		this.setBackground(Color.black);
-		grid = new Hexagon[rows][cols];
-		for (int row = 0; row < rows; row++) {
-			for (int col = 0; col < cols; col++) {
-				grid[row][col] = new Hexagon(row, col, size, strokeWidth);
-			}
-		}
+		this.rows = rows;
+		this.cols = cols;
+		newGrid(rows, cols, size, strokeWidth);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -62,6 +56,43 @@ public  class HexGrid extends JPanel {
 
 	public void refresh() {
 		this.paintComponent(this.getGraphics());
+	}
+	
+	public void newGrid(int rows, int cols, int size, int strokeWidth) {
+		this.rows = rows;
+		this.cols = cols;
+		this.size = size;
+		this.strokeWidth = strokeWidth;
+		this.setOpaque(true);
+		this.setBackground(Color.black);
+		grid = new Hexagon[rows][cols];
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				grid[row][col] = new Hexagon(row, col, size, strokeWidth);
+			}
+		}
+		
+		// TODO SORT OUT DIMENSION.
+		Dimension dimension = new Dimension((int)(cols*size*1.74), (int)(rows*size*1.51));
+		this.setMinimumSize(dimension);
+		this.setPreferredSize(dimension);
+		this.setMaximumSize(dimension);
+	}
+	
+	public void resize(int size){
+		this.size = size;
+		
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				grid[row][col].setSize(size);
+			}
+		}
+		
+		// TODO SORT OUT DIMENSION.
+		Dimension dimension = new Dimension((int)(cols*size*1.74), (int)(rows*size*1.51));
+		this.setMinimumSize(dimension);
+		this.setPreferredSize(dimension);
+		this.setMaximumSize(dimension);
 	}
 	
 	public void clearAll() {

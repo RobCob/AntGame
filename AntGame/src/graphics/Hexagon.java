@@ -17,18 +17,38 @@ public class Hexagon extends Polygon {
 	private int strokeWidth;
 	private double centerX; // Centre x co-ord (px)
 	private double centerY; // Centre y co-ord (px)
-	private int SIZE; // Size of hexagon (similar to the radius)
+	private int x;
+	private int y;
+	private int size; // Size of hexagon (similar to the radius)
 		
 	public Hexagon(int x, int y, int size, int strokeWidth) {
-		this.SIZE = size;
+		this.size = size;
 		this.fillColor = Color.WHITE;
 		this.outlineColor = Color.BLACK;
 		this.strokeWidth = strokeWidth;
-		
+		this.x = x;
+		this.y = y;
+		setSize(size);
+		// Set the points of the hexagon, corresponding to the centre points and size.
+	    setPoints();
+	}
+	
+	private void setPoints(){
+		this.reset();
+		for (int i = 0; i < 6; i++) {
+	    	double angle = 2 * Math.PI /6* (i+0.5);
+	    	int xPoint = (int)Math.round(centerX + (size-strokeWidth/2)*Math.cos(angle));
+	    	int yPoint = (int)Math.round(centerY + (size-strokeWidth/2)*Math.sin(angle));
+	    	this.addPoint(xPoint, yPoint);
+	    }
+	}
+	
+	public void setSize(int size) {
+		this.size = size;
 		double xOffset = 0; // Used to interleave hexagons 
 		double yOffset = 0; // Used to interleave hexagons
 		
-		int height = SIZE * 2;// + strokeWidth/2;
+		int height = size * 2;// + strokeWidth/2;
 		double width = (Math.sqrt(3)/2 * height);// + strokeWidth/2; 
 		
 		// If odd row, shift right.
@@ -40,21 +60,9 @@ public class Hexagon extends Polygon {
 		yOffset = -y*height/4;
 		
 		// Set the centre x and y co-ords.
-		centerX = width*x + SIZE + xOffset;
-		centerY = height*y + SIZE + yOffset;
-		
-		
-		// Set the points of the hexagon, corresponding to the centre points and size.
-	    setPoints();
-	}
-	private void setPoints(){
-		this.reset();
-		for (int i = 0; i < 6; i++) {
-	    	double angle = 2 * Math.PI /6* (i+0.5);
-	    	int xPoint = (int)Math.round(centerX + (SIZE-strokeWidth/2)*Math.cos(angle));
-	    	int yPoint = (int)Math.round(centerY + (SIZE-strokeWidth/2)*Math.sin(angle));
-	    	this.addPoint(xPoint, yPoint);
-	    }
+		centerX = width*x + size + xOffset;
+		centerY = height*y + size + yOffset;
+		setPoints();
 	}
 	
 	public int getStrokeWidth() {

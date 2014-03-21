@@ -3,6 +3,7 @@ package graphics;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -21,21 +22,19 @@ public class MatchPanel extends JPanel {
 		
 		int cols = 150;
 		int rows = 150;
-		int size = 6;
+		final int size = 2;
 		int strokeWidth = 1;
 		
 		// GRID
 		final HexGrid grid = new HexGrid(cols, rows, size, strokeWidth);
-		grid.setMinimumSize(new Dimension(cols*size, rows*size*2));
-		grid.setPreferredSize(new Dimension((int)(cols*size*1.74), (int)(rows*size*1.51)));
 		
-		JScrollPane scrollPane = new JScrollPane(grid);
+		final JScrollPane scrollPane = new JScrollPane(grid);
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		scrollPane.setMinimumSize(new Dimension(400, 400));
 		scrollPane.setPreferredSize(new Dimension(400, 400));
 
 		// HUD
-		JPanel hud = new JPanel();
+		JPanel hud = new JPanel(new GridLayout(4,1));
 		JButton addAntTestButton = new JButton("ADD ANT TEST");
 		addAntTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -52,14 +51,28 @@ public class MatchPanel extends JPanel {
 			}
 		});
 		
+		JButton changeGridTestButton = new JButton("+");
+		changeGridTestButton.addActionListener(new ActionListener() {
+			int hexSize = size;
+			public void actionPerformed(ActionEvent arg0) {
+				grid.resize(hexSize+2);
+				hexSize += 2;
+				//grid.newGrid(rand.nextInt(100)+30,rand.nextInt(100)+40, rand.nextInt(4)*2+4,1);
+				scrollPane.paintAll(scrollPane.getGraphics());
+				grid.refresh();
+			}
+		});
+		
 		
 		
 		hud.add(addAntTestButton);
 		hud.add(removeAllButton);
+		hud.add(changeGridTestButton);
 
 		
 		this.setLayout(new BorderLayout());
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(hud, BorderLayout.EAST);
 	}
+	
 }
