@@ -1,8 +1,13 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class WorldReader {
+	
+	int x; // x dimension
+	int y; // y dimension
 	
 	/**
 	 * Load world from file
@@ -15,14 +20,13 @@ public class WorldReader {
 
         try {
             inputBuffer = new BufferedReader(new FileReader(path));
-            String worldSize = inputBuffer.readLine();
-            int x = Integer.parseInt(worldSize.split(",")[0]);
-            int y = Integer.parseInt(worldSize.split(",")[1]);
-            Tile[][] grid = new Tile[x][y];
-//            int c;
-//            while ((c = inputBuffer.read()) != -1) {
-//                output += (char)c;
-//            }
+            x = Integer.parseInt(inputBuffer.readLine()); // Read the first line and set its value as the x value
+            y = Integer.parseInt(inputBuffer.readLine()); // Read the first line and set its value as the y value
+            String line = null;
+            while ((line = inputBuffer.readLine()) != null) {
+                output += line + "$"; //use $ as a line separator to be used later for semantic analysis 
+            }
+
         }catch(Exception e){
         	System.out.println(e.getMessage());
         }finally {
@@ -31,12 +35,14 @@ public class WorldReader {
                 try {
 					inputBuffer.close();
 				} catch (IOException e) {
-					System.out.println(e.getMessage());
+					System.err.println(e.getMessage());
 				}
             }
         }
+        output = output.replaceAll("\\s+",""); //simply remove any whitespace that might have been read in
 		return output;
 	}
+	
 	/**
 	 * A simple method to separate each line of the input string into it's own array index.
 	 * @param input - The input string.
@@ -54,50 +60,117 @@ public class WorldReader {
 	 */
 	public Tile[] createStateList(String worldLine){
 		Tile[] output = new Tile[worldLine.length()];
-		String[] tiles = worldLine.trim().split("");
+		String[] tiles = new String[worldLine.length()];
+		//have to use for each as split() creates on undisired character at the start
+		for(int i = 0; i < tiles.length; i++){
+			tiles[i] = "" + worldLine.charAt(i);
+		}
 		// For each tile in a line
+		// Start at 1, as the trim() method creates an invisible character at the start of the string
 		for(int i = 0; i < tiles.length; i++){
 			String tile = tiles[i];
+			System.out.println("Tile: " + tile);
 			try{
 				if(tile.matches("[1-9]")){
-//					output[i] = new ClearTile(NUMBER OF FOOD HERE)
+					output[i] = new ClearTile(Integer.parseInt(tile)); // Simply parse the int contained in the String
 				}else{
 					switch(tile){
 					case ".":
-						//clear tile
+							output[i] = new ClearTile();
 						break;
 						
 					case "#":
-						// rocky
+							output[i] = new RockTile();
 						break;
 						
 					case "+":
-						// red ant hill
+							output[i] = new AntHillTile(Colour.RED);
 						break;
 						
 					case "-":
-						// black ant hill
+							output[i] = new AntHillTile(Colour.BLACK);
 						break;
-						
+					
+					case "$":
+							output[i] = new LineSeparator();
+						break;
+					
 					default:
 						throw new Exception("Invalid tile");
 					}
 				}
 			}catch(Exception e){
-				System.out.println("Error on string: " + tile);
-				System.out.println(e.getMessage());
+				System.err.println("Error on string: " + tile);
+				System.err.println(e.getMessage());
 			}
 		}
 		return output;
 	}
 	
+	/**
+	 * Goes through the ant-world tiles and checks if it conforms to the specified x and y dimensions
+	 * @param tiles
+	 * @return True if the map is semantically correct, false otherwise
+	 */
+	public boolean checkWorldSemantics(Tile[] tiles){
+		int countx = 0,county = 0,i = 0;
+		boolean isCorrect = true;
+		while(isCorrect && i < tiles.length){
+			if(!(tiles[i] instanceof LineSeparator)){
+				countx++;
+			}else{
+				//if there are x tiles in a line
+				if(countx == x){
+					countx = 0;
+					county++; //increment the count of y dimension
+				}else{
+					isCorrect = false; //not a semantically correct world
+				}
+			}
+			i++;
+		}
+		//check if the the y dimensions of the world are correct
+		if(county != y){isCorrect = false;}
+		return isCorrect;
+	}
+	
+	/**
+	 * This method is to be used post-parsing. It simply removes LineSeparator tokens, as they are no longer needed post-parsing
+	 * @param tiles
+	 * @return input array without LineSeparators
+	 */
+	public Tile[] removeLineSeparators(Tile[] tiles){
+		Tile[] output = new Tile[tiles.length - countLineSeparators(tiles)];
+		int outputPointer = 0;
+		for(int i=0; i < tiles.length;i++){
+			if(!(tiles[i] instanceof LineSeparator)){
+				output[outputPointer++] = tiles[i];
+			}
+		}
+		return output;
+	}
+	
+	/**
+	 * This method simply counts the number of line Separators in an array of tiles
+	 * @param tiles
+	 * @return number of line separators
+	 */
+	private int countLineSeparators(Tile[] tiles){
+		int i = 0;
+		for(Tile t: tiles){
+			if(t instanceof LineSeparator){i++;}
+		}
+		return i;
+	}
+	
 	public static void main(String[] args) {
 		// Testing
 		WorldReader wr = new WorldReader();
-		String input = "sampleant.brain";
-//		State[] s =  br.createStateList(br.separateLines(br.readFromFile(input)));
-//		for(int i = 0; i < s.length; i++){
-//			System.out.println(s[i].getClass().getName());
-//		}
+		String map = wr.readFromFile("//smbhome.uscs.susx.ac.uk/gcp20/Desktop/Software Engineering/WorldMap.txt");
+		System.out.println(map);
+		Tile[] tiles = wr.createStateList(map);
+		boolean correct = wr.checkWorldSemantics(tiles);
+		System.out.println("Correct : " + correct);
+		Tile[] tmp = wr.removeLineSeparators(tiles);
 	}
 }
