@@ -22,7 +22,11 @@ public class MatchPanel extends JPanel {
 		
 		int cols = 150;
 		int rows = 150;
+<<<<<<< HEAD
 		final int size = 2;
+=======
+		int size = 8;
+>>>>>>> FETCH_HEAD
 		int strokeWidth = 1;
 		
 		// GRID
