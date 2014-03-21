@@ -88,7 +88,7 @@ public  class HexGrid extends JPanel {
 			}
 		}
 		
-		// TODO SORT OUT DIMENSION.
+		// TODO - SORT OUT DIMENSION.
 		Dimension dimension = new Dimension((int)(cols*size*1.74), (int)(rows*size*1.51));
 		this.setMinimumSize(dimension);
 		this.setPreferredSize(dimension);

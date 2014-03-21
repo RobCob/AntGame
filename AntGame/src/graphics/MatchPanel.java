@@ -58,7 +58,7 @@ public class MatchPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				grid.resize(hexSize+2);
 				hexSize += 2;
-				//grid.newGrid(rand.nextInt(100)+30,rand.nextInt(100)+40, rand.nextInt(4)*2+4,1);
+				grid.revalidate();
 				scrollPane.paintAll(scrollPane.getGraphics());
 				grid.refresh();
 			}
