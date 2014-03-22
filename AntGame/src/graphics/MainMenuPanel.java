@@ -16,6 +16,7 @@ public class MainMenuPanel extends JPanel{
 		testButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				getWindow().switchScreen("Match");
+				//getWindow().startMatch();
 			}
 		});
 		

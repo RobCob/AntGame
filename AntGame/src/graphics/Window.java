@@ -64,7 +64,7 @@ public class Window extends JFrame{
 		final double ns = 1000000000.0 / 60.0; //number of times to run update per second
 		double screenDelta = 0.0;
 		double modelDelta = 0.0;
-
+		
 		int frames = 0;
 		int updates = 0;
 
@@ -75,10 +75,10 @@ public class Window extends JFrame{
 			modelDelta += (now - lastTime) / ns;
 			lastTime = now;
 
-			while (screenDelta >= 1) { // happens 60 times a seconds.
-				updateMatchScreen();
+			while (modelDelta >= 1) { // happens 60 times a seconds.
+				updateModel();
 				updates++;
-				screenDelta--;
+				modelDelta--;
 			}
 			frames++;
 
@@ -94,14 +94,14 @@ public class Window extends JFrame{
 	}
 	
 	private void updateMatchScreen() {
-		int width = matchPanel.getGrid().getColumns();
-		int height = matchPanel.getGrid().getRows();
-		matchPanel.getGrid().getHexagon(rand.nextInt(height), rand.nextInt(width)).setFillColor(Color.RED);
-		//matchPanel.getGrid().refresh();
+		matchPanel.getGrid().refresh();
 	}
 
 	private void updateModel() {
-		
+		int width = matchPanel.getGrid().getColumns();
+		int height = matchPanel.getGrid().getRows();
+		matchPanel.getGrid().getHexagon(rand.nextInt(height), rand.nextInt(width)).setFillColor(Color.RED);
+		//
 	}
 
 	public void stopMatch() {

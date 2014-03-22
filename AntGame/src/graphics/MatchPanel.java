@@ -53,7 +53,7 @@ public class MatchPanel extends JPanel {
 				getGrid().increaseSize();
 				getGrid().revalidate();
 				getScrollPane().paintAll(scrollPane.getGraphics());
-				getGrid().refresh();
+				//getGrid().refresh();
 			}
 		});
 		
@@ -63,7 +63,7 @@ public class MatchPanel extends JPanel {
 				getGrid().decreaseSize();
 				getGrid().revalidate();
 				getScrollPane().paintAll(scrollPane.getGraphics());
-				getGrid().refresh();
+				//getGrid().refresh();
 			}
 		});
 		
