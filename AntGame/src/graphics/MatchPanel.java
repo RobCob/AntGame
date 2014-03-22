@@ -17,19 +17,14 @@ import javax.swing.JTextField;
 import javax.swing.JViewport;
 
 public class MatchPanel extends JPanel {
-	Random rand = new Random();
+	private Random rand = new Random();
+	private HexGrid grid;
+	private JScrollPane scrollPane;
 	
-	public MatchPanel(Window parent){
+	public MatchPanel(Window parent, HexGrid grid){
+		this.grid = grid;
 		
-		int cols = 150;
-		int rows = 150;
-		int size = 8;
-		int strokeWidth = 1;
-		
-		// GRID
-		final HexGrid grid = new HexGrid(cols, rows, size, strokeWidth);
-		
-		final JScrollPane scrollPane = new JScrollPane(grid);
+		this.scrollPane = new JScrollPane(grid);
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		scrollPane.setMinimumSize(new Dimension(400, 400));
 		scrollPane.setPreferredSize(new Dimension(400, 400));
@@ -39,36 +34,36 @@ public class MatchPanel extends JPanel {
 		JButton addAntTestButton = new JButton("ADD ANT TEST");
 		addAntTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				grid.getHexagon(rand.nextInt(30), rand.nextInt(30)).setFillColor(Color.RED);
-				grid.refresh();
+				getGrid().getHexagon(rand.nextInt(30), rand.nextInt(30)).setFillColor(Color.RED);
+				getGrid().refresh();
 			}
 		});
 		
 		JButton removeAllButton = new JButton("CLEAR GRID");
 		removeAllButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				grid.clearAll();
-				grid.refresh();
+				getGrid().clearAll();
+				getGrid().refresh();
 			}
 		});
 		
 		JButton increaseSizeButton = new JButton("+");
 		increaseSizeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				grid.increaseSize();
-				grid.revalidate();
-				scrollPane.paintAll(scrollPane.getGraphics());
-				grid.refresh();
+				getGrid().increaseSize();
+				getGrid().revalidate();
+				getScrollPane().paintAll(scrollPane.getGraphics());
+				getGrid().refresh();
 			}
 		});
 		
 		JButton decreaseSizeButton = new JButton("-");
 		decreaseSizeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				grid.decreaseSize();
-				grid.revalidate();
-				scrollPane.paintAll(scrollPane.getGraphics());
-				grid.refresh();
+				getGrid().decreaseSize();
+				getGrid().revalidate();
+				getScrollPane().paintAll(scrollPane.getGraphics());
+				getGrid().refresh();
 			}
 		});
 		
@@ -82,14 +77,19 @@ public class MatchPanel extends JPanel {
 		this.add(hud, BorderLayout.EAST);
 	}
 	
-}
-
-class MatchListener implements ActionListener {
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String componentString = e.getSource().toString();
-		System.out.println(componentString);
+	public HexGrid getGrid(){
+		return this.grid;
 	}
 	
+	public void setGrid(HexGrid grid) {
+		this.grid = grid;
+		this.scrollPane.removeAll();
+		this.scrollPane.add(grid);
+		this.scrollPane.revalidate();
+		this.scrollPane.repaint();
+	}
+		
+	public JScrollPane getScrollPane() {
+		return this.scrollPane;
+	}
 }

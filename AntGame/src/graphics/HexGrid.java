@@ -3,6 +3,9 @@ import java.awt.*;
 
 import javax.swing.*;
 
+/**
+ * A JPanel containing the Hexagon grid.
+ */
 public  class HexGrid extends JPanel {
 	private Hexagon[][] grid;
 	private int rows;
@@ -131,9 +134,15 @@ public  class HexGrid extends JPanel {
 				}
 			}
 		}
-
 	}
 	
+	public int getRows() {
+		return this.rows;
+	}
+	
+	public int getColumns() {
+		return this.cols;
+	}
 }
 
 

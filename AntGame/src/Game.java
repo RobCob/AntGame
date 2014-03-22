@@ -9,4 +9,22 @@ public class Game {
 	// 	update model
 	// 	render model
 	
+	public Game() {
+		boolean running = true;
+		
+		while (running) {
+			updateModel();
+			updateGraphics();
+		}
+
+		
+	}
+	
+	private void updateModel() {
+		
+	}
+
+	private void updateGraphics() {
+		
+	}
 }

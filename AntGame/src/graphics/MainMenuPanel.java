@@ -7,19 +7,23 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class MainMenuPanel extends JPanel{
-	
-	
+	private Window window;
 	
 	public MainMenuPanel(Window parent){
-		final Window parentWindow = parent;
+		this.window = parent;
+		
 		JButton testButton = new JButton("TEST A CHANGE OF SCREEN");
 		testButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
-				parentWindow.switchScreen("Match");
+				getWindow().switchScreen("Match");
 			}
 		});
 		
 		this.add(testButton);
+	}
+	
+	public Window getWindow() {
+		return this.window;
 	}
 	
 	
