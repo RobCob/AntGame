@@ -34,6 +34,10 @@ public  class HexGrid extends JPanel {
 		}
 	}
 	
+	// Override method above to do nothing
+	// Invoke all painting from a thread using this method?
+	public void customPaintComponent(Graphics g){};
+	
 	public void drawHexagon(Graphics g, Hexagon h) {
 		super.paintComponents(g);
 
@@ -108,30 +112,29 @@ public  class HexGrid extends JPanel {
 	}
 
 	public void increaseSize() {
-		if (size == 1) {
-			size = 2;
-			for (int row = 0; row < rows; row++) {
-				for (int col = 0; col < cols; col++) {
-					grid[row][col].setStrokeWidth(1);
-					grid[row][col].setOutlineColor(Hexagon.DEFAULT_OUTLINE_COLOR);
-				}
-			}
-			resize(size);
-		} else {
-			resize(size+=2);
-		}
+		resize(size+=2);
 	}
 
 	public void decreaseSize() {
 		if (size > 2) {
 			resize(size-=2);
-		} else if (size == 2) {
-			size = 1;
-			for (int row = 0; row < rows; row++) {
-				for (int col = 0; col < cols; col++) {
-					//grid[row][col].setStrokeWidth(0);
-					grid[row][col].setOutlineColor(Hexagon.EMPTY_CELL_COLOR);
-				}
+		}
+	}
+	
+	public void addDefaultOutlines() {
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				grid[row][col].setStrokeWidth(1);
+				grid[row][col].setOutlineColor(Hexagon.DEFAULT_OUTLINE_COLOR);
+			}
+		}
+	}
+	
+	public void removeOutlines() {
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				grid[row][col].setStrokeWidth(1);
+				grid[row][col].setOutlineColor(Hexagon.EMPTY_CELL_COLOR);
 			}
 		}
 	}

@@ -3,6 +3,9 @@ package graphics;
 import java.awt.Color;
 import java.awt.Polygon;
 
+/**
+ * Hexagon: A regular hexagon formed from a AWT Polygon.
+ */
 public class Hexagon extends Polygon {
 	public static final Color RED_ANT_COLOR = Color.RED; 
 	public static final Color BLACK_ANT_COLOR = Color.GRAY;
@@ -21,7 +24,15 @@ public class Hexagon extends Polygon {
 	private int x;
 	private int y;
 	private int size; // Size of hexagon (similar to the radius)
-		
+	
+	/**
+	 * Creates a new AWT Polygon as a regular hexagon.
+	 * Sets the fill to be initially 'empty'.
+	 * @param x the x position of the hexagon (in the grid, not pixels)
+	 * @param y the y position of the hexagon (in the grid, not pixels)
+	 * @param size the distance from the center of the hexagon to a perpendicular side.
+	 * @param strokeWidth width of the outline in pixels.
+	 */
 	public Hexagon(int x, int y, int size, int strokeWidth) {
 		this.size = size;
 		this.fillColor = EMPTY_CELL_COLOR;
@@ -34,6 +45,9 @@ public class Hexagon extends Polygon {
 	    setPoints();
 	}
 	
+	/**
+	 * Sets the points of the Polygon to be a hexagon at the correct (x,y) position.
+	 */
 	private void setPoints(){
 		this.reset();
 		for (int i = 0; i < 6; i++) {
@@ -44,6 +58,10 @@ public class Hexagon extends Polygon {
 	    }
 	}
 	
+	/**
+	 * Sets (and changes) the size of the hexagon.
+	 * @param size the distance from the center of the hexagon to a perpendicular side.
+	 */
 	public void setSize(int size) {
 		this.size = size;
 		double xOffset = 0; // Used to interleave hexagons 

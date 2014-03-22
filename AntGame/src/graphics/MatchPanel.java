@@ -6,10 +6,14 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Random;
 
 import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,10 +22,12 @@ import javax.swing.JViewport;
 
 public class MatchPanel extends JPanel {
 	private Random rand = new Random();
+	private Window window;
 	private HexGrid grid;
 	private JScrollPane scrollPane;
 	
 	public MatchPanel(Window parent, HexGrid grid){
+		this.window = parent;
 		this.grid = grid;
 		
 		this.scrollPane = new JScrollPane(grid);
@@ -30,8 +36,16 @@ public class MatchPanel extends JPanel {
 		scrollPane.setPreferredSize(new Dimension(400, 400));
 
 		// HUD
-		JPanel hud = new JPanel(new GridLayout(4,1));
-		JButton addAntTestButton = new JButton("ADD ANT TEST");
+		JPanel hud = new JPanel(new GridLayout(8,1));
+				
+		JButton refreshScreenButton = new JButton("Refresh Screen");
+		refreshScreenButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				getGrid().refresh();
+			}
+		});
+		
+		JButton addAntTestButton = new JButton("Add Ant Test");
 		addAntTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				getGrid().getHexagon(rand.nextInt(30), rand.nextInt(30)).setFillColor(Color.RED);
@@ -39,7 +53,7 @@ public class MatchPanel extends JPanel {
 			}
 		});
 		
-		JButton removeAllButton = new JButton("CLEAR GRID");
+		JButton removeAllButton = new JButton("Clear Grid");
 		removeAllButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				getGrid().clearAll();
@@ -47,34 +61,63 @@ public class MatchPanel extends JPanel {
 			}
 		});
 		
-		JButton increaseSizeButton = new JButton("+");
+		JButton increaseSizeButton = new JButton("Zoom In (+)");
 		increaseSizeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				getGrid().increaseSize();
 				getGrid().revalidate();
-				getScrollPane().paintAll(scrollPane.getGraphics());
+				//getScrollPane().paintAll(scrollPane.getGraphics());
 				//getGrid().refresh();
 			}
 		});
 		
-		JButton decreaseSizeButton = new JButton("-");
+		JButton decreaseSizeButton = new JButton("Zoom Out (-)");
 		decreaseSizeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				getGrid().decreaseSize();
 				getGrid().revalidate();
-				getScrollPane().paintAll(scrollPane.getGraphics());
+				//getScrollPane().paintAll(scrollPane.getGraphics());
 				//getGrid().refresh();
 			}
 		});
 		
+		JButton stopGameButton = new JButton("Stop Match");
+		stopGameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				getWindow().stopMatch();
+			}
+		});
+		
+		JCheckBox gridLinesCheckBox = new JCheckBox("Gridlines ");
+		gridLinesCheckBox.setSelected(true);
+		gridLinesCheckBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.DESELECTED) {
+					getGrid().removeOutlines();
+					getGrid().refresh();
+				} else {
+					getGrid().addDefaultOutlines();
+					getGrid().refresh();
+				}
+			}
+		});
+		
+		hud.add(new JLabel("Debugging Tools", JLabel.CENTER));
+		hud.add(refreshScreenButton);
 		hud.add(addAntTestButton);
 		hud.add(removeAllButton);
 		hud.add(increaseSizeButton);
 		hud.add(decreaseSizeButton);
+		hud.add(stopGameButton);
+		hud.add(gridLinesCheckBox);
 		
 		this.setLayout(new BorderLayout());
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(hud, BorderLayout.EAST);
+	}
+	
+	public Window getWindow(){
+		return this.window;
 	}
 	
 	public HexGrid getGrid(){
