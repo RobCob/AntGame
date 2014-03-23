@@ -1,3 +1,4 @@
+package model;
 public class Ant {
 	int id, state, x, y, direction, resting;
 	boolean has_food;

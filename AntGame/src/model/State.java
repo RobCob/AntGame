@@ -1,3 +1,4 @@
+package model;
 abstract class State{
 	public abstract void execute(Ant ant);
 }

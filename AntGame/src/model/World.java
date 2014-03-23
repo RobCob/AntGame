@@ -1,3 +1,4 @@
+package model;
 public class World {
 	private Tile[][] grid;
 	private int sizeX, sizeY;

@@ -17,15 +17,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
+import model.Game;
+
 public class MatchPanel extends JPanel {
 	private Random rand = new Random();
-	private Game window;
+	private Game game;
 	private HexGrid grid;
 	private HexGrid gridBuffer;
 	private JScrollPane scrollPane;
 	
-	public MatchPanel(Game parent, HexGrid grid){
-		this.window = parent;
+	public MatchPanel(Game game, HexGrid grid){
+		this.game = game;
 		this.grid = grid;
 		
 		this.scrollPane = new JScrollPane(grid);
@@ -119,7 +121,7 @@ public class MatchPanel extends JPanel {
 	}
 	
 	public Game getWindow(){
-		return this.window;
+		return this.game;
 	}
 	
 	public HexGrid getGrid(){

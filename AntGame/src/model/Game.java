@@ -1,4 +1,7 @@
-package graphics;
+package model;
+
+
+import graphics.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,9 +24,11 @@ public class Game extends JFrame{
 	private static final int HEIGHT = (WIDTH/16)*9;
 	
 	private boolean runningMatch = false;
+	private Thread modelThread;
 	private int screenNo = 0;
 	private Timer displayTimer;
 	private Random rand = new Random();
+	
 
 	
 	// Initialise all of the games screens.
@@ -74,55 +79,82 @@ public class Game extends JFrame{
 		//addScreen(new MatchPanel(this, new HexGrid(cols, rows, size, strokeWidth)), match);
 	}
 	
-	// REFACTOR INTO Game.java?
+	
+	public void runModel() {
+		modelThread = new Thread(new Runnable() {
+			public void run() {
+				System.out.println("THREAD TEST");
+				long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
+				long fpsTimer = System.currentTimeMillis();
+				int roundsPerSec = 500; // Number of rounds to perform every second
+				final double ns = 1000000000.0 / roundsPerSec; //number of times to run update per second
+				
+				double modelDelta = 0.0;
+				
+				int round = 0;
+				int maxRounds = 300000;
+				
+				int frames = 0;
+				int updates = 0;
+
+				// Game loop
+				while (round <= maxRounds && runningMatch) {
+					long now = System.nanoTime();
+					modelDelta += (now - lastTime) / ns;
+					lastTime = now;
+
+					while (modelDelta >= 1) { // Happens 'roundsPerSec' times a second.
+						updateModel();
+						round++;
+						updates++;
+						modelDelta--;
+					}
+					frames++;
+
+					if (System.currentTimeMillis() - fpsTimer > 1000) { // Happens once every 'roundsPerSec'
+						fpsTimer += 1000;
+						setTitle("Ant Game " + "(" + WIDTH + "x" + HEIGHT + ")" + ", FPS: " + frames/roundsPerSec +", UPDATES: " + updates + "/sec, ROUND: " + round + ", SCREEN: " + screenNo);
+
+						// Reset the stats
+						updates = 0;
+						frames = 0;
+					}
+				}
+				 if (round > maxRounds) {
+					 runningMatch = false;
+				 }
+			}
+		});
+		modelThread.start();
+	}
+	
+	/**
+	 * Start running the match loaded in, and display it to the screen.
+	 */
 	public void startMatch() {
 		runningMatch = true;
-		displayUpdates();
-		
-		long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
-		long fpsTimer = System.currentTimeMillis();
-		int roundsPerSec = 500; // Number of rounds to perform every second
-		final double ns = 1000000000.0 / roundsPerSec; //number of times to run update per second
-		
-		double modelDelta = 0.0;
-		
-		int round = 0;
-		int maxRounds = 300000;
-		
-		int frames = 0;
-		int updates = 0;
-
-		// Game loop
-		while (round <= maxRounds && runningMatch) {
-			long now = System.nanoTime();
-			modelDelta += (now - lastTime) / ns;
-			lastTime = now;
-
-			while (modelDelta >= 1) { // Happens 'roundsPerSec' times a second.
-				updateModel();
-				round++;
-				updates++;
-				modelDelta--;
-			}
-			frames++;
-
-			if (System.currentTimeMillis() - fpsTimer > 1000) { // Happens once every 'roundsPerSec'
-				fpsTimer += 1000;
-				this.setTitle("Ant Game " + "(" + WIDTH + "x" + HEIGHT + ")" + ", FPS: " + frames/roundsPerSec +", UPDATES: " + updates + "/sec, ROUND: " + round + ", SCREEN: " + screenNo);
-
-				// Reset the stats
-				updates = 0;
-				frames = 0;
-			}
+		runModel();
+		runDisplay();
+	}
+	
+	/**
+	 * Stop the current match.
+	 */
+	public void stopMatch() {
+		runningMatch = false;
+		try {
+			modelThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	/**
 	 * Start refreshing the match screen.
 	 */
-	public void displayUpdates() {
+	public void runDisplay() {
 		screenNo = 0;
-		int fps = 1;
+		int fps = 60;
 		displayTimer = new Timer(1000/fps, new ActionListener() {
 
 			@Override
@@ -161,17 +193,12 @@ public class Game extends JFrame{
 		}
 		
 		matchPanel.getGrid().setHexagonGrid(gridBuffer);
-		
 		matchPanel.getScrollPane().repaint();
-		
 	}
 
-	// TESTING
-	// MOVE SOMEWHERE ELSE?
-	private void updateModel() {
+	private  void updateModel() {
 		// To prevent displaying midway updates
 		int[][] worldBuffer = new int[worldWithAnts.length][worldWithAnts[0].length]; 
-		
 		
 		// Randomly modify world.
 		for (int i = 0; i < worldBuffer.length; i++) {
@@ -183,9 +210,4 @@ public class Game extends JFrame{
 		// Update stored world.
 		worldWithAnts = worldBuffer;
 	}
-
-	public void stopMatch() {
-		runningMatch = false;
-	}
-	
 }

@@ -1,3 +1,4 @@
+package model;
 public class AntBrain {
 	Colour colour;
 	State[] stateList;

@@ -6,25 +6,27 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import model.Game;
+
 public class MainMenuPanel extends JPanel{
-	private Game window;
+	private Game game;
 	
-	public MainMenuPanel(Game parent){
-		this.window = parent;
+	public MainMenuPanel(Game game){
+		this.game = game;
 		
-		JButton testButton = new JButton("TEST A CHANGE OF SCREEN");
+		JButton testButton = new JButton("Start Match!");
 		testButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
-				getWindow().switchScreen(Game.MATCH_SCREEN);
-				//getWindow().startMatch();
+				getGame().switchScreen(Game.MATCH_SCREEN);
+				getGame().startMatch();
 			}
 		});
 		
 		this.add(testButton);
 	}
 	
-	public Game getWindow() {
-		return this.window;
+	public Game getGame() {
+		return this.game;
 	}
 	
 	

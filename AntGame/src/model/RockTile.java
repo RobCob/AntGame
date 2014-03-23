@@ -1,3 +1,4 @@
+package model;
 
 public class RockTile implements Tile{
 	@Override

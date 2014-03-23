@@ -1,3 +1,4 @@
+package model;
 
 public class ClearTile implements Tile {
 	private int food;
