@@ -7,11 +7,11 @@ public class GUI_Testing{
 	public static void main(String args[]) {
 		Window window = new Window();
 		window.createMatch(150, 150, 4, 1);
+		window.switchScreen(Window.MATCH_SCREEN);
 		window.startMatch(); // NEEDS THREADING
 		
 		
-		// Updating the HexGrid probably needs to be in a worker thred.
-		// Likewise with updating the ant game model
-		// The GUI will probably need to use SwingUtilities.invokeLater
+		// Updating the HexGrid probably needs to be in a worker thread. (Swings timer will do here);
+		// Likewise with updating the ant game model 
 	}
 }

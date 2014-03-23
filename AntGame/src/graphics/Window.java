@@ -1,6 +1,8 @@
 package graphics;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 import java.util.Stack;
 import javax.swing.*;
@@ -17,25 +19,26 @@ public class Window extends JFrame{
 	private static final int HEIGHT = (WIDTH/16)*9;
 	
 	private boolean runningMatch = false;
-	
+	private int screenNo = 0;
 	private int[][] antsTest; // TEST!
 	
 	// Initialise all of the games screens.
 	private MainMenuPanel mainMenuPanel = new MainMenuPanel(this);
-	private final String mainMenu = "Main Menu";
+	public static final String MAIN_MENU_SCREEN = "Main Menu";
 			
 	private HexGrid grid = new HexGrid(0,0,0,0);
 	private MatchPanel matchPanel = new MatchPanel(this, grid);
-	private final String match = "Match";
+	public static final String MATCH_SCREEN = "Match";
 
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	private Random rand = new Random();
+	private Timer displayTimer;
 	
 	public Window() {
 		//Add all screens used within the game.
-		addScreen(mainMenuPanel, mainMenu);
-		addScreen(matchPanel, match);
+		addScreen(mainMenuPanel, MAIN_MENU_SCREEN);
+		addScreen(matchPanel, MATCH_SCREEN);
 		
 		// JFrame properties 
 		this.add(screens);
@@ -70,10 +73,12 @@ public class Window extends JFrame{
 	// REFACTOR INTO Game.java?
 	public void startMatch() {
 		runningMatch = true;
+		displayUpdates();
 		
 		long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
 		long fpsTimer = System.currentTimeMillis();
-		final double ns = 1000000000.0 / 1000.0; //number of times to run update per second
+		int roundsPerSec = 1000;
+		final double ns = 1000000000.0 / roundsPerSec; //number of times to run update per second
 		
 		double screenDelta = 0.0;
 		double modelDelta = 0.0;
@@ -101,7 +106,7 @@ public class Window extends JFrame{
 
 			if (System.currentTimeMillis() - fpsTimer > 1000) {
 				fpsTimer += 1000;
-				this.setTitle("Ant Game " + "(" + WIDTH + "x" + HEIGHT + ")" + " UPDATES: " + updates + "/sec ROUND: " + round);
+				this.setTitle("Ant Game " + "(" + WIDTH + "x" + HEIGHT + ")" + " UPDATES: " + updates + "/sec ROUND: " + round + " SCREEN: " + screenNo);
 
 				// Reset the stats
 				updates = 0;
@@ -110,6 +115,22 @@ public class Window extends JFrame{
 		}
 	}
 	
+	public void displayUpdates() {
+		screenNo = 0;
+		int fps = 60;
+		displayTimer = new Timer(1000/fps, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!runningMatch) {
+	            	displayTimer.stop();
+	            }
+				screenNo++;
+				updateMatchScreen();
+			}
+		});
+		displayTimer.start(); 
+	}
 	private void updateMatchScreen() {
 		matchPanel.getGrid().refresh();
 	}

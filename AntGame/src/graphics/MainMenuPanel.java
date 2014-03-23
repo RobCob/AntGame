@@ -15,7 +15,7 @@ public class MainMenuPanel extends JPanel{
 		JButton testButton = new JButton("TEST A CHANGE OF SCREEN");
 		testButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
-				getWindow().switchScreen("Match");
+				getWindow().switchScreen(Window.MATCH_SCREEN);
 				//getWindow().startMatch();
 			}
 		});
