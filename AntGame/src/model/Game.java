@@ -78,6 +78,26 @@ public class Game extends JFrame{
 		matchPanel.getGrid().newGrid(cols, rows, size, strokeWidth);
 	}
 	
+	/**
+	 * Start running the match loaded in, and display it to the screen.
+	 */
+	public void startMatch() {
+		runningMatch = true;
+		runModel();
+		runDisplay();
+	}
+	
+	/**
+	 * Stop the current match.
+	 */
+	public void stopMatch() {
+		runningMatch = false;
+		try {
+			modelThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void runModel() {
 		modelThread = new Thread(new Runnable() {
@@ -127,26 +147,7 @@ public class Game extends JFrame{
 		modelThread.start();
 	}
 	
-	/**
-	 * Start running the match loaded in, and display it to the screen.
-	 */
-	public void startMatch() {
-		runningMatch = true;
-		runModel();
-		runDisplay();
-	}
 	
-	/**
-	 * Stop the current match.
-	 */
-	public void stopMatch() {
-		runningMatch = false;
-		try {
-			modelThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Start refreshing the match screen.
@@ -154,6 +155,7 @@ public class Game extends JFrame{
 	public void runDisplay() {
 		screenNo = 0;
 		int fps = 60;
+		
 		displayTimer = new Timer(1000/fps, new ActionListener() {
 
 			@Override

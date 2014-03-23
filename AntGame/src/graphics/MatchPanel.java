@@ -32,11 +32,14 @@ public class MatchPanel extends JPanel {
 		this.grid = grid;
 		
 		this.scrollPane = new JScrollPane(grid);
+		//scrollPane.setViewportView(grid);
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		//scrollPane.setMinimumSize(new Dimension(400, 400));
 		//scrollPane.setPreferredSize(new Dimension(400, 400));
+		//scrollPane.setMaximumSize(new Dimension(400, 400));
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
 		// HUD
 		JPanel hud = new JPanel(new GridLayout(8,1));
 				
@@ -131,10 +134,10 @@ public class MatchPanel extends JPanel {
 	
 	public void setGrid(HexGrid grid) {
 		this.grid = grid;
-		this.scrollPane.removeAll();
-		this.scrollPane.add(grid);
-		this.scrollPane.revalidate();
-		this.scrollPane.repaint();
+		//this.scrollPane.removeAll();
+		//this.scrollPane.add(grid);
+		scrollPane.revalidate();
+		scrollPane.repaint();
 	}
 		
 	public JScrollPane getScrollPane() {

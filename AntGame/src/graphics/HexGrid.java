@@ -101,6 +101,7 @@ public  class HexGrid extends JPanel {
 		this.setMinimumSize(dimension);
 		this.setPreferredSize(dimension);
 		this.setMaximumSize(dimension);
+		this.revalidate();
 	}
 	
 	public void clearAll() {
