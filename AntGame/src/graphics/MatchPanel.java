@@ -10,23 +10,21 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Random;
 
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.JViewport;
 
 public class MatchPanel extends JPanel {
 	private Random rand = new Random();
-	private Window window;
+	private Game window;
 	private HexGrid grid;
+	private HexGrid gridBuffer;
 	private JScrollPane scrollPane;
 	
-	public MatchPanel(Window parent, HexGrid grid){
+	public MatchPanel(Game parent, HexGrid grid){
 		this.window = parent;
 		this.grid = grid;
 		
@@ -34,6 +32,7 @@ public class MatchPanel extends JPanel {
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		scrollPane.setMinimumSize(new Dimension(400, 400));
 		scrollPane.setPreferredSize(new Dimension(400, 400));
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		// HUD
 		JPanel hud = new JPanel(new GridLayout(8,1));
@@ -66,6 +65,7 @@ public class MatchPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				getGrid().increaseSize();
 				getGrid().revalidate();
+				getScrollPane().revalidate();
 				//getScrollPane().paintAll(scrollPane.getGraphics());
 				//getGrid().refresh();
 			}
@@ -76,6 +76,8 @@ public class MatchPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				getGrid().decreaseSize();
 				getGrid().revalidate();
+				getScrollPane().revalidate();
+
 				//getScrollPane().paintAll(scrollPane.getGraphics());
 				//getGrid().refresh();
 			}
@@ -116,7 +118,7 @@ public class MatchPanel extends JPanel {
 		this.add(hud, BorderLayout.EAST);
 	}
 	
-	public Window getWindow(){
+	public Game getWindow(){
 		return this.window;
 	}
 	

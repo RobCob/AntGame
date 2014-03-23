@@ -7,15 +7,15 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class MainMenuPanel extends JPanel{
-	private Window window;
+	private Game window;
 	
-	public MainMenuPanel(Window parent){
+	public MainMenuPanel(Game parent){
 		this.window = parent;
 		
 		JButton testButton = new JButton("TEST A CHANGE OF SCREEN");
 		testButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
-				getWindow().switchScreen(Window.MATCH_SCREEN);
+				getWindow().switchScreen(Game.MATCH_SCREEN);
 				//getWindow().startMatch();
 			}
 		});
@@ -23,7 +23,7 @@ public class MainMenuPanel extends JPanel{
 		this.add(testButton);
 	}
 	
-	public Window getWindow() {
+	public Game getWindow() {
 		return this.window;
 	}
 	

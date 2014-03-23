@@ -67,8 +67,8 @@ public class Hexagon extends Polygon {
 		double xOffset = 0; // Used to interleave hexagons 
 		double yOffset = 0; // Used to interleave hexagons
 		
-		int height = size * 2;// + strokeWidth/2;
-		double width = (Math.sqrt(3)/2 * height);// + strokeWidth/2; 
+		int height = size * 2;
+		double width = (Math.sqrt(3)/2 * height);
 		
 		// If odd row, shift right.
 		if (y % 2 != 0 && y != 0) {

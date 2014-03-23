@@ -146,6 +146,14 @@ public  class HexGrid extends JPanel {
 	public int getColumns() {
 		return this.cols;
 	}
+	
+	public Hexagon[][] getHexagonGrid() {
+		return this.grid;
+	}
+
+	public void setHexagonGrid(Hexagon[][] hexagons) {
+		this.grid  = hexagons;		
+	}
 }
 
 
