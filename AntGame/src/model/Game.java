@@ -18,6 +18,8 @@ import javax.swing.*;
  * 
  */
 public class Game extends JFrame{
+	public static final boolean GUI_DEBUG = true; // GUI debugging print statements on/off.
+	
 	private CardLayout cardLayout = new CardLayout(); // Allows JPanels to be changed in and out.
 	private JPanel screens = new JPanel(cardLayout);  // Holds all of the different screens.
 	private static final int WIDTH = 1024;
@@ -28,8 +30,6 @@ public class Game extends JFrame{
 	private int screenNo = 0;
 	private Timer displayTimer;
 	private Random rand = new Random();
-	
-
 	
 	// Initialise all of the games screens.
 	private MainMenuPanel mainMenuPanel = new MainMenuPanel(this);
@@ -53,7 +53,7 @@ public class Game extends JFrame{
 		this.add(screens);
 		this.setTitle("Ant Game " + "(" + WIDTH + "x" + HEIGHT + ")");
 		this.setSize(WIDTH, HEIGHT);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -75,8 +75,7 @@ public class Game extends JFrame{
 	 * @param strokeWidth
 	 */
 	public void createMatch(int cols, int rows, int size, int strokeWidth) {
-		matchPanel.getGrid().newGrid(rows, cols, size, strokeWidth);
-		//addScreen(new MatchPanel(this, new HexGrid(cols, rows, size, strokeWidth)), match);
+		matchPanel.getGrid().newGrid(cols, rows, size, strokeWidth);
 	}
 	
 	

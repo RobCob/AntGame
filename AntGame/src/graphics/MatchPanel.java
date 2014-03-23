@@ -27,13 +27,14 @@ public class MatchPanel extends JPanel {
 	private JScrollPane scrollPane;
 	
 	public MatchPanel(Game game, HexGrid grid){
+		
 		this.game = game;
 		this.grid = grid;
 		
 		this.scrollPane = new JScrollPane(grid);
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-		scrollPane.setMinimumSize(new Dimension(400, 400));
-		scrollPane.setPreferredSize(new Dimension(400, 400));
+		//scrollPane.setMinimumSize(new Dimension(400, 400));
+		//scrollPane.setPreferredSize(new Dimension(400, 400));
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		// HUD
@@ -49,7 +50,7 @@ public class MatchPanel extends JPanel {
 		JButton addAntTestButton = new JButton("Add Ant Test");
 		addAntTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				getGrid().getHexagon(rand.nextInt(30), rand.nextInt(30)).setFillColor(Color.RED);
+				getGrid().getHexagon(rand.nextInt(getGrid().getColumns()), rand.nextInt(getGrid().getRows())).setFillColor(Color.RED);
 				getGrid().refresh();
 			}
 		});

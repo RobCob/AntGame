@@ -23,12 +23,12 @@ public  class HexGrid extends JPanel {
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponents(g);
-		int rows = grid.length;
-		int cols = grid[0].length;
+		int cols = grid.length;
+		int rows = grid[0].length;
 		
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
-				Hexagon h = grid[row][col];
+				Hexagon h = grid[col][row];
 			    drawHexagon(g, h);
 			}
 		}
@@ -65,22 +65,22 @@ public  class HexGrid extends JPanel {
 		this.paintComponent(this.getGraphics());
 	}
 	
-	public void newGrid(int rows, int cols, int size, int strokeWidth) {
+	public void newGrid(int cols, int rows, int size, int strokeWidth) {
 		this.rows = rows;
 		this.cols = cols;
 		this.size = size;
 		this.strokeWidth = strokeWidth;
 		this.setOpaque(true);
 		this.setBackground(Color.black);
-		grid = new Hexagon[rows][cols];
+		grid = new Hexagon[cols][rows];
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
-				grid[row][col] = new Hexagon(row, col, size, strokeWidth);
+				grid[col][row] = new Hexagon(col, row, size, strokeWidth);
 			}
 		}
 		
 		// TODO SORT OUT DIMENSION.
-		setDimensions((int)(cols*size*1.74), (int)(rows*size*1.51));
+		setDimensions((int)(cols*size*1.74) + size, (int)(rows*size*1.51) + size);
 	}
 	
 	public void resize(int size){
@@ -88,12 +88,12 @@ public  class HexGrid extends JPanel {
 		
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
-				grid[row][col].setSize(size);
+				grid[col][row].setSize(size);
 			}
 		}
 		
 		// TODO - SORT OUT DIMENSION.
-		setDimensions((int)(cols*size*1.74), (int)(rows*size*1.51));
+		setDimensions((int)(cols*size*1.74) + size, (int)(rows*size*1.51) + (int)(size/2));
 	}
 	
 	public void setDimensions(int width, int height){
@@ -106,7 +106,7 @@ public  class HexGrid extends JPanel {
 	public void clearAll() {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
-				grid[row][col].setFillColor(Hexagon.EMPTY_CELL_COLOR);
+				grid[col][row].setFillColor(Hexagon.EMPTY_CELL_COLOR);
 			}
 		}
 	}
@@ -124,8 +124,8 @@ public  class HexGrid extends JPanel {
 	public void addDefaultOutlines() {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
-				grid[row][col].setStrokeWidth(1);
-				grid[row][col].setOutlineColor(Hexagon.DEFAULT_OUTLINE_COLOR);
+				grid[col][row].setStrokeWidth(1);
+				grid[col][row].setOutlineColor(Hexagon.DEFAULT_OUTLINE_COLOR);
 			}
 		}
 	}
@@ -133,8 +133,8 @@ public  class HexGrid extends JPanel {
 	public void removeOutlines() {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
-				grid[row][col].setStrokeWidth(1);
-				grid[row][col].setOutlineColor(Hexagon.EMPTY_CELL_COLOR);
+				grid[col][row].setStrokeWidth(1);
+				grid[col][row].setOutlineColor(Hexagon.EMPTY_CELL_COLOR);
 			}
 		}
 	}

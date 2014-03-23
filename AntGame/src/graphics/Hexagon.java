@@ -30,7 +30,7 @@ public class Hexagon extends Polygon {
 	 * Sets the fill to be initially 'empty'.
 	 * @param x the x position of the hexagon (in the grid, not pixels)
 	 * @param y the y position of the hexagon (in the grid, not pixels)
-	 * @param size the distance from the center of the hexagon to a perpendicular side.
+	 * @param size the distance from the center of the hexagon to a corner.
 	 * @param strokeWidth width of the outline in pixels.
 	 */
 	public Hexagon(int x, int y, int size, int strokeWidth) {
