@@ -18,12 +18,18 @@ import javax.swing.border.Border;
 
 public abstract class CustomButton extends JPanel implements MouseListener{
 	private String buttonText = "";
-	private JLabel normalLabel;
-	private JLabel hoverLabel;
+	private JLabel normalLabel = new JLabel(buttonText);
+	private JLabel hoverLabel = new JLabel(buttonText);
 	
 	private Font normalFont =  new Font("Verdana", Font.BOLD, 12);
 	private Font hoverFont =  new Font("Verdana", Font.BOLD, 12);
+	
+	private Color normalFontColour = Color.BLACK;
+	private Color hoverFontColour = Color.BLACK;
 
+	private int width = 100;
+	private int height = 40;
+	
     private Color hoverColour;
     private Color backgroundColour;
     
@@ -36,33 +42,20 @@ public abstract class CustomButton extends JPanel implements MouseListener{
     
     public CustomButton(String text, Color backgroundColour, Color hoverColor, Border normalBorder, Border hoverBorder, int width, int height) {
     	this.addMouseListener(this);
-    	this.setLayout(new GridLayout(1,1));
-    	
-    	Dimension dim = new Dimension(width, height);
-    	this.setPreferredSize(dim);
-    	this.setMinimumSize(dim);
-    	this.setMaximumSize(dim);
- 
-    	this.normalBorder = normalBorder;
-    	this.hoverBorder = hoverBorder;
     	
     	this.buttonText = text;
-    	this.normalLabel = new JLabel(text);
-    	normalLabel.setFont(normalFont);
-    	normalLabel.setHorizontalAlignment(JLabel.CENTER);
-    	this.setAlignmentY(JLabel.CENTER);
-    	
-    	this.hoverLabel = new JLabel(text);
-    	hoverLabel.setFont(hoverFont);
-    	hoverLabel.setHorizontalAlignment(JLabel.CENTER);
-    	
     	this.backgroundColour = backgroundColour;
     	this.hoverColour = hoverColor;
-    	
-    	this.setBackground(backgroundColour);
-    	this.setBorder(normalBorder);
+    	this.normalBorder = normalBorder;
+    	this.hoverBorder = hoverBorder;
+    	this.width = width;
+    	this.height = height;
+    	update();
+    }
+    
+    public CustomButton() {
+    	this.addMouseListener(this);
     	this.setLayout(new GridLayout(1,1));
-    	this.add(normalLabel);
     }
 
     public abstract void mouseClicked(java.awt.event.MouseEvent e);
@@ -87,6 +80,36 @@ public abstract class CustomButton extends JPanel implements MouseListener{
     	repaint();
     }
 
+    public void update() {
+    	setDimensions(width, height);
+    	this.normalLabel = new JLabel(buttonText);
+    	normalLabel.setFont(normalFont);
+    	normalLabel.setForeground(normalFontColour);
+    	normalLabel.setHorizontalAlignment(JLabel.CENTER);
+    	this.setAlignmentY(JLabel.CENTER);
+    	
+    	this.hoverLabel = new JLabel(buttonText);
+    	hoverLabel.setFont(hoverFont);
+    	hoverLabel.setForeground(hoverFontColour);
+    	hoverLabel.setHorizontalAlignment(JLabel.CENTER);
+
+    	this.setBackground(backgroundColour);
+    	this.setBorder(normalBorder);
+    	this.setLayout(new GridLayout(1,1));
+    	this.add(normalLabel);
+    }
+    
+    private void setDimensions(int width, int height) {
+    	Dimension d = new Dimension(width, height);
+    	this.setPreferredSize(d);
+    	this.setMinimumSize(d);
+    	this.setMaximumSize(d);
+    }
+    
+	public void mousePressed(java.awt.event.MouseEvent e) {}
+
+    public void mouseReleased(java.awt.event.MouseEvent e) {}
+
     public void setNormalFont(Font f) {
     	normalFont = f;
     	normalLabel.setFont(f);
@@ -97,7 +120,39 @@ public abstract class CustomButton extends JPanel implements MouseListener{
     	hoverLabel.setFont(f);
     }
     
-    public void mousePressed(java.awt.event.MouseEvent e) {}
+	public void setButtonText(String buttonText) {
+		this.buttonText = buttonText;
+	}
 
-    public void mouseReleased(java.awt.event.MouseEvent e) {}
+	public void setHoverColour(Color hoverColour) {
+		this.hoverColour = hoverColour;
+	}
+
+	public void setBackgroundColour(Color backgroundColour) {
+		this.backgroundColour = backgroundColour;
+	}
+
+	public void setHoverBorder(Border hoverBorder) {
+		this.hoverBorder = hoverBorder;
+	}
+
+	public void setNormalBorder(Border normalBorder) {
+		this.normalBorder = normalBorder;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setNormalFontColour(Color normalFontColour) {
+		this.normalFontColour = normalFontColour;
+	}
+
+	public void setHoverFontColour(Color hoverFontColour) {
+		this.hoverFontColour = hoverFontColour;
+	}
 }

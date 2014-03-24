@@ -4,6 +4,7 @@ import graphics.components.CustomButton;
 import graphics.components.FixedSpacerPanel;
 import graphics.components.ImageButton;
 import graphics.components.ImagePanel;
+import graphics.components.NormalButton;
 import graphics.utilities.ImageLoader;
 
 import java.awt.BorderLayout;
@@ -16,6 +17,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
@@ -62,13 +64,20 @@ public class MainMenuPanel extends JPanel{
 			}
 		};
 		
+		/*
 		Border normBorder = BorderFactory.createLineBorder(new Color(0,0,0,170),7);
 		Border hovBorder = BorderFactory.createLineBorder(new Color(0,0,0,130),7);
 		CustomButton testButton = new CustomButton("TEST BUTTON!", new Color(70,200,220), new Color(70,200,220), normBorder, hovBorder, 200, 40) {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				System.out.println("Test");
 			}
-			
+		};
+		*/
+		
+		NormalButton testButton = new NormalButton("Add Player", NormalButton.GREEN_THEME) {
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Test");
+			}
 		};
 		
 		JPanel titleContainer = new JPanel();
@@ -91,6 +100,7 @@ public class MainMenuPanel extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.add(buttonContainer, BorderLayout.CENTER);
 		this.add(titleContainer, BorderLayout.NORTH);
+		//this.add(testButton, BorderLayout.WEST);
 	}
 	
 	public Game getGame() {

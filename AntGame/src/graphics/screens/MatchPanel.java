@@ -1,6 +1,7 @@
 package graphics.screens;
 
 import graphics.components.HexGrid;
+import graphics.components.NormalButton;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -46,6 +48,50 @@ public class MatchPanel extends JPanel {
 		// HUD
 		JPanel hud = new JPanel(new GridLayout(8,1));
 				
+		NormalButton refreshScreenButton = new NormalButton("Refresh Screen", NormalButton.GREEN_THEME) {
+			public void mouseClicked(MouseEvent e) {
+				getGrid().refresh();			
+			}
+		};
+		
+		NormalButton addAntTestButton = new NormalButton("Add Ant Test", NormalButton.GREEN_THEME) {
+			public void mouseClicked(MouseEvent e) {
+				getGrid().getHexagon(rand.nextInt(getGrid().getColumns()), rand.nextInt(getGrid().getRows())).setFillColor(Color.RED);
+				getGrid().refresh();		
+			}
+		};
+		
+		NormalButton removeAllButton = new NormalButton("Clear Grid", NormalButton.GREEN_THEME) {
+			public void mouseClicked(MouseEvent e) {
+				getGrid().clearAll();
+				getGrid().refresh();	
+			}
+		};
+		
+		NormalButton increaseSizeButton = new NormalButton("Zoom In (+)", NormalButton.GREEN_THEME) {
+			public void mouseClicked(MouseEvent e) {
+				getGrid().increaseSize();
+				getGrid().revalidate();
+				getScrollPane().revalidate();
+			}
+		};
+		
+		NormalButton decreaseSizeButton = new NormalButton("Zoom Out (-)", NormalButton.GREEN_THEME) {
+			public void mouseClicked(MouseEvent e) {
+				getGrid().decreaseSize();
+				getGrid().revalidate();
+				getScrollPane().revalidate();
+			}
+		};
+		
+		NormalButton stopGameButton = new NormalButton("Stop Match",  NormalButton.GREEN_THEME) {
+			public void mouseClicked(MouseEvent e) {
+				getGame().stopMatch();
+
+			}
+		};
+		
+		/*
 		JButton refreshScreenButton = new JButton("Refresh Screen");
 		refreshScreenButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -79,6 +125,7 @@ public class MatchPanel extends JPanel {
 				//getGrid().refresh();
 			}
 		});
+	
 		
 		JButton decreaseSizeButton = new JButton("Zoom Out (-)");
 		decreaseSizeButton.addActionListener(new ActionListener() {
@@ -86,7 +133,6 @@ public class MatchPanel extends JPanel {
 				getGrid().decreaseSize();
 				getGrid().revalidate();
 				getScrollPane().revalidate();
-
 				//getScrollPane().paintAll(scrollPane.getGraphics());
 				//getGrid().refresh();
 			}
@@ -95,9 +141,10 @@ public class MatchPanel extends JPanel {
 		JButton stopGameButton = new JButton("Stop Match");
 		stopGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				getWindow().stopMatch();
+				getGame().stopMatch();
 			}
 		});
+			*/
 		
 		JCheckBox gridLinesCheckBox = new JCheckBox("Gridlines ");
 		gridLinesCheckBox.setSelected(true);
@@ -127,7 +174,7 @@ public class MatchPanel extends JPanel {
 		this.add(hud, BorderLayout.EAST);
 	}
 	
-	public Game getWindow(){
+	public Game getGame(){
 		return this.game;
 	}
 	
