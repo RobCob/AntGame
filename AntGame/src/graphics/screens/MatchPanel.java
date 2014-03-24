@@ -6,6 +6,7 @@ import graphics.components.NormalButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,6 +92,21 @@ public class MatchPanel extends JPanel {
 			}
 		};
 		
+		NormalButton gridLinesCheckBox = new NormalButton("Toggle Gridlines",  NormalButton.GREEN_THEME) {
+			boolean gridlines = true;
+			public void mouseClicked(MouseEvent e) {
+				if (gridlines) {
+					getGrid().removeOutlines();
+					getGrid().refresh();
+					gridlines = false;
+				} else {
+					getGrid().addDefaultOutlines();
+					getGrid().refresh();
+					gridlines = true;
+				}
+
+			}
+		};
 		/*
 		JButton refreshScreenButton = new JButton("Refresh Screen");
 		refreshScreenButton.addActionListener(new ActionListener() {
@@ -144,10 +160,11 @@ public class MatchPanel extends JPanel {
 				getGame().stopMatch();
 			}
 		});
-			*/
+			
 		
 		JCheckBox gridLinesCheckBox = new JCheckBox("Gridlines ");
 		gridLinesCheckBox.setSelected(true);
+		gridLinesCheckBox.setOpaque(false);
 		gridLinesCheckBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.DESELECTED) {
@@ -160,7 +177,13 @@ public class MatchPanel extends JPanel {
 			}
 		});
 		
-		hud.add(new JLabel("Debugging Tools", JLabel.CENTER));
+		*/
+		
+		JLabel debugLabel = new JLabel("Debugging Tools", JLabel.CENTER);
+		debugLabel.setFont(new Font("Helvetica", Font.BOLD, 16));
+		debugLabel.setForeground(new Color(220, 250, 220));
+		
+		hud.add(debugLabel);
 		hud.add(refreshScreenButton);
 		hud.add(addAntTestButton);
 		hud.add(removeAllButton);
@@ -168,6 +191,7 @@ public class MatchPanel extends JPanel {
 		hud.add(decreaseSizeButton);
 		hud.add(stopGameButton);
 		hud.add(gridLinesCheckBox);
+		hud.setBackground( new Color(42, 88, 40));
 		
 		this.setLayout(new BorderLayout());
 		this.add(scrollPane, BorderLayout.CENTER);
