@@ -46,6 +46,8 @@ public abstract class ImageButton extends JPanel implements MouseListener{
     	this.hoverColour = hoverColor;
 
     	this.currentImage = backgroundImage;
+    	
+    	this.setOpaque(false);
     } 
 
     public abstract void mouseClicked(java.awt.event.MouseEvent e);

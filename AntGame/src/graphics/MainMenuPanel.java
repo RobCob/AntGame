@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +23,7 @@ public class MainMenuPanel extends JPanel{
 	private static final Color TOURNAMENT_BUTTON_BACKGROUND_COLOR = null;//Color.BLUE;
 	private static final BufferedImage TOURNAMENT_BUTTON_HOVER_IMAGE = ImageLoader.loadImage("/HoverTest.png");
 	private static final Color TOURNAMENT_BUTTON_HOVER_COLOR = null;//Color.GREEN;
-
+	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/background.jpg");
 	//private static final Image NON_TOURNAMENT_BUTTON_BACKGROUND = ImageLoader.loadImage("test.png");
 	//private static final Image NON_TOURNAMENT_BUTTON_HOVER = ImageLoader.loadImage("test.png");
 
@@ -75,4 +76,10 @@ public class MainMenuPanel extends JPanel{
 	public Game getGame() {
 		return this.game;
 	}
+	
+	 @Override
+	 protected void paintComponent(Graphics g) {
+		 super.paintComponent(g);
+		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	 }
 }
