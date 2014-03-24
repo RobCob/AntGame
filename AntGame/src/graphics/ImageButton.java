@@ -60,7 +60,7 @@ public abstract class ImageButton extends JPanel implements MouseListener{
     }
 
     public void mouseExited(java.awt.event.MouseEvent e) {
-    	this.setBorder(spaceBorder);
+    	this.setBorder(normalBorder);
     	this.currentImage = backgroundImage;
     	this.setBackground(backgroundColour);
     	this.revalidate();
