@@ -2,6 +2,8 @@ package model;
 
 
 import graphics.*;
+import graphics.screens.MainMenuPanel;
+import graphics.screens.MatchPanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

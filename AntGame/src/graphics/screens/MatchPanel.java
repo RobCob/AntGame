@@ -1,4 +1,6 @@
-package graphics;
+package graphics.screens;
+
+import graphics.HexGrid;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
