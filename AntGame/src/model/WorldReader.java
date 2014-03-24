@@ -70,7 +70,6 @@ public class WorldReader {
 		// Start at 1, as the trim() method creates an invisible character at the start of the string
 		for(int i = 0; i < tiles.length; i++){
 			String tile = tiles[i];
-			System.out.println("Tile: " + tile);
 			try{
 				if(tile.matches("[1-9]")){
 					output[i] = new ClearTile(Integer.parseInt(tile)); // Simply parse the int contained in the String
