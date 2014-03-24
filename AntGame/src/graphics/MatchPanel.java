@@ -39,6 +39,7 @@ public class MatchPanel extends JPanel {
 		//scrollPane.setMaximumSize(new Dimension(400, 400));
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBackground(Color.WHITE);
 		
 		// HUD
 		JPanel hud = new JPanel(new GridLayout(8,1));

@@ -8,9 +8,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 
 import org.w3c.dom.events.MouseEvent;
 
@@ -57,12 +60,7 @@ public class MainMenuPanel extends JPanel{
 		*/
 		
 		
-		ImageButton tournamentButton = new ImageButton(TOURNAMENT_BUTTON_BACKGROUND_IMAGE, 
-													   TOURNAMENT_BUTTON_BACKGROUND_COLOR,
-													   TOURNAMENT_BUTTON_HOVER_IMAGE, 
-													   TOURNAMENT_BUTTON_HOVER_COLOR,
-													   TOURNAMENT_BUTTON_BACKGROUND_IMAGE.getWidth(),
-													   TOURNAMENT_BUTTON_BACKGROUND_IMAGE.getHeight()) {
+		ImageButton tournamentButton = new ImageButton(TOURNAMENT_BUTTON_BACKGROUND_IMAGE, TOURNAMENT_BUTTON_HOVER_IMAGE) {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				getGame().createMatch(150, 150, 4, 1);
 				getGame().switchScreen(Game.MATCH_SCREEN);
@@ -70,7 +68,17 @@ public class MainMenuPanel extends JPanel{
 			}
 		};
 		
+		Border normBorder = BorderFactory.createLineBorder(new Color(0,0,0,170),7);
+		Border hovBorder = BorderFactory.createLineBorder(new Color(0,0,0,130),7);
+		CustomButton testButton = new CustomButton("TEST BUTTON!", new Color(70,200,220), new Color(70,200,220), normBorder, hovBorder, 200, 40) {
+
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+				System.out.println("Test");
+			}
+			
+		};
 		this.add(tournamentButton);
+		this.add(testButton);
 	}
 	
 	public Game getGame() {
