@@ -1,17 +1,12 @@
 package graphics.components;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 /**
  * ImageButton: A JPanel that simulates a button. The button has two states, hovered and not-hovered.
@@ -19,7 +14,7 @@ import javax.swing.border.Border;
  * hovered the button will display the BufferedImage specified for normal use.
  */
 public abstract class ImageButton extends JPanel implements MouseListener{
-    private BufferedImage hoverImage; // Background image when not being hovered over.
+	private BufferedImage hoverImage; // Background image when not being hovered over.
     private BufferedImage backgroundImage; // Background image when being hovered over.
     
     private Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR); // OS 'hand pointer'

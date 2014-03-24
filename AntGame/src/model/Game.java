@@ -2,6 +2,8 @@ package model;
 
 
 import graphics.*;
+import graphics.components.HexGrid;
+import graphics.components.Hexagon;
 import graphics.screens.MainMenuPanel;
 import graphics.screens.MatchPanel;
 

@@ -1,10 +1,10 @@
 package graphics.screens;
 
-import graphics.ImageLoader;
 import graphics.components.CustomButton;
 import graphics.components.FixedSpacerPanel;
 import graphics.components.ImageButton;
 import graphics.components.ImagePanel;
+import graphics.utilities.ImageLoader;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

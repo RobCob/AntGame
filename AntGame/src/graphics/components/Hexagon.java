@@ -1,4 +1,4 @@
-package graphics;
+package graphics.components;
 
 import java.awt.Color;
 import java.awt.Polygon;

@@ -1,7 +1,5 @@
 package graphics;
 
-import java.awt.*;
-import javax.swing.*;
 import model.Game;
 
 public class GUI_Testing{
