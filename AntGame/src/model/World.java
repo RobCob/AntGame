@@ -1,20 +1,25 @@
 package model;
 public class World {
+	
 	private Tile[][] grid;
-	private int sizeX, sizeY;
+	private int x,y;
 	
 	public World(int x, int y){
-		this.sizeX = x;
-		this.sizeY = y;
-		grid = new Tile[sizeX][sizeY];
+		this.x = x;
+		this.y = y;
+		grid = new Tile[y][x]; //in 2-D arrays y coordinate comes first
+	}
+	
+	public World(Tile[][] grid){
+		this.grid = grid;
 	}
 	
 	public void setTile(int x, int y, Tile t){
-		grid[x][y] = t;
+		grid[y][x] = t;
 	}
 	
 	public Tile getTile(int x, int y){
-		return grid[x][y];
+		return grid[y][x];
 	}
 	
 }

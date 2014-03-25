@@ -7,8 +7,7 @@ import java.util.Arrays;
 
 public class WorldReader {
 	
-	int x; // x dimension
-	int y; // y dimension
+	private int x,y; //x and y dimensions of the map
 	
 	/**
 	 * Load world from file
@@ -167,22 +166,45 @@ public class WorldReader {
 	 * Simply parses an inputted world file. Returns null if the file is not valid, returns a Tile[] otherwise.
 	 * @return
 	 */
-	public Tile[] parse(String path){
+	public Tile[][] parse(String path){
 		String map = this.readFromFile(path);
 		Tile[] tiles = this.createTileList(map);
 		boolean correct = this.checkWorldSemantics(tiles);
 		Tile[] tmp = this.removeLineSeparators(tiles);
+		Tile[][] toReturn = this.convertTileTo2DArray(tmp);
 		if(correct){
-			return tmp;
+			return toReturn;
 		}
 		else{
 			return null;
 		}
 	}
+	
+	/**
+	 * Just converts a 1-D array to a 2-D array. Throws an exception if the tile is not a valid size.
+	 * @param tile
+	 * @return 2-D array representing the tiles for the world map.
+	 * @throws IllegalArgumentException
+	 */
+	private Tile[][] convertTileTo2DArray(Tile[] tile) throws IllegalArgumentException{
+		if(tile.length != x*y){
+			throw new IllegalArgumentException("Not a valid array size");
+		}
+		else{
+			Tile[][] toReturn = new Tile[y][x];
+			for(int i = 0; i < y; i++){
+				for(int j = 0; j < x; j++){
+					toReturn[i][j] = tile[(i*y) + j];
+				}
+			}
+			return toReturn;
+		}
+	}
+	
 	public static void main(String[] args) {
 		// Testing
 		WorldReader wr = new WorldReader();
-		Tile[] tiles = wr.parse("//smbhome.uscs.susx.ac.uk/gcp20/Desktop/Software Engineering/test.txt");
+		Tile[][] tiles = wr.parse("//smbhome.uscs.susx.ac.uk/gcp20/Desktop/Software Engineering/test.txt");
 		if(tiles == null){
 			System.out.println("Not a valid world map");
 		}

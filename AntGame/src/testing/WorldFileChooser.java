@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 
 import model.Tile;
+import model.World;
 import model.WorldReader;
 
 public class WorldFileChooser extends JPanel implements ActionListener {
@@ -16,12 +17,13 @@ public class WorldFileChooser extends JPanel implements ActionListener {
     JButton openButton;
     JTextArea info; 
     JFileChooser fc;
-    Tile[] tiles; //Used so that other elements in the game can have access to the uploaded worldFile
+    World world; //Used so that other elements in the game can have access to the uploaded worldFile
     WorldReader reader; //Used to parse inputted files
 
     public WorldFileChooser() {
+    	
         super(new BorderLayout());
-        JFrame frame = new JFrame("FileChooserDemo");
+        JFrame frame = new JFrame("World File Chooser");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         reader = new WorldReader();
         
@@ -58,8 +60,8 @@ public class WorldFileChooser extends JPanel implements ActionListener {
     /**
      * Used so that other elements in the game can have access to the uploaded worldFile
      */
-    public Tile[] getTiles(){
-    	return tiles;
+    public World getWorld(){
+    	return world;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -70,12 +72,13 @@ public class WorldFileChooser extends JPanel implements ActionListener {
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                tiles = reader.parse(file.getAbsolutePath()); //parse the selected file
+                Tile[][] tiles = reader.parse(file.getAbsolutePath()); //parse the selected file
                 if(tiles == null){
                 	info.setText("The uploaded world file is incorrect");                	
                 }
                 else{
                 	info.setText("The uploaded world file is correct");
+                	world = new World(tiles);
                 }
             }
         }
