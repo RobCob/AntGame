@@ -59,7 +59,7 @@ public class WorldReader {
 	 * @param stateList
 	 * @return An array of States
 	 */
-	public Tile[] createStateList(String worldLine){
+	public Tile[] createTileList(String worldLine){
 		Tile[] output = new Tile[worldLine.length()];
 		String[] tiles = new String[worldLine.length()];
 		//have to use for each as split() creates on undesired character at the start
@@ -163,14 +163,31 @@ public class WorldReader {
 		return i;
 	}
 	
+	/**
+	 * Simply parses an inputted world file. Returns null if the file is not valid, returns a Tile[] otherwise.
+	 * @return
+	 */
+	public Tile[] parse(String path){
+		String map = this.readFromFile(path);
+		Tile[] tiles = this.createTileList(map);
+		boolean correct = this.checkWorldSemantics(tiles);
+		Tile[] tmp = this.removeLineSeparators(tiles);
+		if(correct){
+			return tmp;
+		}
+		else{
+			return null;
+		}
+	}
 	public static void main(String[] args) {
 		// Testing
 		WorldReader wr = new WorldReader();
-		String map = wr.readFromFile("//smbhome.uscs.susx.ac.uk/gcp20/Desktop/Software Engineering/WorldMap.txt");
-		System.out.println(map);
-		Tile[] tiles = wr.createStateList(map);
-		boolean correct = wr.checkWorldSemantics(tiles);
-		System.out.println("Correct : " + correct);
-		Tile[] tmp = wr.removeLineSeparators(tiles);
+		Tile[] tiles = wr.parse("//smbhome.uscs.susx.ac.uk/gcp20/Desktop/Software Engineering/test.txt");
+		if(tiles == null){
+			System.out.println("Not a valid world map");
+		}
+		else{
+			System.out.println("Valid world map");
+		}
 	}
 }

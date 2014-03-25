@@ -15,15 +15,15 @@ public class WorldFileChooser extends JPanel implements ActionListener {
 	
     JButton openButton;
     JTextArea info; 
-    File file;
     JFileChooser fc;
     Tile[] tiles; //Used so that other elements in the game can have access to the uploaded worldFile
-    boolean correct; //keeps track of whether the uploaded file is a correct one
+    WorldReader reader; //Used to parse inputted files
 
     public WorldFileChooser() {
         super(new BorderLayout());
         JFrame frame = new JFrame("FileChooserDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        reader = new WorldReader();
         
         //Create a file chooser
         fc = new JFileChooser();
@@ -69,24 +69,16 @@ public class WorldFileChooser extends JPanel implements ActionListener {
             int returnVal = fc.showOpenDialog(WorldFileChooser.this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                file = fc.getSelectedFile();
-                this.parseFile(); //parse the selected file
-                if(correct){
-                	info.setText("The uploaded world file is correct");
+                File file = fc.getSelectedFile();
+                tiles = reader.parse(file.getAbsolutePath()); //parse the selected file
+                if(tiles == null){
+                	info.setText("The uploaded world file is incorrect");                	
                 }
                 else{
-                	info.setText("The uploaded world file is incorrect");
+                	info.setText("The uploaded world file is correct");
                 }
             }
         }
-    }
-    
-    public void parseFile(){
-    	WorldReader wr = new WorldReader();
-    	String map = wr.readFromFile(file.getAbsolutePath());
-    	tiles = wr.createStateList(map);
-		correct = wr.checkWorldSemantics(tiles);
-		tiles = wr.removeLineSeparators(tiles);
     }
     
     public static void main(String[] args) {
