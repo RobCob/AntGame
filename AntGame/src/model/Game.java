@@ -1,7 +1,5 @@
 package model;
 
-
-import graphics.*;
 import graphics.components.HexGrid;
 import graphics.components.Hexagon;
 import graphics.screens.MainMenuPanel;
@@ -10,16 +8,13 @@ import graphics.screens.MatchPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 import java.util.Stack;
-
 import javax.swing.*;
 
 /**
  * Game: The main game.
  * Uses collection of JPanels that are switched to the front of the screen when needed.
- * 
  */
 public class Game extends JFrame{
 	public static final boolean GUI_DEBUG = true; // GUI debugging print statements on/off.
@@ -32,7 +27,9 @@ public class Game extends JFrame{
 	
 	private boolean runningMatch = false;
 	private Thread modelThread;
-	private int screenNo = 0;
+	
+	private int frames = 0; // for the FPS counter.
+	
 	private Timer displayTimer;
 	private Random rand = new Random();
 	
@@ -47,7 +44,7 @@ public class Game extends JFrame{
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	
-	private int[][] worldWithAnts = new int[150][150]; // TEST!
+	private int[][] worldWithAnts = new int[150][150]; // TEST MODEL!
 	
 	public Game() {
 		//Add all screens used within the game.
@@ -56,7 +53,7 @@ public class Game extends JFrame{
 		
 		// JFrame properties 
 		this.add(screens);
-		this.setTitle("Ant Game " + "(" + WIDTH + "x" + HEIGHT + ")");
+		this.setTitle("Ant Game  |  " + WIDTH + "x" + HEIGHT );
 		this.setSize(WIDTH, HEIGHT);
 		this.setResizable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,24 +105,24 @@ public class Game extends JFrame{
 		modelThread = new Thread(new Runnable() {
 			public void run() {
 				if (Game.DEBUG) System.out.println("DEBUG | Game:runModel() Thread Started!");
+				int roundsPerSec = 1000; // Number of rounds to perform every second
+				int maxRounds = 300000;
+
 				long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
 				long fpsTimer = System.currentTimeMillis();
-				int roundsPerSec = 1000; // Number of rounds to perform every second
+
 				final double ns = 1000000000.0 / roundsPerSec; //number of times to run update per second
-				
+
 				double modelDelta = 0.0;
-				
 				int round = 0;
-				int maxRounds = 300000;
-				
-				int frames = 0;
 				int updates = 0;
 
 				// Game loop
 				while (round <= maxRounds && runningMatch) {
 					long now = System.nanoTime();
-					modelDelta += (now - lastTime) / ns;
+					modelDelta += (now - lastTime) / ns; 
 					lastTime = now;
+
 
 					while (modelDelta >= 1) { // Happens 'roundsPerSec' times a second.
 						updateModel();
@@ -133,46 +130,40 @@ public class Game extends JFrame{
 						updates++;
 						modelDelta--;
 					}
-					frames++;
 
 					if (System.currentTimeMillis() - fpsTimer > 1000) { // Happens once every 'roundsPerSec'
 						fpsTimer += 1000;
-						setTitle("Ant Game " + "(" + WIDTH + "x" + HEIGHT + ")" + ", FPS: " + frames/roundsPerSec +", UPDATES: " + updates + "/sec, ROUND: " + round + ", SCREEN: " + screenNo);
-
-						// Reset the stats
-						updates = 0;
-						frames = 0;
+						setTitle("Ant Game  |  " + getWidth() + "x" + getHeight()  + "  |  UPDATES: " + updates + "/sec  |  ROUND: " + round + "  |  FPS: " + frames);
+						frames = 0; // reset number of frames per sec.
+						updates = 0; // reset number of updates per sec.
 					}
 				}
-				 if (round > maxRounds) {
-					 runningMatch = false;
-				 }
+				if (round > maxRounds) {
+					runningMatch = false;
+				}
 			}
 		});
-		modelThread.start();
+		modelThread.start(); // Start the match thread.
 	}
-	
-	
 	
 	/**
 	 * Start refreshing the match screen.
 	 */
 	public void runDisplay() {
-		screenNo = 0;
-		int fps = 60;
+		int maxFps = 60;
 		
-		displayTimer = new Timer(1000/fps, new ActionListener() {
-
+		displayTimer = new Timer(1000/maxFps, new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!runningMatch) {
 	            	displayTimer.stop();
 	            }
-				screenNo++;
+				frames++;
 				updateMatchScreen();
 			}
 		});
-		displayTimer.start(); 
+		displayTimer.start(); // Start updating the screen periodically.
 	}
 	
 	/**
