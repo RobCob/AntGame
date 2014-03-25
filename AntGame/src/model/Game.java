@@ -23,6 +23,7 @@ import javax.swing.*;
  */
 public class Game extends JFrame{
 	public static final boolean GUI_DEBUG = true; // GUI debugging print statements on/off.
+	public static final boolean DEBUG = true;
 	
 	private CardLayout cardLayout = new CardLayout(); // Allows JPanels to be changed in and out.
 	private JPanel screens = new JPanel(cardLayout);  // Holds all of the different screens.
@@ -106,10 +107,10 @@ public class Game extends JFrame{
 	public void runModel() {
 		modelThread = new Thread(new Runnable() {
 			public void run() {
-				System.out.println("THREAD TEST");
+				if (Game.DEBUG) System.out.println("DEBUG | Game:runModel() Thread Started!");
 				long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
 				long fpsTimer = System.currentTimeMillis();
-				int roundsPerSec = 500; // Number of rounds to perform every second
+				int roundsPerSec = 1000; // Number of rounds to perform every second
 				final double ns = 1000000000.0 / roundsPerSec; //number of times to run update per second
 				
 				double modelDelta = 0.0;
