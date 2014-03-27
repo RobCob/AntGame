@@ -35,7 +35,7 @@ import model.Game;
 public class MainMenuPanel extends JPanel{
 	private Game game;
 	
-	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NormalTest.png");
+	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/logo-test3.png");
 	
 	private static final BufferedImage TOURNAMENT_BUTTON_BACKGROUND_IMAGE = ImageLoader.loadImage("/NormalTest.png");
 	private static final BufferedImage TOURNAMENT_BUTTON_HOVER_IMAGE = ImageLoader.loadImage("/HoverTest.png");
