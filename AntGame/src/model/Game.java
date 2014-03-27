@@ -4,6 +4,7 @@ import graphics.components.HexGrid;
 import graphics.components.Hexagon;
 import graphics.screens.MainMenuPanel;
 import graphics.screens.MatchPanel;
+import graphics.screens.NonTournamentSelection;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,6 +41,9 @@ public class Game extends JFrame{
 	private HexGrid grid = new HexGrid(0,0,0,0);
 	private MatchPanel matchPanel = new MatchPanel(this, grid);
 	public static final String MATCH_SCREEN = "Match";
+	
+	private NonTournamentSelection nonTournamentPanel = new NonTournamentSelection(this);
+	public static final String NON_TOURNAMENT_SELECTION_SCREEN = "NonTournamentSelect";
 
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
@@ -50,7 +54,7 @@ public class Game extends JFrame{
 		//Add all screens used within the game.
 		addScreen(mainMenuPanel, MAIN_MENU_SCREEN);
 		addScreen(matchPanel, MATCH_SCREEN);
-		
+		addScreen(nonTournamentPanel, NON_TOURNAMENT_SELECTION_SCREEN);
 		// JFrame properties 
 		this.add(screens);
 		this.setTitle("Ant Game  |  " + WIDTH + "x" + HEIGHT );

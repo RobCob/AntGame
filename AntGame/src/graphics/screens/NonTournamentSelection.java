@@ -25,10 +25,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import testing.WorldFileChooser;
 
 import model.BrainReader;
+import model.Game;
+
+import graphics.components.*;
 
 public class NonTournamentSelection  extends JPanel implements ActionListener {
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NormalTest.png");
@@ -38,14 +43,25 @@ public class NonTournamentSelection  extends JPanel implements ActionListener {
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/tick_test.png");
 	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/cross_test.png");
 	
+	private Game game;
+
 	private JButton openButton1;
 	private JButton openButton2;
 
 	private JFileChooser fc; //This is the file chooser
 	private BrainReader reader;
+	
+	private JTextField p1NickField;
+	private JTextField p2NickField;
+	private DualImagePanel p1nickValidate;
+	private DualImagePanel p2nickValidate;
 
-    public NonTournamentSelection() {
-        super(new BorderLayout());
+	
+
+    public NonTournamentSelection(Game game) {
+    	this.game = game;
+        this.setLayout(new BorderLayout());
+        
         reader = new BrainReader();
         
         //Create a file chooser
@@ -65,25 +81,96 @@ public class NonTournamentSelection  extends JPanel implements ActionListener {
         JLabel p1Label = new JLabel("Player 1");
         p1Label.setForeground(Color.WHITE);
         p1Label.setFont(new Font("Helvetica", 0, 30));
-        JLabel p1Nicklabel = new JLabel("Nickname:");
+        JLabel p1NickLabel = new JLabel("Nickname:");
         p1Label.setForeground(Color.WHITE);
         p1Label.setAlignmentX(CENTER_ALIGNMENT);
         //TextField
-        JPanel p1NickLabel = new JPanel();
-        JTextField nick1 = new JTextField("Player1", 10);
-        nick1.setMaximumSize(new Dimension(200,30));
-        nick1.setAlignmentX(CENTER_ALIGNMENT);
-        p1NickLabel.add(nick1);
+        
+        
+        JPanel p1NickPanel = new JPanel();
+        p1NickPanel.setOpaque(false);
+        
+        p1NickField = new JTextField("Player1", 10);
+       
+        p1NickField.setMaximumSize(new Dimension(200,30));
+        p1NickField.setAlignmentX(CENTER_ALIGNMENT);
+        p1NickPanel.add(p1NickLabel);
+        p1NickPanel.add(p1NickField);
+        p1nickValidate = new DualImagePanel(TICK_IMAGE,CROSS_IMAGE);
+        p1NickField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				if (correctNickname(p1NickField.getText())) {
+					p1nickValidate.displayFirst();
+				} else {
+					p1nickValidate.displaySecond();
+				}
+				
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				if (correctNickname(p1NickField.getText())) {
+					p1nickValidate.displayFirst();
+				} else {
+					p1nickValidate.displaySecond();
+				}
+				
+			}
+        });
+        p1NickPanel.add(p1nickValidate);
        
         //Add components to right panel
+        
+        JPanel p2NickPanel = new JPanel();
+        p2NickPanel.setOpaque(false);
+        
         JLabel p2Label = new JLabel("Player 2");
         p2Label.setForeground(Color.WHITE);
         p2Label.setFont(new Font("Helvetica", 0, 30));
         p2Label.setAlignmentX(CENTER_ALIGNMENT);
+        
+        JLabel p2NickLabel = new JLabel("Nickname:");
+        
         //Nick
-        JTextField nick2 = new JTextField("Player2", 10);
-        nick2.setMaximumSize(new Dimension(200,30));
-        nick2.setAlignmentX(CENTER_ALIGNMENT);
+        p2NickField = new JTextField("Player2", 10);
+        p2NickField.setMaximumSize(new Dimension(200,30));
+        p2NickField.setAlignmentX(CENTER_ALIGNMENT);
+        
+        p2nickValidate = new DualImagePanel(TICK_IMAGE,CROSS_IMAGE);
+        p2NickField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				if (correctNickname(p2NickField.getText())) {
+					p2nickValidate.displayFirst();
+				} else {
+					p2nickValidate.displaySecond();
+				}
+				
+			}
+			
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				if (correctNickname(p2NickField.getText())) {
+					p2nickValidate.displayFirst();
+				} else {
+					p2nickValidate.displaySecond();
+				}
+			}
+        });
+        p2NickPanel.add(p2NickLabel);
+        p2NickPanel.add(p2NickField);
+        p2NickPanel.add(p2nickValidate);
         
         //Label
         JLabel p1AntBrainLabel = new JLabel("Ant-Brain:");
@@ -95,7 +182,7 @@ public class NonTournamentSelection  extends JPanel implements ActionListener {
 		leftPanel.setLayout(leftLayout);
         leftPanel.setOpaque(false);
         leftPanel.add(p1Label);
-        leftPanel.add(p1NickLabel);
+        leftPanel.add(p1NickPanel);
         leftPanel.add(openButton1);
         
         // Add player 2 components to right side panel.
@@ -104,7 +191,7 @@ public class NonTournamentSelection  extends JPanel implements ActionListener {
 		rightPanel.setLayout(rightLayout);
         rightPanel.setOpaque(false);
         rightPanel.add(p2Label);
-        rightPanel.add(nick2);
+        rightPanel.add(p2NickPanel);
         rightPanel.add(openButton2);
         
         // Create and set up the split pane.
@@ -128,6 +215,16 @@ public class NonTournamentSelection  extends JPanel implements ActionListener {
 		
 		//Create Go button
 		JButton goButton = new JButton("GO");
+		goButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				getGame().createMatch(150, 150, 4, 1);
+				getGame().switchScreen(Game.MATCH_SCREEN);
+				getGame().startMatch();		
+			}
+			
+		});
 		JPanel goPanel = new JPanel();
 		goPanel.setOpaque(false);
 		goPanel.add(goButton);
@@ -163,12 +260,42 @@ public class NonTournamentSelection  extends JPanel implements ActionListener {
         }
     }
     
+    public boolean correctNickname(String nick){
+    	//check p1 and p2 don't have the same name
+    	//check if string is not empty
+    	//not over 20 characters
+    	
+    	//HACK
+    	if(p1NickField.getText().equals((p2NickField).getText())){
+			p2nickValidate.displaySecond();
+			p1nickValidate.displaySecond();
+		} else {
+			p2nickValidate.displayFirst();
+			p1nickValidate.displayFirst();
+		}
+    	
+    	if(p1NickField.getText().equals((p2NickField).getText())){
+    		return false;
+    	}
+    	if(nick.trim().equals("")){
+    		return false;
+    	}
+    	if(nick.length()>20){
+    		return false;
+    	}
+    	else{
+    		return true;
+    	}
+    }
+    
+    public Game getGame(){
+    	return game;
+    }
     public static void main(String[] args) {
     	//Add content to the window.
         JFrame frame = new JFrame("World File Chooser");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024, 576);
-        frame.add(new NonTournamentSelection());
         frame.setResizable(false);
         
         //Display the window.

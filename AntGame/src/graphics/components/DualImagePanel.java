@@ -40,5 +40,21 @@ public class DualImagePanel extends JPanel{
 		} else {
 			currentImage = firstImage;
 		}
+		this.repaint();
+	}
+	
+	public void displayFirst(){
+		
+		if (!currentImage.equals(firstImage)) {
+			currentImage = firstImage;
+			this.repaint();
+		} 
+	}
+	
+	public void displaySecond(){
+		if (!currentImage.equals(secondImage)) {
+			currentImage = secondImage;
+			this.repaint();
+		} 
 	}
 }

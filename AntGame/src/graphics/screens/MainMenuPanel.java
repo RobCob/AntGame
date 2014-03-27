@@ -50,9 +50,7 @@ public class MainMenuPanel extends JPanel{
 		
 		ImageButton tournamentButton = new ImageButton(TOURNAMENT_BUTTON_BACKGROUND_IMAGE, TOURNAMENT_BUTTON_HOVER_IMAGE) {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
-				getGame().createMatch(150, 150, 4, 1);
-				getGame().switchScreen(Game.MATCH_SCREEN);
-				getGame().startMatch();
+				getGame().switchScreen(Game.NON_TOURNAMENT_SELECTION_SCREEN);
 			}
 		};
 		
