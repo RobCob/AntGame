@@ -106,6 +106,8 @@ public class NonTournamentSelection  extends JPanel {
         // Player 1 Nickname panel (label, textfield, tick/cross image)
         JPanel p1NickPanel = new JPanel();
         p1NickPanel.setOpaque(false);
+        p1NickPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+        p1NickPanel.setMaximumSize(new Dimension(400, 100));
         p1NickField = new JTextField("Player1", 11);
         p1NickField.setPreferredSize(new Dimension(200, 30));
         p1NickField.setFont(new Font("Helvetica", 0, 24));
@@ -204,6 +206,8 @@ public class NonTournamentSelection  extends JPanel {
         // Player 2 Nickname panel (label, textfield, tick/cross image)
         JPanel p2NickPanel = new JPanel();
         p2NickPanel.setOpaque(false);
+        p2NickPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+        p2NickPanel.setMaximumSize(new Dimension(400, 100));
         p2NickPanel.add(p2NickLabel);
         p2NickPanel.add(p2NickField);
         p2NickPanel.add(p2NickValidate);
@@ -269,6 +273,7 @@ public class NonTournamentSelection  extends JPanel {
         add(titleContainer, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
         add(goPanel, BorderLayout.SOUTH);
+        //add(new FixedSpacerPanel(20, 100), BorderLayout.SOUTH);
     }
     
 	 @Override
@@ -278,8 +283,6 @@ public class NonTournamentSelection  extends JPanel {
 	 }
     
     public boolean correctNickname(String nick){
-    	
-    	
     	// Check p1 and p2 don't have the same name (HACKY)
     	if(p1NickField.getText().equals((p2NickField).getText())){
 			p2NickValidate.displaySecond();
