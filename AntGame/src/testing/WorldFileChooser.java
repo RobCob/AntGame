@@ -16,7 +16,7 @@ public class WorldFileChooser extends JPanel implements ActionListener {
 	
     JButton openButton;
     JTextArea info; 
-    JFileChooser fc;
+    JFileChooser fc; //This is the file chooser
     World world; //Used so that other elements in the game can have access to the uploaded worldFile
     WorldReader reader; //Used to parse inputted files
 
