@@ -98,8 +98,8 @@ public class MainMenuPanel extends JPanel{
 		buttonContainer.setOpaque(false);
 		
 		this.setLayout(new BorderLayout());
-		this.add(buttonContainer, BorderLayout.CENTER);
 		this.add(titleContainer, BorderLayout.NORTH);
+		this.add(buttonContainer, BorderLayout.CENTER);
 		//this.add(testButton, BorderLayout.WEST);
 	}
 	
