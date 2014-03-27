@@ -105,7 +105,7 @@ public class Game extends JFrame{
 		modelThread = new Thread(new Runnable() {
 			public void run() {
 				if (Game.DEBUG) System.out.println("DEBUG | Game:runModel() Thread Started!");
-				int roundsPerSec = 1000; // Number of rounds to perform every second
+				int roundsPerSec = 10; // Number of rounds to perform every second
 				int maxRounds = 300000;
 
 				long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
@@ -144,6 +144,7 @@ public class Game extends JFrame{
 			}
 		});
 		modelThread.start(); // Start the match thread.
+		System.gc();
 	}
 	
 	/**
