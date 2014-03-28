@@ -36,12 +36,9 @@ public class MainMenuPanel extends JPanel{
 	private Game game;
 	
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/titleLarge.png");
-	
+	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TOURNAMENT_BUTTON_BACKGROUND_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/tournamentButton.png");
 	private static final BufferedImage TOURNAMENT_BUTTON_HOVER_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/tournamentButtonHover.png");
-	
-	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/background.jpg");
-	
 	private static final BufferedImage NON_TOURNAMENT_BUTTON_BACKGROUND = ImageLoader.loadImage("/MainMenuPanelImages/nonTournamentButton.png");
 	private static final BufferedImage NON_TOURNAMENT_BUTTON_HOVER = ImageLoader.loadImage("/MainMenuPanelImages/nonTournamentButtonHover.png");
 
