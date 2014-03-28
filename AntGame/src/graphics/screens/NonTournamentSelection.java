@@ -40,12 +40,16 @@ public class NonTournamentSelection  extends JPanel {
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/playerSelectTitle.png");
 	private static final BufferedImage TOURNAMENT_BUTTON_BACKGROUND_IMAGE = ImageLoader.loadImage("/NormalTest.png");
 	private static final BufferedImage TOURNAMENT_BUTTON_HOVER_IMAGE = ImageLoader.loadImage("/HoverTest.png");
-	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/background.jpg");
+	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/tick_test.png");
 	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/cross_test.png");
 	
-	private static final BufferedImage UPLOAD_IMAGE = ImageLoader.loadImage("/uploadBrainButton.png");
-	private static final BufferedImage UPLOAD_ROLL_IMAGE = ImageLoader.loadImage("/uploadBrainButtonMouseOver.png");
+	private static final BufferedImage UPLOAD_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImage.png");
+	private static final BufferedImage UPLOAD_ROLL_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImageHover.png");
+
+	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImage.png");
+	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImageHover.png");
+	
 	
 	private Game game;
 	private AntBrain player1Brain;
@@ -323,15 +327,12 @@ public class NonTournamentSelection  extends JPanel {
 		titleContainer.setOpaque(false);
 		
 		//Create Go button
-		JButton goButton = new JButton("GO");
-		goButton.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+		ImageButton goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
 				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 			}
-			
-		});
+		};
+	
 		JPanel goPanel = new JPanel();
 		goPanel.setOpaque(false);
 		goPanel.add(goButton);
