@@ -1,0 +1,6 @@
+If the button takes you to the next screen:
+--Size:45
+--Colour:Aluminium
+--Hover:Red/Black
+--Width: 4
+--Medium Blur -> Opacity: 75
