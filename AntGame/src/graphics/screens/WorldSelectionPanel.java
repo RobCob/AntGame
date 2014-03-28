@@ -30,7 +30,7 @@ import model.Game;
 
 public class WorldSelectionPanel extends JPanel{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NormalTest.png");
-	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/gradientBackground.jpg");
+	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/tick_test.png");
 	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/cross_test.png");
 	private static final BufferedImage UPLOAD_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/uploadFileButton.png");

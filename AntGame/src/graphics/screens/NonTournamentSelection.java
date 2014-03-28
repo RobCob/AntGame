@@ -328,9 +328,7 @@ public class NonTournamentSelection  extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				getGame().createMatch(150, 150, 4, 1);
-				getGame().switchScreen(Game.MATCH_SCREEN);
-				getGame().startMatch();		
+				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 			}
 			
 		});
