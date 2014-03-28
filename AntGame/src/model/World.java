@@ -1,17 +1,56 @@
 package model;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class World {
 	
 	private Tile[][] grid;
-	private int x,y;
+	private HashSet<Integer> changes;
+	private ArrayList<Ant> ants;
+	private ArrayList<AntHillTile> antHills;
+	private int sizeX,sizeY;
 	
 	public World(int x, int y){
-		this.x = x;
-		this.y = y;
-		grid = new Tile[y][x]; //in 2-D arrays y coordinate comes first
+		this(new Tile[y][x]); //Generate world here
 	}
 	
 	public World(Tile[][] grid){
 		this.grid = grid;
+		sizeX = grid[0].length;
+		sizeY = grid.length;
+		antHills = new ArrayList<AntHillTile>();
+		ants = new ArrayList<Ant>();
+		changes = new HashSet<Integer>();
+	}
+	
+	public void populate(Player Player1, Player Player2){
+		for(int i = 0; i < sizeX; i++){
+			for(int j = 0; j < sizeY; j++){
+				Tile tile = getTile(i,j);
+				if(tile.isRocky() && ((ClearTile)tile).isAnthill()){
+					AntHillTile aHill = (AntHillTile) tile;
+					antHills.add(aHill);
+					if(aHill.getColour() == Player1.getColour()){
+						Ant ant = new Ant(Player1);
+						aHill.setAnt(ant);
+						ants.add(ant.getID(), ant);
+					}else{
+						Ant ant = new Ant(Player2);
+						aHill.setAnt(ant);
+						ants.add(ant.getID(), ant);
+					}
+				}
+			}
+		}
+	}
+	
+	public void setChange(int i){
+		changes.add(i);
+	}
+	
+	public HashSet<Integer> getChanges(){
+		return changes;
 	}
 	
 	public void setTile(int x, int y, Tile t){
@@ -20,6 +59,14 @@ public class World {
 	
 	public Tile getTile(int x, int y){
 		return grid[y][x];
+	}
+
+	public ArrayList<Ant> getAnts() {
+		return ants;
+	}
+
+	public ArrayList<AntHillTile> getAntHills() {
+		return antHills;
 	}
 	
 }

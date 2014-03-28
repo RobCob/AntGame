@@ -1,5 +1,13 @@
 package model;
 public enum Colour {
 	RED,
-	BLACK
+	BLACK;
+	
+	public Colour getEnemy(){
+		if(this == RED){
+			return BLACK;
+		}else{
+			return RED;
+		}
+	}
 }

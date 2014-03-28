@@ -1,18 +1,12 @@
 package model;
 public class AntBrain {
-	Colour colour;
 	State[] stateList;
 	
-	public AntBrain(State[] stateList, Colour colour){
+	public AntBrain(State[] stateList){
 		this.stateList = stateList;
-		this.colour = colour;
 	}
 	
-	public void execute(Ant a){
-		stateList[a.getState()].execute(a);
-	}
-	
-	public Colour getColour(){
-		return colour;
+	public void simulate(Ant a, World w){
+		stateList[a.getState()].execute(a, w);
 	}
 }
