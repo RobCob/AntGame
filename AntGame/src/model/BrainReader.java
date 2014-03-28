@@ -19,7 +19,7 @@ public class BrainReader {
 
             String line;
             while (( line = inputBuffer.readLine() ) != null) {
-                output += line;
+                output += line + "\n";
             }
         }catch(Exception e){
         	System.out.println(e.getMessage());
@@ -251,13 +251,14 @@ public class BrainReader {
 		return condition;
 	}
 	
-	public static void main(String[] args) {
-		// Testing
-		BrainReader br = new BrainReader();
-		String input = "sampleant.brain";
-//		State[] s =  br.classifyState(br.separateLines(br.readFromFile(input)));
-//		for(int i = 0; i < s.length; i++){
-//			System.out.println(s[i].getClass().getName());
+//	public static void main(String[] args) {
+//		// Testing
+//		BrainReader br = new BrainReader();
+//		String input = "sampleant.brain";
+//		String brainString = br.readFromFile(input);
+//		String[] stateList = br.separateLines(brainString);
+//		for(int i = 0; i < stateList.length; i++){
+//			System.out.println(stateList[i] + " -> " + br.classifyState(stateList[i]).getClass().getName());
 //		}
-	}
+//	}
 }
