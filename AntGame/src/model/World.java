@@ -28,7 +28,7 @@ public class World {
 		for(int i = 0; i < sizeX; i++){
 			for(int j = 0; j < sizeY; j++){
 				Tile tile = getTile(i,j);
-				if(tile.isRocky() && ((ClearTile)tile).isAnthill()){
+				if(!tile.isRocky() && ((ClearTile)tile).isAnthill()){
 					AntHillTile aHill = (AntHillTile) tile;
 					antHills.add(aHill);
 					if(aHill.getColour() == Player1.getColour()){
