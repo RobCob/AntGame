@@ -10,18 +10,9 @@ abstract class State{
 		}
 		seed = seed * 22695477 + 1;
 		count++;
-		int value = (seed/65536) % 16384;
-		return value % n;
+		int value = (((seed/65536) % 16384) + 16384) % 16384;
+		return ((value % n) + n) % n;
 	}
-	// TODO: fix negative randoms
-//	public static void main(String[] args) { 
-//		State.seed = 12345;
-//		State.count = 0;
-//		for(int i = 0; i < 100; i++){
-//			int value = State.randomInt(9999999);
-//			System.out.println(count + ": " +value);
-//		}
-//	}
 }
 enum SenseDir{
 	HERE(0),
