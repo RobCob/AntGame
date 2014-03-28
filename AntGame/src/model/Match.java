@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Match {
-	public static final int MAX_ROUNDS = 30000;
+	public static final int MAX_ROUNDS = 300000;
 	private Player player1;
 	private Player player2;
 	private World world;
