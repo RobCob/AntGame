@@ -35,14 +35,15 @@ import model.Game;
 public class MainMenuPanel extends JPanel{
 	private Game game;
 	
-	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/logo-test3.png");
+	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/titleLarge.png");
 	
-	private static final BufferedImage TOURNAMENT_BUTTON_BACKGROUND_IMAGE = ImageLoader.loadImage("/NormalTest.png");
-	private static final BufferedImage TOURNAMENT_BUTTON_HOVER_IMAGE = ImageLoader.loadImage("/HoverTest.png");
+	private static final BufferedImage TOURNAMENT_BUTTON_BACKGROUND_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/tournamentButton.png");
+	private static final BufferedImage TOURNAMENT_BUTTON_HOVER_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/tournamentButtonHover.png");
 	
-	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/gradientBackground.jpg");
-	//private static final Image NON_TOURNAMENT_BUTTON_BACKGROUND = ImageLoader.loadImage("test.png");
-	//private static final Image NON_TOURNAMENT_BUTTON_HOVER = ImageLoader.loadImage("test.png");
+	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/background.jpg");
+	
+	private static final BufferedImage NON_TOURNAMENT_BUTTON_BACKGROUND = ImageLoader.loadImage("/MainMenuPanelImages/nonTournamentButton.png");
+	private static final BufferedImage NON_TOURNAMENT_BUTTON_HOVER = ImageLoader.loadImage("/MainMenuPanelImages/nonTournamentButtonHover.png");
 
 	
 	public MainMenuPanel(Game game){
@@ -54,7 +55,7 @@ public class MainMenuPanel extends JPanel{
 			}
 		};
 		
-		ImageButton nonTournamentButton = new ImageButton(TOURNAMENT_BUTTON_BACKGROUND_IMAGE, TOURNAMENT_BUTTON_HOVER_IMAGE) {
+		ImageButton nonTournamentButton = new ImageButton(NON_TOURNAMENT_BUTTON_BACKGROUND, NON_TOURNAMENT_BUTTON_HOVER) {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				getGame().createMatch(50, 50, 4, 1);
 				getGame().switchScreen(Game.MATCH_SCREEN);
@@ -81,17 +82,17 @@ public class MainMenuPanel extends JPanel{
 		JPanel titleContainer = new JPanel();
 		BoxLayout titleLayout = new BoxLayout(titleContainer, BoxLayout.Y_AXIS);
 		titleContainer.setLayout(titleLayout);
-		titleContainer.add(new FixedSpacerPanel(100, 20));
+		titleContainer.add(new FixedSpacerPanel(100, 70));
 		titleContainer.add(new ImagePanel(TITLE_IMAGE));
-		titleContainer.add(new FixedSpacerPanel(100, 20));
+		titleContainer.add(new FixedSpacerPanel(100, 0));
 		titleContainer.setOpaque(false);
 		
 		JPanel buttonContainer = new JPanel();
 		BoxLayout buttonLayout = new BoxLayout(buttonContainer, BoxLayout.Y_AXIS);
 		buttonContainer.setLayout(buttonLayout);
-		buttonContainer.add(new FixedSpacerPanel(100, 100));
+		buttonContainer.add(new FixedSpacerPanel(100, 60));
 		buttonContainer.add(tournamentButton);
-		buttonContainer.add(new FixedSpacerPanel(100, 30));
+		buttonContainer.add(new FixedSpacerPanel(100, 40));
 		buttonContainer.add(nonTournamentButton);
 		buttonContainer.setOpaque(false);
 		
