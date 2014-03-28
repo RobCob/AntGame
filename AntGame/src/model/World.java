@@ -24,19 +24,19 @@ public class World {
 		changes = new HashSet<Integer>();
 	}
 	
-	public void populate(Player Player1, Player Player2){
+	public void populate(Player player1, Player player2){
 		for(int i = 0; i < sizeX; i++){
 			for(int j = 0; j < sizeY; j++){
 				Tile tile = getTile(i,j);
 				if(!tile.isRocky() && ((ClearTile)tile).isAnthill()){
 					AntHillTile aHill = (AntHillTile) tile;
 					antHills.add(aHill);
-					if(aHill.getColour() == Player1.getColour()){
-						Ant ant = new Ant(Player1);
+					if(aHill.getColour() == player1.getColour()){
+						Ant ant = new Ant(player1);
 						aHill.setAnt(ant);
 						ants.add(ant.getID(), ant);
 					}else{
-						Ant ant = new Ant(Player2);
+						Ant ant = new Ant(player2);
 						aHill.setAnt(ant);
 						ants.add(ant.getID(), ant);
 					}
