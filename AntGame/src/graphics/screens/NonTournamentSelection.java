@@ -19,9 +19,11 @@ import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -34,6 +36,7 @@ import testing.WorldFileChooser;
 import model.AntBrain;
 import model.BrainReader;
 import model.Game;
+import model.Player;
 import graphics.components.*;
 
 public class NonTournamentSelection  extends JPanel {
@@ -43,23 +46,18 @@ public class NonTournamentSelection  extends JPanel {
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
 	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/GlobalImages/cross.png");
-	
 	private static final BufferedImage UPLOAD_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImage.png");
 	private static final BufferedImage UPLOAD_ROLL_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImageHover.png");
-
 	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImage.png");
 	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImageHover.png");
-	
 	
 	private Game game;
 	private AntBrain player1Brain;
 	private AntBrain player2Brain;
+	private Player player1;
+	private Player player2;
 	
-	private JButton openButton1;
-	private JButton openButton2;
-
 	private JFileChooser fc; //This is the file chooser
-	private BrainReader reader;
 	
 	private JTextField p1NickField; // Player 2 nickname entry field.
 	private JTextField p2NickField; // Player 2 nickname entry field.
@@ -71,7 +69,6 @@ public class NonTournamentSelection  extends JPanel {
     public NonTournamentSelection(Game game) {
     	this.game = game;
         this.setLayout(new BorderLayout());
-        reader = new BrainReader();
         fc = new JFileChooser(); // Default OS file chooser.
         
         /////////////////////////////////////////////////////////////////////////////
@@ -151,25 +148,18 @@ public class NonTournamentSelection  extends JPanel {
         p1AntBrainLabel.setForeground(Color.WHITE);
         p1AntBrainLabel.setFont(new Font("Helvetica", 0, 25));
         
-        // Create the Upload file button for player 1
-        /*openButton1 = new JButton("Upload Ant-Brain");
-        openButton1.setAlignmentX(CENTER_ALIGNMENT);
-        openButton1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int returnVal = fc.showOpenDialog(NonTournamentSelection.this);
-	            if (returnVal == JFileChooser.APPROVE_OPTION) {
-	                File brain = fc.getSelectedFile();
-	                // if correct brain then assign to player1Brain
-	            }
-			}
-		});*/
-        
         ImageButton openButton1 = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
 			public void mouseClicked(MouseEvent e) {
 				int returnVal = fc.showOpenDialog(NonTournamentSelection.this);
 	            if (returnVal == JFileChooser.APPROVE_OPTION) {
-	                File brain = fc.getSelectedFile();
-	                // if correct brain then assign to player1Brain
+	                File brainFile = fc.getSelectedFile();
+	                AntBrain brain = BrainReader.readBrain(brainFile);
+	                if (brain == null) {
+	                	p1BrainValidate.displaySecond();
+	                } else {
+	                	p1BrainValidate.displayFirst();
+	                }
+                	player1Brain = brain;
 	            }
 			}
 		};
@@ -257,25 +247,19 @@ public class NonTournamentSelection  extends JPanel {
         JLabel p2AntBrainLabel = new JLabel("Ant-Brain:");
         p2AntBrainLabel.setForeground(Color.WHITE);
         p2AntBrainLabel.setFont(new Font("Helvetica", 0, 25));
-        // Create the Upload file button for player 1
-//        openButton2 = new JButton("Upload Ant-Brain");
-//        openButton2.setAlignmentX(CENTER_ALIGNMENT);
-//        openButton2.addActionListener(new ActionListener() {
-//        	public void actionPerformed(ActionEvent e) {
-//        		int returnVal = fc.showOpenDialog(NonTournamentSelection.this);
-//        		if (returnVal == JFileChooser.APPROVE_OPTION) {
-//        			File brain = fc.getSelectedFile();
-//        			// if correct brain then assign to player2Brain
-//        		}
-//        	}
-//        });
         
         ImageButton openButton2 = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
 			public void mouseClicked(MouseEvent e) {
 				int returnVal = fc.showOpenDialog(NonTournamentSelection.this);
 	            if (returnVal == JFileChooser.APPROVE_OPTION) {
-	                File brain = fc.getSelectedFile();
-	                // if correct brain then assign to player2Brain
+	                File brainFile = fc.getSelectedFile();
+	                AntBrain brain = BrainReader.readBrain(brainFile); 
+	                if (brain == null) {
+	                	p2BrainValidate.displaySecond();
+	                } else {
+	                	p2BrainValidate.displayFirst();
+	                }
+                	player2Brain = brain;
 	            }
 			}
 		};
@@ -329,7 +313,23 @@ public class NonTournamentSelection  extends JPanel {
 		//Create Go button
 		ImageButton goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
-				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
+				// ERROR MESSAGE IF WRONG:
+				// validate nicknames, validate brains
+				// if okay, create players.
+				// TODO
+				String errorMessage = "";
+				errorMessage += "• Problem with XXXXXXXXXXX\n";
+				errorMessage += "• Problem with XXXXXXXXXXXXXXXXXX\n";
+				errorMessage += "• Problem with XXXX\n";
+				boolean valid = true;
+				if (!valid) {
+					JOptionPane.showMessageDialog(NonTournamentSelection.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					player1 = new Player(p1NickField.getText().trim(), player1Brain);
+					player2 = new Player(p2NickField.getText().trim(), player2Brain);
+					getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
+				}
+				
 			}
 		};
 	
@@ -352,7 +352,7 @@ public class NonTournamentSelection  extends JPanel {
     
     public boolean correctNickname(String nick){
     	// Check p1 and p2 don't have the same name (HACKY)
-    	if(p1NickField.getText().equals((p2NickField).getText())){
+    	if(p1NickField.getText().trim().equals((p2NickField).getText().trim())){
 			p2NickValidate.displaySecond();
 			p1NickValidate.displaySecond();
 		} else {
@@ -360,7 +360,7 @@ public class NonTournamentSelection  extends JPanel {
 			p1NickValidate.displayFirst();
 		}
     	
-    	if(p1NickField.getText().equals((p2NickField).getText())){
+    	if(p1NickField.getText().trim().equals((p2NickField).getText().trim())){
     		return false;
     	}
     	
@@ -370,10 +370,9 @@ public class NonTournamentSelection  extends JPanel {
     	}
     	
     	// Check that it's not over 20 characters
-    	if(nick.length() > 20){
+    	if(nick.trim().length() > 20){
     		return false;
-    	}
-    	else{
+    	} else{
     		return true;
     	}
     }
@@ -381,6 +380,21 @@ public class NonTournamentSelection  extends JPanel {
     public Game getGame(){
     	return game;
     }
+    
+    public Player getPlayer1() {
+    	return this.player1;
+    }
+    
+    public Player getPlayer2() {
+    	return this.player2;
+    }
+    
+    // Will reset all values back to default...
+    // nicknames, brains, players, validation, etc.
+    public void resetScreen() {
+    	//TODO
+    }
+    
     public static void main(String[] args) {
     	//Add content to the window.
         JFrame frame = new JFrame("World File Chooser");
