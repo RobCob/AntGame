@@ -26,7 +26,11 @@ import graphics.components.HexGrid;
 import graphics.components.ImageButton;
 import graphics.components.ImagePanel;
 import graphics.utilities.ImageLoader;
+import model.AntBrain;
+import model.BrainReader;
 import model.Game;
+import model.World;
+import model.WorldReader;
 
 public class WorldSelectionPanel extends JPanel{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldSelectionPanelImages/selectWorldTitle.png");
@@ -43,14 +47,19 @@ public class WorldSelectionPanel extends JPanel{
 	private static final BufferedImage PLAY_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/playButtonHover.png");
 	
 	private Game game; 
+	private World antWorld;
+
 	private HexGrid grid;
 	private HexGrid gridBuffer;
+	
 	private JScrollPane scrollPane;
+	private JFileChooser fc; //This is the file chooser
 	private DualImagePanel worldValidateImage;
 	
 	public WorldSelectionPanel(Game game) {
 		this.game = game;
 		this.grid = new HexGrid(150, 150, 6, 1);
+		this.fc = new JFileChooser(); // Default OS file chooser.
 		
 		// Title Panel
 		JPanel titleContainer = new JPanel();
@@ -94,7 +103,17 @@ public class WorldSelectionPanel extends JPanel{
 //		randomWorldButton.setAlignmentY(CENTER_ALIGNMENT);
 		ImageButton uploadWorldButton = new ImageButton(UPLOAD_BUTTON, UPLOAD_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				//sads
+				int returnVal = fc.showOpenDialog(WorldSelectionPanel.this);
+	            if (returnVal == JFileChooser.APPROVE_OPTION) {
+	                File worldFile = fc.getSelectedFile();
+	                World world = WorldReader.readWorld(worldFile);
+	                if (world == null) {
+	                	worldValidateImage.displaySecond();
+	                } else {
+	                	worldValidateImage.displayFirst();
+	                }
+                	antWorld = world;
+	            }
 			}
 		};
 //		uploadWorldButton.setAlignmentY(CENTER_ALIGNMENT);
