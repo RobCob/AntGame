@@ -45,6 +45,7 @@ public class BrainReader {
                 output += line + "\n";
             }
         }catch(Exception e){
+        	output = null;
         	System.out.println(e.getMessage());
         }finally {
             if (inputBuffer != null) {
@@ -72,7 +73,7 @@ public class BrainReader {
 	 * @param state
 	 * @return An array of States
 	 */
-	private static State classifyState(String state){
+	private static State classifyState(String state) throws Exception{
 		State output = null;
 		// For each line
 		
@@ -83,71 +84,66 @@ public class BrainReader {
 		// Check the appropriate words and convert them to ints/enums, throwing exceptions on each error.
 		// If there are no errors, create appropriate state and add it to the output list of states.
 		// Catch all exceptions thrown.
-		try{
-			switch(stateTokens[0].toUpperCase()){
-			case "SENSE":
-				SenseDir direction = checkSenseDirection(stateTokens[1]);
-				int st1 = checkState(stateTokens[2]);
-				int st2 = checkState(stateTokens[3]);
-				Condition condition = checkCondition(stateTokens[4]);
-				// Extra variable needed if the state is sensing for a Marker
-				if(condition == Condition.MARKER){
-					int scent = checkMark(stateTokens[5]);						
-					output = new Sense(direction, st1, st2, condition, scent);
-				}else{
-					output = new Sense(direction, st1, st2, condition);
-				}
-				break;
-				
-			case "MARK":
-					int scent = checkMark(stateTokens[1]);
-					st1 = checkState(stateTokens[2]);
-					output = new Mark(scent, st1);
-				break;
-				
-			case "UNMARK":
-					scent = checkMark(stateTokens[1]);
-					st1 = checkState(stateTokens[2]);
-					output = new Mark(scent, st1);
-				break;
-				
-			case "PICKUP":
-					st1 = checkState(stateTokens[1]);
-					st2 = checkState(stateTokens[2]);
-					output = new PickUp(st1, st2);
-				break;
-				
-			case "DROP":
-					st1 = checkState(stateTokens[1]);
-					output = new Drop(st1);
-				break;
-				
-			case "TURN":
-					TurnDir turnDirection = checkTurnDirection(stateTokens[1]);
-					st1 = checkState(stateTokens[2]);
-					output = new Turn(turnDirection, st1);
-				break;
-				
-			case "MOVE":
-					st1 = checkState(stateTokens[1]);
-					st2 = checkState(stateTokens[2]);
-					output = new Move(st1, st2);
-				break;
-				
-			case "FLIP":
-					int p = Integer.parseInt(stateTokens[1]);
-					st1 = checkState(stateTokens[2]);
-					st2 = checkState(stateTokens[3]);
-					output = new Flip(p, st1, st2);
-				break;
-				
-			default:
-				throw new Exception("Invalid state");
-				
+		switch(stateTokens[0].toUpperCase()){
+		case "SENSE":
+			SenseDir direction = checkSenseDirection(stateTokens[1]);
+			int st1 = checkState(stateTokens[2]);
+			int st2 = checkState(stateTokens[3]);
+			Condition condition = checkCondition(stateTokens[4]);
+			// Extra variable needed if the state is sensing for a Marker
+			if(condition == Condition.MARKER){
+				int scent = checkMark(stateTokens[5]);						
+				output = new Sense(direction, st1, st2, condition, scent);
+			}else{
+				output = new Sense(direction, st1, st2, condition);
 			}
-		}catch(Exception e){
-			System.out.println("Error on string: " + state);
-			System.out.println(e.getMessage());
+			break;
+			
+		case "MARK":
+				int scent = checkMark(stateTokens[1]);
+				st1 = checkState(stateTokens[2]);
+				output = new Mark(scent, st1);
+			break;
+			
+		case "UNMARK":
+				scent = checkMark(stateTokens[1]);
+				st1 = checkState(stateTokens[2]);
+				output = new Mark(scent, st1);
+			break;
+			
+		case "PICKUP":
+				st1 = checkState(stateTokens[1]);
+				st2 = checkState(stateTokens[2]);
+				output = new PickUp(st1, st2);
+			break;
+			
+		case "DROP":
+				st1 = checkState(stateTokens[1]);
+				output = new Drop(st1);
+			break;
+			
+		case "TURN":
+				TurnDir turnDirection = checkTurnDirection(stateTokens[1]);
+				st1 = checkState(stateTokens[2]);
+				output = new Turn(turnDirection, st1);
+			break;
+			
+		case "MOVE":
+				st1 = checkState(stateTokens[1]);
+				st2 = checkState(stateTokens[2]);
+				output = new Move(st1, st2);
+			break;
+			
+		case "FLIP":
+				int p = Integer.parseInt(stateTokens[1]);
+				st1 = checkState(stateTokens[2]);
+				st2 = checkState(stateTokens[3]);
+				output = new Flip(p, st1, st2);
+			break;
+			
+		default:
+			throw new Exception("Invalid state");
+			
 		}
 		return output;
 	}
