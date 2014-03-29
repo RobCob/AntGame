@@ -1,30 +1,50 @@
 package model;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class WorldReader {
 	
-	private int x,y; //x and y dimensions of the map
+	public static World readWorld(File file) {
+		String[] map = readFromFile(file);
+		int sizeX = Integer.parseInt(map[0]);
+		int sizeY = Integer.parseInt(map[1]);
+		String mapString = map[2];
+		Tile[] tiles = createTileList(mapString);
+		boolean correct = checkWorldSemantics(tiles, sizeX, sizeY);
+		Tile[] tmp = removeLineSeparators(tiles);
+		Tile[][] toReturn = convertTileTo2DArray(tmp, sizeX, sizeY);
+		if(correct){
+			return new World(toReturn);
+		}
+		else{
+			return null;
+		}
+	}
+
+	public static World readWorld(String filePath) {
+		File file = new File(filePath);
+		return readWorld(file);
+	}
 	
 	/**
 	 * Load world from file
 	 * @param path - The filepath of the file.
 	 * @return The contents of the file as a continuous string.
 	 */
-	public String readFromFile(String path){
-		String output = "";
+	private static String[] readFromFile(File file){
+		String mapOutput = "";
+		String[] output = new String[3];
 		BufferedReader inputBuffer = null;
 
         try {
-            inputBuffer = new BufferedReader(new FileReader(path));
-            x = Integer.parseInt(inputBuffer.readLine()); // Read the first line and set its value as the x value
-            y = Integer.parseInt(inputBuffer.readLine()); // Read the first line and set its value as the y value
+            inputBuffer = new BufferedReader(new FileReader(file));
             String line = null;
+            output[0] = "" + Integer.parseInt(inputBuffer.readLine()); // Read the first line and set its value as the x value
+            output[1] = "" +  Integer.parseInt(inputBuffer.readLine()); // Read the first line and set its value as the y value
             while ((line = inputBuffer.readLine()) != null) {
-                output += line + "$"; //use $ as a line separator to be used later for semantic analysis 
+                mapOutput += line + "$"; //use $ as a line separator to be used later for semantic analysis 
             }
 
         }catch(Exception e){
@@ -39,18 +59,8 @@ public class WorldReader {
 				}
             }
         }
-        output = output.replaceAll("\\s+",""); //simply remove any whitespace that might have been read in
+        output[2] = mapOutput.replaceAll("\\s+",""); //simply remove any whitespace that might have been read in
 		return output;
-	}
-	
-	/**
-	 * A simple method to separate each line of the input string into it's own array index.
-	 * @param input - The input string.
-	 * @return An array of Strings with each entry representing a new line.
-	 */
-	public String[] separateLines(String input){
-		String[] stateList = input.trim().split("\n");
-		return stateList;
 	}
 	
 	/**
@@ -58,7 +68,7 @@ public class WorldReader {
 	 * @param stateList
 	 * @return An array of States
 	 */
-	public Tile[] createTileList(String worldLine){
+	private static Tile[] createTileList(String worldLine){
 		Tile[] output = new Tile[worldLine.length()];
 		String[] tiles = new String[worldLine.length()];
 		//have to use for each as split() creates on undesired character at the start
@@ -111,7 +121,7 @@ public class WorldReader {
 	 * @param tiles
 	 * @return True if the map is semantically correct, false otherwise
 	 */
-	public boolean checkWorldSemantics(Tile[] tiles){
+	private static boolean checkWorldSemantics(Tile[] tiles, int sizeX, int sizeY){
 		int countx = 0,county = 0,i = 0;
 		boolean isCorrect = true;
 		while(isCorrect && i < tiles.length){
@@ -119,7 +129,7 @@ public class WorldReader {
 				countx++;
 			}else{
 				//if there are x tiles in a line
-				if(countx == x){
+				if(countx == sizeX){
 					countx = 0;
 					county++; //increment the count of y dimension
 				}else{
@@ -129,7 +139,7 @@ public class WorldReader {
 			i++;
 		}
 		//check if the the y dimensions of the world are correct
-		if(county != y){isCorrect = false;}
+		if(county != sizeY){isCorrect = false;}
 		return isCorrect;
 	}
 	
@@ -138,7 +148,7 @@ public class WorldReader {
 	 * @param tiles
 	 * @return input array without LineSeparators
 	 */
-	public Tile[] removeLineSeparators(Tile[] tiles){
+	private static Tile[] removeLineSeparators(Tile[] tiles){
 		Tile[] output = new Tile[tiles.length - countLineSeparators(tiles)];
 		int outputPointer = 0;
 		for(int i=0; i < tiles.length;i++){
@@ -154,7 +164,7 @@ public class WorldReader {
 	 * @param tiles
 	 * @return number of line separators
 	 */
-	private int countLineSeparators(Tile[] tiles){
+	private static int countLineSeparators(Tile[] tiles){
 		int i = 0;
 		for(Tile t: tiles){
 			if(t instanceof LineSeparator){i++;}
@@ -163,38 +173,20 @@ public class WorldReader {
 	}
 	
 	/**
-	 * Simply parses an inputted world file. Returns null if the file is not valid, returns a Tile[] otherwise.
-	 * @return
-	 */
-	public Tile[][] parse(String path){
-		String map = this.readFromFile(path);
-		Tile[] tiles = this.createTileList(map);
-		boolean correct = this.checkWorldSemantics(tiles);
-		Tile[] tmp = this.removeLineSeparators(tiles);
-		Tile[][] toReturn = this.convertTileTo2DArray(tmp);
-		if(correct){
-			return toReturn;
-		}
-		else{
-			return null;
-		}
-	}
-	
-	/**
 	 * Just converts a 1-D array to a 2-D array. Throws an exception if the tile is not a valid size.
 	 * @param tile
 	 * @return 2-D array representing the tiles for the world map.
 	 * @throws IllegalArgumentException
 	 */
-	private Tile[][] convertTileTo2DArray(Tile[] tile) throws IllegalArgumentException{
-		if(tile.length != x*y){
+	private static Tile[][] convertTileTo2DArray(Tile[] tile, int sizeX, int sizeY) throws IllegalArgumentException{
+		if(tile.length != sizeX*sizeY){
 			throw new IllegalArgumentException("Not a valid array size");
 		}
 		else{
-			Tile[][] toReturn = new Tile[y][x];
-			for(int i = 0; i < y; i++){
-				for(int j = 0; j < x; j++){
-					toReturn[i][j] = tile[(i*y) + j];
+			Tile[][] toReturn = new Tile[sizeY][sizeX];
+			for(int i = 0; i < sizeY; i++){
+				for(int j = 0; j < sizeX; j++){
+					toReturn[i][j] = tile[(i*sizeY) + j];
 				}
 			}
 			return toReturn;
@@ -203,9 +195,8 @@ public class WorldReader {
 	
 	public static void main(String[] args) {
 		// Testing
-		WorldReader wr = new WorldReader();
-		Tile[][] tiles = wr.parse("a.world");
-		if(tiles == null){
+		World world = readWorld("a.world");
+		if(world == null){
 			System.out.println("Not a valid world map");
 		}
 		else{

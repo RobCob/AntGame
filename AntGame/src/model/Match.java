@@ -89,9 +89,9 @@ public class Match {
 	
 	public static void main(String[] args) {
 		State.seed = 80008135;
-		Player p1 = new Player("P1", new AntBrain(BrainReader.readBrain("cleverbrain1.brain")));
-		Player p2 = new Player("P2", new AntBrain(BrainReader.readBrain("cleverbrain1.brain")));
-		Match match = new Match(new World(new WorldReader().parse("sample3.world")), p1, p2);
+		Player p1 = new Player("P1", BrainReader.readBrain("cleverbrain1.brain"));
+		Player p2 = new Player("P2", BrainReader.readBrain("cleverbrain1.brain"));
+		Match match = new Match(WorldReader.readWorld("sample3.world"), p1, p2);
 		while(match.getWinner() == null){
 			match.nextRound();
 		}

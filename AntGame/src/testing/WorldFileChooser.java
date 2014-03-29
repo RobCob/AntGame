@@ -18,14 +18,12 @@ public class WorldFileChooser extends JPanel implements ActionListener {
     JTextArea info; 
     JFileChooser fc; //This is the file chooser
     World world; //Used so that other elements in the game can have access to the uploaded worldFile
-    WorldReader reader; //Used to parse inputted files
 
     public WorldFileChooser() {
     	
         super(new BorderLayout());
         JFrame frame = new JFrame("World File Chooser");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        reader = new WorldReader();
         
         //Create a file chooser
         fc = new JFileChooser();
@@ -72,13 +70,12 @@ public class WorldFileChooser extends JPanel implements ActionListener {
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                Tile[][] tiles = reader.parse(file.getAbsolutePath()); //parse the selected file
-                if(tiles == null){
+                World world = WorldReader.readWorld(file); //parse the selected file
+                if(world == null){
                 	info.setText("The uploaded world file is incorrect");                	
                 }
                 else{
                 	info.setText("The uploaded world file is correct");
-                	world = new World(tiles);
                 }
             }
         }

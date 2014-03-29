@@ -1,18 +1,28 @@
 package model;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class BrainReader {
 	
-	public static State[] readBrain(String filepath){
+	public static AntBrain readBrain(File file){
 		try{
-			String[] stringList = separateLines(readFromFile(filepath));
+			String[] stringList = separateLines(readFromFile(file));
 			State[] stateList = new State[stringList.length];
 			for(int i = 0; i < stateList.length; i++){
 				stateList[i] = classifyState(stringList[i]);
 			}
-			return stateList;
+			return new AntBrain(stateList);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	public static AntBrain readBrain(String filepath){
+		try{
+			File file = new File(filepath);
+			return readBrain(file);
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
@@ -23,12 +33,12 @@ public class BrainReader {
 	 * @param path - The filepath of the file.
 	 * @return The contents of the file as a continuous string.
 	 */
-	private static String readFromFile(String path){
+	private static String readFromFile(File file){
 		String output = "";
 		BufferedReader inputBuffer = null;
 
         try {
-            inputBuffer = new BufferedReader(new FileReader(path));
+            inputBuffer = new BufferedReader(new FileReader(file));
 
             String line;
             while (( line = inputBuffer.readLine() ) != null) {
