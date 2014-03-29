@@ -21,7 +21,9 @@ public class Match {
 	 */
 	public Match(World world, Player blackPlayer, Player redPlayer){
 		this.player1 = blackPlayer;
+		player1.setColour(Colour.BLACK);
 		this.player2 = redPlayer;
+		player2.setColour(Colour.RED);
 		this.world = world;
 		world.populate(player1, player2);
 		scores = new HashMap<Colour, Integer>();
@@ -30,14 +32,14 @@ public class Match {
 	}
 	
 	public void nextRound(){
-		if(winner == null){
-			if(roundNumber < MAX_ROUNDS){
-				world.resetChanges();
-				ArrayList<Ant> ants = world.getAnts();
-				for(int i = 0; i < ants.size(); i++){
-					ants.get(i).simulate(world);
-				}
-			}else{
+		if(roundNumber < MAX_ROUNDS){
+			world.resetChanges();
+			ArrayList<Ant> ants = world.getAnts();
+			for(int i = 0; i < ants.size(); i++){
+				ants.get(i).simulate(world);
+			}
+		}else{
+			if(winner == null){
 				ArrayList<AntHillTile> antHills = world.getAntHills();
 				for(int i = 0; i < antHills.size(); i++){
 					Colour c = antHills.get(i).getColour();
