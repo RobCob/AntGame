@@ -31,10 +31,10 @@ import model.Game;
 public class WorldSelectionPanel extends JPanel{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldSelectionPanelImages/selectWorldTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
-	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/tick_test.png");
-	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/cross_test.png");
-	private static final BufferedImage UPLOAD_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/uploadFileButton.png");
-	private static final BufferedImage UPLOAD_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/uploadFileButtonHover.png");
+	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
+	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/GlobalImages/cross.png");
+	private static final BufferedImage UPLOAD_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/uploadWorldButton.png");
+	private static final BufferedImage UPLOAD_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/uploadWorldButtonHover.png");
 	private static final BufferedImage CREATE_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/createWorldButton.png");
 	private static final BufferedImage CREATE_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/createWorldButtonHover.png");
 	private static final BufferedImage RANDOM_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/randomizeWorldButton.png");

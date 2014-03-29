@@ -41,8 +41,8 @@ public class NonTournamentSelection  extends JPanel {
 	private static final BufferedImage TOURNAMENT_BUTTON_BACKGROUND_IMAGE = ImageLoader.loadImage("/NormalTest.png");
 	private static final BufferedImage TOURNAMENT_BUTTON_HOVER_IMAGE = ImageLoader.loadImage("/HoverTest.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
-	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/tick_test.png");
-	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/cross_test.png");
+	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
+	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/GlobalImages/cross.png");
 	
 	private static final BufferedImage UPLOAD_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImage.png");
 	private static final BufferedImage UPLOAD_ROLL_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImageHover.png");
