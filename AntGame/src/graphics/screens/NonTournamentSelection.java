@@ -318,9 +318,9 @@ public class NonTournamentSelection  extends JPanel {
 				// if okay, create players.
 				// TODO
 				String errorMessage = "";
-				errorMessage += "• Problem with XXXXXXXXXXX\n";
-				errorMessage += "• Problem with XXXXXXXXXXXXXXXXXX\n";
-				errorMessage += "• Problem with XXXX\n";
+				errorMessage += "ï¿½ Problem with XXXXXXXXXXX\n";
+				errorMessage += "ï¿½ Problem with XXXXXXXXXXXXXXXXXX\n";
+				errorMessage += "ï¿½ Problem with XXXX\n";
 				boolean valid = true;
 				if (!valid) {
 					JOptionPane.showMessageDialog(NonTournamentSelection.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
@@ -389,10 +389,21 @@ public class NonTournamentSelection  extends JPanel {
     	return this.player2;
     }
     
-    // Will reset all values back to default...
-    // nicknames, brains, players, validation, etc.
+    /**
+     * 
+     * This method simply resets the values of various parameters
+     * back to their default values.
+     * To be used when switching screen.
+     * No need for a button that calls the method, as it is only called on code-level.
+     * 
+     */
     public void resetScreen() {
-    	//TODO
+    	player1Brain = null;
+    	player2Brain = null;
+    	player1 = null;
+    	player2 = null;
+    	p1NickField.setText("Player 1");
+    	p2NickField.setText("Player 2");
     }
     
     public static void main(String[] args) {
