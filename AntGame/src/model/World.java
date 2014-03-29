@@ -1,13 +1,14 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class World {
 	
 	private Tile[][] grid;
 	private HashSet<Integer> changes;
-	private ArrayList<Ant> ants;
+	private HashMap<Integer, Ant> ants;
 	private ArrayList<AntHillTile> antHills;
 	public final int sizeX,sizeY;
 	
@@ -20,7 +21,7 @@ public class World {
 		sizeX = grid[0].length;
 		sizeY = grid.length;
 		antHills = new ArrayList<AntHillTile>();
-		ants = new ArrayList<Ant>();
+		ants = new HashMap<Integer, Ant>();
 		changes = new HashSet<Integer>();
 	}
 	
@@ -37,23 +38,54 @@ public class World {
 						ant.setY(j);
 						aHill.setAnt(ant);
 						setChange(i*sizeX + j);
-						ants.add(ant.getID(), ant);
+						ants.put(ant.getID(), ant);
 					}else{
 						Ant ant = new Ant(player2);
 						ant.setX(i);
 						ant.setY(j);
 						aHill.setAnt(ant);
-						ants.add(ant.getID(), ant);
+						ants.put(ant.getID(), ant);
 					}
 				}
 			}
 		}
 	}
 	
-	public boolean setChange(int i){
-		return changes.add(i);
+	public boolean setChange(int tileID){
+		return changes.add(tileID);
 	}
 	
+	public void triggerUpdates(int tileID) {
+		update(tileID);
+		for(int i = 0; i < Ant.POSSIBLE_DIRECTIONS; i++){
+			update(getAhead(i, tileID, sizeX));
+		}
+	}
+	
+	private void update(int tileID){
+		int x1 = tileID / sizeX;
+		int y1 = ((tileID % sizeX) + sizeX) % sizeX;
+		Tile currentTile = getTile(x1, y1);
+		if((!currentTile.isRocky()) && ((ClearTile)currentTile).hasAnt()){
+			int antCount = 0;
+			for(int i = 0; i < Ant.POSSIBLE_DIRECTIONS; i++){
+				int newTileID = getAhead(i, tileID, sizeX);
+				int x2 = newTileID / sizeX;
+				int y2 = ((newTileID % sizeX) + sizeX) % sizeX;
+				Tile newTile = getTile(x2, y2);
+				if((!newTile.isRocky()) && ((ClearTile)newTile).hasAnt() && (!((ClearTile)newTile).getAnt().getColour().equals(((ClearTile)currentTile).getAnt().getColour()))){
+					antCount++;
+				}
+			}
+			if(antCount >= 5){
+				System.out.println(((ClearTile)currentTile).getAnt().getColour() + " AntDied " + ((ClearTile)currentTile).getAnt().getID());
+				ants.remove(((ClearTile)currentTile).getAnt().getID());
+				((ClearTile)currentTile).removeAnt();
+				((ClearTile)currentTile).setFood(3);
+			}
+		}
+	}
+
 	public void resetChanges(){
 		changes = new HashSet<Integer>();
 	}
@@ -70,7 +102,7 @@ public class World {
 		return grid[y][x];
 	}
 
-	public ArrayList<Ant> getAnts() {
+	public HashMap<Integer, Ant> getAnts() {
 		return ants;
 	}
 
@@ -78,4 +110,53 @@ public class World {
 		return antHills;
 	}
 	
+	public int getAhead(int direction, int currentTile, int worldSizeX){
+		int x = currentTile / sizeX;
+		int y = ((currentTile % sizeX) + sizeX) % sizeX;
+		switch(direction){
+			case 0:
+				x = x+1;
+				break;
+			case 1:
+				if(y%2 == 0){
+					y = y+1;
+				}else{
+					x = x+1;
+					y = y+1;
+				}
+				break;
+			case 2:
+				if(y%2 == 0){
+					x = x-1;
+					y = y+1;
+				}else{
+					y = y+1;
+				}
+				break;
+			case 3:
+				x = x-1;
+				break;
+			case 4:
+				if(y%2 == 0){
+					x = x-1;
+					y = y-1;
+				}else{
+					y = y-1;
+				}
+				break;
+			case 5:
+				if(y%2 == 0){
+					y = y-1;
+				}else{
+					x = x+1;
+					y = y-1;
+				}
+				break;
+			default:
+				x = 0;
+				y = 0;
+				break;
+		}
+		return (x*worldSizeX) + y;
+	}
 }

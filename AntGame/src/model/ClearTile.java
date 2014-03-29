@@ -23,7 +23,7 @@ public class ClearTile implements Tile {
 	}
 	
 	public boolean hasAnt(){
-		return false;
+		return ant != null;
 	}
 	
 	public Ant getAnt(){

@@ -36,9 +36,15 @@ public class Match {
 	public void nextRound(){
 		if(roundNumber < MAX_ROUNDS){
 			world.resetChanges();
-			ArrayList<Ant> ants = world.getAnts();
-			for(int i = 0; i < ants.size(); i++){
-				ants.get(i).simulate(world);
+			HashMap<Integer, Ant> ants = world.getAnts();
+			Integer[] antIDArray = ants.keySet().toArray(new Integer[0]);
+			for(int i = 0; i < antIDArray.length; i++){
+				int antID = antIDArray[i];
+				// This is needed because ants may die between rounds so their index is still in antIDArray but they are not in the ants map. 
+				try{
+					ants.get(antID).simulate(world);
+				}catch(Exception e){
+				}
 			}
 			roundNumber++;
 		}else{

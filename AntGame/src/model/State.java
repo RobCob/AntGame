@@ -41,108 +41,11 @@ enum Condition{
     MARKER,
     FOEMARKER,
     HOME,
-    FOEHOME
-}
-
-enum TurnDir{
-	LEFT(-1),
-	RIGHT(1);
+    FOEHOME;
 	
-	private int value;
-	
-	TurnDir(int i){
-		this.value = i;
-	}
-	
-	public int getValue(){
-		return value;
-	}
-}
-
-class Sense extends State{
-	SenseDir senseDirection;
-	int st1, st2, scent;
-	Condition condition;
-	public Sense(SenseDir direction, int trueState, int falseState, Condition condition){
-		this.senseDirection = direction;
-		this.st1 = trueState;
-		this.st2 = falseState;
-		this.condition = condition;
-	}
-	public Sense(SenseDir direction, int trueState, int falseState, Condition condition, int scent) {
-		this(direction, trueState, falseState, condition);
-		this.scent = scent;
-	}
-	@Override
-	public void execute(Ant ant, World world) {
-		Tile target;
-		boolean success = false;
-		switch(senseDirection){
-		case AHEAD:
-		case LEFTAHEAD:
-		case RIGHTAHEAD:
-			int direction = (((ant.getDirection() + senseDirection.getValue()) % 6) + 6) % 6;
-			int x, y;
-			switch(direction){
-				case 0:
-					x = ant.getX()+1;
-					y = ant.getY();
-					break;
-				case 1:
-					if(ant.getY()%2 == 0){
-						x = ant.getX();
-						y = ant.getY()+1;
-					}else{
-						x = ant.getX()+1;
-						y = ant.getY()+1;
-					}
-					break;
-				case 2:
-					if(ant.getY()%2 == 0){
-						x = ant.getX()-1;
-						y = ant.getY()+1;
-					}else{
-						x = ant.getX();
-						y = ant.getY()+1;
-					}
-					break;
-				case 3:
-					x = ant.getX()-1;
-					y = ant.getY();
-					break;
-				case 4:
-					if(ant.getY()%2 == 0){
-						x = ant.getX()-1;
-						y = ant.getY()-1;
-					}else{
-						x = ant.getX();
-						y = ant.getY()-1;
-					}
-					break;
-				case 5:
-					if(ant.getY()%2 == 0){
-						x = ant.getX();
-						y = ant.getY()-1;
-					}else{
-						x = ant.getX()+1;
-						y = ant.getY()-1;
-					}
-					break;
-				default:
-					x = 0;
-					y = 0;
-					break;
-			}
-			target = world.getTile(x, y);
-			break;
-		case HERE:
-			target = world.getTile(ant.getX(), ant.getY());
-			break;
-		default:
-			target = null;
-			break;
-		}
-		switch(condition){
+	public boolean isTrue(Tile target, Ant ant, int scent){
+		boolean success;
+		switch(this){
 			case FOE:
 				success = (!target.isRocky()) && ((ClearTile)target).hasAnt() && !((ClearTile)target).getAnt().getColour().equals(ant.getColour());
 				break;
@@ -174,8 +77,64 @@ class Sense extends State{
 				success = (target.isRocky());
 				break;
 			default:
+				success = false;
 				break;
 		}
+		return success;
+	}
+}
+
+enum TurnDir{
+	LEFT(-1),
+	RIGHT(1);
+	
+	private int value;
+	
+	TurnDir(int i){
+		this.value = i;
+	}
+	
+	public int getValue(){
+		return value;
+	}
+}
+
+class Sense extends State{
+	SenseDir senseDirection;
+	int st1, st2, scent;
+	Condition condition;
+	public Sense(SenseDir direction, int trueState, int falseState, Condition condition){
+		this(direction, trueState, falseState, condition, 0);
+	}
+	public Sense(SenseDir direction, int trueState, int falseState, Condition condition, int scent) {
+		this.senseDirection = direction;
+		this.st1 = trueState;
+		this.st2 = falseState;
+		this.condition = condition;
+		this.scent = scent;
+	}
+	@Override
+	public void execute(Ant ant, World world) {
+		Tile target;
+		boolean success = false;
+		switch(senseDirection){
+		case AHEAD:
+		case LEFTAHEAD:
+		case RIGHTAHEAD:
+			int direction = (((ant.getDirection() + senseDirection.getValue()) % 6) + 6) % 6;
+			int tileNumber = world.getAhead(direction, (ant.getX()*world.sizeX) + ant.getY(), world.sizeX);
+			int x = tileNumber / world.sizeX;
+			int y = ((tileNumber % world.sizeX) + world.sizeX) % world.sizeX;
+			target = world.getTile(x, y);
+			break;
+		case HERE:
+			target = world.getTile(ant.getX(), ant.getY());
+			break;
+		default:
+			target = null;
+			break;
+		}
+		success = condition.isTrue(target, ant, scent);
 		if(success){
 			ant.setState(st1);
 		}else{
@@ -269,57 +228,9 @@ class Move extends State{
 	@Override
 	public void execute(Ant ant, World world) {
 		boolean success = false;
-		int x, y;
-		switch(ant.getDirection()){
-			case 0:
-				x = ant.getX()+1;
-				y = ant.getY();
-				break;
-			case 1:
-				if(ant.getY()%2 == 0){
-					x = ant.getX();
-					y = ant.getY()+1;
-				}else{
-					x = ant.getX()+1;
-					y = ant.getY()+1;
-				}
-				break;
-			case 2:
-				if(ant.getY()%2 == 0){
-					x = ant.getX()-1;
-					y = ant.getY()+1;
-				}else{
-					x = ant.getX();
-					y = ant.getY()+1;
-				}
-				break;
-			case 3:
-				x = ant.getX()-1;
-				y = ant.getY();
-				break;
-			case 4:
-				if(ant.getY()%2 == 0){
-					x = ant.getX()-1;
-					y = ant.getY()-1;
-				}else{
-					x = ant.getX();
-					y = ant.getY()-1;
-				}
-				break;
-			case 5:
-				if(ant.getY()%2 == 0){
-					x = ant.getX();
-					y = ant.getY()-1;
-				}else{
-					x = ant.getX()+1;
-					y = ant.getY()-1;
-				}
-				break;
-			default:
-				x = 0;
-				y = 0;
-				break;
-		}
+		int tileNumber = world.getAhead(ant.getDirection(), (ant.getX()*world.sizeX) + ant.getY(), world.sizeX);
+		int x = tileNumber / world.sizeX;
+		int y = ((tileNumber % world.sizeX) + world.sizeX) % world.sizeX;
 		Tile target = world.getTile(x, y);
 		success = !target.isRocky();
 		if(success && !((ClearTile)target).hasAnt()){
@@ -328,8 +239,10 @@ class Move extends State{
 			((ClearTile)target).setAnt(ant);
 			ant.setX(x);
 			ant.setY(y);
-			world.setChange(ant.getX()*world.sizeX + ant.getY());
+			ant.setResting(14);
 			ant.setState(st1);
+			world.setChange(ant.getX()*world.sizeX + ant.getY());
+			world.triggerUpdates(tileNumber);
 		}else{
 			ant.setState(st2);
 		}

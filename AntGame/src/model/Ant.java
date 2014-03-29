@@ -1,5 +1,6 @@
 package model;
 public class Ant {
+	public static final int POSSIBLE_DIRECTIONS = 6;
 	private static int ID_COUNTER = 0;
 	private int id, state, x, y, direction, resting;
 	private boolean hasFood;
@@ -50,12 +51,20 @@ public class Ant {
 		this.y = y;
 	}
 	
+	public int getResting() {
+		return resting;
+	}
+
+	public void setResting(int resting) {
+		this.resting = resting;
+	}
+
 	public int getDirection() {
 		return direction;
 	}
 
 	public void setDirection(int n) {
-		direction = ((n % 6) + 6) % 6;
+		direction = ((n % POSSIBLE_DIRECTIONS) + POSSIBLE_DIRECTIONS) % POSSIBLE_DIRECTIONS;
 	}
 
 	public boolean hasFood() {
