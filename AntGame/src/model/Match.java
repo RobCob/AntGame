@@ -24,9 +24,11 @@ public class Match {
 		player1.setColour(Colour.BLACK);
 		this.player2 = redPlayer;
 		player2.setColour(Colour.RED);
+		scores = new HashMap<Colour, Integer>();
+		scores.put(player1.getColour(), 0);
+		scores.put(player2.getColour(), 0);
 		this.world = world;
 		world.populate(player1, player2);
-		scores = new HashMap<Colour, Integer>();
 		this.winner = null;
 		roundNumber = 0;
 	}
@@ -38,12 +40,13 @@ public class Match {
 			for(int i = 0; i < ants.size(); i++){
 				ants.get(i).simulate(world);
 			}
+			roundNumber++;
 		}else{
 			if(winner == null){
 				ArrayList<AntHillTile> antHills = world.getAntHills();
 				for(int i = 0; i < antHills.size(); i++){
 					Colour c = antHills.get(i).getColour();
-					scores.put(c, scores.get(antHills.get(i).getColour()) + antHills.get(i).getFood());
+					scores.put(c, scores.get(c) + antHills.get(i).getFood());
 				}
 				if(scores.get(player1.getColour()) > scores.get(player2.getColour())){
 					winner = player1;
@@ -67,10 +70,27 @@ public class Match {
 	}
 	
 	public int getScore(Player player){
-		return scores.get(player);
+		return scores.get(player.getColour());
 	}
 	
 	public int getRoundNumber(){
 		return roundNumber;
+	}
+	
+	public Player getWinner() {
+		return winner;
+	}
+	
+	public static void main(String[] args) {
+		State.seed = 80008135;
+		Player p1 = new Player("P1", new AntBrain(BrainReader.readBrain("cleverbrain1.brain")));
+		Player p2 = new Player("P2", new AntBrain(BrainReader.readBrain("cleverbrain1.brain")));
+		Match match = new Match(new World(new WorldReader().parse("sample3.world")), p1, p2);
+		while(match.getWinner() == null){
+			match.nextRound();
+		}
+		Player winner = match.getWinner();
+		System.out.println(winner.getNickname() + " Wins!("+winner.getColour()+")");
+		System.out.println("Score:\nBlack: " + match.getScore(p1) + "\tRed: " + match.getScore(p2));
 	}
 }

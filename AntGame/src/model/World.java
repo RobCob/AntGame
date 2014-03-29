@@ -33,11 +33,15 @@ public class World {
 					antHills.add(aHill);
 					if(aHill.getColour().equals(player1.getColour())){
 						Ant ant = new Ant(player1);
+						ant.setX(i);
+						ant.setY(j);
 						aHill.setAnt(ant);
 						setChange(i*sizeX + j);
 						ants.add(ant.getID(), ant);
 					}else{
 						Ant ant = new Ant(player2);
+						ant.setX(i);
+						ant.setY(j);
 						aHill.setAnt(ant);
 						ants.add(ant.getID(), ant);
 					}

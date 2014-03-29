@@ -150,7 +150,7 @@ public class BrainReader {
 	 */
 	private static int checkState(String s) throws Exception{
 		int state = Integer.parseInt(s);
-		if((state < 0)||state > 999){
+		if((state < 0)||state > 9999){
 			throw new Exception("False state: "+ s);
 		}
 		return state;
