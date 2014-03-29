@@ -5,12 +5,25 @@ import java.io.IOException;
 
 public class BrainReader {
 	
+	public static State[] readBrain(String filepath){
+		try{
+			String[] stringList = separateLines(readFromFile(filepath));
+			State[] stateList = new State[stringList.length];
+			for(int i = 0; i < stateList.length; i++){
+				stateList[i] = classifyState(stringList[i]);
+			}
+			return stateList;
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
 	/**
 	 * Load ant brain from file
 	 * @param path - The filepath of the file.
 	 * @return The contents of the file as a continuous string.
 	 */
-	public String readFromFile(String path){
+	private static String readFromFile(String path){
 		String output = "";
 		BufferedReader inputBuffer = null;
 
@@ -24,7 +37,6 @@ public class BrainReader {
         }catch(Exception e){
         	System.out.println(e.getMessage());
         }finally {
-        
             if (inputBuffer != null) {
                 try {
 					inputBuffer.close();
@@ -40,7 +52,7 @@ public class BrainReader {
 	 * @param input - The input string.
 	 * @return An array of Strings with each entry representing a new line.
 	 */
-	public String[] separateLines(String input){
+	private static String[] separateLines(String input){
 		String[] stateList = input.trim().split("\n");
 		return stateList;
 	}
@@ -50,7 +62,7 @@ public class BrainReader {
 	 * @param state
 	 * @return An array of States
 	 */
-	public State classifyState(String state){
+	private static State classifyState(String state){
 		State output = null;
 		// For each line
 		
@@ -136,7 +148,7 @@ public class BrainReader {
 	 * @return The state as an int.
 	 * @throws Exception - If Integer.parseInt(String) fails or if the state is not a value from 0 to 999.
 	 */
-	private int checkState(String s) throws Exception{
+	private static int checkState(String s) throws Exception{
 		int state = Integer.parseInt(s);
 		if((state < 0)||state > 999){
 			throw new Exception("False state: "+ s);
@@ -150,7 +162,7 @@ public class BrainReader {
 	 * @return The scent as an int.
 	 * @throws Exception - If Integer.parseInt(String) fails or the the scent is not a value from 0 to 5.
 	 */
-	private int checkMark(String s) throws Exception{
+	private static int checkMark(String s) throws Exception{
 		int state = Integer.parseInt(s);
 		if((state < 0)||state > 5){
 			throw new Exception("False mark: "+ s);
@@ -164,7 +176,7 @@ public class BrainReader {
 	 * @return The sense direction as an enum.
 	 * @throws Exception - If the string doesn't match the possible directions.
 	 */
-	private SenseDir checkSenseDirection(String s) throws Exception{
+	private static SenseDir checkSenseDirection(String s) throws Exception{
 		SenseDir direction;
 		switch(s.toUpperCase()){
 		case "HERE":
@@ -191,7 +203,7 @@ public class BrainReader {
 	 * @return The turn direction as an enum.
 	 * @throws Exception - If the string doesn't match the possible directions.
 	 */
-	private TurnDir checkTurnDirection(String s) throws Exception {
+	private static TurnDir checkTurnDirection(String s) throws Exception {
 		TurnDir direction;
 		switch(s.toUpperCase())	{
 		case "LEFT":
@@ -212,7 +224,7 @@ public class BrainReader {
 	 * @return The condition as an enum.
 	 * @throws Exception - If the string doesn't match the possible directions.
 	 */
-	private Condition checkCondition(String s) throws Exception{
+	private static Condition checkCondition(String s) throws Exception{
 		Condition condition;
 		switch(s.toUpperCase()){
 		case "FRIEND":
@@ -250,15 +262,4 @@ public class BrainReader {
 		}
 		return condition;
 	}
-	
-//	public static void main(String[] args) {
-//		// Testing
-//		BrainReader br = new BrainReader();
-//		String input = "sampleant.brain";
-//		String brainString = br.readFromFile(input);
-//		String[] stateList = br.separateLines(brainString);
-//		for(int i = 0; i < stateList.length; i++){
-//			System.out.println(stateList[i] + " -> " + br.classifyState(stateList[i]).getClass().getName());
-//		}
-//	}
 }

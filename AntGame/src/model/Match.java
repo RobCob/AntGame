@@ -32,6 +32,7 @@ public class Match {
 	public void nextRound(){
 		if(winner == null){
 			if(roundNumber < MAX_ROUNDS){
+				world.resetChanges();
 				ArrayList<Ant> ants = world.getAnts();
 				for(int i = 0; i < ants.size(); i++){
 					ants.get(i).simulate(world);

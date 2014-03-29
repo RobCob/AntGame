@@ -81,46 +81,59 @@ class Sense extends State{
 		case AHEAD:
 		case LEFTAHEAD:
 		case RIGHTAHEAD:
-			int direction = ant.getDirection() + senseDirection.getValue();
+			int direction = (((ant.getDirection() + senseDirection.getValue()) % 6) + 6) % 6;
+			int x, y;
 			switch(direction){
 				case 0:
-					target = world.getTile(ant.getX()+1, ant.getY());
+					x = ant.getX()+1;
+					y = ant.getY();
 					break;
 				case 1:
 					if(ant.getY()%2 == 0){
-						target = world.getTile(ant.getX(), ant.getY()+1);
+						x = ant.getX();
+						y = ant.getY()+1;
 					}else{
-						target = world.getTile(ant.getX()+1, ant.getY()+1);
+						x = ant.getX()+1;
+						y = ant.getY()+1;
 					}
 					break;
 				case 2:
 					if(ant.getY()%2 == 0){
-						target = world.getTile(ant.getX()-1, ant.getY()+1);
+						x = ant.getX()-1;
+						y = ant.getY()+1;
 					}else{
-						target = world.getTile(ant.getX(), ant.getY()+1);
+						x = ant.getX();
+						y = ant.getY()+1;
 					}
 					break;
 				case 3:
-					target = world.getTile(ant.getX()-1, ant.getY());
+					x = ant.getX()-1;
+					y = ant.getY();
 					break;
 				case 4:
 					if(ant.getY()%2 == 0){
-						target = world.getTile(ant.getX()-1, ant.getY()-1);
+						x = ant.getX()-1;
+						y = ant.getY()-1;
 					}else{
-						target = world.getTile(ant.getX(), ant.getY()-1);
+						x = ant.getX();
+						y = ant.getY()-1;
 					}
 					break;
 				case 5:
 					if(ant.getY()%2 == 0){
-						target = world.getTile(ant.getX(), ant.getY()-1);
+						x = ant.getX();
+						y = ant.getY()-1;
 					}else{
-						target = world.getTile(ant.getX()+1, ant.getY()-1);
+						x = ant.getX()+1;
+						y = ant.getY()-1;
 					}
 					break;
 				default:
-					target = null;
+					x = 0;
+					y = 0;
 					break;
 			}
+			target = world.getTile(x, y);
 			break;
 		case HERE:
 			target = world.getTile(ant.getX(), ant.getY());
@@ -131,28 +144,28 @@ class Sense extends State{
 		}
 		switch(condition){
 			case FOE:
-				success = (!target.isRocky()) && ((ClearTile)target).hasAnt() && ((ClearTile)target).getAnt().getColour() != ant.getColour();
+				success = (!target.isRocky()) && ((ClearTile)target).hasAnt() && !((ClearTile)target).getAnt().getColour().equals(ant.getColour());
 				break;
 			case FOEHOME:
-				success = (!target.isRocky()) && ((ClearTile)target).isAnthill() && ((AntHillTile)target).getColour() != ant.getColour();
+				success = (!target.isRocky()) && ((ClearTile)target).isAnthill() && !((AntHillTile)target).getColour().equals(ant.getColour());
 				break;
 			case FOEMARKER:
 				success = (!target.isRocky()) && ((ClearTile)target).getMarker(ant.getColour().getEnemy(), scent);
 				break;
 			case FOEWITHFOOD:
-				success = (!target.isRocky()) && ((ClearTile)target).hasAnt() && ((ClearTile)target).getAnt().getColour() != ant.getColour() && ((ClearTile)target).getAnt().hasFood();
+				success = (!target.isRocky()) && ((ClearTile)target).hasAnt() && !((ClearTile)target).getAnt().getColour().equals(ant.getColour()) && ((ClearTile)target).getAnt().hasFood();
 				break;
 			case FOOD:
 				success = (!target.isRocky()) && ((ClearTile)target).getFood() > 0;
 				break;
 			case FRIEND:
-				success = (!target.isRocky()) && ((ClearTile)target).hasAnt() && ((ClearTile)target).getAnt().getColour() == ant.getColour();
+				success = (!target.isRocky()) && ((ClearTile)target).hasAnt() && ((ClearTile)target).getAnt().getColour().equals(ant.getColour());
 				break;
 			case FRIENDWITHFOOD:
-				success = (!target.isRocky()) && ((ClearTile)target).hasAnt() && ((ClearTile)target).getAnt().getColour() == ant.getColour() && ((ClearTile)target).getAnt().hasFood();
+				success = (!target.isRocky()) && ((ClearTile)target).hasAnt() && ((ClearTile)target).getAnt().getColour().equals(ant.getColour()) && ((ClearTile)target).getAnt().hasFood();
 				break;
 			case HOME:
-				success = (!target.isRocky()) && ((ClearTile)target).isAnthill() && ((AntHillTile)target).getColour() == ant.getColour();
+				success = (!target.isRocky()) && ((ClearTile)target).isAnthill() && ((AntHillTile)target).getColour().equals(ant.getColour());
 				break;
 			case MARKER:
 				success = (!target.isRocky()) && ((ClearTile)target).getMarker(ant.getColour(), scent);
@@ -193,6 +206,7 @@ class Unmark extends State{
 	@Override
 	public void execute(Ant ant, World world) {
 		((ClearTile)(world.getTile(ant.getX(), ant.getY()))).removeMarker(ant.getColour(), i);
+		world.setChange(ant.getX()*world.sizeX + ant.getY());
 		ant.setState(st);
 	}
 }
@@ -209,6 +223,7 @@ class PickUp extends State{
 		ant.setFood(tile.takeFood());
 		if(ant.hasFood()){
 			ant.setState(st1);
+			world.setChange(ant.getX()*world.sizeX + ant.getY());
 		}else{
 			ant.setState(st2);
 		}
@@ -224,6 +239,8 @@ class Drop extends State{
 	public void execute(Ant ant, World world) {
 		if(ant.hasFood()){
 			((ClearTile)(world.getTile(ant.getX(), ant.getY()))).addFood();
+			world.setChange(ant.getX()*world.sizeX + ant.getY());
+			ant.setState(st);
 		}
 	}
 }
@@ -238,6 +255,8 @@ class Turn extends State{
 	@Override
 	public void execute(Ant ant, World world) {
 		ant.setDirection(ant.getDirection() + direction.getValue());
+		world.setChange(ant.getX()*world.sizeX + ant.getY());
+		ant.setState(st);
 	}
 }
 
@@ -250,50 +269,66 @@ class Move extends State{
 	@Override
 	public void execute(Ant ant, World world) {
 		boolean success = false;
-		Tile target;
+		int x, y;
 		switch(ant.getDirection()){
 			case 0:
-				target = world.getTile(ant.getX()+1, ant.getY());
+				x = ant.getX()+1;
+				y = ant.getY();
 				break;
 			case 1:
 				if(ant.getY()%2 == 0){
-					target = world.getTile(ant.getX(), ant.getY()+1);
+					x = ant.getX();
+					y = ant.getY()+1;
 				}else{
-					target = world.getTile(ant.getX()+1, ant.getY()+1);
+					x = ant.getX()+1;
+					y = ant.getY()+1;
 				}
 				break;
 			case 2:
 				if(ant.getY()%2 == 0){
-					target = world.getTile(ant.getX()-1, ant.getY()+1);
+					x = ant.getX()-1;
+					y = ant.getY()+1;
 				}else{
-					target = world.getTile(ant.getX(), ant.getY()+1);
+					x = ant.getX();
+					y = ant.getY()+1;
 				}
 				break;
 			case 3:
-				target = world.getTile(ant.getX()-1, ant.getY());
+				x = ant.getX()-1;
+				y = ant.getY();
 				break;
 			case 4:
 				if(ant.getY()%2 == 0){
-					target = world.getTile(ant.getX()-1, ant.getY()-1);
+					x = ant.getX()-1;
+					y = ant.getY()-1;
 				}else{
-					target = world.getTile(ant.getX(), ant.getY()-1);
+					x = ant.getX();
+					y = ant.getY()-1;
 				}
 				break;
 			case 5:
 				if(ant.getY()%2 == 0){
-					target = world.getTile(ant.getX(), ant.getY()-1);
+					x = ant.getX();
+					y = ant.getY()-1;
 				}else{
-					target = world.getTile(ant.getX()+1, ant.getY()-1);
+					x = ant.getX()+1;
+					y = ant.getY()-1;
 				}
 				break;
 			default:
-				target = null;
+				x = 0;
+				y = 0;
 				break;
 		}
+		Tile target = world.getTile(x, y);
 		success = !target.isRocky();
-		if(success){
-			((ClearTile)target).setAnt(ant);
+		if(success && !((ClearTile)target).hasAnt()){
+			world.setChange(ant.getX()*world.sizeX + ant.getY());
 			((ClearTile)(world.getTile(ant.getX(), ant.getY()))).removeAnt();
+			((ClearTile)target).setAnt(ant);
+			ant.setX(x);
+			ant.setY(y);
+			world.setChange(ant.getX()*world.sizeX + ant.getY());
 			ant.setState(st1);
 		}else{
 			ant.setState(st2);

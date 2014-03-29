@@ -55,7 +55,7 @@ public class Ant {
 	}
 
 	public void setDirection(int n) {
-		direction = n % 6;
+		direction = ((n % 6) + 6) % 6;
 	}
 
 	public boolean hasFood() {

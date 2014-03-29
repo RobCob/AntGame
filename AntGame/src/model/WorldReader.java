@@ -204,7 +204,7 @@ public class WorldReader {
 	public static void main(String[] args) {
 		// Testing
 		WorldReader wr = new WorldReader();
-		Tile[][] tiles = wr.parse("//smbhome.uscs.susx.ac.uk/gcp20/Desktop/Software Engineering/test.txt");
+		Tile[][] tiles = wr.parse("a.world");
 		if(tiles == null){
 			System.out.println("Not a valid world map");
 		}

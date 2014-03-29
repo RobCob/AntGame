@@ -9,7 +9,7 @@ public class World {
 	private HashSet<Integer> changes;
 	private ArrayList<Ant> ants;
 	private ArrayList<AntHillTile> antHills;
-	private int sizeX,sizeY;
+	public final int sizeX,sizeY;
 	
 	public World(int x, int y){
 		this(new Tile[y][x]); //Generate world here
@@ -31,9 +31,10 @@ public class World {
 				if(!tile.isRocky() && ((ClearTile)tile).isAnthill()){
 					AntHillTile aHill = (AntHillTile) tile;
 					antHills.add(aHill);
-					if(aHill.getColour() == player1.getColour()){
+					if(aHill.getColour().equals(player1.getColour())){
 						Ant ant = new Ant(player1);
 						aHill.setAnt(ant);
+						setChange(i*sizeX + j);
 						ants.add(ant.getID(), ant);
 					}else{
 						Ant ant = new Ant(player2);
@@ -45,8 +46,12 @@ public class World {
 		}
 	}
 	
-	public void setChange(int i){
-		changes.add(i);
+	public boolean setChange(int i){
+		return changes.add(i);
+	}
+	
+	public void resetChanges(){
+		changes = new HashSet<Integer>();
 	}
 	
 	public HashSet<Integer> getChanges(){
