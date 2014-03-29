@@ -177,6 +177,21 @@ public class WorldSelectionPanel extends JPanel{
 		this.scrollPane.revalidate();
 		this.scrollPane.repaint();
 	}
+	
+	/**
+     * 
+     * This method simply resets the values of various parameters
+     * back to their default values.
+     * To be used when switching screen.
+     * No need for a button that calls the method, as it is only called on code-level.
+     * 
+     */
+	public void resetScreen(){
+		//have the grid go back to its original state
+		this.grid = new HexGrid(150, 150, 6, 1);
+		//the default validation for the uploaded world file is a cross
+		this.worldValidateImage.displaySecond();
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {

@@ -17,6 +17,7 @@ public class NonTournamentResultsPanel extends JPanel{
 		// display the results.
 		// display back to main-menu button.
 		// display re-match button?
+		//only use for a rematch button if allow them to reupload the brains, otherwise no point
 	}
 	
 }

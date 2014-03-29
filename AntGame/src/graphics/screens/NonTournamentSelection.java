@@ -404,6 +404,13 @@ public class NonTournamentSelection  extends JPanel {
     	player2 = null;
     	p1NickField.setText("Player 1");
     	p2NickField.setText("Player 2");
+    	//reset cross/tick to their original value
+    	//nicks have a tick by default
+    	p1NickValidate.displayFirst(); 
+    	p2NickValidate.displayFirst(); 
+    	//brains have a cross by default
+    	p1BrainValidate.displaySecond(); 
+    	p2BrainValidate.displaySecond(); 
     }
     
     public static void main(String[] args) {
