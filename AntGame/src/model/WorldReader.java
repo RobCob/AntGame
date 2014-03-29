@@ -7,20 +7,24 @@ import java.io.IOException;
 public class WorldReader {
 	
 	public static World readWorld(File file) {
-		String[] map = readFromFile(file);
-		int sizeX = Integer.parseInt(map[0]);
-		int sizeY = Integer.parseInt(map[1]);
-		String mapString = map[2];
-		Tile[] tiles = createTileList(mapString);
-		boolean correct = checkWorldSemantics(tiles, sizeX, sizeY);
-		Tile[] tmp = removeLineSeparators(tiles);
-		Tile[][] toReturn = convertTileTo2DArray(tmp, sizeX, sizeY);
-		if(correct){
-			return new World(toReturn);
+		try{
+			String[] map = readFromFile(file);
+			int sizeX = Integer.parseInt(map[0]);
+			int sizeY = Integer.parseInt(map[1]);
+			String mapString = map[2];
+			Tile[] tiles = createTileList(mapString);
+			boolean correct = checkWorldSemantics(tiles, sizeX, sizeY);
+			Tile[] tmp = removeLineSeparators(tiles);
+			Tile[][] toReturn = convertTileTo2DArray(tmp, sizeX, sizeY);
+			if(correct){
+				return new World(toReturn);
+			}
+			else{
+			}
+		}catch(Exception e){
+			
 		}
-		else{
-			return null;
-		}
+		return null;
 	}
 
 	public static World readWorld(String filePath) {
