@@ -1,0 +1,10 @@
+If the button takes you to the next screen:
+--Size:45
+--Colour:Aluminium
+--Hover:Red/Black
+--Width: 4
+--Medium Blur -> Opacity: 75
+
+Background:
+
+http://s1316.photobucket.com/user/010photobucket010/media/TT16s_zpse4699324.jpg.html
