@@ -42,8 +42,8 @@ public class Match {
 	}
 	
 	public void setPlayer2(Player player){
-		this.player1 = player;
-		player1.setColour(Colour.RED);
+		this.player2 = player;
+		player2.setColour(Colour.RED);
 		scores.put(player2.getColour(), 0);
 	}
 	
@@ -107,7 +107,7 @@ public class Match {
 		State.seed = 80008135;
 		Player p1 = new Player("P1", AntBrainReader.readBrain("cleverbrain1.brain"));
 		Player p2 = new Player("P2", AntBrainReader.readBrain("cleverbrain1.brain"));
-		Match match = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("P2", AntBrainReader.readBrain("cleverbrain1.brain")));
+		Match match = new Match(WorldReader.readWorld("sample3.world"), p1, p2);
 		while(match.getWinner() == null){
 			match.nextRound();
 		}
