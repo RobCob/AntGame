@@ -1,8 +1,10 @@
 package graphics.screens;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,6 +27,7 @@ import javax.swing.JViewport;
 import graphics.components.DualImagePanel;
 import graphics.components.FixedSpacerPanel;
 import graphics.components.HexGrid;
+import graphics.components.Hexagon;
 import graphics.components.ImageButton;
 import graphics.components.ImagePanel;
 import graphics.utilities.ImageLoader;
@@ -43,8 +47,8 @@ public class WorldSelectionPanel extends JPanel{
 	private static final BufferedImage UPLOAD_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/uploadWorldButtonHover.png");
 	private static final BufferedImage CREATE_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/createWorldButton.png");
 	private static final BufferedImage CREATE_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/createWorldButtonHover.png");
-	private static final BufferedImage RANDOM_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/randomizeWorldButton.png");
-	private static final BufferedImage RANDOM_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/randomizeWorldButtonHover.png");
+	private static final BufferedImage RANDOM_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/randomWorldButton.png");
+	private static final BufferedImage RANDOM_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/randomWorldButtonHover.png");
 	private static final BufferedImage PLAY_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/playButton.png");
 	private static final BufferedImage PLAY_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/playButtonHover.png");
 	
@@ -52,7 +56,6 @@ public class WorldSelectionPanel extends JPanel{
 	private World antWorld;
 
 	private HexGrid grid;
-	private HexGrid gridBuffer;
 	
 	private JScrollPane scrollPane;
 	private JFileChooser fc; //This is the file chooser
@@ -77,14 +80,14 @@ public class WorldSelectionPanel extends JPanel{
 		gridPanel.setOpaque(false);
 		this.scrollPane = new JScrollPane(grid);
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-		scrollPane.setMinimumSize(new Dimension(600, 350));
-		scrollPane.setPreferredSize(new Dimension(600, 350));
-		scrollPane.setMaximumSize(new Dimension(600, 350));
-		scrollPane.setAlignmentX(CENTER_ALIGNMENT);
+//		scrollPane.setMinimumSize(new Dimension(100, 350));
+//		scrollPane.setPreferredSize(new Dimension(100, 350));
+//		scrollPane.setMaximumSize(new Dimension(100, 350));
+//		scrollPane.setAlignmentX(CENTER_ALIGNMENT);
 		
 		//add the scollPane at the centre
 		gridPanel.add(scrollPane, BorderLayout.CENTER);
-		gridPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 15, 50));
+		gridPanel.setBorder(BorderFactory.createEmptyBorder(0, 55, 55, 50));
 		gridPanel.setMaximumSize(new Dimension(600,350));
 		gridPanel.setPreferredSize(new Dimension(600,350));
 		gridPanel.setMinimumSize(new Dimension(600,350));
@@ -92,9 +95,11 @@ public class WorldSelectionPanel extends JPanel{
 		
 		//Upload buttons
 		JPanel buttonsPanel = new JPanel(new FlowLayout());
+		buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0,30, 0, 0));
+
 		buttonsPanel.setOpaque(false);
-//		BoxLayout buttonsLayout = new BoxLayout(buttonsPanel, BoxLayout.X_AXIS);
-//		buttonsPanel.setLayout(buttonsLayout);
+		BoxLayout buttonsLayout = new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS);
+		buttonsPanel.setLayout(buttonsLayout);
 		
 		//ImageButtons
 		ImageButton randomWorldButton = new ImageButton(RANDOM_BUTTON, RANDOM_ROLL_BUTTON){
@@ -102,7 +107,7 @@ public class WorldSelectionPanel extends JPanel{
 				//sads
 			}
 		};
-//		randomWorldButton.setAlignmentY(CENTER_ALIGNMENT);
+		randomWorldButton.setAlignmentY(LEFT_ALIGNMENT);
 		ImageButton uploadWorldButton = new ImageButton(UPLOAD_BUTTON, UPLOAD_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
 				int returnVal = fc.showOpenDialog(WorldSelectionPanel.this);
@@ -115,35 +120,63 @@ public class WorldSelectionPanel extends JPanel{
 	                	worldValidateImage.displayFirst();
 	                }
                 	antWorld = world;
+                	drawWorld(world);
 	            }
 			}
+
+			
 		};
-//		uploadWorldButton.setAlignmentY(CENTER_ALIGNMENT);
+		uploadWorldButton.setAlignmentY(LEFT_ALIGNMENT);
 		ImageButton createWorldButton = new ImageButton(CREATE_BUTTON, CREATE_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
 				//sads
 			}
 		};
-//		createWorldButton.setAlignmentY(CENTER_ALIGNMENT);
+		createWorldButton.setAlignmentY(LEFT_ALIGNMENT);
+		
+		//Validate label
+		JLabel validateLabel = new JLabel("Valid : ");
+		validateLabel.setForeground(Color.WHITE);
+		validateLabel.setFont(new Font("Helvetica", 0, 25));
+		validateLabel.setAlignmentX(CENTER_ALIGNMENT);
+		validateLabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
 		
 		//Ticks and crosses
 		JPanel uploadValidatePanel = new JPanel();
-		uploadValidatePanel.setOpaque(false);
+		JPanel uploadValidateImagePanel = new JPanel();
         worldValidateImage = new DualImagePanel(TICK_IMAGE,CROSS_IMAGE);
+        uploadValidateImagePanel.setOpaque(false);
+        uploadValidateImagePanel.add(worldValidateImage);
+		uploadValidatePanel.setOpaque(false);
+		uploadValidateImagePanel.setBorder(BorderFactory.createEmptyBorder(13,0,0,0));
         worldValidateImage.displaySecond();
         //Add the upload button and the validation to a common panel
-        uploadValidatePanel.add(uploadWorldButton);
-        uploadValidatePanel.add(worldValidateImage);
+        uploadValidatePanel.add(validateLabel);
+        uploadValidatePanel.add(uploadValidateImagePanel);
+        uploadValidatePanel.setOpaque(false);
         
+        //add randomize button#
+        buttonsPanel.add(new FixedSpacerPanel(0,35));
         buttonsPanel.add(randomWorldButton);
-        buttonsPanel.add(new FixedSpacerPanel(100,0));
-        buttonsPanel.add(uploadValidatePanel); // the upload and tick/cross
-        buttonsPanel.add(new FixedSpacerPanel(100,0));
+        buttonsPanel.add(new FixedSpacerPanel(0,25));
+        //add upload button
+        buttonsPanel.add(uploadWorldButton); // the upload and tick/cross
+        buttonsPanel.add(new FixedSpacerPanel(0,25));
+        //add create button
         buttonsPanel.add(createWorldButton);
+        buttonsPanel.add(new FixedSpacerPanel(0,5));
+        //add validate part
+        buttonsPanel.add(uploadValidatePanel);
+        //add play button
+        
 		
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setOpaque(false);
-        bottomPanel.add(buttonsPanel, BorderLayout.NORTH);
+//        JPanel bottomPanel = new JPanel(new BorderLayout());
+//        bottomPanel.setOpaque(false);
+//        bottomPanel.add(buttonsPanel, BorderLayout.NORTH);
+        
+        //Add the buttons to the grid panel
+        gridPanel.add(buttonsPanel, BorderLayout.EAST);
+        
         
         //Create the Play button
         ImageButton playButton = new ImageButton(PLAY_BUTTON, PLAY_ROLL_BUTTON){
@@ -159,20 +192,24 @@ public class WorldSelectionPanel extends JPanel{
 				}
 			}
 		};
-	       	
+	    
         JPanel playPanel = new JPanel();
         playPanel.setOpaque(false);
         playPanel.add(playButton);
-        playPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
-        bottomPanel.add(playPanel, BorderLayout.SOUTH);
+        playPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0));
+        buttonsPanel.add(playPanel);
 		
 		this.setLayout(new BorderLayout());
 		//Adds the titleContainer
 		this.add(titleContainer, BorderLayout.NORTH);
-		//Adds the world grid
+		//Adds the world grid and buttons
 		this.add(gridPanel, BorderLayout.CENTER);
-		//Adds the upload button
-		this.add(bottomPanel, BorderLayout.SOUTH);
+//		//Adds the play button
+//		this.add(playPanel, BorderLayout.SOUTH);
+		
+	}
+	
+	private void drawWorld(World world) {
 		
 	}
 	
@@ -186,7 +223,7 @@ public class WorldSelectionPanel extends JPanel{
 		}
 		return output;
 	}
-
+	
 	public Game getGame(){
 		return game;
 	}
