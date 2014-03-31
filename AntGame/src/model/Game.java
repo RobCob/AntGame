@@ -118,7 +118,7 @@ public class Game extends JFrame{
 		modelThread = new Thread(new Runnable() {
 			public void run() {
 				if (Game.DEBUG) System.out.println("DEBUG | Game:runModel() Thread Started!");
-				int roundsPerSec = 1000; // Number of rounds to perform every second
+				int roundsPerSec = 500; // Number of rounds to perform every second
 				int maxRounds = 300000;
 
 				long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
@@ -206,7 +206,19 @@ public class Game extends JFrame{
 						gridBuffer[x][y].setFillColor(Hexagon.BLACK_ANT_COLOR);
 					}
 				}else{
-					gridBuffer[x][y].setFillColor(Hexagon.EMPTY_CELL_COLOR);
+					if(((ClearTile)tile).getFood()>0){
+						gridBuffer[x][y].setFillColor(Hexagon.FOOD_COLOR);
+					}else{
+						if(((ClearTile)tile).isAnthill()){
+							if(((AntHillTile)tile).getColour().equals(Colour.RED)){
+								gridBuffer[x][y].setFillColor(Hexagon.RED_ANTHILL_COLOR);
+							}else{
+								gridBuffer[x][y].setFillColor(Hexagon.BLACK_ANTHILL_COLOR);
+							}
+						}else{
+							gridBuffer[x][y].setFillColor(Hexagon.EMPTY_CELL_COLOR);
+						}
+					}
 				}
 			}
 		}
