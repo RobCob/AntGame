@@ -292,7 +292,7 @@ public class NonTournamentSelection  extends JPanel {
 					player2 = new Player(p2NickField.getText().trim(), player2Brain);
 					getGame().createMatch();
 					getGame().getCurrentMatch().setPlayer1(player1);
-					getGame().getCurrentMatch().setPlayer1(player2);
+					getGame().getCurrentMatch().setPlayer2(player2);
 					getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 				}
 			}
