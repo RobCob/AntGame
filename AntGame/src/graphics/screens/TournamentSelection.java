@@ -1,7 +1,7 @@
 package graphics.screens;
 import graphics.utilities.ImageLoader;
-
-import java.awt.Color;
+import model.Player;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -12,17 +12,50 @@ import javax.swing.*;
 public class TournamentSelection extends JPanel{
 	
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/gradientBackground.jpg");
+	private Player[] players = new Player[8];
 	
 	public TournamentSelection(){
+		this.setLayout(new FlowLayout());
+		
 		JLabel title = new JLabel("Tournament - Brain Selection");
-		title.setSize(1024, 76);
-		title.setForeground(Color.CYAN);
-		this.add(title);
 		// CHANGE THE ABOVE WHEN ADDING OUR NEW FONTS
+		
+		JPanel titlepanel = new JPanel();
+		titlepanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		titlepanel.setPreferredSize(new Dimension(1024, 76));
+		titlepanel.add(title);
 		
 		JPanel nameAndUpload = new JPanel();
 		nameAndUpload.setLayout(new FlowLayout(FlowLayout.CENTER));
+		nameAndUpload.setPreferredSize(new Dimension(1024, 76));
 		
+		JLabel nickname = new JLabel("Nickname:");
+		nickname.setPreferredSize(new Dimension(90, 76));
+		// CHANGE THE ABOVE WHEN ADDING OUR NEW FONTS
+		
+		JTextArea nameToAdd = new JTextArea(1, 10);
+		nameToAdd.setLineWrap(true);
+		JScrollPane name = new JScrollPane(nameToAdd);
+		name.setPreferredSize(new Dimension(300, 67));
+		JButton upload = new JButton("Upload Ant-Brain");
+		
+		JTextArea playerList = new JTextArea();
+		playerList.setLineWrap(true);
+		JScrollPane temp = new JScrollPane(playerList);
+		temp.setPreferredSize(new Dimension(1024, 285));
+		//THE ABOVE TEMP IS FOR LAYOUT PLANNING PURPOSES
+		
+		JPanel temp2 = new JPanel();
+		temp2.setLayout(new FlowLayout(FlowLayout.CENTER));
+		temp2.setPreferredSize(new Dimension(1024, 76));
+		
+		nameAndUpload.add(nickname);
+		nameAndUpload.add(name);
+		nameAndUpload.add(upload);
+		this.add(titlepanel);
+		this.add(nameAndUpload);
+		this.add(temp);
+		this.add(temp2);
 	}
 	
 	
