@@ -57,4 +57,8 @@ public class DualImagePanel extends JPanel{
 			this.repaint();
 		} 
 	}
+	
+	public boolean isFirstShown(){
+		return currentImage == firstImage;
+	}
 }
