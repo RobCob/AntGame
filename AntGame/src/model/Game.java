@@ -239,7 +239,7 @@ public class Game extends JFrame{
 //		worldWithAnts = worldBuffer;
 	}
 	
-	public Color getTileColor(Tile tile){
+	public static Color getTileColor(Tile tile){
 		if(tile.isRocky()){
 			return Hexagon.ROCK_COLOR;
 		}else{

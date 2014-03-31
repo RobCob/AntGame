@@ -154,7 +154,14 @@ public  class HexGrid extends JPanel {
 	}
 
 	public void setHexagonGrid(Hexagon[][] hexagons) {
-		this.grid  = hexagons;		
+		this.grid = hexagons;		
+		this.cols = hexagons.length;
+		this.rows = hexagons[0].length;
+	}
+	
+	public void refreshDimensions() {
+		setDimensions((int)(cols*size*1.74) + size, (int)(rows*size*1.51) + size);
+		this.revalidate();
 	}
 }
 

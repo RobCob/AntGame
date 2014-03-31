@@ -63,7 +63,7 @@ public class WorldSelectionPanel extends JPanel{
 	
 	public WorldSelectionPanel(Game game) {
 		this.game = game;
-		this.grid = new HexGrid(150, 150, 6, 1);
+		this.grid = new HexGrid(100, 100, 6, 1);
 		this.fc = new JFileChooser(); // Default OS file chooser.
 		
 		// Title Panel
@@ -80,10 +80,6 @@ public class WorldSelectionPanel extends JPanel{
 		gridPanel.setOpaque(false);
 		this.scrollPane = new JScrollPane(grid);
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-//		scrollPane.setMinimumSize(new Dimension(100, 350));
-//		scrollPane.setPreferredSize(new Dimension(100, 350));
-//		scrollPane.setMaximumSize(new Dimension(100, 350));
-//		scrollPane.setAlignmentX(CENTER_ALIGNMENT);
 		
 		//add the scollPane at the centre
 		gridPanel.add(scrollPane, BorderLayout.CENTER);
@@ -91,7 +87,6 @@ public class WorldSelectionPanel extends JPanel{
 		gridPanel.setMaximumSize(new Dimension(600,350));
 		gridPanel.setPreferredSize(new Dimension(600,350));
 		gridPanel.setMinimumSize(new Dimension(600,350));
-		
 		
 		//Upload buttons
 		JPanel buttonsPanel = new JPanel(new FlowLayout());
@@ -120,7 +115,7 @@ public class WorldSelectionPanel extends JPanel{
 	                	worldValidateImage.displayFirst();
 	                }
                 	antWorld = world;
-                	drawWorld(world);
+                	previewWorld();
 	            }
 			}
 
@@ -182,11 +177,11 @@ public class WorldSelectionPanel extends JPanel{
         ImageButton playButton = new ImageButton(PLAY_BUTTON, PLAY_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
 				String errorMessage = getErrorMessage();
-				boolean valid = errorMessage == null;
+				boolean valid = (errorMessage == null);
 				if (!valid) {
 					JOptionPane.showMessageDialog(WorldSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					getGame().createMatchPanelGrid(150, 150, 4, 1);
+					getGame().getCurrentMatch().setWorld(antWorld);
 					getGame().switchScreen(Game.MATCH_SCREEN);
 					getGame().startMatch();
 				}
@@ -204,19 +199,39 @@ public class WorldSelectionPanel extends JPanel{
 		this.add(titleContainer, BorderLayout.NORTH);
 		//Adds the world grid and buttons
 		this.add(gridPanel, BorderLayout.CENTER);
-//		//Adds the play button
-//		this.add(playPanel, BorderLayout.SOUTH);
 		
 	}
 	
-	private void drawWorld(World world) {
+	private void previewWorld() {
+		if (antWorld != null) {
+			Hexagon[][] gridBuffer = new Hexagon[antWorld.sizeY][antWorld.sizeX];
+			
+			int cols = gridBuffer.length;
+			int rows = gridBuffer[0].length;
+			
+			for (int x = 0; x < cols; x++) {
+				for (int y = 0; y < rows; y++) {
+					Hexagon h = new Hexagon(x, y, 6, 1);
+					h.setFillColor(Game.getTileColor(antWorld.getTile(x, y)));
+					gridBuffer[x][y] = h;
+				}
+			}
+			grid.setHexagonGrid(gridBuffer);
+			grid.refreshDimensions();
+		} else {
+			grid.newGrid(150, 150, 6, 1);
+			grid.refreshDimensions();
+			System.out.println("THE GRID SHOULD BE EMPTY!");
+		}
 		
+		scrollPane.revalidate();
+		scrollPane.repaint();
 	}
 	
 	public String getErrorMessage(){
 		String output = "";
 		if(!worldValidateImage.isFirstShown()){
-			output += "World is invalid";
+			output += "The world is invalid!";
 		}
 		if(output.equals("")){
 			output = null;
