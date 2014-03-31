@@ -55,7 +55,7 @@ public class Game extends JFrame{
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	
-	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", BrainReader.readBrain("cleverbrain1.brain")), new Player("P2", BrainReader.readBrain("cleverbrain1.brain")));
+	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", BrainReader.readBrain("cleverbrain1.brain")), new Player("P2", BrainReader.readBrain("cleverbrain2.brain")));
 	private int[][] worldWithAnts = new int[150][150]; // TEST MODEL!
 	
 	public Game() {
@@ -118,7 +118,7 @@ public class Game extends JFrame{
 		modelThread = new Thread(new Runnable() {
 			public void run() {
 				if (Game.DEBUG) System.out.println("DEBUG | Game:runModel() Thread Started!");
-				int roundsPerSec = 500; // Number of rounds to perform every second
+				int roundsPerSec = 1000; // Number of rounds to perform every second
 				int maxRounds = 300000;
 
 				long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
@@ -188,57 +188,29 @@ public class Game extends JFrame{
 		Hexagon[][] gridBuffer = matchPanel.getGrid().getHexagonGrid().clone();
 		
 		World drawnWorld = currentMatch.getWorld();
+		//TODO: changeme
+		if(false){
 		HashSet<Integer> changes = drawnWorld.getChanges();
 		Integer[] tileIDs = changes.toArray(new Integer[0]);
 		for(int i = 0; i < changes.size(); i++){
 			int currentID = tileIDs[i];
 			int x = currentID / drawnWorld.sizeX;
 			int y = ((currentID % drawnWorld.sizeX) + drawnWorld.sizeX) % drawnWorld.sizeX;
-			// TODO: convert tile to new hexagon and update screen.
 			Tile tile = drawnWorld.getTile(x, y);
-			if(tile.isRocky()){
-				gridBuffer[x][y].setFillColor(Hexagon.ROCK_COLOR);
-			}else{
-				if(((ClearTile)tile).hasAnt()){
-					if(((ClearTile)tile).getAnt().getColour().equals(Colour.RED)){
-						gridBuffer[x][y].setFillColor(Hexagon.RED_ANT_COLOR);
-					}else{
-						gridBuffer[x][y].setFillColor(Hexagon.BLACK_ANT_COLOR);
-					}
-				}else{
-					if(((ClearTile)tile).getFood()>0){
-						gridBuffer[x][y].setFillColor(Hexagon.FOOD_COLOR);
-					}else{
-						if(((ClearTile)tile).isAnthill()){
-							if(((AntHillTile)tile).getColour().equals(Colour.RED)){
-								gridBuffer[x][y].setFillColor(Hexagon.RED_ANTHILL_COLOR);
-							}else{
-								gridBuffer[x][y].setFillColor(Hexagon.BLACK_ANTHILL_COLOR);
-							}
-						}else{
-							gridBuffer[x][y].setFillColor(Hexagon.EMPTY_CELL_COLOR);
-						}
-					}
-				}
-			}
+			gridBuffer[x][y].setFillColor(getTileColor(tile));
 		}
-		
+		}else{
 		// To prevent displaying midway updates
 		// HexGrid gridBuffer = matchPanel.getGrid();
 		
-//		int cols = gridBuffer.length;
-//		int rows = gridBuffer[0].length;
-//		for (int i = 0; i < cols; i++) {
-//			for (int j = 0; j < rows; j++) {
-//				if (worldWithAnts[i][j] == 0) {
-//					gridBuffer[i][j].setFillColor(Hexagon.RED_ANT_COLOR);
-//				} else if (worldWithAnts[i][j] == 1) {
-//					gridBuffer[i][j].setFillColor(Hexagon.BLACK_ANT_COLOR);
-//				} else {
-//					gridBuffer[i][j].setFillColor(Hexagon.EMPTY_CELL_COLOR);
-//				}
-//			}
-//		}
+		int cols = gridBuffer.length;
+		int rows = gridBuffer[0].length;
+		for (int x = 0; x < cols; x++) {
+			for (int y = 0; y < rows; y++) {
+				gridBuffer[x][y].setFillColor(getTileColor(drawnWorld.getTile(x, y)));
+			}
+		}
+		}
 		
 		matchPanel.getGrid().setHexagonGrid(gridBuffer);
 		matchPanel.getScrollPane().repaint();
@@ -260,5 +232,33 @@ public class Game extends JFrame{
 //		
 //		// Update stored world.
 //		worldWithAnts = worldBuffer;
+	}
+	
+	public Color getTileColor(Tile tile){
+		if(tile.isRocky()){
+			return Hexagon.ROCK_COLOR;
+		}else{
+			if(((ClearTile)tile).hasAnt()){
+				if(((ClearTile)tile).getAnt().getColour().equals(Colour.RED)){
+					return Hexagon.RED_ANT_COLOR;
+				}else{
+					return Hexagon.BLACK_ANT_COLOR;
+				}
+			}else{
+				if(((ClearTile)tile).getFood()>0){
+					return Hexagon.FOOD_COLOR;
+				}else{
+					if(((ClearTile)tile).isAnthill()){
+						if(((AntHillTile)tile).getColour().equals(Colour.RED)){
+							return Hexagon.RED_ANTHILL_COLOR;
+						}else{
+							return Hexagon.BLACK_ANTHILL_COLOR;
+						}
+					}else{
+						return Hexagon.EMPTY_CELL_COLOR;
+					}
+				}
+			}
+		}
 	}
 }
