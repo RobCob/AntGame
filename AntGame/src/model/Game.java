@@ -10,8 +10,11 @@ import graphics.screens.WorldSelectionPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Stack;
+
 import javax.swing.*;
 
 /**
@@ -181,6 +184,16 @@ public class Game extends JFrame{
 	 * AND DRAW IT TO THE SCREEN.
 	 */
 	private void updateMatchScreen() {
+//		World drawnWorld = currentMatch.getWorld();
+//		HashSet<Integer> changes = drawnWorld.getChanges();
+//		Integer[] tileIDs = changes.toArray(new Integer[0])
+//		for(int i = 0; i < changes.size(); i++){
+//			int currentID = tileIDs[i];
+//			int x = currentID / drawnWorld.sizeX;
+//			int y = ((currentID % drawnWorld.sizeX) + drawnWorld.sizeX) % drawnWorld.sizeX;
+//			// TODO: convert tile to new hexagon and update screen.
+//		}
+		
 		// To prevent displaying midway updates
 		// HexGrid gridBuffer = matchPanel.getGrid();
 		Hexagon[][] gridBuffer = matchPanel.getGrid().getHexagonGrid();
@@ -204,6 +217,8 @@ public class Game extends JFrame{
 	}
 
 	private  void updateModel() {
+//		TODO: actually update a model and get changes...
+		
 		// To prevent displaying midway updates
 		int[][] worldBuffer = new int[worldWithAnts.length][worldWithAnts[0].length]; 
 		

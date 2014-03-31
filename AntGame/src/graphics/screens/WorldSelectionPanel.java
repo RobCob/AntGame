@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
@@ -29,6 +30,7 @@ import graphics.utilities.ImageLoader;
 import model.AntBrain;
 import model.BrainReader;
 import model.Game;
+import model.Player;
 import model.World;
 import model.WorldReader;
 
@@ -146,9 +148,15 @@ public class WorldSelectionPanel extends JPanel{
         //Create the Play button
         ImageButton playButton = new ImageButton(PLAY_BUTTON, PLAY_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				 getGame().createMatch(150, 150, 4, 1);
-				 getGame().switchScreen(Game.MATCH_SCREEN);
-				 getGame().startMatch();
+				String errorMessage = getErrorMessage();
+				boolean valid = errorMessage == null;
+				if (!valid) {
+					JOptionPane.showMessageDialog(WorldSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					getGame().createMatch(150, 150, 4, 1);
+					getGame().switchScreen(Game.MATCH_SCREEN);
+					getGame().startMatch();
+				}
 			}
 		};
 	       	
@@ -166,6 +174,17 @@ public class WorldSelectionPanel extends JPanel{
 		//Adds the upload button
 		this.add(bottomPanel, BorderLayout.SOUTH);
 		
+	}
+	
+	public String getErrorMessage(){
+		String output = "";
+		if(!worldValidateImage.isFirstShown()){
+			output += "World is invalid";
+		}
+		if(output.equals("")){
+			output = null;
+		}
+		return output;
 	}
 
 	public Game getGame(){

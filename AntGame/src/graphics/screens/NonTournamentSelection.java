@@ -313,15 +313,8 @@ public class NonTournamentSelection  extends JPanel {
 		//Create Go button
 		ImageButton goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
-				// ERROR MESSAGE IF WRONG:
-				// validate nicknames, validate brains
-				// if okay, create players.
-				// TODO
-				String errorMessage = "";
-				errorMessage += "- Problem with XXXXXXXXXXX\n";
-				errorMessage += "- Problem with XXXXXXXXXXXXXXXXXX\n";
-				errorMessage += "- Problem with XXXX\n";
-				boolean valid = false;
+				String errorMessage = getErrorMessage();
+				boolean valid = errorMessage == null;
 				if (!valid) {
 					JOptionPane.showMessageDialog(NonTournamentSelection.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
@@ -329,7 +322,6 @@ public class NonTournamentSelection  extends JPanel {
 					player2 = new Player(p2NickField.getText().trim(), player2Brain);
 					getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 				}
-				
 			}
 		};
 	
@@ -346,11 +338,32 @@ public class NonTournamentSelection  extends JPanel {
     
 	 @Override
 	 protected void paintComponent(Graphics g) {
-		 super.paintComponent(g);
-		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+		super.paintComponent(g);
+		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	 }
+	 
+	 public String getErrorMessage(){
+		String output = "";
+		// TODO: make a pretty error message.
+		if(!p1NickValidate.isFirstShown()){
+			output += "Player1 name error.\n";
+		}
+		if(!p2NickValidate.isFirstShown()){
+			output += "Player2 name error.\n";
+		}
+		if(!p1BrainValidate.isFirstShown()){
+			output += "Player1 Ant Brain error.\n";
+		}
+		if(!p2BrainValidate.isFirstShown()){
+			output += "Player2 Ant Brain error.\n";
+		}
+		if(output.equals("")){
+			output = null;
+		}
+		return output;
 	 }
     
-    public boolean correctNickname(String nick){
+	 public boolean correctNickname(String nick){
     	// Check p1 and p2 don't have the same name (HACKY)
     	if(p1NickField.getText().trim().equals((p2NickField).getText().trim())){
 			p2NickValidate.displaySecond();
