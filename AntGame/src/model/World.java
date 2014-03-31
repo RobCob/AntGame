@@ -29,6 +29,7 @@ public class World {
 	public void populate(Player player1, Player player2){
 		for(int i = 0; i < sizeX; i++){
 			for(int j = 0; j < sizeY; j++){
+				changes.add((i*sizeX) + j);
 				Tile tile = getTile(i,j);
 				if(!tile.isRocky() && ((ClearTile)tile).isAnthill()){
 					AntHillTile aHill = (AntHillTile) tile;
@@ -56,6 +57,10 @@ public class World {
 		return changes.add(tileID);
 	}
 	
+	public void resetChanges(){
+		changes = new HashSet<Integer>();
+	}
+	
 	public void triggerUpdates(int tileID) {
 		update(tileID);
 		for(int i = 0; i < Ant.POSSIBLE_DIRECTIONS; i++){
@@ -81,14 +86,11 @@ public class World {
 			if(antCount >= 5){
 				System.out.println(((ClearTile)currentTile).getAnt().getColour() + " AntDied " + ((ClearTile)currentTile).getAnt().getID());
 				ants.remove(((ClearTile)currentTile).getAnt().getID());
+				setChange(tileID);
 				((ClearTile)currentTile).removeAnt();
 				((ClearTile)currentTile).setFood(3);
 			}
 		}
-	}
-
-	public void resetChanges(){
-		changes = new HashSet<Integer>();
 	}
 	
 	public HashSet<Integer> getChanges(){

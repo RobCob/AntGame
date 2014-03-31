@@ -12,9 +12,9 @@ public class Hexagon extends Polygon {
 	public static final Color EMPTY_CELL_COLOR = Color.WHITE;
 	public static final Color DEFAULT_OUTLINE_COLOR = Color.BLACK; 
 	public static final Color RED_ANTHILL_COLOR = Color.ORANGE;
-	public static final Color BLACK_ANTHILL_COLOR = Color.BLACK;
+	public static final Color BLACK_ANTHILL_COLOR = Color.LIGHT_GRAY;
 	public static final Color ROCK_COLOR = Color.DARK_GRAY;
-	public static final Color FOOD_COLOR = Color.MAGENTA; 
+	public static final Color FOOD_COLOR = Color.GREEN; 
 
 	private Color fillColor;
 	private Color outlineColor;
