@@ -318,10 +318,10 @@ public class NonTournamentSelection  extends JPanel {
 				// if okay, create players.
 				// TODO
 				String errorMessage = "";
-				errorMessage += "� Problem with XXXXXXXXXXX\n";
-				errorMessage += "� Problem with XXXXXXXXXXXXXXXXXX\n";
-				errorMessage += "� Problem with XXXX\n";
-				boolean valid = true;
+				errorMessage += "- Problem with XXXXXXXXXXX\n";
+				errorMessage += "- Problem with XXXXXXXXXXXXXXXXXX\n";
+				errorMessage += "- Problem with XXXX\n";
+				boolean valid = false;
 				if (!valid) {
 					JOptionPane.showMessageDialog(NonTournamentSelection.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
