@@ -39,10 +39,9 @@ public class Match {
 			Integer[] antIDArray = ants.keySet().toArray(new Integer[0]);
 			for(int i = 0; i < antIDArray.length; i++){
 				int antID = antIDArray[i];
-				// This is needed because ants may die between rounds so their index is still in antIDArray but they are not in the ants map. 
-				try{
-					ants.get(antID).simulate(world);
-				}catch(Exception e){
+				Ant currentAnt = ants.get(antID);
+				if(currentAnt != null){
+					currentAnt.simulate(world);
 				}
 			}
 			roundNumber++;

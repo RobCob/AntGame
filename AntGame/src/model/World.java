@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -13,8 +14,29 @@ public class World {
 	private ArrayList<AntHillTile> antHills;
 	public final int sizeX,sizeY;
 	
-	public World(int x, int y){
-		this(new Tile[y][x]); //Generate world here
+	public static World generateWorld(int x, int y){
+		Tile[][] grid = new Tile[x][y];
+		// Fill grid with clear tiles
+		for(int i = 0; i < x; i++){
+			Arrays.fill(grid[i], new ClearTile());
+		}
+		// Fill top and bottom rock boarders
+		for(int i = 0; i < x; i++){
+			grid[i][0] = new RockTile();
+			grid[i][y] = new RockTile();
+		}
+		// Fill left and right rock boarders
+		for(int i = 0; i < y; i++){
+//			grid[0][i] = new RockTile();
+			grid[x][i] = new RockTile();
+		}
+		// create Ant hills
+		int randX = State.randomInt(x);
+		int randY = State.randomInt(y);
+		for(int i = 0; i < 6; i++){
+			
+		}
+		return new World(grid);
 	}
 	
 	public World(Tile[][] grid){

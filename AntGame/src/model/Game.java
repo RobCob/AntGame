@@ -55,7 +55,7 @@ public class Game extends JFrame{
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	
-	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", BrainReader.readBrain("cleverbrain1.brain")), new Player("P2", BrainReader.readBrain("cleverbrain2.brain")));
+	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", BrainReader.readBrain("cleverbrain3.brain")), new Player("P2", BrainReader.readBrain("cleverbrain2.brain")));
 	private int[][] worldWithAnts = new int[150][150]; // TEST MODEL!
 	
 	public Game() {
@@ -118,7 +118,7 @@ public class Game extends JFrame{
 		modelThread = new Thread(new Runnable() {
 			public void run() {
 				if (Game.DEBUG) System.out.println("DEBUG | Game:runModel() Thread Started!");
-				int roundsPerSec = 1000; // Number of rounds to perform every second
+				int roundsPerSec = 10; // Number of rounds to perform every second
 				int maxRounds = 300000;
 
 				long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
@@ -189,7 +189,6 @@ public class Game extends JFrame{
 		
 		World drawnWorld = currentMatch.getWorld();
 		//TODO: changeme
-		if(false){
 		HashSet<Integer> changes = drawnWorld.getChanges();
 		Integer[] tileIDs = changes.toArray(new Integer[0]);
 		for(int i = 0; i < changes.size(); i++){
@@ -199,18 +198,17 @@ public class Game extends JFrame{
 			Tile tile = drawnWorld.getTile(x, y);
 			gridBuffer[x][y].setFillColor(getTileColor(tile));
 		}
-		}else{
-		// To prevent displaying midway updates
-		// HexGrid gridBuffer = matchPanel.getGrid();
-		
-		int cols = gridBuffer.length;
-		int rows = gridBuffer[0].length;
-		for (int x = 0; x < cols; x++) {
-			for (int y = 0; y < rows; y++) {
-				gridBuffer[x][y].setFillColor(getTileColor(drawnWorld.getTile(x, y)));
-			}
-		}
-		}
+//		// To prevent displaying midway updates
+//		// HexGrid gridBuffer = matchPanel.getGrid();
+//		
+//		int cols = gridBuffer.length;
+//		int rows = gridBuffer[0].length;
+//		for (int x = 0; x < cols; x++) {
+//			for (int y = 0; y < rows; y++) {
+//				gridBuffer[x][y].setFillColor(getTileColor(drawnWorld.getTile(x, y)));
+//			}
+//		}
+//		}
 		
 		matchPanel.getGrid().setHexagonGrid(gridBuffer);
 		matchPanel.getScrollPane().repaint();
