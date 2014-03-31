@@ -55,7 +55,7 @@ public class Game extends JFrame{
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	
-	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", BrainReader.readBrain("cleverbrain1.brain")), new Player("P2", BrainReader.readBrain("cleverbrain2.brain")));
+	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("BLACKP1", BrainReader.readBrain("horseshoe.brain")), new Player("REDP2", BrainReader.readBrain("snakebrain.brain")));
 	private int[][] worldWithAnts = new int[150][150]; // TEST MODEL!
 	
 	public Game() {
@@ -189,7 +189,7 @@ public class Game extends JFrame{
 		
 		World drawnWorld = currentMatch.getWorld();
 		//TODO: changeme
-		if(false){
+		if(true){
 		HashSet<Integer> changes = drawnWorld.getChanges();
 		Integer[] tileIDs = changes.toArray(new Integer[0]);
 		for(int i = 0; i < changes.size(); i++){

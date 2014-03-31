@@ -1,5 +1,6 @@
 package model;
-abstract class State{
+
+public abstract class State{
 	public static int seed = 0;
 	private static int count = 0;
 	public abstract void execute(Ant ant, World w);
@@ -14,6 +15,7 @@ abstract class State{
 		return ((value % n) + n) % n;
 	}
 }
+
 enum SenseDir{
 	HERE(0),
     AHEAD(0),
