@@ -46,7 +46,7 @@ public class NonTournamentResultsPanel extends JPanel{
 	
 	public NonTournamentResultsPanel(Game game) {
 		this.game = game;
-		this.setLayout(new GridLayout(5,0));
+		this.setLayout(new BorderLayout());
 		// get results from previously played match
 		// display the results.
 		// display back to main-menu button.
@@ -59,9 +59,8 @@ public class NonTournamentResultsPanel extends JPanel{
 		titleContainer.setLayout(titleLayout);
 		titleContainer.add(new FixedSpacerPanel(100, 20));
 		titleContainer.add(new ImagePanel(TITLE_IMAGE));
-		titleContainer.add(new FixedSpacerPanel(100, 70)); 
+		titleContainer.add(new FixedSpacerPanel(100, 40));
 		titleContainer.setOpaque(false);
-	
 		
 //		//this label simply display the text "Winner"
 //		JPanel winnerContainer = new JPanel();
@@ -75,39 +74,46 @@ public class NonTournamentResultsPanel extends JPanel{
 		//Create the text to diplay the game's winner
 		//just for testing purposes, on final version should be winner.name()
 		JLabel winnerLabel = new JLabel("Player 1");
-		winnerLabel.setForeground(Color.GREEN);
+		winnerLabel.setForeground(Color.WHITE);
 		winnerLabel.setFont(new Font("Helvetica", 0, 35));
 		winnerLabel.setAlignmentX(CENTER_ALIGNMENT);
+		winnerLabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
 
 		//Panel for winner info
         JPanel winnerPanel = new JPanel();
-        BoxLayout tmp = new BoxLayout(winnerPanel, BoxLayout.Y_AXIS);
-        winnerPanel.setLayout(tmp);
+        BoxLayout winnerPanelLayout = new BoxLayout(winnerPanel, BoxLayout.Y_AXIS);
+        winnerPanel.setLayout(winnerPanelLayout);
         winnerPanel.add(new ImagePanel(WINNER_IMAGE));
         winnerPanel.add(winnerLabel);
+        winnerPanel.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
         winnerPanel.setOpaque(false);
         
         //Winning player statistics
-        JPanel winnerStats = new JPanel(new GridLayout(4,0));
+        JPanel winnerStats = new JPanel();
+        BoxLayout winnerStatsLayout = new BoxLayout(winnerStats, BoxLayout.Y_AXIS);
+        winnerStats.setLayout(winnerStatsLayout);
+
         //Winner name -- clone, because you can only reference a JPanel in one place at a time
         JLabel winnerLabelClone = new JLabel("Player 1");
-        winnerLabelClone.setForeground(Color.GREEN);
+        winnerLabelClone.setForeground(Color.WHITE);
         winnerLabelClone.setFont(new Font("Helvetica", 0, 35));
         winnerLabelClone.setAlignmentX(CENTER_ALIGNMENT);
+        winnerLabelClone.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+
         //Food Collected
         JLabel winnerFoodCollected = new JLabel("Food collected: 31"); //just to test, should have actual values
         winnerFoodCollected.setForeground(Color.WHITE);
-        winnerFoodCollected.setFont(new Font("Helvetica", 0, 35));
+        winnerFoodCollected.setFont(new Font("Helvetica", 0, 25));
         winnerFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
 		//Ants killed
         JLabel winnerAntsKilled = new JLabel("Ants killed: 7"); //just to test, should have actual values
         winnerAntsKilled.setForeground(Color.WHITE);
-        winnerAntsKilled.setFont(new Font("Helvetica", 0, 35));
+        winnerAntsKilled.setFont(new Font("Helvetica", 0, 25));
         winnerAntsKilled.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
         JLabel winnerAntsDied = new JLabel("Number of team deaths: 3"); //just to test, should have actual values
         winnerAntsDied.setForeground(Color.WHITE);
-        winnerAntsDied.setFont(new Font("Helvetica", 0, 35));
+        winnerAntsDied.setFont(new Font("Helvetica", 0, 25));
         winnerAntsDied.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
         winnerStats.add(winnerLabelClone);
@@ -115,46 +121,49 @@ public class NonTournamentResultsPanel extends JPanel{
         winnerStats.add(winnerAntsKilled);
         winnerStats.add(winnerAntsDied);
         winnerStats.setOpaque(false);
-    	winnerStats.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
         
         //Losing player statistics
-        JPanel loserStats = new JPanel(new GridLayout(4,0));
+        JPanel loserStats = new JPanel();
+        BoxLayout loserStatsLayout = new BoxLayout(loserStats, BoxLayout.Y_AXIS);
+        loserStats.setLayout(loserStatsLayout);
         //Loser name
         JLabel loserLabel = new JLabel("Player 2");
-        loserLabel.setForeground(Color.GREEN);
+        loserLabel.setForeground(Color.WHITE);
         loserLabel.setFont(new Font("Helvetica", 0, 35));
         loserLabel.setAlignmentX(CENTER_ALIGNMENT);
+        loserLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+
         //Food Collected
         JLabel loserFoodCollected = new JLabel("Food collected: 22"); //just to test, should have actual values
         loserFoodCollected.setForeground(Color.WHITE);
-        loserFoodCollected.setFont(new Font("Helvetica", 0, 35));
+        loserFoodCollected.setFont(new Font("Helvetica", 0, 25));
         loserFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
 		//Ants killed
         JLabel loserAntsKilled = new JLabel("Ants killed: 5"); //just to test, should have actual values
         loserAntsKilled.setForeground(Color.WHITE);
-        loserAntsKilled.setFont(new Font("Helvetica", 0, 35));
+        loserAntsKilled.setFont(new Font("Helvetica", 0, 25));
         loserAntsKilled.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
         JLabel loserAntsDied = new JLabel("Number of team deaths: 11"); //just to test, should have actual values
         loserAntsDied.setForeground(Color.WHITE);
-        loserAntsDied.setFont(new Font("Helvetica", 0, 35));
+        loserAntsDied.setFont(new Font("Helvetica", 0, 25));
         loserAntsDied.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
         loserStats.add(loserLabel);
         loserStats.add(loserFoodCollected);
         loserStats.add(loserAntsKilled);
         loserStats.add(loserAntsDied);
-        loserStats.setOpaque(false);
+        loserStats.setOpaque(false); //TODO
         
         // Create and set up the split pane.
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); //add split pane
-        splitPane.setDividerLocation(1000/2); // HACK -- (half the width of the screen)
-        splitPane.setEnabled(false); // Stops it being re-sizable.
-        splitPane.setOpaque(false); // display the background through it.
-        splitPane.setLeftComponent(winnerStats);
-        splitPane.setRightComponent(loserStats);
-        splitPane.setBorder(null);
-        splitPane.setDividerSize(0);
+        JSplitPane statsSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); //add split pane
+        statsSplitPane.setDividerLocation(1000/2); // HACK -- (half the width of the screen)
+        statsSplitPane.setEnabled(false); // Stops it being re-sizable.
+        statsSplitPane.setOpaque(false); // display the background through it.
+        statsSplitPane.setLeftComponent(winnerStats);
+        statsSplitPane.setRightComponent(loserStats);
+        statsSplitPane.setBorder(null);
+        statsSplitPane.setDividerSize(0);
         
         //Button for replaying
         //needs to be changed to actual image, this one is just for testing
@@ -167,15 +176,30 @@ public class NonTournamentResultsPanel extends JPanel{
         JPanel goPanel = new JPanel();
         goPanel.setOpaque(false);
         goPanel.add(goButton);
-        goPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 70, 0));
+        goPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 40, 0));
         
+        JPanel statsImagePanel = new JPanel();
+        BoxLayout statsPanelLayout = new BoxLayout(statsImagePanel, BoxLayout.Y_AXIS);
+        statsImagePanel.setLayout(statsPanelLayout);
+        statsImagePanel.add(new ImagePanel(STATS_IMAGE));
+        statsImagePanel.setOpaque(false);
         
+        JPanel entireStatsPanel = new JPanel(new BorderLayout());
+        entireStatsPanel.add(statsImagePanel, BorderLayout.NORTH);
+        entireStatsPanel.add(statsSplitPane, BorderLayout.CENTER);
+        entireStatsPanel.setOpaque(false);
+        
+        // Centre container
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout());
+        centerPanel.add(winnerPanel, BorderLayout.NORTH);
+        centerPanel.add(entireStatsPanel, BorderLayout.CENTER);
+        centerPanel.setOpaque(false);
+
         //Add containers
-        add(titleContainer);
-        add(winnerPanel);
-        add(new ImagePanel(STATS_IMAGE));
-        add(splitPane);
-		add(goPanel);
+        this.add(titleContainer, BorderLayout.NORTH);
+        this.add(centerPanel, BorderLayout.CENTER);
+		this.add(goPanel, BorderLayout.SOUTH);
 	}
 	
 	 @Override
