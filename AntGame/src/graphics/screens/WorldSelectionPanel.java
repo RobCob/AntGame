@@ -182,6 +182,7 @@ public class WorldSelectionPanel extends JPanel{
 					JOptionPane.showMessageDialog(WorldSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					getGame().getCurrentMatch().setWorld(antWorld);
+					getGame().createMatchPanelGrid(antWorld.sizeX, antWorld.sizeY, 2, 1);
 					getGame().switchScreen(Game.MATCH_SCREEN);
 					getGame().startMatch();
 				}

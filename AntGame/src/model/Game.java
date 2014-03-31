@@ -58,7 +58,6 @@ public class Game extends JFrame{
 	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
 	private int roundsPerSec = 1000; // Number of rounds to perform every second
 	private double roundTime = 1000000000.0 / roundsPerSec; //number of times to run update per second
-	private int[][] worldWithAnts = new int[150][150]; // TEST MODEL!
 	
 	public Game() {
 		//Add all screens used within the game.
@@ -174,9 +173,7 @@ public class Game extends JFrame{
 	 */
 	public void runDisplay() {
 		int maxFps = 60;
-		
 		displayTimer = new Timer(1000/maxFps, new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!runningMatch) {
@@ -187,6 +184,7 @@ public class Game extends JFrame{
 			}
 		});
 		displayTimer.start(); // Start updating the screen periodically.
+		if (Game.DEBUG) System.out.println("DEBUG | Game:runDisplay() Updates started!");
 	}
 	
 	/**
