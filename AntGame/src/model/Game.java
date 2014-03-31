@@ -55,6 +55,7 @@ public class Game extends JFrame{
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	
+	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", BrainReader.readBrain("cleverbrain1.brain")), new Player("P2", BrainReader.readBrain("cleverbrain1.brain")));
 	private int[][] worldWithAnts = new int[150][150]; // TEST MODEL!
 	
 	public Game() {
@@ -184,52 +185,68 @@ public class Game extends JFrame{
 	 * AND DRAW IT TO THE SCREEN.
 	 */
 	private void updateMatchScreen() {
-//		World drawnWorld = currentMatch.getWorld();
-//		HashSet<Integer> changes = drawnWorld.getChanges();
-//		Integer[] tileIDs = changes.toArray(new Integer[0])
-//		for(int i = 0; i < changes.size(); i++){
-//			int currentID = tileIDs[i];
-//			int x = currentID / drawnWorld.sizeX;
-//			int y = ((currentID % drawnWorld.sizeX) + drawnWorld.sizeX) % drawnWorld.sizeX;
-//			// TODO: convert tile to new hexagon and update screen.
-//		}
+		Hexagon[][] gridBuffer = matchPanel.getGrid().getHexagonGrid().clone();
 		
-		// To prevent displaying midway updates
-		// HexGrid gridBuffer = matchPanel.getGrid();
-		Hexagon[][] gridBuffer = matchPanel.getGrid().getHexagonGrid();
-		
-		int cols = gridBuffer.length;
-		int rows = gridBuffer[0].length;
-		for (int i = 0; i < cols; i++) {
-			for (int j = 0; j < rows; j++) {
-				if (worldWithAnts[i][j] == 0) {
-					gridBuffer[i][j].setFillColor(Hexagon.RED_ANT_COLOR);
-				} else if (worldWithAnts[i][j] == 1) {
-					gridBuffer[i][j].setFillColor(Hexagon.BLACK_ANT_COLOR);
-				} else {
-					gridBuffer[i][j].setFillColor(Hexagon.EMPTY_CELL_COLOR);
+		World drawnWorld = currentMatch.getWorld();
+		HashSet<Integer> changes = drawnWorld.getChanges();
+		Integer[] tileIDs = changes.toArray(new Integer[0]);
+		for(int i = 0; i < changes.size(); i++){
+			int currentID = tileIDs[i];
+			int x = currentID / drawnWorld.sizeX;
+			int y = ((currentID % drawnWorld.sizeX) + drawnWorld.sizeX) % drawnWorld.sizeX;
+			// TODO: convert tile to new hexagon and update screen.
+			Tile tile = drawnWorld.getTile(x, y);
+			if(tile.isRocky()){
+				gridBuffer[x][y].setFillColor(Hexagon.ROCK_COLOR);
+			}else{
+				if(((ClearTile)tile).hasAnt()){
+					if(((ClearTile)tile).getAnt().getColour().equals(Colour.RED)){
+						gridBuffer[x][y].setFillColor(Hexagon.RED_ANT_COLOR);
+					}else{
+						gridBuffer[x][y].setFillColor(Hexagon.BLACK_ANT_COLOR);
+					}
+				}else{
+					gridBuffer[x][y].setFillColor(Hexagon.EMPTY_CELL_COLOR);
 				}
 			}
 		}
+		
+		// To prevent displaying midway updates
+		// HexGrid gridBuffer = matchPanel.getGrid();
+		
+//		int cols = gridBuffer.length;
+//		int rows = gridBuffer[0].length;
+//		for (int i = 0; i < cols; i++) {
+//			for (int j = 0; j < rows; j++) {
+//				if (worldWithAnts[i][j] == 0) {
+//					gridBuffer[i][j].setFillColor(Hexagon.RED_ANT_COLOR);
+//				} else if (worldWithAnts[i][j] == 1) {
+//					gridBuffer[i][j].setFillColor(Hexagon.BLACK_ANT_COLOR);
+//				} else {
+//					gridBuffer[i][j].setFillColor(Hexagon.EMPTY_CELL_COLOR);
+//				}
+//			}
+//		}
 		
 		matchPanel.getGrid().setHexagonGrid(gridBuffer);
 		matchPanel.getScrollPane().repaint();
 	}
 
 	private  void updateModel() {
+		currentMatch.nextRound();
 //		TODO: actually update a model and get changes...
 		
-		// To prevent displaying midway updates
-		int[][] worldBuffer = new int[worldWithAnts.length][worldWithAnts[0].length]; 
-		
-		// Randomly modify world.
-		for (int i = 0; i < worldBuffer.length; i++) {
-			for (int j = 0; j < worldBuffer[0].length; j++) {
-				worldBuffer[i][j] = rand.nextInt(10); //0 for red, 1 for black, other for empty.
-			}
-		}
-		
-		// Update stored world.
-		worldWithAnts = worldBuffer;
+//		// To prevent displaying midway updates
+//		int[][] worldBuffer = new int[worldWithAnts.length][worldWithAnts[0].length]; 
+//		
+//		// Randomly modify world.
+//		for (int i = 0; i < worldBuffer.length; i++) {
+//			for (int j = 0; j < worldBuffer[0].length; j++) {
+//				worldBuffer[i][j] = rand.nextInt(10); //0 for red, 1 for black, other for empty.
+//			}
+//		}
+//		
+//		// Update stored world.
+//		worldWithAnts = worldBuffer;
 	}
 }

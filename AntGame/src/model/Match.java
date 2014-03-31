@@ -35,7 +35,6 @@ public class Match {
 	
 	public void nextRound(){
 		if(roundNumber < MAX_ROUNDS){
-			world.resetChanges();
 			HashMap<Integer, Ant> ants = world.getAnts();
 			Integer[] antIDArray = ants.keySet().toArray(new Integer[0]);
 			for(int i = 0; i < antIDArray.length; i++){
@@ -91,7 +90,7 @@ public class Match {
 		State.seed = 80008135;
 		Player p1 = new Player("P1", BrainReader.readBrain("cleverbrain1.brain"));
 		Player p2 = new Player("P2", BrainReader.readBrain("cleverbrain1.brain"));
-		Match match = new Match(WorldReader.readWorld("sample3.world"), p1, p2);
+		Match match = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", BrainReader.readBrain("cleverbrain1.brain")), new Player("P2", BrainReader.readBrain("cleverbrain1.brain")));
 		while(match.getWinner() == null){
 			match.nextRound();
 		}
