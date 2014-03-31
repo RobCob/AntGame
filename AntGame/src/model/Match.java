@@ -21,10 +21,9 @@ public class Match {
 	 */
 	public Match(World world, Player blackPlayer, Player redPlayer){
 		this();
-		setWorld(world);
 		setPlayer1(blackPlayer);
 		setPlayer2(redPlayer);
-		world.populate(player1, player2);
+		setWorld(world);
 	}
 	
 	public Match(){
@@ -49,6 +48,7 @@ public class Match {
 	
 	public void setWorld(World world){
 		this.world = world;
+		world.populate(player1, player2);
 	}
 	
 	public void nextRound(){
