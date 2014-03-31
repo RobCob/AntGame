@@ -7,14 +7,14 @@ import java.awt.Polygon;
  * Hexagon: A regular hexagon formed from a AWT Polygon.
  */
 public class Hexagon extends Polygon {
-	public static final Color RED_ANT_COLOR = Color.RED; 
-	public static final Color BLACK_ANT_COLOR = Color.GRAY;
+	public static final Color RED_ANT_COLOR = new Color(225, 34, 34); //Color.RED; 
+	public static final Color BLACK_ANT_COLOR = new Color(35, 35, 35); //Color.GRAY;
 	public static final Color EMPTY_CELL_COLOR = Color.WHITE;
 	public static final Color DEFAULT_OUTLINE_COLOR = Color.BLACK; 
-	public static final Color RED_ANTHILL_COLOR = Color.ORANGE;
-	public static final Color BLACK_ANTHILL_COLOR = Color.LIGHT_GRAY;
-	public static final Color ROCK_COLOR = Color.DARK_GRAY;
-	public static final Color FOOD_COLOR = Color.GREEN; 
+	public static final Color RED_ANTHILL_COLOR = new Color(200, 105, 105);
+	public static final Color BLACK_ANTHILL_COLOR = new Color(145, 145, 145);
+	public static final Color ROCK_COLOR = new Color(105, 100, 85);
+	public static final Color FOOD_COLOR = new Color(80, 155, 100);
 
 	private Color fillColor;
 	private Color outlineColor;
