@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class BrainReader {
+public class AntBrainReader {
 	
 	public static AntBrain readBrain(File file){
 		try{
@@ -15,7 +15,9 @@ public class BrainReader {
 			}
 			return new AntBrain(stateList);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			if(Game.DEBUG){
+				System.out.println("DEBUG | BRAIN READER: " + e.getMessage());
+			}
 		}
 		return null;
 	}
@@ -143,7 +145,6 @@ public class BrainReader {
 			
 		default:
 			throw new Exception("Invalid state");
-			
 		}
 		return output;
 	}

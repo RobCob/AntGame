@@ -34,7 +34,7 @@ import javax.swing.event.DocumentListener;
 
 import testing.WorldFileChooser;
 import model.AntBrain;
-import model.BrainReader;
+import model.AntBrainReader;
 import model.Game;
 import model.Player;
 import graphics.components.*;
@@ -153,7 +153,7 @@ public class NonTournamentSelection  extends JPanel {
 				int returnVal = fc.showOpenDialog(NonTournamentSelection.this);
 	            if (returnVal == JFileChooser.APPROVE_OPTION) {
 	                File brainFile = fc.getSelectedFile();
-	                AntBrain brain = BrainReader.readBrain(brainFile);
+	                AntBrain brain = AntBrainReader.readBrain(brainFile);
 	                if (brain == null) {
 	                	p1BrainValidate.displaySecond();
 	                } else {
@@ -253,7 +253,7 @@ public class NonTournamentSelection  extends JPanel {
 				int returnVal = fc.showOpenDialog(NonTournamentSelection.this);
 	            if (returnVal == JFileChooser.APPROVE_OPTION) {
 	                File brainFile = fc.getSelectedFile();
-	                AntBrain brain = BrainReader.readBrain(brainFile); 
+	                AntBrain brain = AntBrainReader.readBrain(brainFile); 
 	                if (brain == null) {
 	                	p2BrainValidate.displaySecond();
 	                } else {

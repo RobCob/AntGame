@@ -25,6 +25,11 @@ public class Tournament {
 		}
 	}
 	
+	public void nextMatch(){
+		currentMatch++;
+	}
+	
+	
 	public Match getCurrentMatch(){
 		return matches.get(currentMatch);
 	}

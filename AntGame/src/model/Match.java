@@ -20,17 +20,35 @@ public class Match {
 	 * @param world
 	 */
 	public Match(World world, Player blackPlayer, Player redPlayer){
-		this.player1 = blackPlayer;
-		player1.setColour(Colour.BLACK);
-		this.player2 = redPlayer;
-		player2.setColour(Colour.RED);
-		scores = new HashMap<Colour, Integer>();
-		scores.put(player1.getColour(), 0);
-		scores.put(player2.getColour(), 0);
-		this.world = world;
+		this();
+		setWorld(world);
+		setPlayer1(blackPlayer);
+		setPlayer2(redPlayer);
 		world.populate(player1, player2);
+	}
+	
+	public Match(){
+		player1 = null;
+		player2 = null;
+		scores = new HashMap<Colour, Integer>();
 		this.winner = null;
 		roundNumber = 0;
+	}
+	
+	public void setPlayer1(Player player){
+		this.player1 = player;
+		player1.setColour(Colour.BLACK);
+		scores.put(player1.getColour(), 0);
+	}
+	
+	public void setPlayer2(Player player){
+		this.player1 = player;
+		player1.setColour(Colour.RED);
+		scores.put(player2.getColour(), 0);
+	}
+	
+	public void setWorld(World world){
+		this.world = world;
 	}
 	
 	public void nextRound(){
@@ -87,9 +105,9 @@ public class Match {
 	
 	public static void main(String[] args) {
 		State.seed = 80008135;
-		Player p1 = new Player("P1", BrainReader.readBrain("cleverbrain1.brain"));
-		Player p2 = new Player("P2", BrainReader.readBrain("cleverbrain1.brain"));
-		Match match = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", BrainReader.readBrain("cleverbrain1.brain")), new Player("P2", BrainReader.readBrain("cleverbrain1.brain")));
+		Player p1 = new Player("P1", AntBrainReader.readBrain("cleverbrain1.brain"));
+		Player p2 = new Player("P2", AntBrainReader.readBrain("cleverbrain1.brain"));
+		Match match = new Match(WorldReader.readWorld("sample3.world"), new Player("P1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("P2", AntBrainReader.readBrain("cleverbrain1.brain")));
 		while(match.getWinner() == null){
 			match.nextRound();
 		}

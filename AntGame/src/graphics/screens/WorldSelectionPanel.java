@@ -28,7 +28,7 @@ import graphics.components.ImageButton;
 import graphics.components.ImagePanel;
 import graphics.utilities.ImageLoader;
 import model.AntBrain;
-import model.BrainReader;
+import model.AntBrainReader;
 import model.Game;
 import model.Player;
 import model.World;

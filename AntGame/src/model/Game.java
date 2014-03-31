@@ -55,7 +55,9 @@ public class Game extends JFrame{
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	
-	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("BLACKP1", BrainReader.readBrain("cleverbrain3.brain")), new Player("REDP2", BrainReader.readBrain("cleverbrain2.brain")));
+	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
+	private int roundsPerSec = 10; // Number of rounds to perform every second
+	private double roundTime = 1000000000.0 / roundsPerSec; //number of times to run update per second
 	private int[][] worldWithAnts = new int[150][150]; // TEST MODEL!
 	
 	public Game() {
@@ -118,13 +120,12 @@ public class Game extends JFrame{
 		modelThread = new Thread(new Runnable() {
 			public void run() {
 				if (Game.DEBUG) System.out.println("DEBUG | Game:runModel() Thread Started!");
-				int roundsPerSec = 10; // Number of rounds to perform every second
+//				int roundsPerSec = 10; // Number of rounds to perform every second
 				int maxRounds = 300000;
 
 				long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
 				long fpsTimer = System.currentTimeMillis();
 
-				final double ns = 1000000000.0 / roundsPerSec; //number of times to run update per second
 
 				double modelDelta = 0.0;
 				int round = 0;
@@ -132,8 +133,9 @@ public class Game extends JFrame{
 
 				// Game loop
 				while (round <= maxRounds && runningMatch) {
+					
 					long now = System.nanoTime();
-					modelDelta += (now - lastTime) / ns; 
+					modelDelta += (now - lastTime) / roundTime; 
 					lastTime = now;
 
 
@@ -257,5 +259,14 @@ public class Game extends JFrame{
 				}
 			}
 		}
+	}
+	
+	public void setRoundsPerSecond(int value){
+		roundsPerSec = value;
+		roundTime = 1000000000.0 / roundsPerSec;
+	}
+	
+	public int getRoundsPerSecond(){
+		return roundsPerSec;
 	}
 }

@@ -106,7 +106,9 @@ public class World {
 				}
 			}
 			if(antCount >= 5){
-				System.out.println(((ClearTile)currentTile).getAnt().getColour() + " AntDied " + ((ClearTile)currentTile).getAnt().getID());
+				if(Game.DEBUG){
+					System.out.println("DEBUG | ANT DEATH: " + ((ClearTile)currentTile).getAnt().getColour() + " AntDied " + ((ClearTile)currentTile).getAnt().getID());
+				}
 				ants.remove(((ClearTile)currentTile).getAnt().getID());
 				setChange(tileID);
 				((ClearTile)currentTile).removeAnt();

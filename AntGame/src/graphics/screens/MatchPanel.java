@@ -49,16 +49,15 @@ public class MatchPanel extends JPanel {
 		// HUD
 		JPanel hud = new JPanel(new GridLayout(8,1));
 				
-		NormalButton refreshScreenButton = new NormalButton("Refresh Screen", NormalButton.GREEN_THEME) {
+		NormalButton refreshScreenButton = new NormalButton("Decrease Game Speed", NormalButton.GREEN_THEME) {
 			public void mouseClicked(MouseEvent e) {
-				getGrid().refresh();			
+				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond() - 10);			
 			}
 		};
 		
-		NormalButton addAntTestButton = new NormalButton("Add Ant Test", NormalButton.GREEN_THEME) {
+		NormalButton addAntTestButton = new NormalButton("Increase Game Speed", NormalButton.GREEN_THEME) {
 			public void mouseClicked(MouseEvent e) {
-				getGrid().getHexagon(rand.nextInt(getGrid().getColumns()), rand.nextInt(getGrid().getRows())).setFillColor(Color.RED);
-				getGrid().refresh();		
+				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond() + 10);
 			}
 		};
 		
