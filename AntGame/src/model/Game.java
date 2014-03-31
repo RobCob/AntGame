@@ -56,7 +56,7 @@ public class Game extends JFrame{
 	Stack<String> panelHistory = new Stack<String>();
 	
 	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
-	private int roundsPerSec = 10; // Number of rounds to perform every second
+	private int roundsPerSec = 1000; // Number of rounds to perform every second
 	private double roundTime = 1000000000.0 / roundsPerSec; //number of times to run update per second
 	private int[][] worldWithAnts = new int[150][150]; // TEST MODEL!
 	
@@ -91,12 +91,13 @@ public class Game extends JFrame{
 	 * @param size
 	 * @param strokeWidth
 	 */
-	public void createMatch(int cols, int rows, int size, int strokeWidth) {
+	public void createMatchPanelGrid(int cols, int rows, int size, int strokeWidth) {
 		matchPanel.getGrid().newGrid(cols, rows, size, strokeWidth);
 	}
 	
 	/**
-	 * Start running the match loaded in, and display it to the screen.
+	 * Start running the match that is currently loaded in
+	 * Start updating the hexagon grid to display the match.
 	 */
 	public void startMatch() {
 		runningMatch = true;
@@ -116,6 +117,9 @@ public class Game extends JFrame{
 		}
 	}
 	
+	/**
+	 * The main game loop for the model.
+	 */
 	public void runModel() {
 		modelThread = new Thread(new Runnable() {
 			public void run() {
@@ -163,7 +167,10 @@ public class Game extends JFrame{
 	}
 	
 	/**
-	 * Start refreshing the match screen.
+	 * The main game loop for the graphics.
+	 * 
+	 * Starts updating the hexagon grid to display the current state
+	 * of the current match.
 	 */
 	public void runDisplay() {
 		int maxFps = 60;
@@ -183,8 +190,7 @@ public class Game extends JFrame{
 	}
 	
 	/**
-	 * WILL GET THE CONTENTS OF THE 2D WORLD, UPDATE THE GRID TO MATCH IT
-	 * AND DRAW IT TO THE SCREEN.
+	 * Updates the hexagon grid to be the current state of the current match.
 	 */
 	private void updateMatchScreen() {
 		Hexagon[][] gridBuffer = matchPanel.getGrid().getHexagonGrid().clone();
@@ -261,12 +267,34 @@ public class Game extends JFrame{
 		}
 	}
 	
+	/**
+	 * Sets the number of rounds that the game will execute per second.
+	 */
 	public void setRoundsPerSecond(int value){
 		roundsPerSec = value;
 		roundTime = 1000000000.0 / roundsPerSec;
 	}
 	
+	/**
+	 * Returns the number of rounds that the game will execute per second.
+	 * @return the number of rounds that the game will execute per second.
+	 */
 	public int getRoundsPerSecond(){
 		return roundsPerSec;
+	}
+	
+	/**
+	 * Returns the current match that the game is storing.
+	 * @return the current match that the game is storing.
+	 */
+	public Match getCurrentMatch() {
+		return this.currentMatch;
+	}
+	
+	/**
+	 * Sets the current match to a new blank match, ready for its fields to be set.
+	 */
+	public void createMatch(){
+		this.currentMatch = new Match();
 	}
 }
