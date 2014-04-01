@@ -205,7 +205,7 @@ public class WorldSelectionPanel extends JPanel{
 	
 	private void previewWorld() {
 		if (antWorld != null) {
-			Hexagon[][] gridBuffer = new Hexagon[antWorld.sizeY][antWorld.sizeX];
+			Hexagon[][] gridBuffer = new Hexagon[antWorld.sizeX][antWorld.sizeY];
 			
 			int cols = gridBuffer.length;
 			int rows = gridBuffer[0].length;

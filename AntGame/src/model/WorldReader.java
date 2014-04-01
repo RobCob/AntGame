@@ -13,16 +13,26 @@ public class WorldReader {
 			int sizeY = Integer.parseInt(map[1]);
 			String mapString = map[2];
 			Tile[] tiles = createTileList(mapString);
+			if(Game.DEBUG){
+				System.out.println("DEBUG | World Tile List Created.");
+			}
 			boolean correct = checkWorldSemantics(tiles, sizeX, sizeY);
+			if(Game.DEBUG){
+				System.out.println("DEBUG | World Semantics Valid.");
+			}
 			Tile[] tmp = removeLineSeparators(tiles);
 			Tile[][] toReturn = convertTileTo2DArray(tmp, sizeX, sizeY);
+			if(Game.DEBUG){
+				System.out.println("DEBUG | World Conversion Complete.");
+			}
 			if(correct){
 				return new World(toReturn);
-			}
-			else{
+			}else{
 			}
 		}catch(Exception e){
-			
+			if(Game.DEBUG){
+				System.out.println("DEBUG | World Parsing failed." + e.getMessage());
+			}
 		}
 		return null;
 	}
@@ -187,10 +197,10 @@ public class WorldReader {
 			throw new IllegalArgumentException("Not a valid array size");
 		}
 		else{
-			Tile[][] toReturn = new Tile[sizeY][sizeX];
-			for(int i = 0; i < sizeY; i++){
-				for(int j = 0; j < sizeX; j++){
-					toReturn[i][j] = tile[(i*sizeY) + j];
+			Tile[][] toReturn = new Tile[sizeX][sizeY];
+			for(int i = 0; i < sizeX; i++){
+				for(int j = 0; j < sizeY; j++){
+					toReturn[i][j] = tile[(j*sizeX) + i];
 				}
 			}
 			return toReturn;
@@ -205,6 +215,8 @@ public class WorldReader {
 		}
 		else{
 			System.out.println("Valid world map");
+			System.out.println("X size: " + world.sizeX);
+			System.out.println("Y size: " + world.sizeY);
 		}
 	}
 }

@@ -55,8 +55,8 @@ public class Game extends JFrame{
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	
-	private Match currentMatch = new Match(WorldReader.readWorld("sample3.world"), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
-	private int roundsPerSec = 1000; // Number of rounds to perform every second
+	private Match currentMatch = new Match(World.generateWorld(100, 100, 4, 0), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
+	private int roundsPerSec = 10; // Number of rounds to perform every second
 	private double roundTime = 1000000000.0 / roundsPerSec; //number of times to run update per second
 	
 	public Game() {
@@ -199,8 +199,8 @@ public class Game extends JFrame{
 		Integer[] tileIDs = changes.toArray(new Integer[0]);
 		for(int i = 0; i < tileIDs.length; i++){
 			int currentID = tileIDs[i];
-			int x = currentID / drawnWorld.sizeX;
-			int y = ((currentID % drawnWorld.sizeX) + drawnWorld.sizeX) % drawnWorld.sizeX;
+			int x = ((currentID % drawnWorld.sizeX) + drawnWorld.sizeX) % drawnWorld.sizeX;
+			int y = currentID / drawnWorld.sizeX;
 			Tile tile = drawnWorld.getTile(x, y);
 			gridBuffer[x][y].setFillColor(getTileColor(tile));
 		}

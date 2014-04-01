@@ -14,6 +14,21 @@ public abstract class State{
 		int value = (((seed/65536) % 16384) + 16384) % 16384;
 		return ((value % n) + n) % n;
 	}
+	public static void main(String[] args) {
+		seed = 8008135;
+//		for(int i = 0; i < 100; i++){
+//			System.out.println(randomInt(100));
+//		}
+		int sizeX = 300;
+		int x = 43;
+		int y = 89;
+		System.out.println(x + ", " + y);
+		int tileID = y*sizeX + x;
+		System.out.println(tileID);
+		x = ((tileID % sizeX) + sizeX) % sizeX;
+		y = tileID / sizeX;
+		System.out.println(x + ", " + y);
+	}
 }
 
 enum SenseDir{
@@ -124,9 +139,9 @@ class Sense extends State{
 		case LEFTAHEAD:
 		case RIGHTAHEAD:
 			int direction = (((ant.getDirection() + senseDirection.getValue()) % 6) + 6) % 6;
-			int tileNumber = world.getAhead(direction, (ant.getX()*world.sizeX) + ant.getY(), world.sizeX);
-			int x = tileNumber / world.sizeX;
-			int y = ((tileNumber % world.sizeX) + world.sizeX) % world.sizeX;
+			int tileNumber = World.getAhead(direction, (ant.getY()*world.sizeX) + ant.getX(), world.sizeX);
+			int x = ((tileNumber % world.sizeX) + world.sizeX) % world.sizeX;
+			int y = tileNumber / world.sizeX;
 			target = world.getTile(x, y);
 			break;
 		case HERE:
@@ -167,7 +182,7 @@ class Unmark extends State{
 	@Override
 	public void execute(Ant ant, World world) {
 		((ClearTile)(world.getTile(ant.getX(), ant.getY()))).removeMarker(ant.getColour(), i);
-		world.setChange(ant.getX()*world.sizeX + ant.getY());
+		world.setChange(ant.getY()*world.sizeX + ant.getX());
 		ant.setState(st);
 	}
 }
@@ -184,7 +199,7 @@ class PickUp extends State{
 		ant.setFood(tile.takeFood());
 		if(ant.hasFood()){
 			ant.setState(st1);
-			world.setChange(ant.getX()*world.sizeX + ant.getY());
+			world.setChange(ant.getY()*world.sizeX + ant.getX());
 		}else{
 			ant.setState(st2);
 		}
@@ -200,7 +215,7 @@ class Drop extends State{
 	public void execute(Ant ant, World world) {
 		if(ant.hasFood()){
 			((ClearTile)(world.getTile(ant.getX(), ant.getY()))).addFood();
-			world.setChange(ant.getX()*world.sizeX + ant.getY());
+			world.setChange(ant.getY()*world.sizeX + ant.getX());
 			ant.setState(st);
 		}
 	}
@@ -216,7 +231,7 @@ class Turn extends State{
 	@Override
 	public void execute(Ant ant, World world) {
 		ant.setDirection(ant.getDirection() + direction.getValue());
-		world.setChange(ant.getX()*world.sizeX + ant.getY());
+		world.setChange(ant.getY()*world.sizeX + ant.getX());
 		ant.setState(st);
 	}
 }
@@ -230,20 +245,20 @@ class Move extends State{
 	@Override
 	public void execute(Ant ant, World world) {
 		boolean success = false;
-		int tileNumber = world.getAhead(ant.getDirection(), (ant.getX()*world.sizeX) + ant.getY(), world.sizeX);
-		int x = tileNumber / world.sizeX;
-		int y = ((tileNumber % world.sizeX) + world.sizeX) % world.sizeX;
+		int tileNumber = World.getAhead(ant.getDirection(), (ant.getY()*world.sizeX) + ant.getX(), world.sizeX);
+		int x = ((tileNumber % world.sizeX) + world.sizeX) % world.sizeX;
+		int y = tileNumber / world.sizeX;
 		Tile target = world.getTile(x, y);
 		success = !target.isRocky();
 		if(success && !((ClearTile)target).hasAnt()){
-			world.setChange(ant.getX()*world.sizeX + ant.getY());
+			world.setChange(ant.getY()*world.sizeX + ant.getX());
 			((ClearTile)(world.getTile(ant.getX(), ant.getY()))).removeAnt();
 			((ClearTile)target).setAnt(ant);
 			ant.setX(x);
 			ant.setY(y);
 			ant.setResting(14);
 			ant.setState(st1);
-			world.setChange(ant.getX()*world.sizeX + ant.getY());
+			world.setChange(ant.getY()*world.sizeX + ant.getX());
 			world.triggerUpdates(tileNumber);
 		}else{
 			ant.setState(st2);
