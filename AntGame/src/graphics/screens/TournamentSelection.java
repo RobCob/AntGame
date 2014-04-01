@@ -1,9 +1,12 @@
 package graphics.screens;
 import graphics.components.DualImagePanel;
+import graphics.components.FixedSpacerPanel;
 import graphics.components.ImageButton;
+import graphics.components.ImagePanel;
 import graphics.utilities.ImageLoader;
 import model.*;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -20,13 +23,17 @@ import javax.swing.event.DocumentListener;
 
 @SuppressWarnings("serial")
 public class TournamentSelection extends JPanel{
-	
+	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/playerSelectTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
 	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/GlobalImages/cross.png");
-	private static final BufferedImage UPLOAD_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImage.png");
-	private static final BufferedImage UPLOAD_ROLL_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImageHover.png");
-	
+	private static final BufferedImage UPLOAD_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/uploadButtonImage.png");
+	private static final BufferedImage UPLOAD_ROLL_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/uploadButtonImageHover.png");
+	private static final BufferedImage ADD_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/addButtonImage.png");
+	private static final BufferedImage ADD_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/addButtonImageHover.png");
+	private static final BufferedImage PLAY_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/playButton.png");
+	private static final BufferedImage PLAY_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/playButtonHover.png");
+
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<String> playerNames = new ArrayList<String>();
 	
@@ -45,19 +52,14 @@ public class TournamentSelection extends JPanel{
 		this.setLayout(new FlowLayout());
 		fc = new JFileChooser();
 		
-		JLabel title = new JLabel("Tournament - Brain Selection");
-		// CHANGE THE ABOVE WHEN ADDING OUR NEW FONTS
-		
 		JPanel titlepanel = new JPanel();
 		titlepanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		titlepanel.setPreferredSize(new Dimension(1024, 76));
-		titlepanel.add(title);
+		titlepanel.add(new ImagePanel(TITLE_IMAGE));
 		titlepanel.setOpaque(false);
 		
 		//Panel to contain a row with nickname, the brain to be associated with it, an ant brain to uploader and an add player button.
 		final JPanel nameAndUpload = new JPanel();
 		nameAndUpload.setLayout(new FlowLayout(FlowLayout.CENTER));
-		nameAndUpload.setPreferredSize(new Dimension(1024, 76));
 		nameAndUpload.setOpaque(false);
 		
 		JLabel nickname = new JLabel("Nickname:");
@@ -82,31 +84,24 @@ public class TournamentSelection extends JPanel{
 		playerName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent arg0) {
 				validatePlayerName();
-				currentName = playerName.getText();
+				currentName = playerName.getText().trim();
 			}
 
 			public void insertUpdate(DocumentEvent arg0) {
 				validatePlayerName();
-				currentName = playerName.getText();
+				currentName = playerName.getText().trim();
 			}
 
 			public void removeUpdate(DocumentEvent arg0) {
 				validatePlayerName();
-				currentName = playerName.getText();
+				currentName = playerName.getText().trim();
 			}
 		});
-		
-		JPanel smallPadder = new JPanel();
-		smallPadder.setPreferredSize(new Dimension(50, 76));
-		smallPadder.setOpaque(false);
-		JPanel smallPadder2 = new JPanel();
-		smallPadder2.setPreferredSize(new Dimension(25, 76));
-		smallPadder2.setOpaque(false);
 		
 		JLabel brainLabel = new JLabel("Ant-Brain:");
 		brainLabel.setForeground(Color.WHITE);
 		brainLabel.setFont(new Font("Helvetica", 0, 25));
-		brainLabel.setPreferredSize(new Dimension(125, 76));
+		//brainLabel.setPreferredSize(new Dimension(125, 76));
 		
 		ImageButton openBrain = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
 			public void mouseClicked(MouseEvent e) {
@@ -127,16 +122,16 @@ public class TournamentSelection extends JPanel{
 		brainValidate = new DualImagePanel(TICK_IMAGE,CROSS_IMAGE);
 		brainValidate.displaySecond();
 		
-		ImageButton addPlayer = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
+		ImageButton addPlayer = new ImageButton(ADD_IMAGE, ADD_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
 				String errorMessage = getErrorMessage();
 				boolean valid = errorMessage == null;
 				if (!valid) {
 					JOptionPane.showMessageDialog(TournamentSelection.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					players.add(new Player(playerName.getText(), currentBrain));
-					playerNames.add(playerName.getText());
-					playerListModel.addElement(playerName.getText());
+					players.add(new Player(playerName.getText().trim(), currentBrain));
+					playerNames.add(playerName.getText().trim());
+					playerListModel.addElement(playerName.getText().trim());
 					playerName.setText(generateName());
 					currentBrain = null;
 					brainValidate.displaySecond();
@@ -144,8 +139,9 @@ public class TournamentSelection extends JPanel{
 				}
 			}
 		};
-		addPlayer.setFont(new Font("Helvetica", 0, 25));
+		//addPlayer.setFont(new Font("Helvetica", 0, 25));
 		
+		// TODO JLists are a pain... I suggest just using a BoxLayout holding JPanels... 
 		playerListModel = new DefaultListModel<String>();
 		playerList = new JList<String>(playerListModel);
 		playerList.setOpaque(false);                         // Try commenting this out, not sure if better with or without
@@ -153,36 +149,46 @@ public class TournamentSelection extends JPanel{
 		listPanel.setOpaque(false);
 		JScrollPane listHolder = new JScrollPane(playerList);
 		listHolder.getVerticalScrollBar().setOpaque(false);
-		listHolder.setPreferredSize(new Dimension(725, 275));
+		//listHolder.setPreferredSize(new Dimension(725, 275));
+		listHolder.setPreferredSize(new Dimension(900, 275));
 		listHolder.setOpaque(false);
-		JPanel padder1 = new JPanel();
-		padder1.setPreferredSize(new Dimension(130, 285));
-		padder1.setOpaque(false);
-		JPanel padder2 = new JPanel();
-		padder2.setPreferredSize(new Dimension(150, 285));
-		padder2.setOpaque(false);
-		listPanel.add(padder1);
+
+		listPanel.add(new FixedSpacerPanel(130, 285));
 		listPanel.add(listHolder);
-		listPanel.add(padder2);
+		listPanel.add(new FixedSpacerPanel(150, 285));
 		
-		JPanel temp2 = new JPanel();
-		temp2.setLayout(new FlowLayout(FlowLayout.CENTER));
-		temp2.setPreferredSize(new Dimension(1024, 76));
-		temp2.setOpaque(false);
+		
+		ImageButton playButton = new ImageButton(PLAY_IMAGE, PLAY_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				playerListModel.getElementAt(0);
+				
+			}
+		};
+		
+		JPanel playButtonPanel = new JPanel();
+		playButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		playButtonPanel.setPreferredSize(new Dimension(1024, 76));
+		playButtonPanel.setOpaque(false);
+		playButtonPanel.add(playButton);
 		
 		nameAndUpload.add(nickname);
 		nameAndUpload.add(playerName);
 		nameAndUpload.add(nameValidate);
-		nameAndUpload.add(smallPadder);
+		nameAndUpload.add(new FixedSpacerPanel(50, 76));
 		nameAndUpload.add(brainLabel);
 		nameAndUpload.add(openBrain);
 		nameAndUpload.add(brainValidate);
-		nameAndUpload.add(smallPadder2);
+		nameAndUpload.add(new FixedSpacerPanel(25, 76));
 		nameAndUpload.add(addPlayer);
-		this.add(titlepanel);
-		this.add(nameAndUpload);
-		this.add(listPanel);
-		this.add(temp2);
+		
+		JPanel centerPanel = new JPanel(new BorderLayout());
+		centerPanel.add(nameAndUpload, BorderLayout.NORTH);
+		centerPanel.add(listPanel, BorderLayout.CENTER);
+		centerPanel.setOpaque(false);
+		
+		this.add(titlepanel, BorderLayout.NORTH);
+		this.add(centerPanel, BorderLayout.CENTER);
+		this.add(playButtonPanel, BorderLayout.SOUTH);
 	}
 	
 	
