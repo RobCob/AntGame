@@ -44,9 +44,9 @@ public class World {
 					System.out.println("DEBUG | ANTHILL PLACEMENT FAILED");
 				}
 			}
-			tiles.add((randX * sizeX) + randY);
+			tiles.add((randY * sizeX) + randX);
 			for(int i = 1; i < antHillSize & !obstructed; i++){
-				int currentID = randX * sizeX + randY + i;
+				int currentID = randY * sizeX + randX + i;
 				for(int j = 0; j < 6 & !obstructed; j++){
 					for(int k = 0; k < i & !obstructed; k++){
 						int x = ((currentID % sizeX) + sizeX) % sizeX;
@@ -59,7 +59,7 @@ public class World {
 							}
 						}
 						tiles.add(currentID);
-						currentID = getAhead((((j+0)%6)+6)%6, currentID, sizeX);
+						currentID = getAhead((((j+2)%6)+6)%6, currentID, sizeX);
 //						System.out.println((((j+2)%6)+6)%6);
 					}
 				}
@@ -67,23 +67,23 @@ public class World {
 			if(!obstructed){
 				if(!redAntHillPlaced){
 					for(int i = 0; i < tiles.size(); i++){
-						int x = tiles.get(i) / sizeX;
-						int y = ((tiles.get(i) % sizeX) + sizeX) % sizeX;
+						int x = ((tiles.get(i) % sizeX) + sizeX) % sizeX;
+						int y = tiles.get(i) / sizeX;
 						grid[x][y] = new AntHillTile(Colour.RED);
 					}
 					redAntHillPlaced = true;
 				}else{
 					if(!blackAntHillPlaced){
 						for(int i = 0; i < tiles.size(); i++){
-							int x = tiles.get(i) / sizeX;
-							int y = ((tiles.get(i) % sizeX) + sizeX) % sizeX;
+							int x = ((tiles.get(i) % sizeX) + sizeX) % sizeX;
+							int y = tiles.get(i) / sizeX;
 							grid[x][y] = new AntHillTile(Colour.BLACK);
 						}
 					}
 					blackAntHillPlaced = true;
 				}
 			}
-			grid[randX][randY] = new RockTile();
+//			grid[randX][randY] = new RockTile();
 		}
 //		for each 1 <= k <= N:
 //		    H = direction(4).scale(k)
