@@ -30,14 +30,15 @@ public class TournamentSelection extends JPanel{
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<String> playerNames = new ArrayList<String>();
 	
-	private JTextField playername;
-	private DualImagePanel validate;
+	private JTextField playerName;
+	private DualImagePanel nameValidate;
 	private DualImagePanel brainValidate;
 	private int nameGen = 0;
 	private JFileChooser fc;
 	private AntBrain currentBrain;
 	private String currentName;
-	JList<String> playerList;
+	private JList<String> playerList;
+	private DefaultListModel<String> playerListModel;
 	
 	
 	public TournamentSelection(){
@@ -54,7 +55,7 @@ public class TournamentSelection extends JPanel{
 		titlepanel.setOpaque(false);
 		
 		//Panel to contain a row with nickname, the brain to be associated with it, an ant brain to uploader and an add player button.
-		JPanel nameAndUpload = new JPanel();
+		final JPanel nameAndUpload = new JPanel();
 		nameAndUpload.setLayout(new FlowLayout(FlowLayout.CENTER));
 		nameAndUpload.setPreferredSize(new Dimension(1024, 76));
 		nameAndUpload.setOpaque(false);
@@ -65,33 +66,33 @@ public class TournamentSelection extends JPanel{
 		nickname.setFont(new Font("Helvetica", 0, 25));
 		nickname.setAlignmentX(CENTER_ALIGNMENT);
 		
-		playername = new JTextField(generateName(), 11);
-		playername.setPreferredSize(new Dimension(200, 30));
-		playername.setFont(new Font("Helvetica", 0, 25));
-		playername.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
-		playername.setOpaque(false);
-		playername.setHorizontalAlignment(JTextField.CENTER);
-		playername.setCaretColor(Color.WHITE);
-		playername.setForeground(Color.WHITE);
-		playername.setBackground(new Color(255,255,255,0));
-		playername.setAlignmentX(CENTER_ALIGNMENT);
+		playerName = new JTextField(generateName(), 11);
+		playerName.setPreferredSize(new Dimension(200, 30));
+		playerName.setFont(new Font("Helvetica", 0, 25));
+		playerName.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
+		playerName.setOpaque(false);
+		playerName.setHorizontalAlignment(JTextField.CENTER);
+		playerName.setCaretColor(Color.WHITE);
+		playerName.setForeground(Color.WHITE);
+		playerName.setBackground(new Color(255,255,255,0));
+		playerName.setAlignmentX(CENTER_ALIGNMENT);
 		
-		validate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
-		validate.displayFirst();
-		playername.getDocument().addDocumentListener(new DocumentListener() {
+		nameValidate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
+		nameValidate.displayFirst();
+		playerName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent arg0) {
 				validatePlayerName();
-				currentName = playername.getText();
+				currentName = playerName.getText();
 			}
 
 			public void insertUpdate(DocumentEvent arg0) {
 				validatePlayerName();
-				currentName = playername.getText();
+				currentName = playerName.getText();
 			}
 
 			public void removeUpdate(DocumentEvent arg0) {
 				validatePlayerName();
-				currentName = playername.getText();
+				currentName = playerName.getText();
 			}
 		});
 		
@@ -126,19 +127,33 @@ public class TournamentSelection extends JPanel{
 		brainValidate = new DualImagePanel(TICK_IMAGE,CROSS_IMAGE);
 		brainValidate.displaySecond();
 		
-		JButton addPlayer = new JButton("+");
+		ImageButton addPlayer = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
+			public void mouseClicked(MouseEvent e) {
+				String errorMessage = getErrorMessage();
+				boolean valid = errorMessage == null;
+				if (!valid) {
+					JOptionPane.showMessageDialog(TournamentSelection.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					players.add(new Player(playerName.getText(), currentBrain));
+					playerNames.add(playerName.getText());
+					playerListModel.addElement(playerName.getText());
+					playerName.setText(generateName());
+					currentBrain = null;
+					brainValidate.displaySecond();
+					nameAndUpload.repaint();
+				}
+			}
+		};
 		addPlayer.setFont(new Font("Helvetica", 0, 25));
 		
-		String[] FAKEDATA = {"1","2","3","4","5","6","7","8","9","10"};
-		playerList = new JList<String>(FAKEDATA);
-		playerList.setPreferredSize(new Dimension(700, 285));
+		playerListModel = new DefaultListModel<String>();
+		playerList = new JList<String>(playerListModel);
 		playerList.setOpaque(false);                         // Try commenting this out, not sure if better with or without
 		JPanel listPanel = new JPanel();
-		listPanel.setPreferredSize(new Dimension(1024, 285));
 		listPanel.setOpaque(false);
 		JScrollPane listHolder = new JScrollPane(playerList);
 		listHolder.getVerticalScrollBar().setOpaque(false);
-		listHolder.setPreferredSize(new Dimension(725, 285));
+		listHolder.setPreferredSize(new Dimension(725, 275));
 		listHolder.setOpaque(false);
 		JPanel padder1 = new JPanel();
 		padder1.setPreferredSize(new Dimension(130, 285));
@@ -156,8 +171,8 @@ public class TournamentSelection extends JPanel{
 		temp2.setOpaque(false);
 		
 		nameAndUpload.add(nickname);
-		nameAndUpload.add(playername);
-		nameAndUpload.add(validate);
+		nameAndUpload.add(playerName);
+		nameAndUpload.add(nameValidate);
 		nameAndUpload.add(smallPadder);
 		nameAndUpload.add(brainLabel);
 		nameAndUpload.add(openBrain);
@@ -178,17 +193,37 @@ public class TournamentSelection extends JPanel{
 	 }
 	
 	public void validatePlayerName(){
-		String name = playername.getText().trim();
+		String name = playerName.getText().trim();
 
 		// Rule for nickname
 		boolean validname = name.length() <= 20 && !name.equals("") && !playerNames.contains(name);
 
 		// Update validate image
 		if(validname){
-			validate.displayFirst();
+			nameValidate.displayFirst();
 		} else {
-			validate.displaySecond();
+			nameValidate.displaySecond();
 		}
+	}
+	
+	public String getErrorMessage(){
+		String output = "";
+
+		// New Player nickname validation
+		if(!nameValidate.isFirstShown()){
+			output += "New player's nickname is invalid!\n";
+		}
+
+		// New Player ant-brain validation
+		if(!brainValidate.isFirstShown()){
+			output += "New player's ant-brain is invalid!\n";
+		}
+
+		if(output.equals("")){
+			output = null;
+		}
+
+		return output;
 	}
 	
 	private String generateName(){

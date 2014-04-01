@@ -11,16 +11,26 @@ public class Tournament {
 	private int currentMatch;
 	
 	public Tournament(ArrayList<Player> players, ArrayList<World> worlds){
+		this();
+		setPlayers(players);
+		setWorlds(worlds);
+	}
+
+	public Tournament(){
 		scores = new HashMap<Player, Integer>();
-		currentMatch = 0;
-		
-		this.players = players;
 		this.matches = new ArrayList<Match>();
-		
+		currentMatch = 0;
+	}
+	
+	private void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+	}
+
+	public void setWorlds(ArrayList<World> worlds) {
 		for(int i = 0; i < worlds.size(); i++){
 			for(int j = 1; j < players.size(); j++){
-				matches.add(new Match(worlds.get(i), players.get(j-1), players.get(j)));
-				matches.add(new Match(worlds.get(i), players.get(j), players.get(j-1)));
+				matches.add(new Match((World) worlds.get(i).clone(), players.get(j-1), players.get(j)));// TODO: YOU NEED TO CLONE WORLDS
+				matches.add(new Match((World) worlds.get(i).clone(), players.get(j), players.get(j-1)));// OR THE AFTICAN CHILDREN WILL CRY
 			}
 		}
 	}

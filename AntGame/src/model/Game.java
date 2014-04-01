@@ -195,8 +195,9 @@ public class Game extends JFrame{
 		
 		World drawnWorld = currentMatch.getWorld();
 		HashSet<Integer> changes = drawnWorld.getChanges();
+		drawnWorld.resetChanges();
 		Integer[] tileIDs = changes.toArray(new Integer[0]);
-		for(int i = 0; i < changes.size(); i++){
+		for(int i = 0; i < tileIDs.length; i++){
 			int currentID = tileIDs[i];
 			int x = currentID / drawnWorld.sizeX;
 			int y = ((currentID % drawnWorld.sizeX) + drawnWorld.sizeX) % drawnWorld.sizeX;

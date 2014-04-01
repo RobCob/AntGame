@@ -51,13 +51,13 @@ public class MatchPanel extends JPanel {
 				
 		NormalButton refreshScreenButton = new NormalButton("Decrease Game Speed", NormalButton.GREEN_THEME) {
 			public void mouseClicked(MouseEvent e) {
-				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond() - 10);			
+				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond()-(getGame().getRoundsPerSecond()/5));			
 			}
 		};
 		
 		NormalButton addAntTestButton = new NormalButton("Increase Game Speed", NormalButton.GREEN_THEME) {
 			public void mouseClicked(MouseEvent e) {
-				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond() + 10);
+				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond()+(getGame().getRoundsPerSecond()/5));
 			}
 		};
 		

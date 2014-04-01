@@ -14,7 +14,7 @@ public class World {
 	private ArrayList<AntHillTile> antHills;
 	public final int sizeX,sizeY;
 	
-	public static World generateWorld(int x, int y){
+	public static World generateWorld(int x, int y, int antHillSize, int rockyProportion){
 		Tile[][] grid = new Tile[x][y];
 		// Fill grid with clear tiles
 		for(int i = 0; i < x; i++){
@@ -27,14 +27,20 @@ public class World {
 		}
 		// Fill left and right rock boarders
 		for(int i = 0; i < y; i++){
-//			grid[0][i] = new RockTile();
+			grid[0][i] = new RockTile();
 			grid[x][i] = new RockTile();
 		}
 		// create Ant hills
-		int randX = State.randomInt(x);
-		int randY = State.randomInt(y);
-		for(int i = 0; i < 6; i++){
-			
+		boolean redAntHill = false;
+		boolean blackAntHill = false;
+		while(redAntHill && blackAntHill){
+			int randX = State.randomInt(x);
+			int randY = State.randomInt(y);
+			for(int i = 0; i < antHillSize; i++){
+				for(int j = 0; j < antHillSize; j++){
+					
+				}
+			}
 		}
 		return new World(grid);
 	}
@@ -51,7 +57,7 @@ public class World {
 	public void populate(Player player1, Player player2){
 		for(int i = 0; i < sizeX; i++){
 			for(int j = 0; j < sizeY; j++){
-				changes.add((i*sizeX) + j);
+				changes.add((i*sizeX) + j); // Disable for fog of war lolol
 				Tile tile = getTile(i,j);
 				if(!tile.isRocky() && ((ClearTile)tile).isAnthill()){
 					AntHillTile aHill = (AntHillTile) tile;
@@ -75,6 +81,10 @@ public class World {
 		}
 	}
 	
+	public HashSet<Integer> getChanges(){
+		return changes;
+	}
+	
 	public boolean setChange(int tileID){
 		return changes.add(tileID);
 	}
@@ -91,6 +101,7 @@ public class World {
 	}
 	
 	private void update(int tileID){
+//		changes.add(tileID); // Enable for fog of war lolol
 		int x1 = tileID / sizeX;
 		int y1 = ((tileID % sizeX) + sizeX) % sizeX;
 		Tile currentTile = getTile(x1, y1);
@@ -115,10 +126,6 @@ public class World {
 				((ClearTile)currentTile).setFood(3);
 			}
 		}
-	}
-	
-	public HashSet<Integer> getChanges(){
-		return changes;
 	}
 	
 	public void setTile(int x, int y, Tile t){
@@ -185,5 +192,11 @@ public class World {
 				break;
 		}
 		return (x*worldSizeX) + y;
+	}
+	
+	@Override
+	protected Object clone(){
+		World output = new World(grid);
+		return output;
 	}
 }
