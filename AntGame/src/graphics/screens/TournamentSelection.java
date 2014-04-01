@@ -74,7 +74,6 @@ public class TournamentSelection extends JPanel{
 		nickname.setAlignmentX(CENTER_ALIGNMENT);
 		
 		playerName = new JTextField(generateName(), 11);
-		//playerName.setPreferredSize(new Dimension(900, 50));
 		playerName.setFont(new Font("Helvetica", 0, 25));
 		playerName.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
 		playerName.setOpaque(false);
@@ -82,7 +81,6 @@ public class TournamentSelection extends JPanel{
 		playerName.setCaretColor(Color.WHITE);
 		playerName.setForeground(Color.WHITE);
 		playerName.setBackground(new Color(255,255,255,0));
-		//playerName.setAlignmentX(CENTER_ALIGNMENT);
 		
 		nameValidate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
 		nameValidate.displayFirst();
@@ -246,6 +244,10 @@ public class TournamentSelection extends JPanel{
 	public void removePlayer(Player player) {
 		players.remove(player);
 		playerNames.remove(player.getNickname());
+		if (Game.GUI_DEBUG) {
+			System.out.println("TournamentSelection Players = " + players );
+			System.out.println("TournamentSelection playerNames = " + playerNames);
+		}
 	}
 	
 	public String getErrorMessage(){
