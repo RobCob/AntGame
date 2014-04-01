@@ -3,20 +3,20 @@ import graphics.components.DualImagePanel;
 import graphics.components.FixedSpacerPanel;
 import graphics.components.ImageButton;
 import graphics.components.ImagePanel;
+import graphics.components.ListItem;
 import graphics.utilities.ImageLoader;
 import model.*;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -33,19 +33,22 @@ public class TournamentSelection extends JPanel{
 	private static final BufferedImage ADD_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/addButtonImageHover.png");
 	private static final BufferedImage PLAY_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/playButton.png");
 	private static final BufferedImage PLAY_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/playButtonHover.png");
-
+	private static final BufferedImage DELETE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/deleteButton.png");
+	private static final BufferedImage DELETE_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/deleteButtonHover.png");
+	
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<String> playerNames = new ArrayList<String>();
 	
 	private JTextField playerName;
+	private JTextField worldNumberField;
 	private DualImagePanel nameValidate;
 	private DualImagePanel brainValidate;
 	private int nameGen = 0;
 	private JFileChooser fc;
 	private AntBrain currentBrain;
 	private String currentName;
-	private JList<String> playerList;
-	private DefaultListModel<String> playerListModel;
+	private JScrollPane listHolder;
+	JPanel itemPanel;
 	
 	
 	public TournamentSelection(){
@@ -131,7 +134,11 @@ public class TournamentSelection extends JPanel{
 				} else {
 					players.add(new Player(playerName.getText().trim(), currentBrain));
 					playerNames.add(playerName.getText().trim());
-					playerListModel.addElement(playerName.getText().trim());
+					ListItem newPlayerItem = new ListItem(playerName.getText().trim(), "", listHolder);
+					newPlayerItem.changeSize(300, 30);
+					itemPanel.add(newPlayerItem);
+					listHolder.revalidate();
+					listHolder.repaint();
 					playerName.setText(generateName());
 					currentBrain = null;
 					brainValidate.displaySecond();
@@ -139,20 +146,17 @@ public class TournamentSelection extends JPanel{
 				}
 			}
 		};
-		//addPlayer.setFont(new Font("Helvetica", 0, 25));
 		
-		// TODO JLists are a pain... I suggest just using a BoxLayout holding JPanels... 
-		playerListModel = new DefaultListModel<String>();
-		playerList = new JList<String>(playerListModel);
-		playerList.setOpaque(false);                         // Try commenting this out, not sure if better with or without
+		itemPanel = new JPanel(new GridLayout(5,1));
+		
 		JPanel listPanel = new JPanel();
 		listPanel.setOpaque(false);
-		JScrollPane listHolder = new JScrollPane(playerList);
-		listHolder.getVerticalScrollBar().setOpaque(false);
-		//listHolder.setPreferredSize(new Dimension(725, 275));
+		listHolder = new JScrollPane();
+		listHolder.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		listHolder.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		listHolder.setPreferredSize(new Dimension(900, 275));
 		listHolder.setOpaque(false);
-
+		listHolder.add(itemPanel);
 		listPanel.add(new FixedSpacerPanel(130, 285));
 		listPanel.add(listHolder);
 		listPanel.add(new FixedSpacerPanel(150, 285));
@@ -160,16 +164,10 @@ public class TournamentSelection extends JPanel{
 		
 		ImageButton playButton = new ImageButton(PLAY_IMAGE, PLAY_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
-				playerListModel.getElementAt(0);
 				
 			}
 		};
 		
-		JPanel playButtonPanel = new JPanel();
-		playButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		playButtonPanel.setPreferredSize(new Dimension(1024, 76));
-		playButtonPanel.setOpaque(false);
-		playButtonPanel.add(playButton);
 		
 		nameAndUpload.add(nickname);
 		nameAndUpload.add(playerName);
@@ -185,6 +183,32 @@ public class TournamentSelection extends JPanel{
 		centerPanel.add(nameAndUpload, BorderLayout.NORTH);
 		centerPanel.add(listPanel, BorderLayout.CENTER);
 		centerPanel.setOpaque(false);
+		
+		JLabel worldNumberLabel = new JLabel("Number of Worlds:");
+		worldNumberLabel.setPreferredSize(new Dimension(135, 76));
+		worldNumberLabel.setForeground(Color.WHITE);
+		worldNumberLabel.setFont(new Font("Helvetica", 0, 25));
+		worldNumberLabel.setAlignmentX(CENTER_ALIGNMENT);
+		//worldNumberLabel.setPreferredSize(new Dimension(300, 76));
+		
+		worldNumberField = new JTextField("1", 11);
+		worldNumberField.setPreferredSize(new Dimension(200, 30));
+		worldNumberField.setFont(new Font("Helvetica", 0, 25));
+		worldNumberField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
+		worldNumberField.setOpaque(false);
+		worldNumberField.setHorizontalAlignment(JTextField.CENTER);
+		worldNumberField.setCaretColor(Color.WHITE);
+		worldNumberField.setForeground(Color.WHITE);
+		worldNumberField.setBackground(new Color(255,255,255,0));
+		worldNumberField.setAlignmentX(CENTER_ALIGNMENT);
+		
+		JPanel playButtonPanel = new JPanel();
+		playButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		playButtonPanel.setPreferredSize(new Dimension(1024, 76));
+		playButtonPanel.setOpaque(false);
+		playButtonPanel.add(worldNumberLabel);
+		playButtonPanel.add(worldNumberField);
+		playButtonPanel.add(playButton);
 		
 		this.add(titlepanel, BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
