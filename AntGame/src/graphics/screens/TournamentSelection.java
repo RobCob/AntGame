@@ -6,6 +6,7 @@ import graphics.components.ImagePanel;
 import graphics.components.ListItem;
 import graphics.utilities.ImageLoader;
 import model.*;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,7 +22,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-@SuppressWarnings("serial")
 public class TournamentSelection extends JPanel{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/playerSelectTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
@@ -33,8 +33,8 @@ public class TournamentSelection extends JPanel{
 	private static final BufferedImage ADD_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/addButtonImageHover.png");
 	private static final BufferedImage PLAY_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/playButton.png");
 	private static final BufferedImage PLAY_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/playButtonHover.png");
-	private static final BufferedImage DELETE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/deleteButton.png");
-	private static final BufferedImage DELETE_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/deleteButtonHover.png");
+	//private static final BufferedImage DELETE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/deleteButton.png");
+	//private static final BufferedImage DELETE_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/deleteButtonHover.png");
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<String> playerNames = new ArrayList<String>();
@@ -46,8 +46,10 @@ public class TournamentSelection extends JPanel{
 	private int nameGen = 0;
 	private JFileChooser fc;
 	private AntBrain currentBrain;
-	private String currentName;
+	private String currentBrainName;
 	private JScrollPane listHolder;
+
+	//private JScrollPane listHolder;
 	JPanel itemPanel;
 	
 	
@@ -72,7 +74,7 @@ public class TournamentSelection extends JPanel{
 		nickname.setAlignmentX(CENTER_ALIGNMENT);
 		
 		playerName = new JTextField(generateName(), 11);
-		playerName.setPreferredSize(new Dimension(200, 30));
+		//playerName.setPreferredSize(new Dimension(900, 50));
 		playerName.setFont(new Font("Helvetica", 0, 25));
 		playerName.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
 		playerName.setOpaque(false);
@@ -80,24 +82,21 @@ public class TournamentSelection extends JPanel{
 		playerName.setCaretColor(Color.WHITE);
 		playerName.setForeground(Color.WHITE);
 		playerName.setBackground(new Color(255,255,255,0));
-		playerName.setAlignmentX(CENTER_ALIGNMENT);
+		//playerName.setAlignmentX(CENTER_ALIGNMENT);
 		
 		nameValidate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
 		nameValidate.displayFirst();
 		playerName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent arg0) {
 				validatePlayerName();
-				currentName = playerName.getText().trim();
 			}
 
 			public void insertUpdate(DocumentEvent arg0) {
 				validatePlayerName();
-				currentName = playerName.getText().trim();
 			}
 
 			public void removeUpdate(DocumentEvent arg0) {
 				validatePlayerName();
-				currentName = playerName.getText().trim();
 			}
 		});
 		
@@ -118,6 +117,7 @@ public class TournamentSelection extends JPanel{
 						brainValidate.displayFirst();
 					}
 					currentBrain = brain;
+					currentBrainName = brainFile.getName();
 				}
 			}
 		};
@@ -129,16 +129,32 @@ public class TournamentSelection extends JPanel{
 			public void mouseClicked(MouseEvent e) {
 				String errorMessage = getErrorMessage();
 				boolean valid = errorMessage == null;
+				// TODO REMOVE LINE BELOW AFTER DEBUGGING!
+				valid = true;
 				if (!valid) {
 					JOptionPane.showMessageDialog(TournamentSelection.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					players.add(new Player(playerName.getText().trim(), currentBrain));
+					// Create a new player.
+					Player player = new Player(playerName.getText().trim(), currentBrain);
+					players.add(player);
 					playerNames.add(playerName.getText().trim());
-					ListItem newPlayerItem = new ListItem(playerName.getText().trim(), "", listHolder);
-					newPlayerItem.changeSize(300, 30);
+					
+					// Create a list item and ad in the new player
+					ListItem newPlayerItem = new ListItem(playerName.getText().trim(), currentBrainName, itemPanel);
+					newPlayerItem.changeSize(885, 50);
+					newPlayerItem.setRemoveButton(PLAY_IMAGE, PLAY_IMAGE_HOVER, TournamentSelection.this);
+					newPlayerItem.setPlayer(player);
+					
+					// Add the item to the item panel and refresh the scrollpane.
 					itemPanel.add(newPlayerItem);
+					itemPanel.revalidate();
+					itemPanel.repaint();
 					listHolder.revalidate();
 					listHolder.repaint();
+					
+					//TODO AUTO SCROLL THE SCROLL BAR?
+					
+					// Get the fields ready for the next player.
 					playerName.setText(generateName());
 					currentBrain = null;
 					brainValidate.displaySecond();
@@ -147,27 +163,22 @@ public class TournamentSelection extends JPanel{
 			}
 		};
 		
-		itemPanel = new JPanel(new GridLayout(5,1));
+		itemPanel = new JPanel();
+		BoxLayout itemPanelLayout = new BoxLayout(itemPanel, BoxLayout.Y_AXIS);
+		itemPanel.setLayout(itemPanelLayout);
 		
-		JPanel listPanel = new JPanel();
-		listPanel.setOpaque(false);
-		listHolder = new JScrollPane();
+		//listHolder = new JPanel();
+		listHolder = new JScrollPane(itemPanel);
 		listHolder.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		listHolder.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		listHolder.setPreferredSize(new Dimension(900, 275));
-		listHolder.setOpaque(false);
-		listHolder.add(itemPanel);
-		listPanel.add(new FixedSpacerPanel(130, 285));
-		listPanel.add(listHolder);
-		listPanel.add(new FixedSpacerPanel(150, 285));
-		
+		listHolder.setOpaque(true);
 		
 		ImageButton playButton = new ImageButton(PLAY_IMAGE, PLAY_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
 				
 			}
 		};
-		
 		
 		nameAndUpload.add(nickname);
 		nameAndUpload.add(playerName);
@@ -181,18 +192,14 @@ public class TournamentSelection extends JPanel{
 		
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(nameAndUpload, BorderLayout.NORTH);
-		centerPanel.add(listPanel, BorderLayout.CENTER);
+		centerPanel.add(listHolder, BorderLayout.CENTER);
 		centerPanel.setOpaque(false);
 		
 		JLabel worldNumberLabel = new JLabel("Number of Worlds:");
-		worldNumberLabel.setPreferredSize(new Dimension(135, 76));
 		worldNumberLabel.setForeground(Color.WHITE);
 		worldNumberLabel.setFont(new Font("Helvetica", 0, 25));
-		worldNumberLabel.setAlignmentX(CENTER_ALIGNMENT);
-		//worldNumberLabel.setPreferredSize(new Dimension(300, 76));
 		
-		worldNumberField = new JTextField("1", 11);
-		worldNumberField.setPreferredSize(new Dimension(200, 30));
+		worldNumberField = new JTextField("1", 3);
 		worldNumberField.setFont(new Font("Helvetica", 0, 25));
 		worldNumberField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
 		worldNumberField.setOpaque(false);
@@ -203,8 +210,8 @@ public class TournamentSelection extends JPanel{
 		worldNumberField.setAlignmentX(CENTER_ALIGNMENT);
 		
 		JPanel playButtonPanel = new JPanel();
-		playButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		playButtonPanel.setPreferredSize(new Dimension(1024, 76));
+		//playButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		//playButtonPanel.setPreferredSize(new Dimension(1024, 76));
 		playButtonPanel.setOpaque(false);
 		playButtonPanel.add(worldNumberLabel);
 		playButtonPanel.add(worldNumberField);
@@ -234,6 +241,11 @@ public class TournamentSelection extends JPanel{
 		} else {
 			nameValidate.displaySecond();
 		}
+	}
+	
+	public void removePlayer(Player player) {
+		players.remove(player);
+		playerNames.remove(player.getNickname());
 	}
 	
 	public String getErrorMessage(){
@@ -273,3 +285,4 @@ public class TournamentSelection extends JPanel{
 		
 	}
 }
+
