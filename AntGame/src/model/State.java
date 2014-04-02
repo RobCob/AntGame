@@ -16,18 +16,9 @@ public abstract class State{
 	}
 	public static void main(String[] args) {
 		seed = 8008135;
-//		for(int i = 0; i < 100; i++){
-//			System.out.println(randomInt(100));
-//		}
-		int sizeX = 300;
-		int x = 43;
-		int y = 89;
-		System.out.println(x + ", " + y);
-		int tileID = y*sizeX + x;
-		System.out.println(tileID);
-		x = ((tileID % sizeX) + sizeX) % sizeX;
-		y = tileID / sizeX;
-		System.out.println(x + ", " + y);
+		for(int i = 0; i < 100; i++){
+			System.out.println(randomInt(2));
+		}
 	}
 }
 
