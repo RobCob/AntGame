@@ -96,24 +96,24 @@ public class NonTournamentResultsPanel extends JPanel{
         //Winner name -- clone, because you can only reference a JPanel in one place at a time
         JLabel winnerLabelClone = new JLabel("Player 1");
         winnerLabelClone.setForeground(Color.WHITE);
-        winnerLabelClone.setFont(new Font("Helvetica", 0, 35));
+        winnerLabelClone.setFont(new Font("Helvetica", 0, 28));
         winnerLabelClone.setAlignmentX(CENTER_ALIGNMENT);
         winnerLabelClone.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
         JLabel winnerFoodCollected = new JLabel("Food collected: 31"); //just to test, should have actual values
         winnerFoodCollected.setForeground(Color.WHITE);
-        winnerFoodCollected.setFont(new Font("Helvetica", 0, 25));
+        winnerFoodCollected.setFont(new Font("Helvetica", 0, 17));
         winnerFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
 		//Ants killed
         JLabel winnerAntsKilled = new JLabel("Ants killed: 7"); //just to test, should have actual values
         winnerAntsKilled.setForeground(Color.WHITE);
-        winnerAntsKilled.setFont(new Font("Helvetica", 0, 25));
+        winnerAntsKilled.setFont(new Font("Helvetica", 0, 17));
         winnerAntsKilled.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
         JLabel winnerAntsDied = new JLabel("Number of team deaths: 3"); //just to test, should have actual values
         winnerAntsDied.setForeground(Color.WHITE);
-        winnerAntsDied.setFont(new Font("Helvetica", 0, 25));
+        winnerAntsDied.setFont(new Font("Helvetica", 0, 17));
         winnerAntsDied.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
         winnerStats.add(winnerLabelClone);
@@ -129,24 +129,24 @@ public class NonTournamentResultsPanel extends JPanel{
         //Loser name
         JLabel loserLabel = new JLabel("Player 2");
         loserLabel.setForeground(Color.WHITE);
-        loserLabel.setFont(new Font("Helvetica", 0, 35));
+        loserLabel.setFont(new Font("Helvetica", 0, 28));
         loserLabel.setAlignmentX(CENTER_ALIGNMENT);
         loserLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
         JLabel loserFoodCollected = new JLabel("Food collected: 22"); //just to test, should have actual values
         loserFoodCollected.setForeground(Color.WHITE);
-        loserFoodCollected.setFont(new Font("Helvetica", 0, 25));
+        loserFoodCollected.setFont(new Font("Helvetica", 0, 17));
         loserFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
 		//Ants killed
         JLabel loserAntsKilled = new JLabel("Ants killed: 5"); //just to test, should have actual values
         loserAntsKilled.setForeground(Color.WHITE);
-        loserAntsKilled.setFont(new Font("Helvetica", 0, 25));
+        loserAntsKilled.setFont(new Font("Helvetica", 0, 17));
         loserAntsKilled.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
         JLabel loserAntsDied = new JLabel("Number of team deaths: 11"); //just to test, should have actual values
         loserAntsDied.setForeground(Color.WHITE);
-        loserAntsDied.setFont(new Font("Helvetica", 0, 25));
+        loserAntsDied.setFont(new Font("Helvetica", 0, 17));
         loserAntsDied.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
         loserStats.add(loserLabel);
