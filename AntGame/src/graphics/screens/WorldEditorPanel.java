@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
@@ -16,6 +17,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import model.Game;
@@ -34,8 +37,10 @@ public class WorldEditorPanel extends JPanel{
 	private static final BufferedImage CREATE_HOVER_BUTTON = ImageLoader.loadImage("/WorldEditorImages/createButtonHover.png");
 	private static final BufferedImage BACK_BUTTON = ImageLoader.loadImage("/WorldEditorImages/backButton.png");
 	private static final BufferedImage BACK_HOVER_BUTTON = ImageLoader.loadImage("/WorldEditorImages/backButtonHover.png");
+	private static final BufferedImage WORLD_EDITOR_IMAGE = ImageLoader.loadImage("/WorldEditorImages/worldDimensions.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldEditorImages/worldEditorTitle.png");
+	
 	
 	private Game game;
 	private JLabel rocksLabel;
@@ -69,7 +74,7 @@ public class WorldEditorPanel extends JPanel{
 		BoxLayout rocksLayout = new BoxLayout(rocksPanel, BoxLayout.X_AXIS);
 		rocksPanel.setLayout(rocksLayout);
 		//Label
-		rocksLabel = new JLabel("Small",SwingConstants.CENTER);
+		rocksLabel = new JLabel("Low",SwingConstants.CENTER);
 		rocksLabel.setForeground(Color.WHITE);
 		rocksLabel.setFont(new Font("Helvetica", 0, 25));
 		rocksLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -81,9 +86,9 @@ public class WorldEditorPanel extends JPanel{
 		ImageButton rocksMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(rocksLabel.getText().equals("Medium")){
-					rocksLabel.setText("Small");
+					rocksLabel.setText("Low");
 				}
-				else if(rocksLabel.getText().equals("Big")){
+				else if(rocksLabel.getText().equals("High")){
 					rocksLabel.setText("Medium");
 				}
 				else{
@@ -93,11 +98,11 @@ public class WorldEditorPanel extends JPanel{
 		};
 		ImageButton rocksPlusButton = new ImageButton(PLUS_IMAGE, PLUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
-				if(rocksLabel.getText().equals("Small")){
+				if(rocksLabel.getText().equals("Low")){
 					rocksLabel.setText("Medium");
 				}
 				else if(rocksLabel.getText().equals("Medium")){
-					rocksLabel.setText("Big");
+					rocksLabel.setText("High");
 				}
 				else{
 					//do nothing
@@ -131,7 +136,7 @@ public class WorldEditorPanel extends JPanel{
 		foodPanel.setLayout(foodLayout);
 		
 		//Label
-		foodLabel = new JLabel("Small", SwingConstants.CENTER);
+		foodLabel = new JLabel("Low", SwingConstants.CENTER);
 		foodLabel.setForeground(Color.WHITE);
 		foodLabel.setFont(new Font("Helvetica", 0, 25));
 		foodLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -143,9 +148,9 @@ public class WorldEditorPanel extends JPanel{
 		ImageButton foodMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(foodLabel.getText().equals("Medium")){
-					foodLabel.setText("Small");
+					foodLabel.setText("Low");
 				}
-				else if(foodLabel.getText().equals("Big")){
+				else if(foodLabel.getText().equals("High")){
 					foodLabel.setText("Medium");
 				}
 				else{
@@ -155,11 +160,11 @@ public class WorldEditorPanel extends JPanel{
 		};
 		ImageButton foodPlusButton = new ImageButton(PLUS_IMAGE, PLUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
-				if(foodLabel.getText().equals("Small")){
+				if(foodLabel.getText().equals("Low")){
 					foodLabel.setText("Medium");
 				}
 				else if(foodLabel.getText().equals("Medium")){
-					foodLabel.setText("Big");
+					foodLabel.setText("High");
 				}
 				else{
 					//do nothing
@@ -207,7 +212,7 @@ public class WorldEditorPanel extends JPanel{
 				if(sizeOfAnthillLabel.getText().equals("Medium")){
 					sizeOfAnthillLabel.setText("Small");
 				}
-				else if(sizeOfAnthillLabel.getText().equals("Big")){
+				else if(sizeOfAnthillLabel.getText().equals("Large")){
 					sizeOfAnthillLabel.setText("Medium");
 				}
 				else{
@@ -221,7 +226,7 @@ public class WorldEditorPanel extends JPanel{
 					sizeOfAnthillLabel.setText("Medium");
 				}
 				else if(sizeOfAnthillLabel.getText().equals("Medium")){
-					sizeOfAnthillLabel.setText("Big");
+					sizeOfAnthillLabel.setText("Large");
 				}
 				else{
 					//do nothing
@@ -229,7 +234,7 @@ public class WorldEditorPanel extends JPanel{
 			}
 		};
 		
-		//food title
+		//anthill title
 		JPanel anthillTitleContainer = new JPanel();
 		BoxLayout anthillTitleLayout = new BoxLayout(anthillTitleContainer, BoxLayout.Y_AXIS);
 		anthillTitleContainer.setLayout(anthillTitleLayout);
@@ -249,15 +254,69 @@ public class WorldEditorPanel extends JPanel{
 		
 		sizeOfAnthillPanel.setOpaque(false);
 		
+		//WorldSize chooser is simply two text areas that allow the user to input
+		//the desired world dimensions
+		JPanel worldSizeChooser = new JPanel();
+		BoxLayout worldSizeLayout = new BoxLayout(worldSizeChooser, BoxLayout.X_AXIS);
+		worldSizeChooser.setLayout(worldSizeLayout);
+		
+		//First JText Area
+		JTextField firstDimension = new JTextField("150");
+		firstDimension.setForeground(Color.BLACK);
+		firstDimension.setFont(new Font("Helvetica", 0, 25));
+		firstDimension.setAlignmentX(CENTER_ALIGNMENT);
+		firstDimension.setMaximumSize(new Dimension(87,30));
+		firstDimension.setHorizontalAlignment(JTextField.CENTER);
+		
+		//MiddleJLabel
+		JTextField plusLabel = new JTextField("X", SwingConstants.CENTER);
+		plusLabel.setForeground(Color.WHITE);
+		plusLabel.setFont(new Font("Helvetica", 0, 25));
+		plusLabel.setAlignmentX(CENTER_ALIGNMENT);
+		plusLabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+		plusLabel.setMaximumSize(new Dimension(50,30));
+		plusLabel.setOpaque(false);
+		
+		//Second text area
+		JTextField secondDimension = new JTextField("150");
+		secondDimension.setForeground(Color.BLACK);
+		secondDimension.setFont(new Font("Helvetica", 0, 25));
+		secondDimension.setAlignmentX(CENTER_ALIGNMENT);
+		secondDimension.setMaximumSize(new Dimension(87,30));
+		secondDimension.setHorizontalAlignment(JTextField.CENTER);
+		
+		//WorldSize title
+		JPanel worldSizeTitleContainer = new JPanel();
+		BoxLayout worldSizeTitleLayout = new BoxLayout(worldSizeTitleContainer, BoxLayout.Y_AXIS);
+		worldSizeTitleContainer.setLayout(worldSizeTitleLayout);
+		worldSizeTitleContainer.add(new FixedSpacerPanel(100, 20));
+		worldSizeTitleContainer.add(new ImagePanel(WORLD_EDITOR_IMAGE));
+		worldSizeTitleContainer.add(new FixedSpacerPanel(100, 20)); 
+		worldSizeTitleContainer.setOpaque(false);
+		
+		//add the elements to the panel
+		worldSizeChooser.add(worldSizeTitleContainer);
+		worldSizeChooser.add(new FixedSpacerPanel(83, 0));
+		worldSizeChooser.add(firstDimension);
+		worldSizeChooser.add(plusLabel);
+		worldSizeChooser.add(secondDimension);
+		
+		worldSizeChooser.setOpaque(false);
+		
 		//add the elements to the selector Panel
 		selectorPanel.add(rocksPanel);
+		selectorPanel.add(new FixedSpacerPanel(140, 0));
 		selectorPanel.add(foodPanel);
+		selectorPanel.add(new FixedSpacerPanel(140, 0));
 		selectorPanel.add(sizeOfAnthillPanel);
+		selectorPanel.add(new FixedSpacerPanel(140, 0));
+		selectorPanel.add(worldSizeChooser);
+		selectorPanel.add(new FixedSpacerPanel(140, 0));
 		selectorPanel.setOpaque(false);
 		
 		//Bottom buttons
 		JPanel bottomButtons = new JPanel();
-		BoxLayout bottomLayout = new BoxLayout(bottomButtons, BoxLayout.Y_AXIS);
+		BoxLayout bottomLayout = new BoxLayout(bottomButtons, BoxLayout.X_AXIS);
 		bottomButtons.setLayout(bottomLayout);
 		bottomButtons.setOpaque(false);
 		
@@ -282,10 +341,11 @@ public class WorldEditorPanel extends JPanel{
 		};
 		
 		//add buttons to panel
-		bottomButtons.add(createButton);
-		bottomButtons.add(new FixedSpacerPanel(20, 20));
+		bottomButtons.add(new FixedSpacerPanel(320, 20));
 		bottomButtons.add(backButton);
-		bottomButtons.add(new FixedSpacerPanel(20, 20));
+		bottomButtons.add(new FixedSpacerPanel(100, 20));
+		bottomButtons.add(createButton);
+		bottomButtons.add(new FixedSpacerPanel(100, 40));
 		
 		add(titleContainer, BorderLayout.NORTH);
 		add(selectorPanel, BorderLayout.CENTER);
@@ -311,7 +371,9 @@ public class WorldEditorPanel extends JPanel{
 	 * No need for a button that calls the method, as it is only called on code-level.
 	 */
 	public void resetScreen() {
-		//TODO
+		rocksLabel.setText("Low");
+		foodLabel.setText("Low");
+		sizeOfAnthillLabel.setText("Small");
 	}
 	
 	/**
