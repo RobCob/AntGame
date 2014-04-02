@@ -53,7 +53,7 @@ public class Game extends JFrame{
 	private WorldSelectionPanel worldSelectionPanel = new WorldSelectionPanel(this);
 	public static final String WORLD_SELECTION_SCREEN = "WorldSelectionScreen";
 
-	private WorldEditorPanel worldEditorPanel = new WorldEditorPanel(this);
+	private WorldEditorPanel worldEditorPanel = new WorldEditorPanel(this, worldSelectionPanel);
 	public static final String WORLD_EDITOR_SCREEN = "WorldEditorScreen";
 	
 	// Stack of previous windows. (MAY NOT USE)
@@ -68,7 +68,9 @@ public class Game extends JFrame{
 		addScreen(mainMenuPanel, MAIN_MENU_SCREEN);
 		addScreen(matchPanel, MATCH_SCREEN);
 		addScreen(nonTournamentPanel, NON_TOURNAMENT_SELECTION_SCREEN);
-		addScreen( worldSelectionPanel, WORLD_SELECTION_SCREEN);
+		addScreen(worldSelectionPanel, WORLD_SELECTION_SCREEN);
+		addScreen(worldEditorPanel, WORLD_EDITOR_SCREEN);
+
 		// JFrame properties 
 		this.add(screens);
 		this.setTitle("Ant Game  |  " + WIDTH + "x" + HEIGHT );
