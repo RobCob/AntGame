@@ -19,26 +19,39 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import model.Game;
+import model.World;
 
 public class WorldEditorPanel extends JPanel{
 	
 	//images
-	private static final BufferedImage ADD_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/addButtonImage.png");
-	private static final BufferedImage ADD_HOVER_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/addButtonImage.png");
+	private static final BufferedImage PLUS_IMAGE = ImageLoader.loadImage("/WorldEditorImages/plusButton.png");
+	private static final BufferedImage PLUS_HOVER_IMAGE = ImageLoader.loadImage("/WorldEditorImages/plusButtonHover.png");
+	private static final BufferedImage MINUS_IMAGE = ImageLoader.loadImage("/WorldEditorImages/minusButton.png");
+	private static final BufferedImage MINUS_HOVER_IMAGE = ImageLoader.loadImage("/WorldEditorImages/minusButtonHover.png");
+	private static final BufferedImage ROCKS_IMAGE = ImageLoader.loadImage("/WorldEditorImages/numberOfRocks.png");
+	private static final BufferedImage FOOD_IMAGE = ImageLoader.loadImage("/WorldEditorImages/amountOfFood.png");
+	private static final BufferedImage ANTHILL_IMAGE = ImageLoader.loadImage("/WorldEditorImages/sizeOfAnthill.png");
+	private static final BufferedImage CREATE_BUTTON = ImageLoader.loadImage("/WorldEditorImages/createButton.png");
+	private static final BufferedImage CREATE_HOVER_BUTTON = ImageLoader.loadImage("/WorldEditorImages/createButtonHover.png");
+	private static final BufferedImage BACK_BUTTON = ImageLoader.loadImage("/WorldEditorImages/backButton.png");
+	private static final BufferedImage BACK_HOVER_BUTTON = ImageLoader.loadImage("/WorldEditorImages/backButtonHover.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
-	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldSelectionPanelImages/selectWorldTitle.png");
-	private static final BufferedImage STATS_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/stats.png");
+	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldEditorImages/worldEditorTitle.png");
 	
-	public Game game;
-	public JLabel rocksLabel;
-	public JLabel foodLabel;
-	public JLabel sizeOfAnthillLabel;
 	
-	public WorldEditorPanel(Game game){
+	private Game game;
+	private JLabel rocksLabel;
+	private JLabel foodLabel;
+	private JLabel sizeOfAnthillLabel;
+	private WorldSelectionPanel parentPanel;
+	
+	public WorldEditorPanel(Game game, WorldSelectionPanel parentPanel){
 		
 		this.game = game;
+		this.parentPanel = parentPanel;
 		this.setLayout(new BorderLayout());
 		
 		// Title Panel
@@ -61,7 +74,7 @@ public class WorldEditorPanel extends JPanel{
 		BoxLayout rocksLayout = new BoxLayout(rocksPanel, BoxLayout.X_AXIS);
 		rocksPanel.setLayout(rocksLayout);
 		//Label
-		rocksLabel = new JLabel("Small");
+		rocksLabel = new JLabel("Small",SwingConstants.CENTER);
 		rocksLabel.setForeground(Color.WHITE);
 		rocksLabel.setFont(new Font("Helvetica", 0, 25));
 		rocksLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -70,7 +83,7 @@ public class WorldEditorPanel extends JPanel{
 		rocksLabel.setMaximumSize(new Dimension(100,100));
 		
 		//ImageButtons
-		ImageButton rocksMinusButton = new ImageButton(ADD_IMAGE, ADD_HOVER_IMAGE){
+		ImageButton rocksMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(rocksLabel.getText().equals("Medium")){
 					rocksLabel.setText("Small");
@@ -83,7 +96,7 @@ public class WorldEditorPanel extends JPanel{
 				}
 			}
 		};
-		ImageButton rocksPlusButton = new ImageButton(ADD_IMAGE, ADD_HOVER_IMAGE){
+		ImageButton rocksPlusButton = new ImageButton(PLUS_IMAGE, PLUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(rocksLabel.getText().equals("Small")){
 					rocksLabel.setText("Medium");
@@ -102,13 +115,13 @@ public class WorldEditorPanel extends JPanel{
 		BoxLayout rocksTitleLayout = new BoxLayout(rocksTitleContainer, BoxLayout.Y_AXIS);
 		rocksTitleContainer.setLayout(rocksTitleLayout);
 		rocksTitleContainer.add(new FixedSpacerPanel(100, 20));
-		rocksTitleContainer.add(new ImagePanel(STATS_IMAGE));
+		rocksTitleContainer.add(new ImagePanel(ROCKS_IMAGE));
 		rocksTitleContainer.add(new FixedSpacerPanel(100, 20)); 
 		rocksTitleContainer.setOpaque(false);
 		
 		//add the elements to the panel
 		rocksPanel.add(rocksTitleContainer);
-		rocksPanel.add(new FixedSpacerPanel(100, 0));
+		rocksPanel.add(new FixedSpacerPanel(54, 0));
 		rocksPanel.add(rocksMinusButton);
 		rocksPanel.add(new FixedSpacerPanel(50, 0));
 		rocksPanel.add(rocksLabel);
@@ -123,7 +136,7 @@ public class WorldEditorPanel extends JPanel{
 		foodPanel.setLayout(foodLayout);
 		
 		//Label
-		foodLabel = new JLabel("Small");
+		foodLabel = new JLabel("Small", SwingConstants.CENTER);
 		foodLabel.setForeground(Color.WHITE);
 		foodLabel.setFont(new Font("Helvetica", 0, 25));
 		foodLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -132,7 +145,7 @@ public class WorldEditorPanel extends JPanel{
 		foodLabel.setMaximumSize(new Dimension(100,100));
 		
 		//ImageButtons
-		ImageButton foodMinusButton = new ImageButton(ADD_IMAGE, ADD_HOVER_IMAGE){
+		ImageButton foodMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(foodLabel.getText().equals("Medium")){
 					foodLabel.setText("Small");
@@ -145,7 +158,7 @@ public class WorldEditorPanel extends JPanel{
 				}
 			}
 		};
-		ImageButton foodPlusButton = new ImageButton(ADD_IMAGE, ADD_HOVER_IMAGE){
+		ImageButton foodPlusButton = new ImageButton(PLUS_IMAGE, PLUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(foodLabel.getText().equals("Small")){
 					foodLabel.setText("Medium");
@@ -164,13 +177,13 @@ public class WorldEditorPanel extends JPanel{
 		BoxLayout foodTitleLayout = new BoxLayout(foodTitleContainer, BoxLayout.Y_AXIS);
 		foodTitleContainer.setLayout(foodTitleLayout);
 		foodTitleContainer.add(new FixedSpacerPanel(100, 20));
-		foodTitleContainer.add(new ImagePanel(STATS_IMAGE));
+		foodTitleContainer.add(new ImagePanel(FOOD_IMAGE));
 		foodTitleContainer.add(new FixedSpacerPanel(100, 20)); 
 		foodTitleContainer.setOpaque(false);
 		
 		//add the elements to the panel
 		foodPanel.add(foodTitleContainer);
-		foodPanel.add(new FixedSpacerPanel(100, 0));
+		foodPanel.add(new FixedSpacerPanel(68, 0));
 		foodPanel.add(foodMinusButton);
 		foodPanel.add(new FixedSpacerPanel(50, 0));
 		foodPanel.add(foodLabel);
@@ -185,7 +198,7 @@ public class WorldEditorPanel extends JPanel{
 		sizeOfAnthillPanel.setLayout(anthillLayout);
 		
 		//Label
-		sizeOfAnthillLabel = new JLabel("Small");
+		sizeOfAnthillLabel = new JLabel("Small", SwingConstants.CENTER);
 		sizeOfAnthillLabel.setForeground(Color.WHITE);
 		sizeOfAnthillLabel.setFont(new Font("Helvetica", 0, 25));
 		sizeOfAnthillLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -194,7 +207,7 @@ public class WorldEditorPanel extends JPanel{
 		sizeOfAnthillLabel.setMaximumSize(new Dimension(100,100));
 		
 		//ImageButtons
-		ImageButton sizeOfAnthillMinusButton = new ImageButton(ADD_IMAGE, ADD_HOVER_IMAGE){
+		ImageButton sizeOfAnthillMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(sizeOfAnthillLabel.getText().equals("Medium")){
 					sizeOfAnthillLabel.setText("Small");
@@ -207,7 +220,7 @@ public class WorldEditorPanel extends JPanel{
 				}
 			}
 		};
-		ImageButton sizeOfAnthillPlusButton = new ImageButton(ADD_IMAGE, ADD_HOVER_IMAGE){
+		ImageButton sizeOfAnthillPlusButton = new ImageButton(PLUS_IMAGE, PLUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(sizeOfAnthillLabel.getText().equals("Small")){
 					sizeOfAnthillLabel.setText("Medium");
@@ -226,7 +239,7 @@ public class WorldEditorPanel extends JPanel{
 		BoxLayout anthillTitleLayout = new BoxLayout(anthillTitleContainer, BoxLayout.Y_AXIS);
 		anthillTitleContainer.setLayout(anthillTitleLayout);
 		anthillTitleContainer.add(new FixedSpacerPanel(100, 20));
-		anthillTitleContainer.add(new ImagePanel(STATS_IMAGE));
+		anthillTitleContainer.add(new ImagePanel(ANTHILL_IMAGE));
 		anthillTitleContainer.add(new FixedSpacerPanel(100, 20)); 
 		anthillTitleContainer.setOpaque(false);
 
@@ -247,11 +260,44 @@ public class WorldEditorPanel extends JPanel{
 		selectorPanel.add(sizeOfAnthillPanel);
 		selectorPanel.setOpaque(false);
 		
+		//Bottom buttons
+		JPanel bottomButtons = new JPanel();
+		BoxLayout bottomLayout = new BoxLayout(bottomButtons, BoxLayout.Y_AXIS);
+		bottomButtons.setLayout(bottomLayout);
+		bottomButtons.setOpaque(false);
+		
+		//Create button
+		ImageButton createButton = new ImageButton(CREATE_BUTTON, CREATE_HOVER_BUTTON){
+			public void mouseClicked(MouseEvent e) {
+				// generate the world
+				// World world = generateWorld(params)
+				World antWorld = null; 
+				getWorldScreen().setWorld(antWorld);
+				getWorldScreen().previewWorld();
+				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
+			}
+		};
+		
+		//Back button
+		ImageButton backButton = new ImageButton(BACK_BUTTON, BACK_HOVER_BUTTON){
+			public void mouseClicked(MouseEvent e) {
+				reset();
+				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
+			}
+		};
+		
+		//add buttons to panel
+		bottomButtons.add(createButton);
+		bottomButtons.add(new FixedSpacerPanel(20, 20));
+		bottomButtons.add(backButton);
+		bottomButtons.add(new FixedSpacerPanel(20, 20));
+		
 		add(titleContainer, BorderLayout.NORTH);
 		add(selectorPanel, BorderLayout.CENTER);
 		//add spacer panels for looking good
-		add(new FixedSpacerPanel(200, 50), BorderLayout.WEST);
-		add(new FixedSpacerPanel(200, 50), BorderLayout.EAST);
+		add(new FixedSpacerPanel(78, 50), BorderLayout.WEST);
+		add(new FixedSpacerPanel(100, 50), BorderLayout.EAST);
+		add(bottomButtons, BorderLayout.SOUTH);
 	}
 	
 	@Override
@@ -260,12 +306,24 @@ public class WorldEditorPanel extends JPanel{
 		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
 	}
 	
+	public void reset() {
+		
+	}
+	
+	public Game getGame() {
+		return game;
+	}
+	
+	public WorldSelectionPanel getWorldScreen() {
+		return parentPanel;
+	}
+	
 	public static void main(String[] args){
 		//Add content to the window.
 		JFrame frame = new JFrame("World Editor");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1024, 576);
-		frame.add(new WorldEditorPanel(null));
+		frame.add(new WorldEditorPanel(null, null));
 		frame.setResizable(false);
 
 		//Display the window.

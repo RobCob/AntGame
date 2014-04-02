@@ -39,6 +39,8 @@ public class TournamentSelection extends JPanel{
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<String> playerNames = new ArrayList<String>();
 	
+	private Game game;
+	
 	private JTextField playerName;
 	private JTextField worldNumberField;
 	private DualImagePanel nameValidate;
@@ -53,9 +55,10 @@ public class TournamentSelection extends JPanel{
 	JPanel itemPanel;
 	
 	
-	public TournamentSelection(){
+	public TournamentSelection(Game game){
 		this.setLayout(new FlowLayout());
 		fc = new JFileChooser();
+		this.game = game;
 		
 		JPanel titlepanel = new JPanel();
 		titlepanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -74,7 +77,6 @@ public class TournamentSelection extends JPanel{
 		nickname.setAlignmentX(CENTER_ALIGNMENT);
 		
 		playerName = new JTextField(generateName(), 11);
-		//playerName.setPreferredSize(new Dimension(900, 50));
 		playerName.setFont(new Font("Helvetica", 0, 25));
 		playerName.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
 		playerName.setOpaque(false);
@@ -82,7 +84,6 @@ public class TournamentSelection extends JPanel{
 		playerName.setCaretColor(Color.WHITE);
 		playerName.setForeground(Color.WHITE);
 		playerName.setBackground(new Color(255,255,255,0));
-		//playerName.setAlignmentX(CENTER_ALIGNMENT);
 		
 		nameValidate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
 		nameValidate.displayFirst();
@@ -246,6 +247,10 @@ public class TournamentSelection extends JPanel{
 	public void removePlayer(Player player) {
 		players.remove(player);
 		playerNames.remove(player.getNickname());
+		if (Game.GUI_DEBUG) {
+			System.out.println("TournamentSelection Players = " + players );
+			System.out.println("TournamentSelection playerNames = " + playerNames);
+		}
 	}
 	
 	public String getErrorMessage(){
@@ -273,12 +278,14 @@ public class TournamentSelection extends JPanel{
 		return "Player" + nameGen;
 	}
 	
-	
+	public Game getGame() {
+		return game;
+	}
 	
 	// Leave this in for testing this page by itself
 	public static void main(String args[]){
 		JFrame jframe = new JFrame();
-		jframe.add(new TournamentSelection());
+		jframe.add(new TournamentSelection(null));
 		jframe.setVisible(true);
 		jframe.setSize(1024, 576);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
