@@ -14,7 +14,7 @@ public class World {
 	private ArrayList<AntHillTile> antHills;
 	public final int sizeX,sizeY;
 	
-	public static World generateWorld(int sizeX, int sizeY, int antHillSize, int rockCount){
+	public static World generateWorld(int sizeX, int sizeY, int antHillSize, int rockCount, int foodPileCount){
 		Tile[][] grid = new Tile[sizeX][sizeY];
 		// Fill grid with clear tiles
 		for(int i = 0; i < sizeX; i++){
@@ -42,9 +42,6 @@ public class World {
 			boolean obstructed = false;
 			if(grid[randX][randY].isRocky() || ((ClearTile)grid[randX][randY]).isAnthill()){
 				obstructed = true;
-				if(Game.DEBUG){
-					System.out.println("DEBUG | ANTHILL PLACEMENT FAILED");
-				}
 			}
 			tiles.add((randY * sizeX) + randX);
 			for(int i = 1; i <= antHillSize & !obstructed; i++){
@@ -55,9 +52,6 @@ public class World {
 						int y = currentID / sizeX;
 						if(grid[x][y].isRocky() || ((ClearTile)grid[x][y]).isAnthill()){
 							obstructed = true;
-							if(Game.DEBUG){
-								System.out.println("DEBUG | ANTHILL PLACEMENT FAILED");
-							}
 						}
 						if(i < antHillSize){
 							tiles.add(currentID);
@@ -85,8 +79,8 @@ public class World {
 					blackAntHillPlaced = true;
 				}
 			}
-//			grid[randX][randY] = new RockTile();
 		}
+		// Place rocks
 		int placedRocks = 0;
 		while(placedRocks < rockCount){
 			int randX = State.randomInt(sizeX);
@@ -99,14 +93,54 @@ public class World {
 				int y = newTile / sizeX;
 				if(grid[x][y].isRocky() || ((ClearTile)grid[x][y]).isAnthill()){
 					obstructed = true;
-//					if(Game.DEBUG){
-//						System.out.println("DEBUG | ROCK PLACEMENT FAILED");
-//					}
 				}
 			}
 			if(!obstructed){
 				grid[randX][randY] = new RockTile();
 				placedRocks++;
+			}
+		}
+		// Place food
+		int foodSize = 3;
+		int placedFood = 0;
+		while(placedFood < foodPileCount){
+			ArrayList<Integer> tiles = new ArrayList<Integer>();
+			int randX = State.randomInt(sizeX);
+			int randY = State.randomInt(sizeY);
+			int randOrientation = State.randomInt(2);
+			boolean obstructed = false;
+			int startID = randY * sizeX + randX;
+			if(grid[randX][randY].isRocky() || ((ClearTile)grid[randX][randY]).isAnthill()){
+				obstructed = true;
+			}else{
+				tiles.add(startID);
+			}
+			for(int i = 1; i <= foodSize & !obstructed; i++){
+				startID = getAhead(4+randOrientation, startID, sizeX);
+				int currentID = startID;
+				int increment = 1;
+				for(int j = 0; j <= 6 & !obstructed; j+= increment){
+					increment = (increment % 2) + 1;
+					for(int k = 0; k < i*2 & !obstructed; k++){
+						int x = ((currentID % sizeX) + sizeX) % sizeX;
+						int y = currentID / sizeX;
+						if(grid[x][y].isRocky() || ((ClearTile)grid[x][y]).isAnthill()){
+							obstructed = true;
+						}
+						if(i < foodSize){
+							tiles.add(currentID);
+						}
+						currentID = getAhead((((j + randOrientation)%6)+6)%6, currentID, sizeX);
+					}
+				}
+			}
+			if(!obstructed){
+				for(int i = 0; i < tiles.size(); i++){
+					int x = ((tiles.get(i) % sizeX) + sizeX) % sizeX;
+					int y = tiles.get(i) / sizeX;
+					((ClearTile)grid[x][y]).setFood(((ClearTile)grid[x][y]).getFood()+5);
+				}
+				placedFood++;
 			}
 		}
 		return new World(grid);
