@@ -282,7 +282,10 @@ public class TournamentSelection extends JPanel{
 		return game;
 	}
 	
-	// Leave this in for testing this page by itself
+	/**
+	 * Used to test this particular screen without the need for a Game model.
+	 * @param args
+	 */
 	public static void main(String args[]){
 		JFrame jframe = new JFrame();
 		jframe.add(new TournamentSelection(null));
