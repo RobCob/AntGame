@@ -1,16 +1,13 @@
 package graphics.screens;
 
-import graphics.components.FixedSpacerPanel;
-import graphics.components.ImageButton;
-import graphics.components.ImagePanel;
-import graphics.utilities.ImageLoader;
+import graphics.components.*;
+import graphics.utilities.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
@@ -26,7 +23,6 @@ import model.World;
 
 public class WorldEditorPanel extends JPanel{
 	
-	//images
 	private static final BufferedImage PLUS_IMAGE = ImageLoader.loadImage("/WorldEditorImages/plusButton.png");
 	private static final BufferedImage PLUS_HOVER_IMAGE = ImageLoader.loadImage("/WorldEditorImages/plusButtonHover.png");
 	private static final BufferedImage MINUS_IMAGE = ImageLoader.loadImage("/WorldEditorImages/minusButton.png");
@@ -40,7 +36,6 @@ public class WorldEditorPanel extends JPanel{
 	private static final BufferedImage BACK_HOVER_BUTTON = ImageLoader.loadImage("/WorldEditorImages/backButtonHover.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldEditorImages/worldEditorTitle.png");
-	
 	
 	private Game game;
 	private JLabel rocksLabel;
@@ -281,7 +276,7 @@ public class WorldEditorPanel extends JPanel{
 		//Back button
 		ImageButton backButton = new ImageButton(BACK_BUTTON, BACK_HOVER_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				reset();
+				resetScreen();
 				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 			}
 		};
@@ -300,24 +295,45 @@ public class WorldEditorPanel extends JPanel{
 		add(bottomButtons, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Overridden to paint the background image.
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
 	}
 	
-	public void reset() {
-		
+	/**
+	 * This method simply resets the values of various parameters
+	 * back to their default values.
+	 * To be used when switching screen.
+	 * No need for a button that calls the method, as it is only called on code-level.
+	 */
+	public void resetScreen() {
+		//TODO
 	}
 	
+	/**
+	 * Get the Game model linked with screen.
+	 * @return the Game model linked with screen.
+	 */
 	public Game getGame() {
 		return game;
 	}
 	
+	/**
+	 * Returns the world selection screen that this panel is linked to.
+	 * @return the world selection screen that this panel is linked to.
+	 */
 	public WorldSelectionPanel getWorldScreen() {
 		return parentPanel;
 	}
 	
+	/**
+	 * Used to test this particular screen without the need for a Game model.
+	 * @param args
+	 */
 	public static void main(String[] args){
 		//Add content to the window.
 		JFrame frame = new JFrame("World Editor");

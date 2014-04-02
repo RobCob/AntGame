@@ -15,6 +15,9 @@ import javax.swing.JPanel;
 
 import model.Game;
 
+/**
+ * MainMenuPanel: JPanel that represents the main menu for the AntGame. 
+ */
 public class MainMenuPanel extends JPanel{
 	private Game game;
 
@@ -49,6 +52,7 @@ public class MainMenuPanel extends JPanel{
 			}
 		});
 
+		// Wrap up the title.
 		JPanel titleContainer = new JPanel();
 		BoxLayout titleLayout = new BoxLayout(titleContainer, BoxLayout.Y_AXIS);
 		titleContainer.setLayout(titleLayout);
@@ -57,6 +61,7 @@ public class MainMenuPanel extends JPanel{
 		titleContainer.add(new FixedSpacerPanel(100, 0));
 		titleContainer.setOpaque(false);
 
+		// Wrap up the two buttons.
 		JPanel buttonContainer = new JPanel();
 		BoxLayout buttonLayout = new BoxLayout(buttonContainer, BoxLayout.Y_AXIS);
 		buttonContainer.setLayout(buttonLayout);
