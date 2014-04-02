@@ -54,7 +54,7 @@ public class World {
 						int x = ((currentID % sizeX) + sizeX) % sizeX;
 						int y = currentID / sizeX;
 //						System.out.println(currentID + ", " + x + ", " + y);
-						if(grid[x][y].isRocky()){
+						if(grid[x][y].isRocky() || ((ClearTile)grid[x][y]).isAnthill()){
 							obstructed = true;
 							if(Game.DEBUG){
 								System.out.println("DEBUG | ANTHILL PLACEMENT FAILED");
