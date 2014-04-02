@@ -48,9 +48,7 @@ public class MainMenuPanel extends JPanel{
 		
 		ImageButton tournamentButton = new ImageButton(TOURNAMENT_BUTTON_BACKGROUND_IMAGE, TOURNAMENT_BUTTON_HOVER_IMAGE) {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
-				getGame().createMatchPanelGrid(100, 100, 4, 1);
-				getGame().switchScreen(Game.MATCH_SCREEN);
-				getGame().startMatch();
+				getGame().switchScreen(Game.TOURNAMENT_SELECTION_SCREEN);
 			}
 		};
 		
@@ -59,6 +57,15 @@ public class MainMenuPanel extends JPanel{
 				getGame().switchScreen(Game.NON_TOURNAMENT_SELECTION_SCREEN);
 			}
 		};
+		
+		JButton debugButton = new JButton("Debug Button");
+		debugButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				getGame().createMatchPanelGrid(100, 100, 4, 1);
+				getGame().switchScreen(Game.MATCH_SCREEN);
+				getGame().startMatch();
+			}
+		});
 		
 		/*
 		Border normBorder = BorderFactory.createLineBorder(new Color(0,0,0,170),7);
@@ -96,6 +103,7 @@ public class MainMenuPanel extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.add(titleContainer, BorderLayout.NORTH);
 		this.add(buttonContainer, BorderLayout.CENTER);
+		if (Game.GUI_DEBUG) this.add(debugButton, BorderLayout.SOUTH);
 		//this.add(testButton, BorderLayout.WEST);
 	}
 	

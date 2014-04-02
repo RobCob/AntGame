@@ -39,6 +39,8 @@ public class TournamentSelection extends JPanel{
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<String> playerNames = new ArrayList<String>();
 	
+	private Game game;
+	
 	private JTextField playerName;
 	private JTextField worldNumberField;
 	private DualImagePanel nameValidate;
@@ -53,9 +55,10 @@ public class TournamentSelection extends JPanel{
 	JPanel itemPanel;
 	
 	
-	public TournamentSelection(){
+	public TournamentSelection(Game game){
 		this.setLayout(new FlowLayout());
 		fc = new JFileChooser();
+		this.game = game;
 		
 		JPanel titlepanel = new JPanel();
 		titlepanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -275,12 +278,14 @@ public class TournamentSelection extends JPanel{
 		return "Player" + nameGen;
 	}
 	
-	
+	public Game getGame() {
+		return game;
+	}
 	
 	// Leave this in for testing this page by itself
 	public static void main(String args[]){
 		JFrame jframe = new JFrame();
-		jframe.add(new TournamentSelection());
+		jframe.add(new TournamentSelection(null));
 		jframe.setVisible(true);
 		jframe.setSize(1024, 576);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
