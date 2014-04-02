@@ -43,6 +43,8 @@ public class NonTournamentResultsPanel extends JPanel{
 	private static final BufferedImage STATS_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/stats.png");
 	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/mainMenu.png");
 	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentResultsPanelImages/mainMenuHover.png");
+	private static final BufferedImage NEXT_MATCH_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/nextMatch.png");
+	private static final BufferedImage NEXT_MATCH_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentResultsPanelImages/nextMatchHover.png");
 	
 	//other parameters
 	private Game game;
@@ -181,13 +183,22 @@ public class NonTournamentResultsPanel extends JPanel{
         statsSplitPane.setBorder(null);
         statsSplitPane.setDividerSize(0);
         
+        ImageButton goButton = null;
         //Button for replaying
-        //needs to be changed to actual image, this one is just for testing
-        ImageButton goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
-        	public void mouseClicked(MouseEvent e) {
-        		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
-        	}
-        };
+        if(game.getCurrentTournament() == null){
+	        goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
+	        	public void mouseClicked(MouseEvent e) {
+	        		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
+	        	}
+	        };
+        }
+        else{
+        	goButton = new ImageButton(NEXT_MATCH_IMAGE, NEXT_MATCH_IMAGE_HOVER) {
+	        	public void mouseClicked(MouseEvent e) {
+	        		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
+	        	}
+	        };
+        }
 
         JPanel goPanel = new JPanel();
         goPanel.setOpaque(false);
