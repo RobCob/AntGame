@@ -18,7 +18,9 @@ public class World {
 		Tile[][] grid = new Tile[sizeX][sizeY];
 		// Fill grid with clear tiles
 		for(int i = 0; i < sizeX; i++){
-			Arrays.fill(grid[i], new ClearTile());
+			for(int j = 0; j < sizeY; j++){
+				grid[i][j] = new ClearTile();
+			}
 		}
 		// Fill top and bottom rock boarders
 		for(int i = 0; i < sizeX; i++){
