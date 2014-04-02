@@ -39,7 +39,7 @@ public class MainMenuPanel extends JPanel{
 
 		ImageButton nonTournamentButton = new ImageButton(NON_TOURNAMENT_BUTTON_BACKGROUND, NON_TOURNAMENT_BUTTON_HOVER) {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
-				getGame().switchScreen(Game.NON_TOURNAMENT_SELECTION_SCREEN);
+				getGame().switchScreen(Game.MATCH_BRAIN_SELECTION_SCREEN);
 			}
 		};
 

@@ -4,11 +4,12 @@ import graphics.components.HexGrid;
 import graphics.components.Hexagon;
 import graphics.screens.MainMenuPanel;
 import graphics.screens.MatchPanel;
-import graphics.screens.NonTournamentResultsPanel;
-import graphics.screens.NonTournamentSelection;
-import graphics.screens.TournamentSelection;
-import graphics.screens.WorldEditorPanel;
-import graphics.screens.WorldSelectionPanel;
+import graphics.screens.MatchResultsPanel;
+import graphics.screens.MatchBrainSelectionPanel;
+import graphics.screens.TournamentResultsPanel;
+import graphics.screens.TournamentSelectionPanel;
+import graphics.screens.CustomWorldSelectionPanel;
+import graphics.screens.MatchWorldSelectionPanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -49,19 +50,22 @@ public class Game extends JFrame{
 	private MatchPanel matchPanel = new MatchPanel(this, grid);
 	public static final String MATCH_SCREEN = "Match";
 	
-	private NonTournamentResultsPanel nonTournamentResults = new NonTournamentResultsPanel(this);
+	private MatchResultsPanel nonTournamentResults = new MatchResultsPanel(this);
 	public static final String MATCH_RESULTS_SCREEN = "Match Results";
 	
-	private NonTournamentSelection nonTournamentPanel = new NonTournamentSelection(this);
-	public static final String NON_TOURNAMENT_SELECTION_SCREEN = "NonTournamentSelect";
+	private MatchBrainSelectionPanel nonTournamentPanel = new MatchBrainSelectionPanel(this);
+	public static final String MATCH_BRAIN_SELECTION_SCREEN = "NonTournamentSelect";
 	
-	private WorldSelectionPanel worldSelectionPanel = new WorldSelectionPanel(this);
+	private TournamentResultsPanel tournamentResults = new TournamentResultsPanel(this);
+	public static final String TOURNAMENT_RESULTS_SCREEN = "Tournament Results";
+	
+	private MatchWorldSelectionPanel worldSelectionPanel = new MatchWorldSelectionPanel(this);
 	public static final String WORLD_SELECTION_SCREEN = "WorldSelectionScreen";
 
-	private WorldEditorPanel worldEditorPanel = new WorldEditorPanel(this, worldSelectionPanel);
+	private CustomWorldSelectionPanel worldEditorPanel = new CustomWorldSelectionPanel(this, worldSelectionPanel);
 	public static final String WORLD_EDITOR_SCREEN = "WorldEditorScreen";
 	
-	private TournamentSelection tournamentSelectionPanel = new TournamentSelection(this);
+	private TournamentSelectionPanel tournamentSelectionPanel = new TournamentSelectionPanel(this);
 	public static final String TOURNAMENT_SELECTION_SCREEN = "tournamentSelectionScreen";
 	
 	
@@ -78,7 +82,8 @@ public class Game extends JFrame{
 		addScreen(mainMenuPanel, MAIN_MENU_SCREEN);
 		addScreen(matchPanel, MATCH_SCREEN);
 		addScreen(nonTournamentResults, MATCH_RESULTS_SCREEN);
-		addScreen(nonTournamentPanel, NON_TOURNAMENT_SELECTION_SCREEN);
+		addScreen(tournamentResults, TOURNAMENT_RESULTS_SCREEN);
+		addScreen(nonTournamentPanel, MATCH_BRAIN_SELECTION_SCREEN);
 		addScreen(worldSelectionPanel, WORLD_SELECTION_SCREEN);
 		addScreen(worldEditorPanel, WORLD_EDITOR_SCREEN);
 		addScreen(tournamentSelectionPanel, TOURNAMENT_SELECTION_SCREEN);

@@ -29,7 +29,7 @@ import javax.swing.event.DocumentListener;
  * NonTournamentSelection: A screen for the AntGame. This screen allows both players
  * to enter a nickname and provide an ant-brain. Validation is performed on both.
  */
-public class NonTournamentSelection  extends JPanel {
+public class MatchBrainSelectionPanel  extends JPanel {
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/playerSelectTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
@@ -58,7 +58,7 @@ public class NonTournamentSelection  extends JPanel {
 	 * This screen allows users to 
 	 * @param game the game model that this screen is a part of.
 	 */
-	public NonTournamentSelection(Game game) {
+	public MatchBrainSelectionPanel(Game game) {
 		this.game = game;
 		this.setLayout(new BorderLayout());
 		fc = new JFileChooser(); // Default OS file chooser.
@@ -130,7 +130,7 @@ public class NonTournamentSelection  extends JPanel {
 
 		ImageButton openButton1 = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
 			public void mouseClicked(MouseEvent e) {
-				int returnVal = fc.showOpenDialog(NonTournamentSelection.this);
+				int returnVal = fc.showOpenDialog(MatchBrainSelectionPanel.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File brainFile = fc.getSelectedFile();
 					AntBrain brain = AntBrainReader.readBrain(brainFile);
@@ -218,7 +218,7 @@ public class NonTournamentSelection  extends JPanel {
 
 		ImageButton openButton2 = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
 			public void mouseClicked(MouseEvent e) {
-				int returnVal = fc.showOpenDialog(NonTournamentSelection.this);
+				int returnVal = fc.showOpenDialog(MatchBrainSelectionPanel.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File brainFile = fc.getSelectedFile();
 					AntBrain brain = AntBrainReader.readBrain(brainFile); 
@@ -284,7 +284,7 @@ public class NonTournamentSelection  extends JPanel {
 				String errorMessage = getErrorMessage();
 				boolean valid = errorMessage == null;
 				if (!valid) {
-					JOptionPane.showMessageDialog(NonTournamentSelection.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(MatchBrainSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					player1 = new Player(p1NickField.getText().trim(), player1Brain);
 					player2 = new Player(p2NickField.getText().trim(), player2Brain);
@@ -427,7 +427,7 @@ public class NonTournamentSelection  extends JPanel {
 		JFrame frame = new JFrame("World File Chooser");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1024, 576);
-		frame.add(new NonTournamentSelection(null));
+		frame.add(new MatchBrainSelectionPanel(null));
 		frame.setResizable(false);
 
 		//Display the window.

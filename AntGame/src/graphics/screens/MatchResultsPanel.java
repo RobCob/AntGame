@@ -34,7 +34,7 @@ import model.Player;
 /**
  * Results given after a non-tournament match.
  */
-public class NonTournamentResultsPanel extends JPanel{
+public class MatchResultsPanel extends JPanel{
 	
 	//images
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/scoresTitle.png");
@@ -50,6 +50,9 @@ public class NonTournamentResultsPanel extends JPanel{
 	private Game game;
 	private Player winner; //the winner of the game that just went on, no need for further distinction
 	private Player loser;
+	
+	private JPanel goPanel;
+	private ImageButton goButton;
 	private JLabel winnerLabel;
 	
 	private JLabel blackLabel;
@@ -62,7 +65,7 @@ public class NonTournamentResultsPanel extends JPanel{
 	private JLabel redKillCount;
 	private JLabel redAntDeaths;
 	
-	public NonTournamentResultsPanel(Game game) {
+	public MatchResultsPanel(Game game) {
 		this.game = game;
 		this.setLayout(new BorderLayout());
 		// get results from previously played match
@@ -183,24 +186,14 @@ public class NonTournamentResultsPanel extends JPanel{
         statsSplitPane.setBorder(null);
         statsSplitPane.setDividerSize(0);
         
-        ImageButton goButton = null;
+        goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER){
+        	public void mouseClicked(MouseEvent e) {
+        		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
+        	}
+        };
         //Button for replaying
-        if(game.getCurrentTournament() == null){
-	        goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
-	        	public void mouseClicked(MouseEvent e) {
-	        		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
-	        	}
-	        };
-        }
-        else{
-        	goButton = new ImageButton(NEXT_MATCH_IMAGE, NEXT_MATCH_IMAGE_HOVER) {
-	        	public void mouseClicked(MouseEvent e) {
-	        		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
-	        	}
-	        };
-        }
 
-        JPanel goPanel = new JPanel();
+        goPanel = new JPanel();
         goPanel.setOpaque(false);
         goPanel.add(goButton);
         goPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 40, 0));
@@ -263,6 +256,35 @@ public class NonTournamentResultsPanel extends JPanel{
 		redFoodCollected.setText("Food collected: "+match.getScore(player2));
 		redKillCount.setText("Ants killed: " + blackDeaths);
 		redAntDeaths.setText("Ants Died: " + redDeaths);
+		if(getGame().getCurrentTournament() == null){
+	        goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
+	        	public void mouseClicked(MouseEvent e) {
+	        		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
+	        	}
+	        };
+        }else{
+        	if(!getGame().getCurrentTournament().isLastMatch()){
+	        	goButton = new ImageButton(NEXT_MATCH_IMAGE, NEXT_MATCH_IMAGE_HOVER) {
+		        	public void mouseClicked(MouseEvent e) {
+		        		getGame().getCurrentTournament().nextMatch();
+		        		getGame().setCurrentMatch(getGame().getCurrentTournament().getCurrentMatch());
+		        		getGame().switchScreen(Game.MATCH_SCREEN);
+		        		getGame().startMatch();
+		        	}
+		        };
+        	}else{
+        		goButton = new ImageButton(STATS_IMAGE, WINNER_IMAGE){
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						getGame().getCurrentTournament().nextMatch();
+						getGame();
+						getGame().switchScreen(Game.TOURNAMENT_RESULTS_SCREEN);
+					}
+        		};
+        	}
+	        goPanel.removeAll();
+	        goPanel.add(goButton);
+        }
 	}
 	
 	 @Override
@@ -280,7 +302,7 @@ public class NonTournamentResultsPanel extends JPanel{
         JFrame frame = new JFrame("Results");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024, 576);
-        frame.add(new NonTournamentResultsPanel(null));
+        frame.add(new MatchResultsPanel(null));
         frame.setResizable(false);
         
         //Display the window.

@@ -1,5 +1,5 @@
 package graphics.components;
-import graphics.screens.TournamentSelection;
+import graphics.screens.TournamentSelectionPanel;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -61,8 +61,8 @@ public class ListItem extends JPanel{
 				parent.revalidate();
 				parent.repaint();
 				
-				if (screen instanceof TournamentSelection) {
-					TournamentSelection ts = (TournamentSelection)screen;
+				if (screen instanceof TournamentSelectionPanel) {
+					TournamentSelectionPanel ts = (TournamentSelectionPanel)screen;
 					ts.removePlayer(player);
 				}
 			}

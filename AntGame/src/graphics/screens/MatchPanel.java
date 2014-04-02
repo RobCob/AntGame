@@ -229,7 +229,7 @@ public class MatchPanel extends JPanel {
 		//Low Speed button
 		ImageButton lowSpeed = new ImageButton(LOW_BUTTON_IMAGE, LOW_BUTTON_IMAGE_HOVER) {
         	public void mouseClicked(MouseEvent e) {
-        		// DOES NOTHING RIGHT NOW
+        		getGame().setRoundsPerSecond(10);
         	}
         };
         lowSpeed.setAlignmentX(CENTER_ALIGNMENT);
@@ -238,7 +238,7 @@ public class MatchPanel extends JPanel {
         //Medium Speed button
         ImageButton mediumSpeed = new ImageButton(MEDIUM_BUTTON_IMAGE, MEDIUM_BUTTON_IMAGE_HOVER) {
         	public void mouseClicked(MouseEvent e) {
-        		// DOES NOTHING RIGHT NOW
+        		getGame().setRoundsPerSecond(1000);
         	}
         };
         mediumSpeed.setAlignmentX(CENTER_ALIGNMENT);
@@ -247,7 +247,7 @@ public class MatchPanel extends JPanel {
         //High Speed button
         ImageButton highSpeed = new ImageButton(HIGH_BUTTON_IMAGE, HIGH_BUTTON_IMAGE_HOVER) {
         	public void mouseClicked(MouseEvent e) {
-        		// DOES NOTHING RIGHT NOW
+        		getGame().setRoundsPerSecond(10000);
         	}
         };
         highSpeed.setAlignmentX(CENTER_ALIGNMENT);

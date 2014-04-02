@@ -35,10 +35,11 @@ import model.AntBrain;
 import model.AntBrainReader;
 import model.Game;
 import model.Player;
+import model.State;
 import model.World;
 import model.WorldReader;
 
-public class WorldSelectionPanel extends JPanel{
+public class MatchWorldSelectionPanel extends JPanel{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldSelectionPanelImages/selectWorldTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
@@ -61,7 +62,7 @@ public class WorldSelectionPanel extends JPanel{
 	private JFileChooser fc; //This is the file chooser
 	private DualImagePanel worldValidateImage;
 	
-	public WorldSelectionPanel(Game game) {
+	public MatchWorldSelectionPanel(Game game) {
 		this.game = game;
 		this.grid = new HexGrid(100, 100, 6, 1);
 		this.fc = new JFileChooser(); // Default OS file chooser.
@@ -99,22 +100,31 @@ public class WorldSelectionPanel extends JPanel{
 		//ImageButtons
 		ImageButton randomWorldButton = new ImageButton(RANDOM_BUTTON, RANDOM_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				//sads
+				int antHillSize = 0;
+				while(antHillSize < 5 | antHillSize > 12){
+					antHillSize = State.randomInt(12);
+				}
+				int rockCount = 0;
+				while(rockCount < 5 | rockCount > 20){
+					rockCount = State.randomInt(20);
+				}
+				int foodPileCount = 0;
+				while(foodPileCount < 4 | foodPileCount > 15){
+					foodPileCount = State.randomInt(15);
+				}
+				World world = World.generateWorld(100, 100, antHillSize, rockCount, foodPileCount);
+                setWorld(world);
+            	previewWorld();
 			}
 		};
 		randomWorldButton.setAlignmentY(LEFT_ALIGNMENT);
 		ImageButton uploadWorldButton = new ImageButton(UPLOAD_BUTTON, UPLOAD_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				int returnVal = fc.showOpenDialog(WorldSelectionPanel.this);
+				int returnVal = fc.showOpenDialog(MatchWorldSelectionPanel.this);
 	            if (returnVal == JFileChooser.APPROVE_OPTION) {
 	                File worldFile = fc.getSelectedFile();
 	                World world = WorldReader.readWorld(worldFile);
-	                if (world == null) {
-	                	worldValidateImage.displaySecond();
-	                } else {
-	                	worldValidateImage.displayFirst();
-	                }
-                	antWorld = world;
+	                setWorld(world);
                 	previewWorld();
 	            }
 			}
@@ -179,7 +189,7 @@ public class WorldSelectionPanel extends JPanel{
 				String errorMessage = getErrorMessage();
 				boolean valid = (errorMessage == null);
 				if (!valid) {
-					JOptionPane.showMessageDialog(WorldSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(MatchWorldSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					getGame().getCurrentMatch().setWorld(antWorld);
 					getGame().createMatchPanelGrid(antWorld.sizeX, antWorld.sizeY, 2, 1);
@@ -250,8 +260,13 @@ public class WorldSelectionPanel extends JPanel{
 		this.scrollPane.repaint();
 	}
 	
-	public void setWorld(World antWorld) {
-		this.antWorld = antWorld;
+	public void setWorld(World world) {
+		if (world == null) {
+        	worldValidateImage.displaySecond();
+        } else {
+        	this.antWorld = world;
+        	worldValidateImage.displayFirst();
+        }
 	}
 	
 	/**
@@ -280,7 +295,7 @@ public class WorldSelectionPanel extends JPanel{
 		JFrame frame = new JFrame("World Selection");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1024, 576);
-		frame.add(new WorldSelectionPanel(null));
+		frame.add(new MatchWorldSelectionPanel(null));
 		frame.setResizable(false);
 
 		//Display the window.

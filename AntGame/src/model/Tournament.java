@@ -24,6 +24,9 @@ public class Tournament {
 	
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
+		for(int i = 0; i < players.size(); i++){
+			scores.put(players.get(i), 0);
+		}
 	}
 
 	public void setWorlds(ArrayList<World> worlds) {
@@ -35,19 +38,17 @@ public class Tournament {
 		}
 	}
 	
-	public void nextMatch(){
-		currentMatch++;
-	}
-	
 	
 	public Match getCurrentMatch(){
 		return matches.get(currentMatch);
 	}
 	
-	public void playMatch(){
-		if(matches.get(currentMatch).getRoundNumber() < Match.MAX_ROUNDS){
-			matches.get(currentMatch).nextRound();
-		}else{
+	public boolean isLastMatch(){
+		return currentMatch >= (matches.size()-1);
+	}
+	
+	public void nextMatch(){
+		if(matches.get(currentMatch).getRoundNumber() == Match.MAX_ROUNDS){
 			if(currentMatch < matches.size()){
 				Match current = matches.get(currentMatch);
 				Player winner = current.getWinner();

@@ -22,7 +22,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TournamentSelection extends JPanel{
+public class TournamentSelectionPanel extends JPanel{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/playerSelectTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
@@ -55,7 +55,7 @@ public class TournamentSelection extends JPanel{
 	JPanel itemPanel;
 	
 	
-	public TournamentSelection(Game game){
+	public TournamentSelectionPanel(Game game){
 		this.setLayout(new FlowLayout());
 		fc = new JFileChooser();
 		this.game = game;
@@ -108,7 +108,7 @@ public class TournamentSelection extends JPanel{
 		
 		ImageButton openBrain = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
 			public void mouseClicked(MouseEvent e) {
-				int returnVal = fc.showOpenDialog(TournamentSelection.this);
+				int returnVal = fc.showOpenDialog(TournamentSelectionPanel.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File brainFile = fc.getSelectedFile();
 					AntBrain brain = AntBrainReader.readBrain(brainFile);
@@ -133,7 +133,7 @@ public class TournamentSelection extends JPanel{
 				// TODO REMOVE LINE BELOW AFTER DEBUGGING!
 				valid = true;
 				if (!valid) {
-					JOptionPane.showMessageDialog(TournamentSelection.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(TournamentSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					// Create a new player.
 					Player player = new Player(playerName.getText().trim(), currentBrain);
@@ -143,7 +143,7 @@ public class TournamentSelection extends JPanel{
 					// Create a list item and ad in the new player
 					ListItem newPlayerItem = new ListItem(playerName.getText().trim(), currentBrainName, itemPanel);
 					newPlayerItem.changeSize(885, 50);
-					newPlayerItem.setRemoveButton(PLAY_IMAGE, PLAY_IMAGE_HOVER, TournamentSelection.this);
+					newPlayerItem.setRemoveButton(PLAY_IMAGE, PLAY_IMAGE_HOVER, TournamentSelectionPanel.this);
 					newPlayerItem.setPlayer(player);
 					
 					// Add the item to the item panel and refresh the scrollpane.
@@ -302,7 +302,7 @@ public class TournamentSelection extends JPanel{
 	 */
 	public static void main(String args[]){
 		JFrame jframe = new JFrame();
-		jframe.add(new TournamentSelection(null));
+		jframe.add(new TournamentSelectionPanel(null));
 		jframe.setVisible(true);
 		jframe.setSize(1024, 576);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

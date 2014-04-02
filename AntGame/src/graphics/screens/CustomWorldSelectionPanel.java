@@ -24,7 +24,7 @@ import javax.swing.SwingConstants;
 import model.Game;
 import model.World;
 
-public class WorldEditorPanel extends JPanel{
+public class CustomWorldSelectionPanel extends JPanel{
 	
 	private static final BufferedImage PLUS_IMAGE = ImageLoader.loadImage("/WorldEditorImages/plusButton.png");
 	private static final BufferedImage PLUS_HOVER_IMAGE = ImageLoader.loadImage("/WorldEditorImages/plusButtonHover.png");
@@ -46,9 +46,9 @@ public class WorldEditorPanel extends JPanel{
 	private JLabel rocksLabel;
 	private JLabel foodLabel;
 	private JLabel sizeOfAnthillLabel;
-	private WorldSelectionPanel parentPanel;
+	private MatchWorldSelectionPanel parentPanel;
 	
-	public WorldEditorPanel(Game game, WorldSelectionPanel parentPanel){
+	public CustomWorldSelectionPanel(Game game, MatchWorldSelectionPanel parentPanel){
 		
 		this.game = game;
 		this.parentPanel = parentPanel;
@@ -261,7 +261,7 @@ public class WorldEditorPanel extends JPanel{
 		worldSizeChooser.setLayout(worldSizeLayout);
 		
 		//First JText Area
-		JTextField firstDimension = new JTextField("150");
+		final JTextField firstDimension = new JTextField("150");
 		firstDimension.setForeground(Color.BLACK);
 		firstDimension.setFont(new Font("Helvetica", 0, 25));
 		firstDimension.setAlignmentX(CENTER_ALIGNMENT);
@@ -278,7 +278,7 @@ public class WorldEditorPanel extends JPanel{
 		plusLabel.setOpaque(false);
 		
 		//Second text area
-		JTextField secondDimension = new JTextField("150");
+		final JTextField secondDimension = new JTextField("150");
 		secondDimension.setForeground(Color.BLACK);
 		secondDimension.setFont(new Font("Helvetica", 0, 25));
 		secondDimension.setAlignmentX(CENTER_ALIGNMENT);
@@ -323,9 +323,46 @@ public class WorldEditorPanel extends JPanel{
 		//Create button
 		ImageButton createButton = new ImageButton(CREATE_BUTTON, CREATE_HOVER_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				// generate the world
-				// World world = generateWorld(params)
-				World antWorld = null; 
+				String antHillString = sizeOfAnthillLabel.getText();
+				int antHillSize = 6;
+				if(antHillString.equals("Large")){
+					antHillSize = 9;
+				}else{
+					if(antHillString.equals("Medium")){
+						antHillSize = 6;
+					}else{
+						if(antHillString.equals("Small")){
+							antHillSize = 4;
+						}
+					}
+				}
+				String rockCountString = rocksLabel.getText();
+				int rockCount = 0;
+				if(rockCountString.equals("High")){
+					rockCount = 20;
+				}else{
+					if(rockCountString.equals("Medium")){
+						rockCount = 14;
+					}else{
+						if(rockCountString.equals("Low")){
+							rockCount = 8;
+						}
+					}
+				}
+				String foodPileString = foodLabel.getText();
+				int foodPileCount = 0;
+				if(foodPileString.equals("High")){
+					foodPileCount = 14;
+				}else{
+					if(foodPileString.equals("Medium")){
+						foodPileCount = 6;
+					}else{
+						if(foodPileString.equals("Low")){
+							foodPileCount = 3;
+						}
+					}
+				}
+				World antWorld = World.generateWorld(Integer.parseInt(firstDimension.getText()), Integer.parseInt(secondDimension.getText()), antHillSize, rockCount, foodPileCount); 
 				getWorldScreen().setWorld(antWorld);
 				getWorldScreen().previewWorld();
 				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
@@ -388,7 +425,7 @@ public class WorldEditorPanel extends JPanel{
 	 * Returns the world selection screen that this panel is linked to.
 	 * @return the world selection screen that this panel is linked to.
 	 */
-	public WorldSelectionPanel getWorldScreen() {
+	public MatchWorldSelectionPanel getWorldScreen() {
 		return parentPanel;
 	}
 	
@@ -401,7 +438,7 @@ public class WorldEditorPanel extends JPanel{
 		JFrame frame = new JFrame("World Editor");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1024, 576);
-		frame.add(new WorldEditorPanel(null, null));
+		frame.add(new CustomWorldSelectionPanel(null, null));
 		frame.setResizable(false);
 
 		//Display the window.
