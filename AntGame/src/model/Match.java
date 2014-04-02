@@ -9,6 +9,7 @@ public class Match {
 	private Player player2;
 	private World world;
 	private Player winner;
+	private boolean isDraw;
 	private HashMap<Colour, Integer> scores;
 	private int roundNumber;
 	
@@ -31,6 +32,7 @@ public class Match {
 		player2 = null;
 		scores = new HashMap<Colour, Integer>();
 		this.winner = null;
+		isDraw = false;
 		roundNumber = 0;
 	}
 	
@@ -64,7 +66,7 @@ public class Match {
 			}
 			roundNumber++;
 		}else{
-			if(winner == null){
+			if(winner == null | !isDraw){
 				ArrayList<AntHillTile> antHills = world.getAntHills();
 				for(int i = 0; i < antHills.size(); i++){
 					Colour c = antHills.get(i).getColour();
@@ -73,7 +75,11 @@ public class Match {
 				if(scores.get(player1.getColour()) > scores.get(player2.getColour())){
 					winner = player1;
 				}else{
-					winner = player2;
+					if(scores.get(player2.getColour()) > scores.get(player1.getColour())){
+						winner = player1;
+					}else{
+						isDraw = true;
+					}
 				}
 			}
 		}
@@ -101,6 +107,10 @@ public class Match {
 	
 	public Player getWinner() {
 		return winner;
+	}
+	
+	public boolean isDraw(){
+		return isDraw;
 	}
 	
 	public static void main(String[] args) {

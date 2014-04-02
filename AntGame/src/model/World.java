@@ -14,7 +14,7 @@ public class World {
 	private ArrayList<AntHillTile> antHills;
 	public final int sizeX,sizeY;
 	
-	public static World generateWorld(int sizeX, int sizeY, int antHillSize, int rockyProportion){
+	public static World generateWorld(int sizeX, int sizeY, int antHillSize, int rockCount){
 		Tile[][] grid = new Tile[sizeX][sizeY];
 		// Fill grid with clear tiles
 		for(int i = 0; i < sizeX; i++){
@@ -40,29 +40,29 @@ public class World {
 			int randX = State.randomInt(sizeX);
 			int randY = State.randomInt(sizeY);
 			boolean obstructed = false;
-			if(grid[randX][randY].isRocky()){
+			if(grid[randX][randY].isRocky() || ((ClearTile)grid[randX][randY]).isAnthill()){
 				obstructed = true;
 				if(Game.DEBUG){
 					System.out.println("DEBUG | ANTHILL PLACEMENT FAILED");
 				}
 			}
 			tiles.add((randY * sizeX) + randX);
-			for(int i = 1; i < antHillSize & !obstructed; i++){
+			for(int i = 1; i <= antHillSize & !obstructed; i++){
 				int currentID = randY * sizeX + randX + i;
 				for(int j = 0; j < 6 & !obstructed; j++){
 					for(int k = 0; k < i & !obstructed; k++){
 						int x = ((currentID % sizeX) + sizeX) % sizeX;
 						int y = currentID / sizeX;
-//						System.out.println(currentID + ", " + x + ", " + y);
 						if(grid[x][y].isRocky() || ((ClearTile)grid[x][y]).isAnthill()){
 							obstructed = true;
 							if(Game.DEBUG){
 								System.out.println("DEBUG | ANTHILL PLACEMENT FAILED");
 							}
 						}
-						tiles.add(currentID);
+						if(i < antHillSize){
+							tiles.add(currentID);
+						}
 						currentID = getAhead((((j+2)%6)+6)%6, currentID, sizeX);
-//						System.out.println((((j+2)%6)+6)%6);
 					}
 				}
 			}
@@ -87,12 +87,28 @@ public class World {
 			}
 //			grid[randX][randY] = new RockTile();
 		}
-//		for each 1 <= k <= N:
-//		    H = direction(4).scale(k)
-//		    for each 0 <= i <= 6:
-//		        for each 0 <= j < k:
-//		            results.append(H)
-//		            H = neighbor(H, i)
+		int placedRocks = 0;
+		while(placedRocks < rockCount){
+			int randX = State.randomInt(sizeX);
+			int randY = State.randomInt(sizeY);
+			int currentID = randY * sizeX + randX;
+			boolean obstructed = false;
+			for(int i = 0; i < 6 && !obstructed; i++){
+				int newTile = getAhead(i, currentID, sizeX);
+				int x = ((newTile % sizeX) + sizeX) % sizeX;
+				int y = newTile / sizeX;
+				if(grid[x][y].isRocky() || ((ClearTile)grid[x][y]).isAnthill()){
+					obstructed = true;
+//					if(Game.DEBUG){
+//						System.out.println("DEBUG | ROCK PLACEMENT FAILED");
+//					}
+				}
+			}
+			if(!obstructed){
+				grid[randX][randY] = new RockTile();
+				placedRocks++;
+			}
+		}
 		return new World(grid);
 	}
 	
@@ -106,9 +122,6 @@ public class World {
 	}
 	
 	public void populate(Player player1, Player player2){
-		if(Game.DEBUG){
-			System.out.println("DEBUG | Populating Anthills");
-		}
 		for(int i = 0; i < sizeX; i++){
 			for(int j = 0; j < sizeY; j++){
 				setChange((j*sizeX) + i); // Disable for fog of war lolol

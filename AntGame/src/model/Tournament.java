@@ -50,10 +50,17 @@ public class Tournament {
 		}else{
 			if(currentMatch < matches.size()){
 				Match current = matches.get(currentMatch);
-				Player player1 = current.getPlayer1();
-				scores.put(player1, scores.get(player1) + current.getScore(player1));
-				Player player2 = current.getPlayer2();
-				scores.put(player2, scores.get(player2) + current.getScore(player2));
+				Player winner = current.getWinner();
+				if(winner == null){
+					if(current.isDraw()){
+						Player player1 = current.getPlayer1();
+						Player player2 = current.getPlayer2();
+						scores.put(player1, scores.get(player1) + 1);
+						scores.put(player2, scores.get(player2) + 1);
+					}
+				}else{
+					scores.put(winner, scores.get(winner) + 2);
+				}
 				currentMatch++;
 			}
 		}
