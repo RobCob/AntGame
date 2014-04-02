@@ -61,7 +61,7 @@ public class MainMenuPanel extends JPanel{
 		JButton debugButton = new JButton("Debug Button");
 		debugButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				getGame().createMatchPanelGrid(100, 100, 4, 1);
+				getGame().createMatchPanelGrid(getGame().getCurrentMatch().getWorld().sizeX, getGame().getCurrentMatch().getWorld().sizeY, 4, 1);
 				getGame().switchScreen(Game.MATCH_SCREEN);
 				getGame().startMatch();
 			}
