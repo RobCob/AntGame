@@ -35,8 +35,8 @@ public class NonTournamentResultsPanel extends JPanel{
 	private static final BufferedImage WINNER_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/winner.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage STATS_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/stats.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImage.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImageHover.png");
+	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/mainMenu.png");
+	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentResultsPanelImages/mainMenuHover.png");
 	
 	//other parameters
 	private Game game;
