@@ -55,7 +55,7 @@ public class Game extends JFrame{
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	
-	private Match currentMatch = new Match(World.generateWorld(100, 100, 4, 0), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
+	private Match currentMatch = new Match(World.generateWorld(50, 80, 4, 0), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
 	private int roundsPerSec = 10; // Number of rounds to perform every second
 	private double roundTime = 1000000000.0 / roundsPerSec; //number of times to run update per second
 	
@@ -195,7 +195,7 @@ public class Game extends JFrame{
 		
 		World drawnWorld = currentMatch.getWorld();
 		HashSet<Integer> changes = drawnWorld.getChanges();
-		drawnWorld.resetChanges();
+		drawnWorld.resetChanges();	// Comment out to redraw everything.
 		Integer[] tileIDs = changes.toArray(new Integer[0]);
 		for(int i = 0; i < tileIDs.length; i++){
 			int currentID = tileIDs[i];
@@ -204,17 +204,6 @@ public class Game extends JFrame{
 			Tile tile = drawnWorld.getTile(x, y);
 			gridBuffer[x][y].setFillColor(getTileColor(tile));
 		}
-//		// To prevent displaying midway updates
-//		// HexGrid gridBuffer = matchPanel.getGrid();
-//		
-//		int cols = gridBuffer.length;
-//		int rows = gridBuffer[0].length;
-//		for (int x = 0; x < cols; x++) {
-//			for (int y = 0; y < rows; y++) {
-//				gridBuffer[x][y].setFillColor(getTileColor(drawnWorld.getTile(x, y)));
-//			}
-//		}
-//		}
 		
 		matchPanel.getGrid().setHexagonGrid(gridBuffer);
 		matchPanel.getScrollPane().repaint();
@@ -222,20 +211,6 @@ public class Game extends JFrame{
 
 	private  void updateModel() {
 		currentMatch.nextRound();
-//		TODO: actually update a model and get changes...
-		
-//		// To prevent displaying midway updates
-//		int[][] worldBuffer = new int[worldWithAnts.length][worldWithAnts[0].length]; 
-//		
-//		// Randomly modify world.
-//		for (int i = 0; i < worldBuffer.length; i++) {
-//			for (int j = 0; j < worldBuffer[0].length; j++) {
-//				worldBuffer[i][j] = rand.nextInt(10); //0 for red, 1 for black, other for empty.
-//			}
-//		}
-//		
-//		// Update stored world.
-//		worldWithAnts = worldBuffer;
 	}
 	
 	public static Color getTileColor(Tile tile){
