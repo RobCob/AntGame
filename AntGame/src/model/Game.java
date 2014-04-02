@@ -4,6 +4,7 @@ import graphics.components.HexGrid;
 import graphics.components.Hexagon;
 import graphics.screens.MainMenuPanel;
 import graphics.screens.MatchPanel;
+import graphics.screens.NonTournamentResultsPanel;
 import graphics.screens.NonTournamentSelection;
 import graphics.screens.TournamentSelection;
 import graphics.screens.WorldEditorPanel;
@@ -48,6 +49,9 @@ public class Game extends JFrame{
 	private MatchPanel matchPanel = new MatchPanel(this, grid);
 	public static final String MATCH_SCREEN = "Match";
 	
+	private NonTournamentResultsPanel nonTournamentResults = new NonTournamentResultsPanel(this);
+	public static final String MATCH_RESULTS_SCREEN = "Match Results";
+	
 	private NonTournamentSelection nonTournamentPanel = new NonTournamentSelection(this);
 	public static final String NON_TOURNAMENT_SELECTION_SCREEN = "NonTournamentSelect";
 	
@@ -64,6 +68,7 @@ public class Game extends JFrame{
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	
+	private Tournament currentTournament = null;
 	private Match currentMatch = new Match(World.generateWorld(150, 150, 7, 14, 11), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
 	private int roundsPerSec = 10; // Number of rounds to perform every second
 	private double roundTime = 1000000000.0 / roundsPerSec; //number of times to run update per second
@@ -72,6 +77,7 @@ public class Game extends JFrame{
 		//Add all screens used within the game.
 		addScreen(mainMenuPanel, MAIN_MENU_SCREEN);
 		addScreen(matchPanel, MATCH_SCREEN);
+		addScreen(nonTournamentResults, MATCH_RESULTS_SCREEN);
 		addScreen(nonTournamentPanel, NON_TOURNAMENT_SELECTION_SCREEN);
 		addScreen(worldSelectionPanel, WORLD_SELECTION_SCREEN);
 		addScreen(worldEditorPanel, WORLD_EDITOR_SCREEN);
@@ -137,18 +143,16 @@ public class Game extends JFrame{
 			public void run() {
 				if (Game.DEBUG) System.out.println("DEBUG | Game:runModel() Thread Started!");
 //				int roundsPerSec = 10; // Number of rounds to perform every second
-				int maxRounds = 300000;
 
 				long lastTime = System.nanoTime(); //Computer's current time (in nano seconds)
 				long fpsTimer = System.currentTimeMillis();
 
 
 				double modelDelta = 0.0;
-				int round = 0;
 				int updates = 0;
 
 				// Game loop
-				while (round <= maxRounds && runningMatch) {
+				while (currentMatch.getRoundNumber() < Match.MAX_ROUNDS && runningMatch) {
 					
 					long now = System.nanoTime();
 					modelDelta += (now - lastTime) / roundTime; 
@@ -157,20 +161,21 @@ public class Game extends JFrame{
 
 					while (modelDelta >= 1) { // Happens 'roundsPerSec' times a second.
 						updateModel();
-						round++;
 						updates++;
 						modelDelta--;
 					}
 
 					if (System.currentTimeMillis() - fpsTimer > 1000) { // Happens once every 'roundsPerSec'
 						fpsTimer += 1000;
-						setTitle("Ant Game  |  " + getWidth() + "x" + getHeight()  + "  |  UPDATES: " + updates + "/sec  |  ROUND: " + round + "  |  FPS: " + frames);
+						setTitle("Ant Game  |  " + getWidth() + "x" + getHeight()  + "  |  UPDATES: " + updates + "/sec  |  ROUND: " + currentMatch.getRoundNumber() + "  |  FPS: " + frames);
 						frames = 0; // reset number of frames per sec.
 						updates = 0; // reset number of updates per sec.
 					}
 				}
-				if (round > maxRounds) {
+				if (currentMatch.getRoundNumber() == Match.MAX_ROUNDS) {
 					runningMatch = false;
+					nonTournamentResults.setValues(currentMatch);
+					switchScreen(Game.MATCH_RESULTS_SCREEN);
 				}
 			}
 		});
@@ -282,11 +287,33 @@ public class Game extends JFrame{
 	public Match getCurrentMatch() {
 		return this.currentMatch;
 	}
+	/**
+	 * Returns the current match that the game is storing.
+	 * @return the current match that the game is storing.
+	 */
+	public void setCurrentMatch(Match match) {
+		this.currentMatch = match;
+	}
 	
 	/**
 	 * Sets the current match to a new blank match, ready for its fields to be set.
 	 */
 	public void createMatch(){
 		this.currentMatch = new Match();
+	}
+	
+	/**
+	 * Returns the current match that the game is storing.
+	 * @return the current match that the game is storing.
+	 */
+	public Tournament getCurrentTournament() {
+		return this.currentTournament;
+	}
+	
+	/**
+	 * Sets the current match to a new blank match, ready for its fields to be set.
+	 */
+	public void createTournament(){
+		this.currentTournament = new Tournament();
 	}
 }

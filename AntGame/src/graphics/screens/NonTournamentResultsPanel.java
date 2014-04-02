@@ -13,6 +13,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -22,7 +24,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import model.Ant;
+import model.AntHillTile;
+import model.Colour;
 import model.Game;
+import model.Match;
 import model.Player;
 
 /**
@@ -40,9 +46,19 @@ public class NonTournamentResultsPanel extends JPanel{
 	
 	//other parameters
 	private Game game;
-	Player winner; //the winner of the game that just went on, no need for further distinction
-	Player loser;
+	private Player winner; //the winner of the game that just went on, no need for further distinction
+	private Player loser;
+	private JLabel winnerLabel;
 	
+	private JLabel blackLabel;
+	private JLabel blackFoodCollected;
+	private JLabel blackKillCount;
+	private JLabel blackAntDeaths;
+	
+	private JLabel redLabel;
+	private JLabel redFoodCollected;
+	private JLabel redKillCount;
+	private JLabel redAntDeaths;
 	
 	public NonTournamentResultsPanel(Game game) {
 		this.game = game;
@@ -73,7 +89,7 @@ public class NonTournamentResultsPanel extends JPanel{
 		
 		//Create the text to diplay the game's winner
 		//just for testing purposes, on final version should be winner.name()
-		JLabel winnerLabel = new JLabel("Player 1");
+		winnerLabel = new JLabel("Player 1");
 		winnerLabel.setForeground(Color.WHITE);
 		winnerLabel.setFont(new Font("Helvetica", 0, 35));
 		winnerLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -89,79 +105,79 @@ public class NonTournamentResultsPanel extends JPanel{
         winnerPanel.setOpaque(false);
         
         //Winning player statistics
-        JPanel winnerStats = new JPanel();
-        BoxLayout winnerStatsLayout = new BoxLayout(winnerStats, BoxLayout.Y_AXIS);
-        winnerStats.setLayout(winnerStatsLayout);
+        JPanel blackStats = new JPanel();
+        BoxLayout winnerStatsLayout = new BoxLayout(blackStats, BoxLayout.Y_AXIS);
+        blackStats.setLayout(winnerStatsLayout);
 
         //Winner name -- clone, because you can only reference a JPanel in one place at a time
-        JLabel winnerLabelClone = new JLabel("Player 1");
-        winnerLabelClone.setForeground(Color.WHITE);
-        winnerLabelClone.setFont(new Font("Helvetica", 0, 28));
-        winnerLabelClone.setAlignmentX(CENTER_ALIGNMENT);
-        winnerLabelClone.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+        blackLabel = new JLabel("Player 1");
+        blackLabel.setForeground(Color.WHITE);
+        blackLabel.setFont(new Font("Helvetica", 0, 28));
+        blackLabel.setAlignmentX(CENTER_ALIGNMENT);
+        blackLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
-        JLabel winnerFoodCollected = new JLabel("Food collected: 31"); //just to test, should have actual values
-        winnerFoodCollected.setForeground(Color.WHITE);
-        winnerFoodCollected.setFont(new Font("Helvetica", 0, 17));
-        winnerFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
+        blackFoodCollected = new JLabel("Food collected: 31"); //just to test, should have actual values
+        blackFoodCollected.setForeground(Color.WHITE);
+        blackFoodCollected.setFont(new Font("Helvetica", 0, 17));
+        blackFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
 		//Ants killed
-        JLabel winnerAntsKilled = new JLabel("Ants killed: 7"); //just to test, should have actual values
-        winnerAntsKilled.setForeground(Color.WHITE);
-        winnerAntsKilled.setFont(new Font("Helvetica", 0, 17));
-        winnerAntsKilled.setAlignmentX(CENTER_ALIGNMENT);
+        blackKillCount = new JLabel("Ants killed: 7"); //just to test, should have actual values
+        blackKillCount.setForeground(Color.WHITE);
+        blackKillCount.setFont(new Font("Helvetica", 0, 17));
+        blackKillCount.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
-        JLabel winnerAntsDied = new JLabel("Number of team deaths: 3"); //just to test, should have actual values
-        winnerAntsDied.setForeground(Color.WHITE);
-        winnerAntsDied.setFont(new Font("Helvetica", 0, 17));
-        winnerAntsDied.setAlignmentX(CENTER_ALIGNMENT);
+        blackAntDeaths = new JLabel("Number of team deaths: 3"); //just to test, should have actual values
+        blackAntDeaths.setForeground(Color.WHITE);
+        blackAntDeaths.setFont(new Font("Helvetica", 0, 17));
+        blackAntDeaths.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
-        winnerStats.add(winnerLabelClone);
-        winnerStats.add(winnerFoodCollected);
-        winnerStats.add(winnerAntsKilled);
-        winnerStats.add(winnerAntsDied);
-        winnerStats.setOpaque(false);
+        blackStats.add(blackLabel);
+        blackStats.add(blackFoodCollected);
+        blackStats.add(blackKillCount);
+        blackStats.add(blackAntDeaths);
+        blackStats.setOpaque(false);
         
         //Losing player statistics
-        JPanel loserStats = new JPanel();
-        BoxLayout loserStatsLayout = new BoxLayout(loserStats, BoxLayout.Y_AXIS);
-        loserStats.setLayout(loserStatsLayout);
+        JPanel redStats = new JPanel();
+        BoxLayout loserStatsLayout = new BoxLayout(redStats, BoxLayout.Y_AXIS);
+        redStats.setLayout(loserStatsLayout);
         //Loser name
-        JLabel loserLabel = new JLabel("Player 2");
-        loserLabel.setForeground(Color.WHITE);
-        loserLabel.setFont(new Font("Helvetica", 0, 28));
-        loserLabel.setAlignmentX(CENTER_ALIGNMENT);
-        loserLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+        redLabel = new JLabel("Player 2");
+        redLabel.setForeground(Color.WHITE);
+        redLabel.setFont(new Font("Helvetica", 0, 28));
+        redLabel.setAlignmentX(CENTER_ALIGNMENT);
+        redLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
-        JLabel loserFoodCollected = new JLabel("Food collected: 22"); //just to test, should have actual values
-        loserFoodCollected.setForeground(Color.WHITE);
-        loserFoodCollected.setFont(new Font("Helvetica", 0, 17));
-        loserFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
+        redFoodCollected = new JLabel("Food collected: 22"); //just to test, should have actual values
+        redFoodCollected.setForeground(Color.WHITE);
+        redFoodCollected.setFont(new Font("Helvetica", 0, 17));
+        redFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
 		//Ants killed
-        JLabel loserAntsKilled = new JLabel("Ants killed: 5"); //just to test, should have actual values
-        loserAntsKilled.setForeground(Color.WHITE);
-        loserAntsKilled.setFont(new Font("Helvetica", 0, 17));
-        loserAntsKilled.setAlignmentX(CENTER_ALIGNMENT);
+        redKillCount = new JLabel("Ants killed: 5"); //just to test, should have actual values
+        redKillCount.setForeground(Color.WHITE);
+        redKillCount.setFont(new Font("Helvetica", 0, 17));
+        redKillCount.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
-        JLabel loserAntsDied = new JLabel("Number of team deaths: 11"); //just to test, should have actual values
-        loserAntsDied.setForeground(Color.WHITE);
-        loserAntsDied.setFont(new Font("Helvetica", 0, 17));
-        loserAntsDied.setAlignmentX(CENTER_ALIGNMENT);
+        redAntDeaths = new JLabel("Number of team deaths: 11"); //just to test, should have actual values
+        redAntDeaths.setForeground(Color.WHITE);
+        redAntDeaths.setFont(new Font("Helvetica", 0, 17));
+        redAntDeaths.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
-        loserStats.add(loserLabel);
-        loserStats.add(loserFoodCollected);
-        loserStats.add(loserAntsKilled);
-        loserStats.add(loserAntsDied);
-        loserStats.setOpaque(false); //TODO
+        redStats.add(redLabel);
+        redStats.add(redFoodCollected);
+        redStats.add(redKillCount);
+        redStats.add(redAntDeaths);
+        redStats.setOpaque(false); //TODO
         
         // Create and set up the split pane.
         JSplitPane statsSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); //add split pane
         statsSplitPane.setDividerLocation(1000/2); // HACK -- (half the width of the screen)
         statsSplitPane.setEnabled(false); // Stops it being re-sizable.
         statsSplitPane.setOpaque(false); // display the background through it.
-        statsSplitPane.setLeftComponent(winnerStats);
-        statsSplitPane.setRightComponent(loserStats);
+        statsSplitPane.setLeftComponent(blackStats);
+        statsSplitPane.setRightComponent(redStats);
         statsSplitPane.setBorder(null);
         statsSplitPane.setDividerSize(0);
         
@@ -169,7 +185,7 @@ public class NonTournamentResultsPanel extends JPanel{
         //needs to be changed to actual image, this one is just for testing
         ImageButton goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
         	public void mouseClicked(MouseEvent e) {
-        		// DOES NOTHING RIGHT NOW
+        		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
         	}
         };
 
@@ -202,10 +218,50 @@ public class NonTournamentResultsPanel extends JPanel{
 		this.add(goPanel, BorderLayout.SOUTH);
 	}
 	
+	public void setValues(Match match){
+		Player player1 = match.getPlayer1();
+		Player player2 = match.getPlayer2();
+		if(match.getWinner() == null){
+			winnerLabel.setText(player1.getNickname() + " draws with " + player2.getNickname());
+		}else{
+			winnerLabel.setText(match.getWinner().getNickname());
+		}
+		blackLabel.setText(player1.getNickname());
+		blackFoodCollected.setText("Food collected: "+match.getScore(player1));
+		ArrayList<AntHillTile> antHills = match.getWorld().getAntHills();
+		int redCount = 0;
+		for(int i = 0; i < antHills.size(); i++){
+			if(antHills.get(i).getColour().equals(Colour.RED)){
+				redCount++;
+			}
+		}
+		HashMap<Integer, Ant> ants = match.getWorld().getAnts();
+		Integer[] antIDs = ants.keySet().toArray(new Integer[0]);
+		int redAntCount = 0;
+		for(int i = 0; i < antIDs.length; i++){
+			if(ants.get(antIDs[i]).getColour().equals(Colour.RED)){
+				redAntCount++;
+			}
+		}
+		int redDeaths = (redCount - redAntCount);
+		int blackDeaths = ((antHills.size()-redCount) - (antIDs.length - redAntCount));
+		blackKillCount.setText("Ants killed: "+ redDeaths);
+		blackAntDeaths.setText("Ants Died: "+ blackDeaths);
+		
+		redLabel.setText(player2.getNickname());
+		redFoodCollected.setText("Food collected: "+match.getScore(player2));
+		redKillCount.setText("Ants killed: " + blackDeaths);
+		redAntDeaths.setText("Ants Died: " + redDeaths);
+	}
+	
 	 @Override
 	 protected void paintComponent(Graphics g) {
 		 super.paintComponent(g);
 		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	 }
+	 
+	 public Game getGame(){
+		return game; 
 	 }
 	 
 	public static void main(String[] args){

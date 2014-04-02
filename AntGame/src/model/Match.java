@@ -68,10 +68,19 @@ public class Match {
 		}else{
 			if(winner == null | !isDraw){
 				ArrayList<AntHillTile> antHills = world.getAntHills();
+				int redScore = 0;
+				int blackScore = 0;
 				for(int i = 0; i < antHills.size(); i++){
 					Colour c = antHills.get(i).getColour();
-					scores.put(c, scores.get(c) + antHills.get(i).getFood());
+					if(c.equals(Colour.RED)){
+						redScore = antHills.get(i).getFood();
+					}
+					if(c.equals(Colour.BLACK)){
+						blackScore = antHills.get(i).getFood();
+					}
 				}
+				scores.put(Colour.RED, redScore);
+				scores.put(Colour.BLACK, blackScore);
 				if(scores.get(player1.getColour()) > scores.get(player2.getColour())){
 					winner = player1;
 				}else{

@@ -22,7 +22,7 @@ public class Tournament {
 		currentMatch = 0;
 	}
 	
-	private void setPlayers(ArrayList<Player> players) {
+	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 	}
 

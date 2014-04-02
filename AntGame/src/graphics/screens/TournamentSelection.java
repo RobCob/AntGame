@@ -177,7 +177,21 @@ public class TournamentSelection extends JPanel{
 		
 		ImageButton playButton = new ImageButton(PLAY_IMAGE, PLAY_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
-				
+				boolean valid = true;
+				if(valid){
+					System.out.println(getGame());
+					getGame().createTournament();
+					getGame().getCurrentTournament().setPlayers(players);
+					ArrayList<World> worlds = new ArrayList<World>();
+					for(int i = 0; i < Integer.parseInt(worldNumberField.getText()); i++){
+						worlds.add(World.generateWorld(150, 150, 7, 14, 11));
+					}
+					getGame().getCurrentTournament().setWorlds(worlds);
+					getGame().setCurrentMatch(getGame().getCurrentTournament().getCurrentMatch());
+					getGame().createMatchPanelGrid(getGame().getCurrentMatch().getWorld().sizeX, getGame().getCurrentMatch().getWorld().sizeY, 2, 1);
+					getGame().switchScreen(Game.MATCH_SCREEN);
+					getGame().startMatch();
+				}
 			}
 		};
 		
