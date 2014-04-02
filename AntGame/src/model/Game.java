@@ -5,6 +5,7 @@ import graphics.components.Hexagon;
 import graphics.screens.MainMenuPanel;
 import graphics.screens.MatchPanel;
 import graphics.screens.NonTournamentSelection;
+import graphics.screens.WorldEditorPanel;
 import graphics.screens.WorldSelectionPanel;
 
 import java.awt.*;
@@ -52,6 +53,9 @@ public class Game extends JFrame{
 	private WorldSelectionPanel worldSelectionPanel = new WorldSelectionPanel(this);
 	public static final String WORLD_SELECTION_SCREEN = "WorldSelectionScreen";
 
+	private WorldEditorPanel worldEditorPanel = new WorldEditorPanel(this);
+	public static final String WORLD_EDITOR_SCREEN = "WorldEditorScreen";
+	
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 	

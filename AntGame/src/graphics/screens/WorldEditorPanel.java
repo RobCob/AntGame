@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import model.Game;
+import model.World;
 
 public class WorldEditorPanel extends JPanel{
 	
@@ -41,14 +42,16 @@ public class WorldEditorPanel extends JPanel{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldEditorImages/worldEditorTitle.png");
 	
 	
-	public Game game;
-	public JLabel rocksLabel;
-	public JLabel foodLabel;
-	public JLabel sizeOfAnthillLabel;
+	private Game game;
+	private JLabel rocksLabel;
+	private JLabel foodLabel;
+	private JLabel sizeOfAnthillLabel;
+	private WorldSelectionPanel parentPanel;
 	
-	public WorldEditorPanel(Game game){
+	public WorldEditorPanel(Game game, WorldSelectionPanel parentPanel){
 		
 		this.game = game;
+		this.parentPanel = parentPanel;
 		this.setLayout(new BorderLayout());
 		
 		// Title Panel
@@ -266,14 +269,20 @@ public class WorldEditorPanel extends JPanel{
 		//Create button
 		ImageButton createButton = new ImageButton(CREATE_BUTTON, CREATE_HOVER_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				//asa
+				// generate the world
+				// World world = generateWorld(params)
+				World antWorld = null; 
+				getWorldScreen().setWorld(antWorld);
+				getWorldScreen().previewWorld();
+				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 			}
 		};
 		
 		//Back button
 		ImageButton backButton = new ImageButton(BACK_BUTTON, BACK_HOVER_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				//asa
+				reset();
+				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 			}
 		};
 		
@@ -297,12 +306,24 @@ public class WorldEditorPanel extends JPanel{
 		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
 	}
 	
+	public void reset() {
+		
+	}
+	
+	public Game getGame() {
+		return game;
+	}
+	
+	public WorldSelectionPanel getWorldScreen() {
+		return parentPanel;
+	}
+	
 	public static void main(String[] args){
 		//Add content to the window.
 		JFrame frame = new JFrame("World Editor");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1024, 576);
-		frame.add(new WorldEditorPanel(null));
+		frame.add(new WorldEditorPanel(null, null));
 		frame.setResizable(false);
 
 		//Display the window.

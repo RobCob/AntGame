@@ -122,9 +122,10 @@ public class WorldSelectionPanel extends JPanel{
 			
 		};
 		uploadWorldButton.setAlignmentY(LEFT_ALIGNMENT);
+		
 		ImageButton createWorldButton = new ImageButton(CREATE_BUTTON, CREATE_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				//sads
+				getGame().switchScreen(Game.WORLD_EDITOR_SCREEN);
 			}
 		};
 		createWorldButton.setAlignmentY(LEFT_ALIGNMENT);
@@ -172,7 +173,6 @@ public class WorldSelectionPanel extends JPanel{
         //Add the buttons to the grid panel
         gridPanel.add(buttonsPanel, BorderLayout.EAST);
         
-        
         //Create the Play button
         ImageButton playButton = new ImageButton(PLAY_BUTTON, PLAY_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
@@ -203,7 +203,7 @@ public class WorldSelectionPanel extends JPanel{
 		
 	}
 	
-	private void previewWorld() {
+	public void previewWorld() {
 		if (antWorld != null) {
 			Hexagon[][] gridBuffer = new Hexagon[antWorld.sizeX][antWorld.sizeY];
 			
@@ -248,6 +248,10 @@ public class WorldSelectionPanel extends JPanel{
 		this.grid = grid;
 		this.scrollPane.revalidate();
 		this.scrollPane.repaint();
+	}
+	
+	public void setWorld(World antWorld) {
+		this.antWorld = antWorld;
 	}
 	
 	/**
