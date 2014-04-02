@@ -8,6 +8,7 @@ import graphics.utilities.ImageLoader;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
@@ -27,12 +28,12 @@ import model.Player;
 public class TournamentMatchResultsPanel extends JPanel{
 	
 	//images
-	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/scoresTitle.png");
-	private static final BufferedImage WINNER_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/winner.png");
+	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/TournamentResultsPanelImages/scoresTitle.png");
+	private static final BufferedImage WINNER_IMAGE = ImageLoader.loadImage("/TournamentResultsPanelImages/winner.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
-	private static final BufferedImage STATS_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/stats.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImage.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImageHover.png");
+	private static final BufferedImage STATS_IMAGE = ImageLoader.loadImage("/TournamentResultsPanelImages/stats.png");
+	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/TournamentResultsPanelImages/nextMatch.png");
+	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/TournamentResultsPanelImages/nextMatchHover.png");
 	
 	
 	private Game game;
@@ -41,8 +42,6 @@ public class TournamentMatchResultsPanel extends JPanel{
 	
 	
 	public TournamentMatchResultsPanel(Game game) {
-		this.game = game;
-		
 		this.game = game;
 		this.setLayout(new BorderLayout());
 		// get results from previously played match
@@ -94,24 +93,24 @@ public class TournamentMatchResultsPanel extends JPanel{
         //Winner name -- clone, because you can only reference a JPanel in one place at a time
         JLabel winnerLabelClone = new JLabel("Player 1");
         winnerLabelClone.setForeground(Color.WHITE);
-        winnerLabelClone.setFont(new Font("Helvetica", 0, 35));
+        winnerLabelClone.setFont(new Font("Helvetica", 0, 28));
         winnerLabelClone.setAlignmentX(CENTER_ALIGNMENT);
         winnerLabelClone.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
         JLabel winnerFoodCollected = new JLabel("Food collected: 31"); //just to test, should have actual values
         winnerFoodCollected.setForeground(Color.WHITE);
-        winnerFoodCollected.setFont(new Font("Helvetica", 0, 25));
+        winnerFoodCollected.setFont(new Font("Helvetica", 0, 17));
         winnerFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
 		//Ants killed
         JLabel winnerAntsKilled = new JLabel("Ants killed: 7"); //just to test, should have actual values
         winnerAntsKilled.setForeground(Color.WHITE);
-        winnerAntsKilled.setFont(new Font("Helvetica", 0, 25));
+        winnerAntsKilled.setFont(new Font("Helvetica", 0, 17));
         winnerAntsKilled.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
         JLabel winnerAntsDied = new JLabel("Number of team deaths: 3"); //just to test, should have actual values
         winnerAntsDied.setForeground(Color.WHITE);
-        winnerAntsDied.setFont(new Font("Helvetica", 0, 25));
+        winnerAntsDied.setFont(new Font("Helvetica", 0, 17));
         winnerAntsDied.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
         winnerStats.add(winnerLabelClone);
@@ -127,24 +126,24 @@ public class TournamentMatchResultsPanel extends JPanel{
         //Loser name
         JLabel loserLabel = new JLabel("Player 2");
         loserLabel.setForeground(Color.WHITE);
-        loserLabel.setFont(new Font("Helvetica", 0, 35));
+        loserLabel.setFont(new Font("Helvetica", 0, 28));
         loserLabel.setAlignmentX(CENTER_ALIGNMENT);
         loserLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
         JLabel loserFoodCollected = new JLabel("Food collected: 22"); //just to test, should have actual values
         loserFoodCollected.setForeground(Color.WHITE);
-        loserFoodCollected.setFont(new Font("Helvetica", 0, 25));
+        loserFoodCollected.setFont(new Font("Helvetica", 0, 17));
         loserFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
 		//Ants killed
         JLabel loserAntsKilled = new JLabel("Ants killed: 5"); //just to test, should have actual values
         loserAntsKilled.setForeground(Color.WHITE);
-        loserAntsKilled.setFont(new Font("Helvetica", 0, 25));
+        loserAntsKilled.setFont(new Font("Helvetica", 0, 17));
         loserAntsKilled.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
         JLabel loserAntsDied = new JLabel("Number of team deaths: 11"); //just to test, should have actual values
         loserAntsDied.setForeground(Color.WHITE);
-        loserAntsDied.setFont(new Font("Helvetica", 0, 25));
+        loserAntsDied.setFont(new Font("Helvetica", 0, 17));
         loserAntsDied.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
         loserStats.add(loserLabel);
@@ -199,6 +198,12 @@ public class TournamentMatchResultsPanel extends JPanel{
         this.add(centerPanel, BorderLayout.CENTER);
 		this.add(goPanel, BorderLayout.SOUTH);
 	}
+	
+	@Override
+	 protected void paintComponent(Graphics g) {
+		 super.paintComponent(g);
+		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	 }
 	
 	public static void main(String[] args){
 		//Add content to the window.
