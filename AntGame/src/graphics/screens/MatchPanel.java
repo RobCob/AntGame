@@ -55,12 +55,12 @@ public class MatchPanel extends JPanel implements Screen{
 	private JLabel p2NicknameLabel;
 	
 	private JLabel p1FoodValueLabel;
+	private JLabel p1AliveValueLabel;
 	private JLabel p1DeathsValueLabel;
-	private JLabel p1KillsValueLabel;
 
 	private JLabel p2FoodValueLabel;
+	private JLabel p2AliveValueLabel;
 	private JLabel p2DeathsValueLabel;
-	private JLabel p2KillsValueLabel;
 	
 	public MatchPanel(Game game){
 		this.game = game;
@@ -119,19 +119,19 @@ public class MatchPanel extends JPanel implements Screen{
 		p1FoodLabel.setMaximumSize(statLabelDimension);
 		p1FoodLabel.setPreferredSize(statLabelDimension);
         
+		JLabel p1AliveLabel = new JLabel("Alive: ");
+		p1AliveLabel.setForeground(Color.WHITE);
+		p1AliveLabel.setFont(statLabelFont);
+		p1AliveLabel.setMinimumSize(statLabelDimension);
+		p1AliveLabel.setMaximumSize(statLabelDimension);
+		p1AliveLabel.setPreferredSize(statLabelDimension);
+		
 		JLabel p1DeathsLabel = new JLabel("Deaths: ");
 		p1DeathsLabel.setForeground(Color.WHITE);
 		p1DeathsLabel.setFont(statLabelFont);
 		p1DeathsLabel.setMinimumSize(statLabelDimension);
 		p1DeathsLabel.setMaximumSize(statLabelDimension);
 		p1DeathsLabel.setPreferredSize(statLabelDimension);
-		
-		JLabel p1KillsLabel = new JLabel("Kills: ");
-		p1KillsLabel.setForeground(Color.WHITE);
-		p1KillsLabel.setFont(statLabelFont);
-		p1KillsLabel.setMinimumSize(statLabelDimension);
-		p1KillsLabel.setMaximumSize(statLabelDimension);
-		p1KillsLabel.setPreferredSize(statLabelDimension);
 		
 		p1FoodValueLabel = new JLabel("0", JLabel.CENTER);
 		p1FoodValueLabel.setForeground(Color.WHITE);
@@ -140,19 +140,19 @@ public class MatchPanel extends JPanel implements Screen{
 		p1FoodValueLabel.setMaximumSize(valueLabelDimension);
 		p1FoodValueLabel.setPreferredSize(valueLabelDimension);
 		
+		p1AliveValueLabel = new JLabel("0", JLabel.CENTER);
+		p1AliveValueLabel.setForeground(Color.WHITE);
+		p1AliveValueLabel.setFont(valueLabelFont);
+		p1AliveValueLabel.setMinimumSize(valueLabelDimension);
+		p1AliveValueLabel.setMaximumSize(valueLabelDimension);
+		p1AliveValueLabel.setPreferredSize(valueLabelDimension);
+		
 		p1DeathsValueLabel = new JLabel("0", JLabel.CENTER);
 		p1DeathsValueLabel.setForeground(Color.WHITE);
 		p1DeathsValueLabel.setFont(valueLabelFont);
 		p1DeathsValueLabel.setMinimumSize(valueLabelDimension);
 		p1DeathsValueLabel.setMaximumSize(valueLabelDimension);
 		p1DeathsValueLabel.setPreferredSize(valueLabelDimension);
-		
-		p1KillsValueLabel = new JLabel("0", JLabel.CENTER);
-		p1KillsValueLabel.setForeground(Color.WHITE);
-		p1KillsValueLabel.setFont(valueLabelFont);
-		p1KillsValueLabel.setMinimumSize(valueLabelDimension);
-		p1KillsValueLabel.setMaximumSize(valueLabelDimension);
-		p1KillsValueLabel.setPreferredSize(valueLabelDimension);
 		
 		JPanel p1FoodPanel = new JPanel();
 		JPanel p1DeathsPanel = new JPanel();
@@ -164,10 +164,10 @@ public class MatchPanel extends JPanel implements Screen{
 		
 		p1FoodPanel.add(p1FoodLabel);
 		p1FoodPanel.add(p1FoodValueLabel);
-		p1DeathsPanel.add(p1DeathsLabel);
-		p1DeathsPanel.add(p1DeathsValueLabel);
-		p1KillsPanel.add(p1KillsLabel);
-		p1KillsPanel.add(p1KillsValueLabel);
+		p1DeathsPanel.add(p1AliveLabel);
+		p1DeathsPanel.add(p1AliveValueLabel);
+		p1KillsPanel.add(p1DeathsLabel);
+		p1KillsPanel.add(p1DeathsValueLabel);
 
 		// CREATE P2 ELEMENTS
 		p2NicknameLabel = new JLabel("Player 2");
@@ -176,16 +176,16 @@ public class MatchPanel extends JPanel implements Screen{
 		p2NicknameLabel.setAlignmentX(CENTER_ALIGNMENT);
 
 		JLabel p2FoodLabel = new JLabel("Food: ");
-		p1KillsLabel.setForeground(Color.WHITE);
-		p1KillsLabel.setFont(statLabelFont);
+		p1DeathsLabel.setForeground(Color.WHITE);
+		p1DeathsLabel.setFont(statLabelFont);
+		
+		JLabel p2AliveLabel = new JLabel("Alive: ");
+		p1DeathsLabel.setForeground(Color.WHITE);
+		p1DeathsLabel.setFont(statLabelFont);
 		
 		JLabel p2DeathsLabel = new JLabel("Deaths: ");
-		p1KillsLabel.setForeground(Color.WHITE);
-		p1KillsLabel.setFont(statLabelFont);
-		
-		JLabel p2KillsLabel = new JLabel("Kills: ");
-		p1KillsLabel.setForeground(Color.WHITE);
-		p1KillsLabel.setFont(statLabelFont);
+		p1DeathsLabel.setForeground(Color.WHITE);
+		p1DeathsLabel.setFont(statLabelFont);
 		
 
 		p2FoodValueLabel = new JLabel("0", JLabel.CENTER);
@@ -195,19 +195,19 @@ public class MatchPanel extends JPanel implements Screen{
 		p2FoodValueLabel.setMaximumSize(valueLabelDimension);
 		p2FoodValueLabel.setPreferredSize(valueLabelDimension);
 		
+		p2AliveValueLabel = new JLabel("0", JLabel.CENTER);
+		p2AliveValueLabel.setForeground(Color.WHITE);
+		p2AliveValueLabel.setFont(valueLabelFont);
+		p2AliveValueLabel.setMinimumSize(valueLabelDimension);
+		p2AliveValueLabel.setMaximumSize(valueLabelDimension);
+		p2AliveValueLabel.setPreferredSize(valueLabelDimension);
+		
 		p2DeathsValueLabel = new JLabel("0", JLabel.CENTER);
 		p2DeathsValueLabel.setForeground(Color.WHITE);
 		p2DeathsValueLabel.setFont(valueLabelFont);
 		p2DeathsValueLabel.setMinimumSize(valueLabelDimension);
 		p2DeathsValueLabel.setMaximumSize(valueLabelDimension);
 		p2DeathsValueLabel.setPreferredSize(valueLabelDimension);
-		
-		p2KillsValueLabel = new JLabel("0", JLabel.CENTER);
-		p2KillsValueLabel.setForeground(Color.WHITE);
-		p2KillsValueLabel.setFont(valueLabelFont);
-		p2KillsValueLabel.setMinimumSize(valueLabelDimension);
-		p2KillsValueLabel.setMaximumSize(valueLabelDimension);
-		p2KillsValueLabel.setPreferredSize(valueLabelDimension);
 		
 		JPanel p2FoodPanel = new JPanel();
 		JPanel p2DeathsPanel = new JPanel();
@@ -219,10 +219,10 @@ public class MatchPanel extends JPanel implements Screen{
 		
 		p2FoodPanel.add(p2FoodLabel);
 		p2FoodPanel.add(p2FoodValueLabel);
-		p2DeathsPanel.add(p2DeathsLabel);
-		p2DeathsPanel.add(p2DeathsValueLabel);
-		p2KillsPanel.add(p2KillsLabel);
-		p2KillsPanel.add(p2KillsValueLabel);
+		p2DeathsPanel.add(p2AliveLabel);
+		p2DeathsPanel.add(p2AliveValueLabel);
+		p2KillsPanel.add(p2DeathsLabel);
+		p2KillsPanel.add(p2DeathsValueLabel);
 		
 		// CREATE CONTROL ELEMENTS
 		JPanel controlPanel = new JPanel();
@@ -287,10 +287,9 @@ public class MatchPanel extends JPanel implements Screen{
 			}
 		};
 
-		NormalButton stopGameButton = new NormalButton("Stop Match",  NormalButton.GREEN_THEME) {
+		NormalButton stopGameButton = new NormalButton("Pause/Play Match",  NormalButton.GREEN_THEME) {
 			public void mouseClicked(MouseEvent e) {
-				getGame().stopMatch();
-
+				getGame().togglePause();
 			}
 		};
 
@@ -391,7 +390,7 @@ public class MatchPanel extends JPanel implements Screen{
 		this.add(hud, BorderLayout.EAST);
 		this.add(horizontalHUD, BorderLayout.SOUTH);
 		
-		if (Game.GUI_DEBUG && false) this.add(debugHUD, BorderLayout.WEST);
+		if (Game.GUI_DEBUG && true) this.add(debugHUD, BorderLayout.WEST);
 
 	}
 	
@@ -429,12 +428,12 @@ public class MatchPanel extends JPanel implements Screen{
 		curMatch.updateScores();
 				
 		p1FoodValueLabel.setText("" + curMatch.getFoodScore(p1));
+		p1AliveValueLabel.setText("" + curMatch.getAliveCount(p1));
 		p1DeathsValueLabel.setText("" + curMatch.getDeadCount(p1));
-		p1KillsValueLabel.setText("" + curMatch.getDeadCount(p2));
 
 		p2FoodValueLabel.setText("" + curMatch.getFoodScore(p2));
+		p2AliveValueLabel.setText("" + curMatch.getAliveCount(p2));
 		p2DeathsValueLabel.setText("" + curMatch.getDeadCount(p2));
-		p2KillsValueLabel.setText("" + curMatch.getDeadCount(p1));
 	}
 	
 	@Override

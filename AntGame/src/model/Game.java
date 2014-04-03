@@ -78,6 +78,7 @@ public class Game extends JFrame{
 	private Tournament currentTournament = null;
 	private Match currentMatch = new Match(World.generateWorld(150, 150, 7, 14, 11), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
 	private int roundsPerSec = 10; // Number of rounds to perform every second
+	private int lastSpeed = 10;
 	private double roundTime = 1000000000.0 / roundsPerSec; //number of times to run update per second
 	private HashMap<String, Screen> screenMap;
 	
@@ -365,5 +366,14 @@ public class Game extends JFrame{
 	 */
 	public void createTournament(){
 		this.currentTournament = new Tournament();
+	}
+
+	public void togglePause() {
+		if(getRoundsPerSecond() == 0){
+			setRoundsPerSecond(lastSpeed);
+		}else{
+			lastSpeed = getRoundsPerSecond();
+			setRoundsPerSecond(0);
+		}
 	}
 }
