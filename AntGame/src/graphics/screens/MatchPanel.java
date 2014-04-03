@@ -227,7 +227,7 @@ public class MatchPanel extends JPanel implements Screen{
 		p2FoodValueLabel.setMaximumSize(valueLabelDimension);
 		p2FoodValueLabel.setPreferredSize(valueLabelDimension);
 		
-		p2AliveValueLabel = new JLabel("0", JLabel.CENTER);
+		p2AliveValueLabel = new JLabel("0", JLabel.RIGHT);
 		p2AliveValueLabel.setForeground(Color.WHITE);
 		p2AliveValueLabel.setFont(valueLabelFont);
 		p2AliveValueLabel.setMinimumSize(valueLabelDimension);
