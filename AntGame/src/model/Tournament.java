@@ -32,15 +32,6 @@ public class Tournament {
 
 	public void setWorlds(ArrayList<World> worlds) {
 		this.worlds = worlds;
-		for(int i = 0; i < worlds.size(); i++){
-			for(int j = 1; j < players.size(); j++){
-				World world = worlds.get(i);
-				Player player1 = players.get(j);
-				Player player2 = players.get(j-1);
-				matches.add(new Match((World) world.clone(), (Player) player1.clone(), (Player) player2.clone()));// TODO: YOU NEED TO CLONE WORLDS
-				matches.add(new Match((World) world.clone(), (Player) player2.clone(), (Player) player1.clone()));// OR THE AFTICAN CHILDREN WILL CRY
-			}
-		}
 	}
 	
 	public Match getCurrentMatch(){
@@ -80,14 +71,17 @@ public class Tournament {
 		return scores.get(player.getNickname());
 	}
 	
-	public void reset(){
+	public void generateMatches(){
+		currentMatch = 0;
 		for(int i = 0; i < worlds.size(); i++){
 			for(int j = 1; j < players.size(); j++){
-				World world = worlds.get(i);
-				Player player1 = players.get(j);
-				Player player2 = players.get(j-1);
-				matches.add(new Match((World) world.clone(), (Player) player1.clone(), (Player) player2.clone()));// TODO: YOU NEED TO CLONE WORLDS
-				matches.add(new Match((World) world.clone(), (Player) player2.clone(), (Player) player1.clone()));// OR THE AFTICAN CHILDREN WILL CRY
+				for(int k = 0; k < j; k++){
+					World world = worlds.get(i);
+					Player player1 = players.get(j);
+					Player player2 = players.get(k);
+					matches.add(new Match((World) world.clone(), (Player) player1.clone(), (Player) player2.clone()));// TODO: YOU NEED TO CLONE WORLDS
+					matches.add(new Match((World) world.clone(), (Player) player2.clone(), (Player) player1.clone()));// OR THE AFTICAN CHILDREN WILL CRY
+				}
 			}
 		}
 	}

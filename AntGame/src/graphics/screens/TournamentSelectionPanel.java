@@ -185,6 +185,7 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 						worlds.add(World.generateWorld(150, 150, 7, 14, 11));
 					}
 					getGame().getCurrentTournament().setWorlds(worlds);
+					getGame().getCurrentTournament().generateMatches();
 					getGame().setCurrentMatch(getGame().getCurrentTournament().getCurrentMatch());
 					getGame().createMatchPanelGrid(getGame().getCurrentMatch().getWorld().sizeX, getGame().getCurrentMatch().getWorld().sizeY, 2, 1);
 					getGame().switchScreen(Game.MATCH_SCREEN);
