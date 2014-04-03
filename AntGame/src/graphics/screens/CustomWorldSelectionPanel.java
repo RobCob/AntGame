@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import model.Game;
 import model.World;
@@ -39,6 +41,8 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	private static final BufferedImage WORLD_EDITOR_IMAGE = ImageLoader.loadImage("/WorldEditorImages/worldDimensions.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldEditorImages/worldEditorTitle.png");
+	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
+	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/GlobalImages/cross.png");
 	
 	private Game game;
 	private JLabel rocksLabel;
@@ -47,6 +51,7 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	private JTextField firstDimension;
 	private JTextField secondDimension;
 	private SingleMatchWorldPanel parentPanel;
+	private DualImagePanel worldDimensionValidate;
 	
 	public CustomWorldSelectionPanel(Game game, SingleMatchWorldPanel parentPanel){
 		
@@ -289,6 +294,36 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		worldSizeTitleContainer.add(new ImagePanel(WORLD_EDITOR_IMAGE));
 		worldSizeTitleContainer.setOpaque(false);
 		
+		//WorldDimension validate
+		worldDimensionValidate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
+		firstDimension.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent arg0) {
+				validateDimensions();
+			}
+
+			public void insertUpdate(DocumentEvent arg0) {
+				validateDimensions();
+			}
+
+			public void removeUpdate(DocumentEvent arg0) {
+				validateDimensions();
+			}
+		});
+		secondDimension.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent arg0) {
+				validateDimensions();
+			}
+
+			public void insertUpdate(DocumentEvent arg0) {
+				validateDimensions();
+			}
+
+			public void removeUpdate(DocumentEvent arg0) {
+				validateDimensions();
+			}
+		});
+		
+		
 		//add the elements to the panel
 		worldSizeChooser.add(worldSizeTitleContainer);
 		worldSizeChooser.add(new FixedSpacerPanel(58, 0));
@@ -296,6 +331,7 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		worldSizeChooser.add(plusLabel);
 		worldSizeChooser.add(secondDimension);
 		worldSizeChooser.add(new FixedSpacerPanel(27, 0));
+		worldSizeChooser.add(worldDimensionValidate);
 		worldSizeChooser.setOpaque(false);
 		
 		//add the elements to the selector Panel
@@ -426,6 +462,30 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	@Override
 	public void update() {
 		reset();
+	}
+	
+	private void validateDimensions(){
+		String dimension1 = firstDimension.getText().trim();
+		String dimension2 = secondDimension.getText().trim();
+		int d1;
+		int d2;
+		try{
+			d1 = Integer.parseInt(dimension1);
+			d2 = Integer.parseInt(dimension2);
+			if(d1<30 || d2 <30){
+				worldDimensionValidate.displaySecond();
+			}
+			else if(d1 >300 || d2>300){
+				worldDimensionValidate.displaySecond();
+			}
+			else{
+				worldDimensionValidate.displayFirst();
+			}
+
+		}
+		catch(NumberFormatException e){
+			worldDimensionValidate.displaySecond();
+		}
 	}
 
 	@Override

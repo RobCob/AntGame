@@ -184,15 +184,16 @@ public class Game extends JFrame{
 						updateModel();
 						updates++;
 						modelDelta--;
-						if(currentMatch.getRoundNumber() == Match.MAX_ROUNDS || !runningMatch){
+						if(currentMatch.getRoundNumber() >= Match.MAX_ROUNDS || !runningMatch){
 							updateModel();
+							if (Game.DEBUG) setTitle("Ant Game  |  " + getWidth() + "x" + getHeight()  + "  |  UPDATES: " + updates + "/sec  |  ROUND: " + currentMatch.getRoundNumber() + "  |  FPS: " + frames);
 							break;
 						}
 					}
 
 					if (System.currentTimeMillis() - fpsTimer > 1000) { // Happens once every 'roundsPerSec'
 						fpsTimer += 1000;
-						setTitle("Ant Game  |  " + getWidth() + "x" + getHeight()  + "  |  UPDATES: " + updates + "/sec  |  ROUND: " + currentMatch.getRoundNumber() + "  |  FPS: " + frames);
+						if (Game.DEBUG) setTitle("Ant Game  |  " + getWidth() + "x" + getHeight()  + "  |  UPDATES: " + updates + "/sec  |  ROUND: " + currentMatch.getRoundNumber() + "  |  FPS: " + frames);
 						frames = 0; // reset number of frames per sec.
 						updates = 0; // reset number of updates per sec.
 					}
