@@ -41,8 +41,8 @@ public class MatchResultsPanel extends JPanel implements Screen{
 	private static final BufferedImage WINNER_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/winner.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage STATS_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/stats.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/mainMenu.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/mainMenuHover.png");
+	private static final BufferedImage MAIN_MENU_BUTTON_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/mainMenu.png");
+	private static final BufferedImage MAIN_MENU_BUTTON_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/mainMenuHover.png");
 	private static final BufferedImage NEXT_MATCH_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatch.png");
 	private static final BufferedImage NEXT_MATCH_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatchHover.png");
 	
@@ -80,7 +80,7 @@ public class MatchResultsPanel extends JPanel implements Screen{
 		titleContainer.setLayout(titleLayout);
 		titleContainer.add(new FixedSpacerPanel(100, 20));
 		titleContainer.add(new ImagePanel(TITLE_IMAGE));
-		titleContainer.add(new FixedSpacerPanel(100, 40));
+		titleContainer.add(new FixedSpacerPanel(100, 20));
 		titleContainer.setOpaque(false);
 		
 //		//this label simply display the text "Winner"
@@ -98,7 +98,7 @@ public class MatchResultsPanel extends JPanel implements Screen{
 		winnerLabel.setForeground(Color.WHITE);
 		winnerLabel.setFont(new Font("Helvetica", 0, 35));
 		winnerLabel.setAlignmentX(CENTER_ALIGNMENT);
-		winnerLabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+		winnerLabel.setBorder(BorderFactory.createEmptyBorder(5,0,0,0));
 
 		//Panel for winner info
         JPanel winnerPanel = new JPanel();
@@ -117,24 +117,25 @@ public class MatchResultsPanel extends JPanel implements Screen{
         //Winner name -- clone, because you can only reference a JPanel in one place at a time
         blackLabel = new JLabel("Player 1");
         blackLabel.setForeground(Color.WHITE);
-        blackLabel.setFont(new Font("Helvetica", 0, 28));
+        blackLabel.setFont(new Font("Helvetica", 0, 31));
         blackLabel.setAlignmentX(CENTER_ALIGNMENT);
         blackLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
         blackFoodCollected = new JLabel("Food collected: 31"); //just to test, should have actual values
         blackFoodCollected.setForeground(Color.WHITE);
-        blackFoodCollected.setFont(new Font("Helvetica", 0, 17));
+        blackFoodCollected.setFont(new Font("Helvetica", 0, 20));
         blackFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
+        
 		//Ants killed
         blackKillCount = new JLabel("Ants killed: 7"); //just to test, should have actual values
         blackKillCount.setForeground(Color.WHITE);
-        blackKillCount.setFont(new Font("Helvetica", 0, 17));
+        blackKillCount.setFont(new Font("Helvetica", 0, 20));
         blackKillCount.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
         blackAntDeaths = new JLabel("Number of team deaths: 3"); //just to test, should have actual values
         blackAntDeaths.setForeground(Color.WHITE);
-        blackAntDeaths.setFont(new Font("Helvetica", 0, 17));
+        blackAntDeaths.setFont(new Font("Helvetica", 0, 20));
         blackAntDeaths.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
         blackStats.add(blackLabel);
@@ -150,24 +151,24 @@ public class MatchResultsPanel extends JPanel implements Screen{
         //Loser name
         redLabel = new JLabel("Player 2");
         redLabel.setForeground(Color.WHITE);
-        redLabel.setFont(new Font("Helvetica", 0, 28));
+        redLabel.setFont(new Font("Helvetica", 0, 32));
         redLabel.setAlignmentX(CENTER_ALIGNMENT);
         redLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
         redFoodCollected = new JLabel("Food collected: 22"); //just to test, should have actual values
         redFoodCollected.setForeground(Color.WHITE);
-        redFoodCollected.setFont(new Font("Helvetica", 0, 17));
+        redFoodCollected.setFont(new Font("Helvetica", 0, 20));
         redFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
 		//Ants killed
         redKillCount = new JLabel("Ants killed: 5"); //just to test, should have actual values
         redKillCount.setForeground(Color.WHITE);
-        redKillCount.setFont(new Font("Helvetica", 0, 17));
+        redKillCount.setFont(new Font("Helvetica", 0, 20));
         redKillCount.setAlignmentX(CENTER_ALIGNMENT);
         //Deaths in team
         redAntDeaths = new JLabel("Number of team deaths: 11"); //just to test, should have actual values
         redAntDeaths.setForeground(Color.WHITE);
-        redAntDeaths.setFont(new Font("Helvetica", 0, 17));
+        redAntDeaths.setFont(new Font("Helvetica", 0, 20));
         redAntDeaths.setAlignmentX(CENTER_ALIGNMENT);
         //add values to panel
         redStats.add(redLabel);
@@ -186,7 +187,7 @@ public class MatchResultsPanel extends JPanel implements Screen{
         statsSplitPane.setBorder(null);
         statsSplitPane.setDividerSize(0);
         
-        goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER){
+        goButton = new ImageButton(MAIN_MENU_BUTTON_IMAGE, MAIN_MENU_BUTTON_HOVER){
         	public void mouseClicked(MouseEvent e) {
         		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
         	}
@@ -196,7 +197,7 @@ public class MatchResultsPanel extends JPanel implements Screen{
         goPanel = new JPanel();
         goPanel.setOpaque(false);
         goPanel.add(goButton);
-        goPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 40, 0));
+        goPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         
         JPanel statsImagePanel = new JPanel();
         BoxLayout statsPanelLayout = new BoxLayout(statsImagePanel, BoxLayout.Y_AXIS);
@@ -285,7 +286,7 @@ public class MatchResultsPanel extends JPanel implements Screen{
 		redKillCount.setText("Ants killed: " + blackDeaths);
 		redAntDeaths.setText("Ants Died: " + redDeaths);
 		if(getGame().getCurrentTournament() == null){
-	        goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
+	        goButton = new ImageButton(MAIN_MENU_BUTTON_IMAGE, MAIN_MENU_BUTTON_HOVER) {
 	        	public void mouseClicked(MouseEvent e) {
 	        		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
 	        	}
