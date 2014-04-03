@@ -109,10 +109,8 @@ public class MatchPanel extends JPanel implements Screen{
 		player2InfoPanel = new JPanel();
 		BoxLayout p2Layout = new BoxLayout(player2InfoPanel, BoxLayout.Y_AXIS);
 		player2InfoPanel.setLayout(p2Layout);
-		//player2InfoPanel.setOpaque(false);
 		player2InfoPanel.setBackground(new Color(200, 20, 20, 40));
 		player2InfoPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.black));
-
 
 		// CREATE P1 ELEMENTS
 		p1NicknameLabel = new JLabel("Player 1");
