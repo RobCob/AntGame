@@ -34,7 +34,7 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 	private static final BufferedImage PLAY_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/playButton.png");
 	private static final BufferedImage PLAY_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/playButtonHover.png");
 	private static final BufferedImage DELETE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/crossButton.png");
-	private static final BufferedImage DELETE_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/crossButtonHover.png");
+	private static final BufferedImage DELETE_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/crossButtonBrightHover.png");
 	private static final BufferedImage BACK_BUTTON = ImageLoader.loadImage("/GlobalImages/backButton.png");
 	private static final BufferedImage BACK_HOVER_BUTTON = ImageLoader.loadImage("/GlobalImages/backButtonHover.png");
 	
@@ -193,7 +193,6 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 				}
 			}
 		};
-		
 		
 		//Back button
 		ImageButton backButton = new ImageButton(BACK_BUTTON, BACK_HOVER_BUTTON){
