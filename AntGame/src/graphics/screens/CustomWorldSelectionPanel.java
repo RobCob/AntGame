@@ -34,12 +34,11 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	private static final BufferedImage ANTHILL_IMAGE = ImageLoader.loadImage("/WorldEditorImages/sizeOfAnthill.png");
 	private static final BufferedImage CREATE_BUTTON = ImageLoader.loadImage("/WorldEditorImages/createButton.png");
 	private static final BufferedImage CREATE_HOVER_BUTTON = ImageLoader.loadImage("/WorldEditorImages/createButtonHover.png");
-	private static final BufferedImage BACK_BUTTON = ImageLoader.loadImage("/WorldEditorImages/backButton.png");
-	private static final BufferedImage BACK_HOVER_BUTTON = ImageLoader.loadImage("/WorldEditorImages/backButtonHover.png");
+	private static final BufferedImage BACK_BUTTON = ImageLoader.loadImage("/GlobalImages/backButton.png");
+	private static final BufferedImage BACK_HOVER_BUTTON = ImageLoader.loadImage("/GlobalImages/backButtonHover.png");
 	private static final BufferedImage WORLD_EDITOR_IMAGE = ImageLoader.loadImage("/WorldEditorImages/worldDimensions.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldEditorImages/worldEditorTitle.png");
-	
 	
 	private Game game;
 	private JLabel rocksLabel;
@@ -265,7 +264,6 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		firstDimension.setForeground(Color.WHITE);
 		firstDimension.setBackground(new Color(255,255,255,0));
 		firstDimension.setMaximumSize(new Dimension(87,30));
-
 		
 		//MiddleJLabel
 		JLabel plusLabel = new JLabel("X", SwingConstants.CENTER);
@@ -367,7 +365,7 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		//Back button
 		ImageButton backButton = new ImageButton(BACK_BUTTON, BACK_HOVER_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				resetScreen();
+				reset();
 				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 			}
 		};
@@ -391,18 +389,6 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
-	}
-	
-	/**
-	 * This method simply resets the values of various parameters
-	 * back to their default values.
-	 * To be used when switching screen.
-	 * No need for a button that calls the method, as it is only called on code-level.
-	 */
-	public void resetScreen() {
-		rocksLabel.setText("Low");
-		foodLabel.setText("Low");
-		sizeOfAnthillLabel.setText("Small");
 	}
 	
 	/**
@@ -443,6 +429,12 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	}
 
 	@Override
+	/**
+	 * This method simply resets the values of various parameters
+	 * back to their default values.
+	 * To be used when switching screen.
+	 * No need for a button that calls the method, as it is only called on code-level.
+	 */
 	public void reset() {
 		rocksLabel.setText("Medium");
 		foodLabel.setText("Medium");
