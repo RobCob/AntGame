@@ -16,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -23,6 +24,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import model.Game;
+import model.Player;
 import model.World;
 
 public class CustomWorldSelectionPanel extends JPanel implements Screen{
@@ -352,49 +354,55 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		//Create button
 		ImageButton createButton = new ImageButton(CREATE_BUTTON, CREATE_HOVER_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				String antHillString = sizeOfAnthillLabel.getText();
-				int antHillSize = 6;
-				if(antHillString.equals("Large")){
-					antHillSize = 9;
-				}else{
-					if(antHillString.equals("Medium")){
-						antHillSize = 6;
+				String errorMessage = getErrorMessage();
+				boolean valid = errorMessage == null;
+				if (!valid) {
+					JOptionPane.showMessageDialog(CustomWorldSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					String antHillString = sizeOfAnthillLabel.getText();
+					int antHillSize = 6;
+					if(antHillString.equals("Large")){
+						antHillSize = 9;
 					}else{
-						if(antHillString.equals("Small")){
-							antHillSize = 4;
+						if(antHillString.equals("Medium")){
+							antHillSize = 6;
+						}else{
+							if(antHillString.equals("Small")){
+								antHillSize = 4;
+							}
 						}
 					}
-				}
-				String rockCountString = rocksLabel.getText();
-				int rockCount = 0;
-				if(rockCountString.equals("High")){
-					rockCount = 20;
-				}else{
-					if(rockCountString.equals("Medium")){
-						rockCount = 14;
+					String rockCountString = rocksLabel.getText();
+					int rockCount = 0;
+					if(rockCountString.equals("High")){
+						rockCount = 20;
 					}else{
-						if(rockCountString.equals("Low")){
-							rockCount = 8;
+						if(rockCountString.equals("Medium")){
+							rockCount = 14;
+						}else{
+							if(rockCountString.equals("Low")){
+								rockCount = 8;
+							}
 						}
 					}
-				}
-				String foodPileString = foodLabel.getText();
-				int foodPileCount = 0;
-				if(foodPileString.equals("High")){
-					foodPileCount = 14;
-				}else{
-					if(foodPileString.equals("Medium")){
-						foodPileCount = 6;
+					String foodPileString = foodLabel.getText();
+					int foodPileCount = 0;
+					if(foodPileString.equals("High")){
+						foodPileCount = 14;
 					}else{
-						if(foodPileString.equals("Low")){
-							foodPileCount = 3;
+						if(foodPileString.equals("Medium")){
+							foodPileCount = 6;
+						}else{
+							if(foodPileString.equals("Low")){
+								foodPileCount = 3;
+							}
 						}
 					}
+					World antWorld = World.generateWorld(Integer.parseInt(firstDimension.getText()), Integer.parseInt(secondDimension.getText()), antHillSize, rockCount, foodPileCount); 
+					getWorldScreen().setWorld(antWorld);
+					getWorldScreen().previewWorld();
+					getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 				}
-				World antWorld = World.generateWorld(Integer.parseInt(firstDimension.getText()), Integer.parseInt(secondDimension.getText()), antHillSize, rockCount, foodPileCount); 
-				getWorldScreen().setWorld(antWorld);
-				getWorldScreen().previewWorld();
-				getGame().switchScreen(Game.WORLD_SELECTION_SCREEN);
 			}
 		};
 		
@@ -487,7 +495,49 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 			worldDimensionValidate.displaySecond();
 		}
 	}
-
+	
+	/**
+	 * gets the messages associated with validation errors. 
+	 * @return a string of errors that need correcting by the user, null if no problems exist.
+	 */
+	public String getErrorMessage(){
+		String output = "";
+		String dimension1 = firstDimension.getText().trim();
+		String dimension2 = secondDimension.getText().trim();
+		int d1;
+		int d2;
+		
+		try{
+			d1 = Integer.parseInt(dimension1);
+			if(d1 < 30){
+				output += "- Width of world too small, needs to be at least 30.\n";
+			}
+			else if(d1 > 300){
+				output += "- Width of world too big, needs to be smaller than 300.\n";
+			}
+		}
+		catch(NumberFormatException e){
+			output += "- The width must be an integer.\n";
+		}
+		try{
+			d2 = Integer.parseInt(dimension2);
+			if(d2 < 30){
+				output += "- Height of world too small, needs to be at least 30.\n";
+			}
+			else if(d2 > 300){
+				output += "- Height of world too big, needs to be smaller than 300.\n";
+			}
+		}
+		catch(NumberFormatException e){
+			output += "- The height must be an integer.\n";
+		}
+		
+		if(output.equals("")){
+			output = null;
+		}
+		
+		return output;
+	}
 	@Override
 	/**
 	 * This method simply resets the values of various parameters
