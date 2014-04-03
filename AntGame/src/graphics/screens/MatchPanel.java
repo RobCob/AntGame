@@ -63,12 +63,10 @@ public class MatchPanel extends JPanel implements Screen{
 	private static final BufferedImage SKIP_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/skipButton.png");
 	private static final BufferedImage SKIP_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/skipButtonHover.png");
 	
-	
 	private static final int SLOW_SPEED = 10;
 	private static final int MED_SPEED = 100;
 	private static final int FAST_SPEED = 1000;
 	private static final int FASTEST_SPEED = 10000;
-
 
 	private Game game;
 	private HexGrid grid;
@@ -112,8 +110,8 @@ public class MatchPanel extends JPanel implements Screen{
 		
 		// COMMON VALUES:
 		Dimension hudDimension = new Dimension(300, 576);
-		Dimension valueLabelDimension = new Dimension(100, 13);
-		Dimension statLabelDimension = new Dimension(90, 13);
+		Dimension valueLabelDimension = new Dimension(100, 20);
+		Dimension statLabelDimension = new Dimension(90, 20);
 		Dimension labelPanelDimension = new Dimension(500, 35);
 		Dimension controlValueDimension = new Dimension(100, 40);
 
