@@ -7,8 +7,10 @@ import graphics.utilities.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -38,6 +40,8 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 	private static final BufferedImage UPLOAD_ROLL_IMAGE = ImageLoader.loadImage("/SingleMatchPlayerPanelImages/uploadButtonImageHover.png");
 	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/SingleMatchPlayerPanelImages/nextButtonImage.png");
 	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/SingleMatchPlayerPanelImages/nextButtonImageHover.png");
+	private static final BufferedImage BACK_BUTTON_IMAGE = ImageLoader.loadImage("/GlobalImages/backButton.png");
+	private static final BufferedImage BACK_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/GlobalImages/backButtonHover.png");
 
 	private Game game;
 	private AntBrain player1Brain;
@@ -295,11 +299,22 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 				}
 			}
 		};
-
-		JPanel nextButtonPanel = new JPanel();
+		
+		//Create Back button
+		ImageButton backButton = new ImageButton(BACK_BUTTON_IMAGE, BACK_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				getGame().switchScreen(Game.MAIN_MENU_SCREEN);
+				reset();
+				
+			}
+		};
+		
+		JPanel nextButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		nextButtonPanel.add(backButton);
+		nextButtonPanel.add(new FixedSpacerPanel(80, 20));
 		nextButtonPanel.setOpaque(false);
 		nextButtonPanel.add(nextButton);
-		nextButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 70, 0));
+		nextButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
 		//Add containers
 		add(titleContainer, BorderLayout.NORTH);
