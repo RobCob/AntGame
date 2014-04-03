@@ -406,4 +406,8 @@ public class Game extends JFrame{
 			screenMap.get(screens[i]).reset();
 		}
 	}
+
+	public boolean isPaused() {
+		return roundsPerSec == 0;
+	}
 }

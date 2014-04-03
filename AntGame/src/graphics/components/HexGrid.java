@@ -113,14 +113,17 @@ public  class HexGrid extends JPanel {
 		}
 	}
 
-	public void increaseSize() {
+	public boolean increaseSize() {
 		resize(size+=2);
+		return true;
 	}
 
-	public void decreaseSize() {
+	public boolean decreaseSize() {
 		if (size > 2) {
 			resize(size-=2);
+			return true;
 		}
+		return false;
 	}
 	
 	public void addDefaultOutlines() {
