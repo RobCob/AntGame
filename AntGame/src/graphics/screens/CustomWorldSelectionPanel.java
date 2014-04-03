@@ -6,9 +6,9 @@ import graphics.utilities.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
@@ -17,7 +17,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -56,14 +55,17 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		this.parentPanel = parentPanel;
 		this.setLayout(new BorderLayout());
 		
+		Dimension labelDimension = new Dimension(100, 40); 
+		
 		// Title Panel
 		JPanel titleContainer = new JPanel();
 		BoxLayout titleLayout = new BoxLayout(titleContainer, BoxLayout.Y_AXIS);
 		titleContainer.setLayout(titleLayout);
 		titleContainer.add(new FixedSpacerPanel(100, 20));
 		titleContainer.add(new ImagePanel(TITLE_IMAGE));
-		titleContainer.add(new FixedSpacerPanel(100, 20)); 
+		titleContainer.add(new FixedSpacerPanel(100, 40));
 		titleContainer.setOpaque(false);
+
 		
 		//Panel containing the selector (Rocks,Food and Anthill size)
 		JPanel selectorPanel = new JPanel();
@@ -76,13 +78,13 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		BoxLayout rocksLayout = new BoxLayout(rocksPanel, BoxLayout.X_AXIS);
 		rocksPanel.setLayout(rocksLayout);
 		//Label
-		rocksLabel = new JLabel("Medium",SwingConstants.CENTER);
+		rocksLabel = new JLabel("Medium", SwingConstants.CENTER);
 		rocksLabel.setForeground(Color.WHITE);
 		rocksLabel.setFont(new Font("Helvetica", 0, 25));
-		rocksLabel.setAlignmentX(CENTER_ALIGNMENT);
-		rocksLabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
-		rocksLabel.setMinimumSize(new Dimension(100,100));
-		rocksLabel.setMaximumSize(new Dimension(100,100));
+		rocksLabel.setMinimumSize(labelDimension);
+		rocksLabel.setMaximumSize(labelDimension);
+		rocksLabel.setPreferredSize(labelDimension);
+
 		
 		//ImageButtons
 		ImageButton rocksMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
@@ -116,9 +118,7 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		JPanel rocksTitleContainer = new JPanel();
 		BoxLayout rocksTitleLayout = new BoxLayout(rocksTitleContainer, BoxLayout.Y_AXIS);
 		rocksTitleContainer.setLayout(rocksTitleLayout);
-		rocksTitleContainer.add(new FixedSpacerPanel(100, 20));
 		rocksTitleContainer.add(new ImagePanel(ROCKS_IMAGE));
-		rocksTitleContainer.add(new FixedSpacerPanel(100, 20)); 
 		rocksTitleContainer.setOpaque(false);
 		
 		//add the elements to the panel
@@ -141,10 +141,9 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		foodLabel = new JLabel("Medium", SwingConstants.CENTER);
 		foodLabel.setForeground(Color.WHITE);
 		foodLabel.setFont(new Font("Helvetica", 0, 25));
-		foodLabel.setAlignmentX(CENTER_ALIGNMENT);
-		foodLabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
-		foodLabel.setMinimumSize(new Dimension(100,100));
-		foodLabel.setMaximumSize(new Dimension(100,100));
+		foodLabel.setMinimumSize(labelDimension);
+		foodLabel.setMaximumSize(labelDimension);
+		foodLabel.setPreferredSize(labelDimension);
 		
 		//ImageButtons
 		ImageButton foodMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
@@ -178,9 +177,7 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		JPanel foodTitleContainer = new JPanel();
 		BoxLayout foodTitleLayout = new BoxLayout(foodTitleContainer, BoxLayout.Y_AXIS);
 		foodTitleContainer.setLayout(foodTitleLayout);
-		foodTitleContainer.add(new FixedSpacerPanel(100, 20));
 		foodTitleContainer.add(new ImagePanel(FOOD_IMAGE));
-		foodTitleContainer.add(new FixedSpacerPanel(100, 20)); 
 		foodTitleContainer.setOpaque(false);
 		
 		//add the elements to the panel
@@ -203,10 +200,9 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		sizeOfAnthillLabel = new JLabel("Medium", SwingConstants.CENTER);
 		sizeOfAnthillLabel.setForeground(Color.WHITE);
 		sizeOfAnthillLabel.setFont(new Font("Helvetica", 0, 25));
-		sizeOfAnthillLabel.setAlignmentX(CENTER_ALIGNMENT);
-		sizeOfAnthillLabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
-		sizeOfAnthillLabel.setMinimumSize(new Dimension(100,100));
-		sizeOfAnthillLabel.setMaximumSize(new Dimension(100,100));
+		sizeOfAnthillLabel.setMinimumSize(labelDimension);
+		sizeOfAnthillLabel.setMaximumSize(labelDimension);
+		sizeOfAnthillLabel.setPreferredSize(labelDimension);
 		
 		//ImageButtons
 		ImageButton sizeOfAnthillMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
@@ -236,16 +232,14 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 			}
 		};
 		
-		//anthill title
+		//Anthill title
 		JPanel anthillTitleContainer = new JPanel();
 		BoxLayout anthillTitleLayout = new BoxLayout(anthillTitleContainer, BoxLayout.Y_AXIS);
 		anthillTitleContainer.setLayout(anthillTitleLayout);
-		anthillTitleContainer.add(new FixedSpacerPanel(100, 20));
 		anthillTitleContainer.add(new ImagePanel(ANTHILL_IMAGE));
-		anthillTitleContainer.add(new FixedSpacerPanel(100, 20)); 
 		anthillTitleContainer.setOpaque(false);
 
-		//add the elements to the panel
+		//Add the elements to the panel
 		sizeOfAnthillPanel.add(anthillTitleContainer);
 		sizeOfAnthillPanel.add(new FixedSpacerPanel(100, 0));
 		sizeOfAnthillPanel.add(sizeOfAnthillMinusButton);
@@ -253,7 +247,6 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		sizeOfAnthillPanel.add(sizeOfAnthillLabel);
 		sizeOfAnthillPanel.add(new FixedSpacerPanel(50, 0));
 		sizeOfAnthillPanel.add(sizeOfAnthillPlusButton);
-		
 		sizeOfAnthillPanel.setOpaque(false);
 		
 		//WorldSize chooser is simply two text areas that allow the user to input
@@ -263,63 +256,63 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		worldSizeChooser.setLayout(worldSizeLayout);
 		
 		//First JText Area
-		firstDimension = new JTextField("150");
-		firstDimension.setForeground(Color.BLACK);
+		firstDimension = new JTextField("150", 4);
 		firstDimension.setFont(new Font("Helvetica", 0, 25));
-		firstDimension.setAlignmentX(CENTER_ALIGNMENT);
-		firstDimension.setMaximumSize(new Dimension(87,30));
+		firstDimension.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
+		firstDimension.setOpaque(false);
 		firstDimension.setHorizontalAlignment(JTextField.CENTER);
+		firstDimension.setCaretColor(Color.WHITE);
+		firstDimension.setForeground(Color.WHITE);
+		firstDimension.setBackground(new Color(255,255,255,0));
+		firstDimension.setMaximumSize(new Dimension(87,30));
+
 		
 		//MiddleJLabel
-		JTextField plusLabel = new JTextField("X", SwingConstants.CENTER);
+		JLabel plusLabel = new JLabel("X", SwingConstants.CENTER);
 		plusLabel.setForeground(Color.WHITE);
 		plusLabel.setFont(new Font("Helvetica", 0, 25));
-		plusLabel.setAlignmentX(CENTER_ALIGNMENT);
-		plusLabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
-		plusLabel.setMaximumSize(new Dimension(50,30));
-		plusLabel.setOpaque(false);
+		plusLabel.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
 		
 		//Second text area
-		secondDimension = new JTextField("150");
-		secondDimension.setForeground(Color.BLACK);
+		secondDimension = new JTextField("150", 4);
 		secondDimension.setFont(new Font("Helvetica", 0, 25));
-		secondDimension.setAlignmentX(CENTER_ALIGNMENT);
-		secondDimension.setMaximumSize(new Dimension(87,30));
+		secondDimension.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
+		secondDimension.setOpaque(false);
 		secondDimension.setHorizontalAlignment(JTextField.CENTER);
+		secondDimension.setCaretColor(Color.WHITE);
+		secondDimension.setForeground(Color.WHITE);
+		secondDimension.setBackground(new Color(255,255,255,0));
+		secondDimension.setMaximumSize(new Dimension(87,30));
 		
 		//WorldSize title
 		JPanel worldSizeTitleContainer = new JPanel();
 		BoxLayout worldSizeTitleLayout = new BoxLayout(worldSizeTitleContainer, BoxLayout.Y_AXIS);
 		worldSizeTitleContainer.setLayout(worldSizeTitleLayout);
-		worldSizeTitleContainer.add(new FixedSpacerPanel(100, 20));
 		worldSizeTitleContainer.add(new ImagePanel(WORLD_EDITOR_IMAGE));
-		worldSizeTitleContainer.add(new FixedSpacerPanel(100, 20)); 
 		worldSizeTitleContainer.setOpaque(false);
 		
 		//add the elements to the panel
 		worldSizeChooser.add(worldSizeTitleContainer);
-		worldSizeChooser.add(new FixedSpacerPanel(83, 0));
+		worldSizeChooser.add(new FixedSpacerPanel(58, 0));
 		worldSizeChooser.add(firstDimension);
 		worldSizeChooser.add(plusLabel);
 		worldSizeChooser.add(secondDimension);
-		
+		worldSizeChooser.add(new FixedSpacerPanel(27, 0));
 		worldSizeChooser.setOpaque(false);
 		
 		//add the elements to the selector Panel
 		selectorPanel.add(rocksPanel);
-		selectorPanel.add(new FixedSpacerPanel(140, 0));
+		selectorPanel.add(new FixedSpacerPanel(140, 40));
 		selectorPanel.add(foodPanel);
-		selectorPanel.add(new FixedSpacerPanel(140, 0));
+		selectorPanel.add(new FixedSpacerPanel(140, 40));
 		selectorPanel.add(sizeOfAnthillPanel);
-		selectorPanel.add(new FixedSpacerPanel(140, 0));
+		selectorPanel.add(new FixedSpacerPanel(140, 40));
 		selectorPanel.add(worldSizeChooser);
 		selectorPanel.add(new FixedSpacerPanel(140, 0));
 		selectorPanel.setOpaque(false);
 		
 		//Bottom buttons
-		JPanel bottomButtons = new JPanel();
-		BoxLayout bottomLayout = new BoxLayout(bottomButtons, BoxLayout.X_AXIS);
-		bottomButtons.setLayout(bottomLayout);
+		JPanel bottomButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		bottomButtons.setOpaque(false);
 		
 		//Create button
@@ -379,18 +372,15 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 			}
 		};
 		
+		
 		//add buttons to panel
-		bottomButtons.add(new FixedSpacerPanel(320, 20));
 		bottomButtons.add(backButton);
-		bottomButtons.add(new FixedSpacerPanel(100, 20));
+		bottomButtons.add(new FixedSpacerPanel(80, 20));
 		bottomButtons.add(createButton);
-		bottomButtons.add(new FixedSpacerPanel(100, 40));
+		bottomButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 		
 		add(titleContainer, BorderLayout.NORTH);
 		add(selectorPanel, BorderLayout.CENTER);
-		//add spacer panels for looking good
-		add(new FixedSpacerPanel(78, 50), BorderLayout.WEST);
-		add(new FixedSpacerPanel(100, 50), BorderLayout.EAST);
 		add(bottomButtons, BorderLayout.SOUTH);
 	}
 	
