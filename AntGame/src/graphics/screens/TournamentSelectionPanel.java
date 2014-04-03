@@ -353,6 +353,12 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 	public void reset() {
 		players = new ArrayList<Player>();
 		playerNames = new ArrayList<String>();
+		nameGen = 0;
+		playerName.setText(generateName());
+		validatePlayerName();
+		currentBrain = null;
+		currentBrainName = null;
+		itemPanel.removeAll();
 	}
 }
 

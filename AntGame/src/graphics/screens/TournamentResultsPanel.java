@@ -107,16 +107,17 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 			// Create a list item and ad in the new player
 			ListItem newPlayerItem = new ListItem(p.getNickname(), "(" + p.getBrain().getName() + ")", itemPanel);
 			
-			JLabel scoreLabel = new JLabel("" + getGame().getCurrentTournament().getScore(p));
+			JLabel scoreLabel = new JLabel("Score: " + getGame().getCurrentTournament().getScore(p));
 			scoreLabel.setForeground(Color.BLACK);
 			scoreLabel.setFont(new Font("Helvetica", 0, 25));
 			
 			JPanel scorePanel = new JPanel();
 			scorePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 			scorePanel.setOpaque(false);
+			scorePanel.add(scoreLabel);
 			
 			newPlayerItem.changeSize(885, 50);
-			newPlayerItem.addRight(scoreLabel);
+			newPlayerItem.addRight(scorePanel);
 			newPlayerItem.setPlayer(p);
 			
 			// Add the item to the item panel and refresh the scrollpane.
