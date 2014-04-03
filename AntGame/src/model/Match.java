@@ -39,7 +39,8 @@ public class Match {
 	public void setPlayer1(Player player){
 		this.player1 = player;
 		player1.setColour(Colour.BLACK);
-		scores.put(player1.getColour(), new Integer[2]);
+		Integer[] score = {0, 0};
+		scores.put(player1.getColour(), score);
 	}
 	
 	public void setPlayer2(Player player){
