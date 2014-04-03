@@ -147,34 +147,20 @@ public class MatchPanel extends JPanel implements Screen{
 		p1FoodValueLabel.setMinimumSize(valueLabelDimension);
 		p1FoodValueLabel.setMaximumSize(valueLabelDimension);
 		p1FoodValueLabel.setPreferredSize(valueLabelDimension);
-		
-<<<<<<< HEAD
-		p1AliveValueLabel = new JLabel("0", JLabel.CENTER);
+
+		p1AliveValueLabel = new JLabel("0", JLabel.RIGHT);
 		p1AliveValueLabel.setForeground(Color.WHITE);
 		p1AliveValueLabel.setFont(valueLabelFont);
 		p1AliveValueLabel.setMinimumSize(valueLabelDimension);
 		p1AliveValueLabel.setMaximumSize(valueLabelDimension);
 		p1AliveValueLabel.setPreferredSize(valueLabelDimension);
 		
-		p1DeathsValueLabel = new JLabel("0", JLabel.CENTER);
-=======
 		p1DeathsValueLabel = new JLabel("0", JLabel.RIGHT);
->>>>>>> branch 'master' of https://github.com/RobCob/AntGame.git
 		p1DeathsValueLabel.setForeground(Color.WHITE);
 		p1DeathsValueLabel.setFont(valueLabelFont);
 		p1DeathsValueLabel.setMinimumSize(valueLabelDimension);
 		p1DeathsValueLabel.setMaximumSize(valueLabelDimension);
 		p1DeathsValueLabel.setPreferredSize(valueLabelDimension);
-<<<<<<< HEAD
-=======
-		
-		p1KillsValueLabel = new JLabel("0", JLabel.RIGHT);
-		p1KillsValueLabel.setForeground(Color.WHITE);
-		p1KillsValueLabel.setFont(valueLabelFont);
-		p1KillsValueLabel.setMinimumSize(valueLabelDimension);
-		p1KillsValueLabel.setMaximumSize(valueLabelDimension);
-		p1KillsValueLabel.setPreferredSize(valueLabelDimension);
->>>>>>> branch 'master' of https://github.com/RobCob/AntGame.git
 		
 		JPanel p1FoodPanel = new JPanel();
 		p1FoodPanel.setMaximumSize(labelPanelDimension);
@@ -243,7 +229,6 @@ public class MatchPanel extends JPanel implements Screen{
 		p2FoodValueLabel.setMaximumSize(valueLabelDimension);
 		p2FoodValueLabel.setPreferredSize(valueLabelDimension);
 		
-<<<<<<< HEAD
 		p2AliveValueLabel = new JLabel("0", JLabel.CENTER);
 		p2AliveValueLabel.setForeground(Color.WHITE);
 		p2AliveValueLabel.setFont(valueLabelFont);
@@ -251,25 +236,12 @@ public class MatchPanel extends JPanel implements Screen{
 		p2AliveValueLabel.setMaximumSize(valueLabelDimension);
 		p2AliveValueLabel.setPreferredSize(valueLabelDimension);
 		
-		p2DeathsValueLabel = new JLabel("0", JLabel.CENTER);
-=======
 		p2DeathsValueLabel = new JLabel("0", JLabel.RIGHT);
->>>>>>> branch 'master' of https://github.com/RobCob/AntGame.git
 		p2DeathsValueLabel.setForeground(Color.WHITE);
 		p2DeathsValueLabel.setFont(valueLabelFont);
 		p2DeathsValueLabel.setMinimumSize(valueLabelDimension);
 		p2DeathsValueLabel.setMaximumSize(valueLabelDimension);
 		p2DeathsValueLabel.setPreferredSize(valueLabelDimension);
-<<<<<<< HEAD
-=======
-		
-		p2KillsValueLabel = new JLabel("0", JLabel.RIGHT);
-		p2KillsValueLabel.setForeground(Color.WHITE);
-		p2KillsValueLabel.setFont(valueLabelFont);
-		p2KillsValueLabel.setMinimumSize(valueLabelDimension);
-		p2KillsValueLabel.setMaximumSize(valueLabelDimension);
-		p2KillsValueLabel.setPreferredSize(valueLabelDimension);
->>>>>>> branch 'master' of https://github.com/RobCob/AntGame.git
 		
 		JPanel p2FoodPanel = new JPanel();
 		p2FoodPanel.setMaximumSize(labelPanelDimension);
