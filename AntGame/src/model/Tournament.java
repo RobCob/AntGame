@@ -7,6 +7,7 @@ public class Tournament {
 	
 	private ArrayList<Match> matches;
 	private ArrayList<Player> players;
+	private ArrayList<World> worlds;
 	private HashMap<String, Integer> scores;
 	private int currentMatch;
 	
@@ -30,6 +31,7 @@ public class Tournament {
 	}
 
 	public void setWorlds(ArrayList<World> worlds) {
+		this.worlds = worlds;
 		for(int i = 0; i < worlds.size(); i++){
 			for(int j = 1; j < players.size(); j++){
 				World world = worlds.get(i);
@@ -51,7 +53,7 @@ public class Tournament {
 	}
 	
 	public void nextMatch(){
-		if(matches.get(currentMatch).getRoundNumber() == Match.MAX_ROUNDS){
+		if(matches.get(currentMatch).getRoundNumber() >= Match.MAX_ROUNDS){
 			if(currentMatch < matches.size()){
 				Match current = matches.get(currentMatch);
 				Player winner = current.getWinner();
@@ -66,6 +68,27 @@ public class Tournament {
 					scores.put(winner.getNickname(), scores.get(winner.getNickname()) + 2);
 				}
 				currentMatch++;
+			}
+		}else{
+			System.out.println("DEBUG | ROUND NOT FINISHED");
+		}
+	}
+	
+	public HashMap<String, Integer> getScores(){
+		return scores;
+	}
+	public int getScore(Player player){
+		return scores.get(player.getNickname());
+	}
+	
+	public void reset(){
+		for(int i = 0; i < worlds.size(); i++){
+			for(int j = 1; j < players.size(); j++){
+				World world = worlds.get(i);
+				Player player1 = players.get(j);
+				Player player2 = players.get(j-1);
+				matches.add(new Match((World) world.clone(), (Player) player1.clone(), (Player) player2.clone()));// TODO: YOU NEED TO CLONE WORLDS
+				matches.add(new Match((World) world.clone(), (Player) player2.clone(), (Player) player1.clone()));// OR THE AFTICAN CHILDREN WILL CRY
 			}
 		}
 	}
