@@ -301,7 +301,6 @@ public class Game extends JFrame{
 	 * @return the current match that the game is storing.
 	 */
 	public void setCurrentMatch(Match match) {
-		System.out.println("WATTHEFUCK");
 		this.currentMatch = match;
 	}
 	
