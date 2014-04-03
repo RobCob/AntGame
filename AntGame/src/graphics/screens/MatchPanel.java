@@ -51,6 +51,9 @@ public class MatchPanel extends JPanel implements Screen{
 	private HexGrid grid;
 	private JScrollPane scrollPane;
 	
+	private JPanel player1InfoPanel;
+	private JPanel player2InfoPanel;
+	
 	private JLabel p1NicknameLabel;
 	private JLabel p2NicknameLabel;
 	
@@ -81,7 +84,6 @@ public class MatchPanel extends JPanel implements Screen{
 		Font valueLabelFont = new Font("Helvetica", 0, 18);
 		Font statLabelFont = new Font("Helvetica", 0, 18);
 		
-		
 		// HUD
 		JPanel hud = new JPanel();
 		BoxLayout hudLayout = new BoxLayout(hud, BoxLayout.Y_AXIS);
@@ -95,16 +97,18 @@ public class MatchPanel extends JPanel implements Screen{
 		//TODO
 		
 		// CREATE PLAYER 1 INFO PANEL 
-		JPanel player1InfoPanel = new JPanel();
+		player1InfoPanel = new JPanel();
 		BoxLayout p1Layout = new BoxLayout(player1InfoPanel, BoxLayout.Y_AXIS);
 		player1InfoPanel.setLayout(p1Layout);
 		player1InfoPanel.setOpaque(false);
-		
+		player1InfoPanel.setBackground(new Color(0, 0, 0, 20));
+
 		// CREATE PLAYER 2 INFOR PANEL
-		JPanel player2InfoPanel = new JPanel();
+		player2InfoPanel = new JPanel();
 		BoxLayout p2Layout = new BoxLayout(player2InfoPanel, BoxLayout.Y_AXIS);
 		player2InfoPanel.setLayout(p2Layout);
-		player2InfoPanel.setOpaque(false);
+		//player2InfoPanel.setOpaque(false);
+		player2InfoPanel.setBackground(new Color(200, 20, 20, 20));
 
 		// CREATE P1 ELEMENTS
 		p1NicknameLabel = new JLabel("Player 1");
@@ -119,14 +123,14 @@ public class MatchPanel extends JPanel implements Screen{
 		p1FoodLabel.setMaximumSize(statLabelDimension);
 		p1FoodLabel.setPreferredSize(statLabelDimension);
         
-		JLabel p1DeathsLabel = new JLabel("Deaths: ");
+		JLabel p1DeathsLabel = new JLabel("Deaths: ", JLabel.LEFT);
 		p1DeathsLabel.setForeground(Color.WHITE);
 		p1DeathsLabel.setFont(statLabelFont);
 		p1DeathsLabel.setMinimumSize(statLabelDimension);
 		p1DeathsLabel.setMaximumSize(statLabelDimension);
 		p1DeathsLabel.setPreferredSize(statLabelDimension);
 		
-		JLabel p1KillsLabel = new JLabel("Kills: ");
+		JLabel p1KillsLabel = new JLabel("Kills: ", JLabel.LEFT);
 		p1KillsLabel.setForeground(Color.WHITE);
 		p1KillsLabel.setFont(statLabelFont);
 		p1KillsLabel.setMinimumSize(statLabelDimension);
@@ -175,18 +179,33 @@ public class MatchPanel extends JPanel implements Screen{
 		p2NicknameLabel.setFont(new Font("Helvetica", 0, 20));
 		p2NicknameLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-		JLabel p2FoodLabel = new JLabel("Food: ");
-		p1KillsLabel.setForeground(Color.WHITE);
-		p1KillsLabel.setFont(statLabelFont);
+		JLabel p2FoodLabel = new JLabel("Food: ", JLabel.LEFT);
+		p2FoodLabel.setForeground(Color.WHITE);
+		p2FoodLabel.setFont(statLabelFont);
+		p2FoodLabel.setForeground(Color.WHITE);
+		p2FoodLabel.setFont(statLabelFont);
+		p2FoodLabel.setMinimumSize(statLabelDimension);
+		p2FoodLabel.setMaximumSize(statLabelDimension);
+		p2FoodLabel.setPreferredSize(statLabelDimension);
+		p2FoodLabel.setOpaque(false);
 		
-		JLabel p2DeathsLabel = new JLabel("Deaths: ");
-		p1KillsLabel.setForeground(Color.WHITE);
-		p1KillsLabel.setFont(statLabelFont);
+		JLabel p2DeathsLabel = new JLabel("Deaths: ", JLabel.LEFT);
+		p2DeathsLabel.setForeground(Color.WHITE);
+		p2DeathsLabel.setFont(statLabelFont);
+		p2DeathsLabel.setForeground(Color.WHITE);
+		p2DeathsLabel.setFont(statLabelFont);
+		p2DeathsLabel.setMinimumSize(statLabelDimension);
+		p2DeathsLabel.setMaximumSize(statLabelDimension);
+		p2DeathsLabel.setPreferredSize(statLabelDimension);
 		
-		JLabel p2KillsLabel = new JLabel("Kills: ");
-		p1KillsLabel.setForeground(Color.WHITE);
-		p1KillsLabel.setFont(statLabelFont);
-		
+		JLabel p2KillsLabel = new JLabel("Kills: ", JLabel.LEFT);
+		p2KillsLabel.setForeground(Color.WHITE);
+		p2KillsLabel.setFont(statLabelFont);
+		p2KillsLabel.setForeground(Color.WHITE);
+		p2KillsLabel.setFont(statLabelFont);
+		p2KillsLabel.setMinimumSize(statLabelDimension);
+		p2KillsLabel.setMaximumSize(statLabelDimension);
+		p2KillsLabel.setPreferredSize(statLabelDimension);
 
 		p2FoodValueLabel = new JLabel("0", JLabel.CENTER);
 		p2FoodValueLabel.setForeground(Color.WHITE);
@@ -435,6 +454,9 @@ public class MatchPanel extends JPanel implements Screen{
 		p2FoodValueLabel.setText("" + curMatch.getFoodScore(p2));
 		p2DeathsValueLabel.setText("" + curMatch.getDeadCount(p2));
 		p2KillsValueLabel.setText("" + curMatch.getDeadCount(p1));
+		
+		this.revalidate();
+		this.repaint();
 	}
 	
 	@Override

@@ -221,9 +221,10 @@ public class Game extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (!runningMatch) {
 	            	displayTimer.stop();
+	            } else {
+	            	frames++;
+					updateMatchScreen();
 	            }
-				frames++;
-				updateMatchScreen();
 			}
 		});
 		displayTimer.start(); // Start updating the screen periodically.
@@ -236,8 +237,9 @@ public class Game extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (!runningMatch) {
 	            	displayTimer.stop();
+	            } else {
+					getMatchScreen().updatePlayerStats();
 	            }
-				getMatchScreen().updatePlayerStats();
 			}
 		});
 		statsTimer.start(); // Start updating the screen periodically.
