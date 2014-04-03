@@ -45,8 +45,8 @@ public class MatchResultsPanel extends JPanel implements Screen{
 	private static final BufferedImage MAIN_MENU_BUTTON_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/mainMenuHover.png");
 	private static final BufferedImage NEXT_MATCH_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatch.png");
 	private static final BufferedImage NEXT_MATCH_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatchHover.png");
-	private static final BufferedImage VIEW_RESULTS_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatch.png");
-	private static final BufferedImage VIEW_RESULTS_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatchHover.png");
+	private static final BufferedImage VIEW_RESULTS_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/viewResults.png");
+	private static final BufferedImage VIEW_RESULTS_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/viewResultsHover.png");
 	
 	//other parameters
 	private Game game;
