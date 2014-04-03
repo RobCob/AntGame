@@ -27,7 +27,10 @@ public class MainMenuPanel extends JPanel implements Screen{
 	private static final BufferedImage TOURNAMENT_BUTTON_HOVER_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/tournamentButtonHover.png");
 	private static final BufferedImage NON_TOURNAMENT_BUTTON_BACKGROUND = ImageLoader.loadImage("/MainMenuPanelImages/nonTournamentButton.png");
 	private static final BufferedImage NON_TOURNAMENT_BUTTON_HOVER = ImageLoader.loadImage("/MainMenuPanelImages/nonTournamentButtonHover.png");
+	private static final BufferedImage SINGLE_MATCH_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/singleMatchImage.png");
+	private static final BufferedImage SINGLE_MATCH_IMAGE_HOVER = ImageLoader.loadImage("/MainMenuPanelImages/singleMatchImageHover.png");
 
+	
 	public MainMenuPanel(Game game){
 		this.game = game;
 
@@ -37,7 +40,7 @@ public class MainMenuPanel extends JPanel implements Screen{
 			}
 		};
 
-		ImageButton nonTournamentButton = new ImageButton(NON_TOURNAMENT_BUTTON_BACKGROUND, NON_TOURNAMENT_BUTTON_HOVER) {
+		ImageButton nonTournamentButton = new ImageButton(SINGLE_MATCH_IMAGE, SINGLE_MATCH_IMAGE_HOVER) {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				getGame().switchScreen(Game.MATCH_BRAIN_SELECTION_SCREEN);
 			}

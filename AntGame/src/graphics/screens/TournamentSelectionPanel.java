@@ -33,8 +33,8 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 	private static final BufferedImage ADD_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/addButtonImageHover.png");
 	private static final BufferedImage PLAY_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/playButton.png");
 	private static final BufferedImage PLAY_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/playButtonHover.png");
-	//private static final BufferedImage DELETE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/deleteButton.png");
-	//private static final BufferedImage DELETE_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/deleteButtonHover.png");
+	private static final BufferedImage DELETE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/crossButton.png");
+	private static final BufferedImage DELETE_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/crossButtonHover.png");
 	private static final BufferedImage BACK_BUTTON = ImageLoader.loadImage("/GlobalImages/backButton.png");
 	private static final BufferedImage BACK_HOVER_BUTTON = ImageLoader.loadImage("/GlobalImages/backButtonHover.png");
 	
@@ -142,7 +142,7 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 					// Create a list item and ad in the new player
 					ListItem newPlayerItem = new ListItem(playerName.getText().trim(), currentBrainName, itemPanel);
 					newPlayerItem.changeSize(885, 50);
-					newPlayerItem.setRemoveButton(PLAY_IMAGE, PLAY_IMAGE_HOVER, TournamentSelectionPanel.this);
+					newPlayerItem.setRemoveButton(DELETE_IMAGE, DELETE_IMAGE_HOVER, TournamentSelectionPanel.this);
 					newPlayerItem.setPlayer(player);
 					
 					// Add the item to the item panel and refresh the scrollpane.
