@@ -52,6 +52,8 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 	private static final BufferedImage RANDOM_ROLL_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/randomWorldButtonHover.png");
 	private static final BufferedImage PLAY_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/playButton.png");
 	private static final BufferedImage PLAY_ROLL_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/playButtonHover.png");
+	private static final BufferedImage BACK_BUTTON = ImageLoader.loadImage("/GlobalImages/backButton.png");
+	private static final BufferedImage BACK_HOVER_BUTTON = ImageLoader.loadImage("/GlobalImages/backButtonHover.png");
 	
 	private Game game; 
 	private World antWorld;
@@ -162,7 +164,7 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
         uploadValidatePanel.setOpaque(false);
         
         //add randomize button#
-        buttonsPanel.add(new FixedSpacerPanel(0,35));
+        buttonsPanel.add(new FixedSpacerPanel(0,5));
         buttonsPanel.add(randomWorldButton);
         buttonsPanel.add(new FixedSpacerPanel(0,25));
         //add upload button
@@ -198,11 +200,23 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 				}
 			}
 		};
-	    
+		
+		ImageButton backButton = new ImageButton(BACK_BUTTON, BACK_HOVER_BUTTON){
+			public void mouseClicked(MouseEvent e) {
+				reset();
+				getGame().switchScreen(Game.MATCH_BRAIN_SELECTION_SCREEN);
+			}
+		};
+		
         JPanel playPanel = new JPanel();
-        playPanel.setOpaque(false);
+        BoxLayout playLayout = new BoxLayout(playPanel, BoxLayout.Y_AXIS);
+        playPanel.setLayout(playLayout);
+        playPanel.setOpaque(false);     
+        playPanel.add(new FixedSpacerPanel(5,15));
         playPanel.add(playButton);
-        playPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0));
+        playPanel.add(new FixedSpacerPanel(80, 22));
+        playPanel.add(backButton);
+        playPanel.setBorder(BorderFactory.createEmptyBorder(3, 0, 0, 0));
         buttonsPanel.add(playPanel);
 		
 		this.setLayout(new BorderLayout());
