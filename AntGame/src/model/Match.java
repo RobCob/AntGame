@@ -66,7 +66,7 @@ public class Match {
 			}
 			roundNumber++;
 		}else{
-			if(winner == null | !isDraw){
+			if(winner == null && !isDraw){
 				ArrayList<AntHillTile> antHills = world.getAntHills();
 				int redScore = 0;
 				int blackScore = 0;
@@ -87,6 +87,7 @@ public class Match {
 					if(scores.get(player2.getColour()) > scores.get(player1.getColour())){
 						winner = player1;
 					}else{
+						winner = null;
 						isDraw = true;
 					}
 				}
