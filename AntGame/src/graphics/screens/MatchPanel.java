@@ -31,7 +31,7 @@ import javax.swing.JViewport;
 
 import model.Game;
 
-public class MatchPanel extends JPanel {
+public class MatchPanel extends JPanel implements Screen{
 	
 	//images
 	private static final BufferedImage LOW_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/lowSpeedButton.png");
@@ -42,17 +42,14 @@ public class MatchPanel extends JPanel {
 	private static final BufferedImage HIGH_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/highSpeedButtonHover.png");
 	private static final BufferedImage GAME_SPEED_IMAGE = ImageLoader.loadImage("/MatchPanelImages/gameSpeedImage.png");
 	
-	
-	private Random rand = new Random();
 	private Game game;
 	private HexGrid grid;
-	private HexGrid gridBuffer;
 	private JScrollPane scrollPane;
 	
-	public MatchPanel(Game game, HexGrid grid){
+	public MatchPanel(Game game){
 		
 		this.game = game;
-		this.grid = grid;
+		this.grid = new HexGrid(0, 0, 0, 0);
 		
 		this.scrollPane = new JScrollPane(grid);
 		//scrollPane.setViewportView(grid);
@@ -304,10 +301,20 @@ public class MatchPanel extends JPanel {
         JFrame frame = new JFrame("Debug");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024, 576);
-        frame.add(new MatchPanel(null,null));
+        frame.add(new MatchPanel(null));
         frame.setResizable(false);
         
         //Display the window.
         frame.setVisible(true);
+	}
+
+	@Override
+	public void update() {
+		reset();
+	}
+
+	@Override
+	public void reset() {
+		getGame().setRoundsPerSecond(10);
 	}
 }

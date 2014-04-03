@@ -7,7 +7,7 @@ public class Tournament {
 	
 	private ArrayList<Match> matches;
 	private ArrayList<Player> players;
-	private HashMap<Player, Integer> scores;
+	private HashMap<String, Integer> scores;
 	private int currentMatch;
 	
 	public Tournament(ArrayList<Player> players, ArrayList<World> worlds){
@@ -17,7 +17,7 @@ public class Tournament {
 	}
 
 	public Tournament(){
-		scores = new HashMap<Player, Integer>();
+		scores = new HashMap<String, Integer>();
 		this.matches = new ArrayList<Match>();
 		currentMatch = 0;
 	}
@@ -25,15 +25,18 @@ public class Tournament {
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 		for(int i = 0; i < players.size(); i++){
-			scores.put(players.get(i), 0);
+			scores.put(players.get(i).getNickname(), 0);
 		}
 	}
 
 	public void setWorlds(ArrayList<World> worlds) {
 		for(int i = 0; i < worlds.size(); i++){
 			for(int j = 1; j < players.size(); j++){
-				matches.add(new Match((World) worlds.get(i).clone(), players.get(j-1), players.get(j)));// TODO: YOU NEED TO CLONE WORLDS
-				matches.add(new Match((World) worlds.get(i).clone(), players.get(j), players.get(j-1)));// OR THE AFTICAN CHILDREN WILL CRY
+				World world = worlds.get(i);
+				Player player1 = players.get(j);
+				Player player2 = players.get(j-1);
+				matches.add(new Match((World) world.clone(), (Player) player1.clone(), (Player) player2.clone()));// TODO: YOU NEED TO CLONE WORLDS
+				matches.add(new Match((World) world.clone(), (Player) player2.clone(), (Player) player1.clone()));// OR THE AFTICAN CHILDREN WILL CRY
 			}
 		}
 	}
@@ -56,11 +59,11 @@ public class Tournament {
 					if(current.isDraw()){
 						Player player1 = current.getPlayer1();
 						Player player2 = current.getPlayer2();
-						scores.put(player1, scores.get(player1) + 1);
-						scores.put(player2, scores.get(player2) + 1);
+						scores.put(player1.getNickname(), scores.get(player1) + 1);
+						scores.put(player2.getNickname(), scores.get(player2) + 1);
 					}
 				}else{
-					scores.put(winner, scores.get(winner) + 2);
+					scores.put(winner.getNickname(), scores.get(winner.getNickname()) + 2);
 				}
 				currentMatch++;
 			}

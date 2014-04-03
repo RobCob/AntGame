@@ -22,7 +22,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TournamentSelectionPanel extends JPanel{
+public class TournamentSelectionPanel extends JPanel implements Screen{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/playerSelectTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
@@ -307,6 +307,18 @@ public class TournamentSelectionPanel extends JPanel{
 		jframe.setSize(1024, 576);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+	}
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+	}
+
+
+	@Override
+	public void reset() {
+		// TODO: stuff
 	}
 }
 

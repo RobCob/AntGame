@@ -24,7 +24,7 @@ import javax.swing.SwingConstants;
 import model.Game;
 import model.World;
 
-public class CustomWorldSelectionPanel extends JPanel{
+public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	
 	private static final BufferedImage PLUS_IMAGE = ImageLoader.loadImage("/WorldEditorImages/plusButton.png");
 	private static final BufferedImage PLUS_HOVER_IMAGE = ImageLoader.loadImage("/WorldEditorImages/plusButtonHover.png");
@@ -46,6 +46,8 @@ public class CustomWorldSelectionPanel extends JPanel{
 	private JLabel rocksLabel;
 	private JLabel foodLabel;
 	private JLabel sizeOfAnthillLabel;
+	private JTextField firstDimension;
+	private JTextField secondDimension;
 	private MatchWorldSelectionPanel parentPanel;
 	
 	public CustomWorldSelectionPanel(Game game, MatchWorldSelectionPanel parentPanel){
@@ -74,7 +76,7 @@ public class CustomWorldSelectionPanel extends JPanel{
 		BoxLayout rocksLayout = new BoxLayout(rocksPanel, BoxLayout.X_AXIS);
 		rocksPanel.setLayout(rocksLayout);
 		//Label
-		rocksLabel = new JLabel("Low",SwingConstants.CENTER);
+		rocksLabel = new JLabel("Medium",SwingConstants.CENTER);
 		rocksLabel.setForeground(Color.WHITE);
 		rocksLabel.setFont(new Font("Helvetica", 0, 25));
 		rocksLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -136,7 +138,7 @@ public class CustomWorldSelectionPanel extends JPanel{
 		foodPanel.setLayout(foodLayout);
 		
 		//Label
-		foodLabel = new JLabel("Low", SwingConstants.CENTER);
+		foodLabel = new JLabel("Medium", SwingConstants.CENTER);
 		foodLabel.setForeground(Color.WHITE);
 		foodLabel.setFont(new Font("Helvetica", 0, 25));
 		foodLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -198,7 +200,7 @@ public class CustomWorldSelectionPanel extends JPanel{
 		sizeOfAnthillPanel.setLayout(anthillLayout);
 		
 		//Label
-		sizeOfAnthillLabel = new JLabel("Small", SwingConstants.CENTER);
+		sizeOfAnthillLabel = new JLabel("Medium", SwingConstants.CENTER);
 		sizeOfAnthillLabel.setForeground(Color.WHITE);
 		sizeOfAnthillLabel.setFont(new Font("Helvetica", 0, 25));
 		sizeOfAnthillLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -261,7 +263,7 @@ public class CustomWorldSelectionPanel extends JPanel{
 		worldSizeChooser.setLayout(worldSizeLayout);
 		
 		//First JText Area
-		final JTextField firstDimension = new JTextField("150");
+		firstDimension = new JTextField("150");
 		firstDimension.setForeground(Color.BLACK);
 		firstDimension.setFont(new Font("Helvetica", 0, 25));
 		firstDimension.setAlignmentX(CENTER_ALIGNMENT);
@@ -278,7 +280,7 @@ public class CustomWorldSelectionPanel extends JPanel{
 		plusLabel.setOpaque(false);
 		
 		//Second text area
-		final JTextField secondDimension = new JTextField("150");
+		secondDimension = new JTextField("150");
 		secondDimension.setForeground(Color.BLACK);
 		secondDimension.setFont(new Font("Helvetica", 0, 25));
 		secondDimension.setAlignmentX(CENTER_ALIGNMENT);
@@ -443,5 +445,19 @@ public class CustomWorldSelectionPanel extends JPanel{
 
 		//Display the window.
 		frame.setVisible(true);
+	}
+
+	@Override
+	public void update() {
+		reset();
+	}
+
+	@Override
+	public void reset() {
+		rocksLabel.setText("Medium");
+		foodLabel.setText("Medium");
+		sizeOfAnthillLabel.setText("Medium");
+		firstDimension.setText("150");
+		secondDimension.setText("150");
 	}
 }

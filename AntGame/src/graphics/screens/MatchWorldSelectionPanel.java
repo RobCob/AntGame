@@ -39,7 +39,7 @@ import model.State;
 import model.World;
 import model.WorldReader;
 
-public class MatchWorldSelectionPanel extends JPanel{
+public class MatchWorldSelectionPanel extends JPanel implements Screen{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldSelectionPanelImages/selectWorldTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
@@ -268,21 +268,6 @@ public class MatchWorldSelectionPanel extends JPanel{
         	worldValidateImage.displayFirst();
         }
 	}
-	
-	/**
-     * 
-     * This method simply resets the values of various parameters
-     * back to their default values.
-     * To be used when switching screen.
-     * No need for a button that calls the method, as it is only called on code-level.
-     * 
-     */
-	public void resetScreen(){
-		//have the grid go back to its original state
-		this.grid = new HexGrid(150, 150, 6, 1);
-		//the default validation for the uploaded world file is a cross
-		this.worldValidateImage.displaySecond();
-	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -300,6 +285,21 @@ public class MatchWorldSelectionPanel extends JPanel{
 
 		//Display the window.
 		frame.setVisible(true);
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reset() {
+		antWorld = null;
+		//have the grid go back to its original state
+		this.grid = new HexGrid(150, 150, 6, 1);
+		//the default validation for the uploaded world file is a cross
+		this.worldValidateImage.displaySecond();
 	}
 }
 

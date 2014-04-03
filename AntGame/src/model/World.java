@@ -299,7 +299,13 @@ public class World {
 	
 	@Override
 	protected Object clone(){
-		World output = new World(grid);
+		Tile[][] newGrid = new Tile[grid.length][grid[0].length];
+		for(int i = 0; i < grid.length; i++){
+			for(int j = 0; j < grid[0].length; j++){
+				newGrid[i][j] = grid[i][j];
+			}
+		}
+		World output = new World(newGrid);
 		return output;
 	}
 }

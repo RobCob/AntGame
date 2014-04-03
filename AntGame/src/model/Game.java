@@ -6,6 +6,7 @@ import graphics.screens.MainMenuPanel;
 import graphics.screens.MatchPanel;
 import graphics.screens.MatchResultsPanel;
 import graphics.screens.MatchBrainSelectionPanel;
+import graphics.screens.Screen;
 import graphics.screens.TournamentResultsPanel;
 import graphics.screens.TournamentSelectionPanel;
 import graphics.screens.CustomWorldSelectionPanel;
@@ -15,6 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Stack;
@@ -45,28 +47,27 @@ public class Game extends JFrame{
 	// Initialise all of the games screens.
 	private MainMenuPanel mainMenuPanel = new MainMenuPanel(this);
 	public static final String MAIN_MENU_SCREEN = "Main Menu";
-			
-	private HexGrid grid = new HexGrid(0,0,0,0);
-	private MatchPanel matchPanel = new MatchPanel(this, grid);
+	
+	private MatchPanel matchPanel = new MatchPanel(this);
 	public static final String MATCH_SCREEN = "Match";
 	
 	private MatchResultsPanel nonTournamentResults = new MatchResultsPanel(this);
 	public static final String MATCH_RESULTS_SCREEN = "Match Results";
 	
 	private MatchBrainSelectionPanel nonTournamentPanel = new MatchBrainSelectionPanel(this);
-	public static final String MATCH_BRAIN_SELECTION_SCREEN = "NonTournamentSelect";
+	public static final String MATCH_BRAIN_SELECTION_SCREEN = "Match Brain Select";
 	
 	private TournamentResultsPanel tournamentResults = new TournamentResultsPanel(this);
 	public static final String TOURNAMENT_RESULTS_SCREEN = "Tournament Results";
 	
 	private MatchWorldSelectionPanel worldSelectionPanel = new MatchWorldSelectionPanel(this);
-	public static final String WORLD_SELECTION_SCREEN = "WorldSelectionScreen";
+	public static final String WORLD_SELECTION_SCREEN = "World Selection Screen";
 
 	private CustomWorldSelectionPanel worldEditorPanel = new CustomWorldSelectionPanel(this, worldSelectionPanel);
-	public static final String WORLD_EDITOR_SCREEN = "WorldEditorScreen";
+	public static final String WORLD_EDITOR_SCREEN = "World Editor Screen";
 	
 	private TournamentSelectionPanel tournamentSelectionPanel = new TournamentSelectionPanel(this);
-	public static final String TOURNAMENT_SELECTION_SCREEN = "tournamentSelectionScreen";
+	public static final String TOURNAMENT_SELECTION_SCREEN = "Tournament Selection Screen";
 	
 	
 	// Stack of previous windows. (MAY NOT USE)
@@ -76,8 +77,10 @@ public class Game extends JFrame{
 	private Match currentMatch = new Match(World.generateWorld(150, 150, 7, 14, 11), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")), new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
 	private int roundsPerSec = 10; // Number of rounds to perform every second
 	private double roundTime = 1000000000.0 / roundsPerSec; //number of times to run update per second
+	private HashMap<String, Screen> screenMap;
 	
 	public Game() {
+		screenMap = new HashMap<String, Screen>();
 		//Add all screens used within the game.
 		addScreen(mainMenuPanel, MAIN_MENU_SCREEN);
 		addScreen(matchPanel, MATCH_SCREEN);
@@ -98,11 +101,13 @@ public class Game extends JFrame{
 		this.setVisible(true);
 	}
 	
-	public void switchScreen(String panelName) {
+	public void switchScreen(String panelName){
+		screenMap.get(panelName).update();
 		cardLayout.show(screens, panelName);
 	}
 	
 	public void addScreen(JPanel screen, String screenName) {
+		screenMap.put(screenName, (Screen) screen);
 		screens.add(screen, screenName);
 	}
 	
@@ -179,7 +184,6 @@ public class Game extends JFrame{
 				}
 				if (currentMatch.getRoundNumber() == Match.MAX_ROUNDS) {
 					runningMatch = false;
-					nonTournamentResults.setValues(currentMatch);
 					switchScreen(Game.MATCH_RESULTS_SCREEN);
 				}
 			}
@@ -297,6 +301,7 @@ public class Game extends JFrame{
 	 * @return the current match that the game is storing.
 	 */
 	public void setCurrentMatch(Match match) {
+		System.out.println("WATTHEFUCK");
 		this.currentMatch = match;
 	}
 	
@@ -307,6 +312,9 @@ public class Game extends JFrame{
 		this.currentMatch = new Match();
 	}
 	
+	public void setCurrentTournament(Tournament tournament) {
+		this.currentTournament = tournament;
+	}
 	/**
 	 * Returns the current match that the game is storing.
 	 * @return the current match that the game is storing.

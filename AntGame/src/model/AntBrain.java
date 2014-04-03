@@ -12,4 +12,9 @@ public class AntBrain {
 	public void simulate(Ant a, World w){
 		stateList[a.getState()].execute(a, w);
 	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return new AntBrain(stateList.clone());
+	}
 }

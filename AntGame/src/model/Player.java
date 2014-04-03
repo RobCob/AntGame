@@ -33,4 +33,8 @@ public class Player {
 	public void setColour(Colour colour) {
 		this.colour = colour;
 	}
+	@Override
+	protected Object clone() {
+		return new Player(nickname, brain);
+	}
 }

@@ -34,7 +34,7 @@ import model.Player;
 /**
  * Results given after a non-tournament match.
  */
-public class MatchResultsPanel extends JPanel{
+public class MatchResultsPanel extends JPanel implements Screen{
 	
 	//images
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/scoresTitle.png");
@@ -223,6 +223,34 @@ public class MatchResultsPanel extends JPanel{
 	}
 	
 	public void setValues(Match match){
+		
+	}
+	
+	 @Override
+	 protected void paintComponent(Graphics g) {
+		 super.paintComponent(g);
+		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	 }
+	 
+	 public Game getGame(){
+		return game; 
+	 }
+	 
+	public static void main(String[] args){
+		//Add content to the window.
+        JFrame frame = new JFrame("Results");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1024, 576);
+        frame.add(new MatchResultsPanel(null));
+        frame.setResizable(false);
+        
+        //Display the window.
+        frame.setVisible(true);
+	}
+
+	@Override
+	public void update() {
+		Match match = getGame().getCurrentMatch();
 		Player player1 = match.getPlayer1();
 		Player player2 = match.getPlayer2();
 		if(match.getWinner() == null){
@@ -268,16 +296,16 @@ public class MatchResultsPanel extends JPanel{
 		        	public void mouseClicked(MouseEvent e) {
 		        		getGame().getCurrentTournament().nextMatch();
 		        		getGame().setCurrentMatch(getGame().getCurrentTournament().getCurrentMatch());
+		        		getGame().createMatchPanelGrid(getGame().getCurrentMatch().getWorld().sizeX, getGame().getCurrentMatch().getWorld().sizeY, 2, 1);
 		        		getGame().switchScreen(Game.MATCH_SCREEN);
 		        		getGame().startMatch();
 		        	}
 		        };
         	}else{
-        		goButton = new ImageButton(STATS_IMAGE, WINNER_IMAGE){
+        		goButton = new ImageButton(WINNER_IMAGE, STATS_IMAGE){
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						getGame().getCurrentTournament().nextMatch();
-						getGame();
 						getGame().switchScreen(Game.TOURNAMENT_RESULTS_SCREEN);
 					}
         		};
@@ -286,27 +314,19 @@ public class MatchResultsPanel extends JPanel{
 	        goPanel.add(goButton);
         }
 	}
-	
-	 @Override
-	 protected void paintComponent(Graphics g) {
-		 super.paintComponent(g);
-		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
-	 }
-	 
-	 public Game getGame(){
-		return game; 
-	 }
-	 
-	public static void main(String[] args){
-		//Add content to the window.
-        JFrame frame = new JFrame("Results");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1024, 576);
-        frame.add(new MatchResultsPanel(null));
-        frame.setResizable(false);
-        
-        //Display the window.
-        frame.setVisible(true);
+
+	@Override
+	public void reset() {
+		winnerLabel.setText("Null");
+		blackLabel.setText("null");
+		blackFoodCollected.setText("Food collected: null");
+		blackKillCount.setText("Ants killed: null");
+		blackAntDeaths.setText("Ants Died: null");
+		
+		redLabel.setText("null");
+		redFoodCollected.setText("Food collected: null");
+		redKillCount.setText("Ants killed: null");
+		redAntDeaths.setText("Ants Died: null");
 	}
 	
 }

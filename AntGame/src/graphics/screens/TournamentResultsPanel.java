@@ -7,7 +7,7 @@ import model.Game;
 /**
  * The final results of the tournament.
  */
-public class TournamentResultsPanel extends JPanel{
+public class TournamentResultsPanel extends JPanel implements Screen{
 	
 	private Game game;
 	
@@ -17,5 +17,17 @@ public class TournamentResultsPanel extends JPanel{
 		// Display the winner at the top aswell?
 		// back to main menu button
 		// re-match button?
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
 	}
 }

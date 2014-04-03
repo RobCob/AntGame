@@ -29,7 +29,7 @@ import javax.swing.event.DocumentListener;
  * NonTournamentSelection: A screen for the AntGame. This screen allows both players
  * to enter a nickname and provide an ant-brain. Validation is performed on both.
  */
-public class MatchBrainSelectionPanel  extends JPanel {
+public class MatchBrainSelectionPanel  extends JPanel implements Screen{
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/playerSelectTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
@@ -432,6 +432,28 @@ public class MatchBrainSelectionPanel  extends JPanel {
 
 		//Display the window.
 		frame.setVisible(true);
+	}
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+	}
+
+
+	@Override
+	public void reset() {
+		player1Brain = null;
+		player2Brain = null;
+		player1 = null;
+		player2 = null;
+		
+		p1NickField.setText("Player1");
+		p2NickField.setText("Player2");
+		p1NickValidate.displayFirst();
+		p2NickValidate.displayFirst();
+		p1BrainValidate.displaySecond();
+		p2BrainValidate.displaySecond();
 	}
 }
 

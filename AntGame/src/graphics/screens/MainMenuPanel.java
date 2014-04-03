@@ -18,7 +18,7 @@ import model.Game;
 /**
  * MainMenuPanel: JPanel that represents the main menu for the AntGame. 
  */
-public class MainMenuPanel extends JPanel{
+public class MainMenuPanel extends JPanel implements Screen{
 	private Game game;
 
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/MainMenuPanelImages/titleLarge.png");
@@ -85,5 +85,16 @@ public class MainMenuPanel extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	}
+
+	@Override
+	public void update() {
+		reset();
+	}
+
+	@Override
+	public void reset() {
+		getGame().setCurrentMatch(null);
+		getGame().setCurrentTournament(null);
 	}
 }
