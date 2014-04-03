@@ -12,7 +12,7 @@ import model.*;
 public class ListItem extends JPanel{
 	private JLabel leftTextLabel;
 	private JLabel centerTextLabel;
-	private ImageButton button;
+	private JPanel imageButtonPanel;
 	private JComponent parent;
 	private Player player;
 	private JPanel screen;
@@ -55,6 +55,7 @@ public class ListItem extends JPanel{
 	
 	public void setRemoveButton(BufferedImage normal, BufferedImage hover, JPanel screenPanel){
 		this.screen = screenPanel;
+		JPanel buttonPanel = new JPanel();
 		ImageButton button = new ImageButton(normal, hover){
 			public void mouseClicked(MouseEvent e) {
 				parent.remove(ListItem.this);
@@ -67,8 +68,11 @@ public class ListItem extends JPanel{
 				}
 			}
 		};
-		this.button = button;
-		addRight(button);
+		buttonPanel.add(button);
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+		buttonPanel.setOpaque(false);
+		this.imageButtonPanel = buttonPanel;
+		addRight(imageButtonPanel);
 	}
 	
 	public void changeSize(int width, int height){
