@@ -82,4 +82,9 @@ public class ClearTile implements Tile {
 			return false;
 		}
 	}
+	
+	@Override
+	public Object clone() {
+		return new ClearTile(food);
+	}
 }

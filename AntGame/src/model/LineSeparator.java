@@ -11,5 +11,8 @@ public class LineSeparator implements Tile{
 		return false;
 	}
 
-	
+	@Override
+	public Object clone() {
+		return new LineSeparator();
+	}
 }

@@ -173,6 +173,10 @@ public class Game extends JFrame{
 						updateModel();
 						updates++;
 						modelDelta--;
+						if(currentMatch.getRoundNumber() == Match.MAX_ROUNDS || !runningMatch){
+							updateModel();
+							break;
+						}
 					}
 
 					if (System.currentTimeMillis() - fpsTimer > 1000) { // Happens once every 'roundsPerSec'

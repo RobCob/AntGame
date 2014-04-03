@@ -12,4 +12,9 @@ public class AntHillTile extends ClearTile {
 	public boolean isAnthill(){
 		return true;
 	}
+	
+	@Override
+	public Object clone() {
+		return new AntHillTile(colour);
+	}
 }
