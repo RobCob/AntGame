@@ -131,6 +131,14 @@ public class Match {
 		return scores.get(player.getColour())[i];
 	}
 	
+	public int getFoodScore(Player player){
+		return getScore(player, 0);
+	}
+	
+	public int getAntDeaths(Player player){
+		return getScore(player, 1);
+	}
+	
 	public int getRoundNumber(){
 		return roundNumber;
 	}

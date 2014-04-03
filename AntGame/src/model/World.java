@@ -107,7 +107,7 @@ public class World {
 			}else{
 				count++;
 			}
-			if(count > 2000){
+			if(count > 1000){
 				break;
 			}
 		}
@@ -155,7 +155,7 @@ public class World {
 			}else{
 				count++;
 			}
-			if(count > 3000){
+			if(count > 1000){
 				break;
 			}
 		}
