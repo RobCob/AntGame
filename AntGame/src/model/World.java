@@ -38,8 +38,8 @@ public class World {
 		boolean blackAntHillPlaced = false;
 		while(!redAntHillPlaced || !blackAntHillPlaced){
 			ArrayList<Integer> tiles = new ArrayList<Integer>();
-			int randX = State.randomInt(sizeX);
-			int randY = State.randomInt(sizeY);
+			int randX = 1 + State.randomInt(sizeX-2);
+			int randY = 1 + State.randomInt(sizeY-2);
 			boolean obstructed = false;
 			if(grid[randX][randY].isRocky() || ((ClearTile)grid[randX][randY]).isAnthill()){
 				obstructed = true;
@@ -89,8 +89,8 @@ public class World {
 		// Place rocks
 		int placedRocks = 0;
 		while(placedRocks < rockCount){
-			int randX = State.randomInt(sizeX);
-			int randY = State.randomInt(sizeY);
+			int randX = 1 + State.randomInt(sizeX-2);
+			int randY = 1 + State.randomInt(sizeY-2);
 			int currentID = randY * sizeX + randX;
 			boolean obstructed = false;
 			for(int i = 0; i < 6 && !obstructed; i++){
@@ -116,8 +116,8 @@ public class World {
 		int placedFood = 0;
 		while(placedFood < foodPileCount){
 			ArrayList<Integer> tiles = new ArrayList<Integer>();
-			int randX = State.randomInt(sizeX);
-			int randY = State.randomInt(sizeY);
+			int randX = 1 + State.randomInt(sizeX-2);
+			int randY = 1 + State.randomInt(sizeY-2);
 			int randOrientation = State.randomInt(2);
 			boolean obstructed = false;
 			int startID = randY * sizeX + randX;

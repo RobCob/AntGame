@@ -286,6 +286,20 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		if(!brainValidate.isFirstShown()){
 			output += "New player's ant-brain is invalid!\n";
 		}
+		
+		int worldNumber;
+		
+		try{
+			worldNumber = Integer.parseInt(worldNumberField.getText());
+			if(worldNumber <0){
+				output += "The number of worlds should be an integer bigger than 1.\n";
+			}
+			else if(worldNumber > 100){
+				output += "The number of worlds should be an integer smaller than 100.\n";
+			}
+		}catch(NumberFormatException e){
+			output += "The number of worlds should be an integer. \n";
+		}
 
 		if(output.equals("")){
 			output = null;
