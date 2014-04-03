@@ -377,7 +377,7 @@ public class MatchPanel extends JPanel implements Screen{
 		debugHUD.add(stopGameButton);
 		debugHUD.add(gridLinesCheckBox);
 		debugHUD.setBackground( new Color(42, 88, 40));
-
+		
 		//Horizontal HUD
 		JPanel horizontalHUD = new JPanel();
 		BoxLayout HUDLayout = new BoxLayout(horizontalHUD, BoxLayout.X_AXIS);
@@ -443,7 +443,7 @@ public class MatchPanel extends JPanel implements Screen{
 		this.setLayout(new BorderLayout());
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(hud, BorderLayout.EAST);
-		this.add(horizontalHUD, BorderLayout.SOUTH);
+		//this.add(horizontalHUD, BorderLayout.SOUTH);
 		
 		if (Game.GUI_DEBUG && false) this.add(debugHUD, BorderLayout.WEST);
 
