@@ -35,6 +35,8 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 	private static final BufferedImage PLAY_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/playButtonHover.png");
 	//private static final BufferedImage DELETE_IMAGE = ImageLoader.loadImage("/TournamentSelectionImages/deleteButton.png");
 	//private static final BufferedImage DELETE_IMAGE_HOVER = ImageLoader.loadImage("/TournamentSelectionImages/deleteButtonHover.png");
+	private static final BufferedImage BACK_BUTTON = ImageLoader.loadImage("/GlobalImages/backButton.png");
+	private static final BufferedImage BACK_HOVER_BUTTON = ImageLoader.loadImage("/GlobalImages/backButtonHover.png");
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<String> playerNames = new ArrayList<String>();
@@ -50,10 +52,7 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 	private AntBrain currentBrain;
 	private String currentBrainName;
 	private JScrollPane listHolder;
-
-	//private JScrollPane listHolder;
-	JPanel itemPanel;
-	
+	private JPanel itemPanel;
 	
 	public TournamentSelectionPanel(Game game){
 		this.setLayout(new FlowLayout());
@@ -195,6 +194,15 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 			}
 		};
 		
+		
+		//Back button
+		ImageButton backButton = new ImageButton(BACK_BUTTON, BACK_HOVER_BUTTON){
+			public void mouseClicked(MouseEvent e) {
+				//reset();
+				getGame().switchScreen(Game.MAIN_MENU_SCREEN);
+			}
+		};
+		
 		nameAndUpload.add(nickname);
 		nameAndUpload.add(playerName);
 		nameAndUpload.add(nameValidate);
@@ -222,14 +230,14 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		worldNumberField.setCaretColor(Color.WHITE);
 		worldNumberField.setForeground(Color.WHITE);
 		worldNumberField.setBackground(new Color(255,255,255,0));
-		worldNumberField.setAlignmentX(CENTER_ALIGNMENT);
 		
-		JPanel playButtonPanel = new JPanel();
-		//playButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		//playButtonPanel.setPreferredSize(new Dimension(1024, 76));
+		JPanel playButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		playButtonPanel.setOpaque(false);
+		playButtonPanel.add(backButton);
+		playButtonPanel.add(new FixedSpacerPanel(320, 20));
 		playButtonPanel.add(worldNumberLabel);
 		playButtonPanel.add(worldNumberField);
+		playButtonPanel.add(new FixedSpacerPanel(20, 20));
 		playButtonPanel.add(playButton);
 		
 		this.add(titlepanel, BorderLayout.NORTH);
@@ -312,7 +320,7 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		//reset();
 	}
 
 
