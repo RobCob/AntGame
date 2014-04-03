@@ -68,35 +68,8 @@ public class Match {
 			}
 			roundNumber++;
 		}else{
+			updateScores();
 			if(winner == null && !isDraw){
-				ArrayList<AntHillTile> antHills = world.getAntHills();
-				int redScore = 0;
-				int redAntHillCount = 0;
-				int blackScore = 0;
-				for(int i = 0; i < antHills.size(); i++){
-					Colour c = antHills.get(i).getColour();
-					if(c.equals(Colour.RED)){
-						redAntHillCount++;
-						redScore += antHills.get(i).getFood();
-					}
-					if(c.equals(Colour.BLACK)){
-						blackScore += antHills.get(i).getFood();
-					}
-				}
-				HashMap<Integer, Ant> ants = world.getAnts();
-				Integer[] antIDs = ants.keySet().toArray(new Integer[0]);
-				int redAntCount = 0;
-				for(int i = 0; i < antIDs.length; i++){
-					if(ants.get(antIDs[i]).getColour().equals(Colour.RED)){
-						redAntCount++;
-					}
-				}
-				int redDeaths = (redAntHillCount - redAntCount);
-				int blackDeaths = ((antHills.size()-redAntHillCount) - (antIDs.length - redAntCount));
-				scores.get(Colour.RED)[0] = redScore;
-				scores.get(Colour.RED)[1] = blackDeaths;
-				scores.get(Colour.BLACK)[0] = blackScore;
-				scores.get(Colour.BLACK)[1] = redDeaths;
 				if(scores.get(player1.getColour())[0] > scores.get(player2.getColour())[0]){
 					winner = player1;
 				}else{
@@ -109,6 +82,37 @@ public class Match {
 				}
 			}
 		}
+	}
+	
+	public void updateScores(){
+		ArrayList<AntHillTile> antHills = world.getAntHills();
+		int redScore = 0;
+		int redAntHillCount = 0;
+		int blackScore = 0;
+		for(int i = 0; i < antHills.size(); i++){
+			Colour c = antHills.get(i).getColour();
+			if(c.equals(Colour.RED)){
+				redAntHillCount++;
+				redScore += antHills.get(i).getFood();
+			}
+			if(c.equals(Colour.BLACK)){
+				blackScore += antHills.get(i).getFood();
+			}
+		}
+		HashMap<Integer, Ant> ants = world.getAnts();
+		Integer[] antIDs = ants.keySet().toArray(new Integer[0]);
+		int redAntCount = 0;
+		for(int i = 0; i < antIDs.length; i++){
+			if(ants.get(antIDs[i]).getColour().equals(Colour.RED)){
+				redAntCount++;
+			}
+		}
+		int redDeaths = (redAntHillCount - redAntCount);
+		int blackDeaths = ((antHills.size()-redAntHillCount) - (antIDs.length - redAntCount));
+		scores.get(Colour.RED)[0] = redScore;
+		scores.get(Colour.RED)[1] = blackDeaths;
+		scores.get(Colour.BLACK)[0] = blackScore;
+		scores.get(Colour.BLACK)[1] = redDeaths;
 	}
 	
 	public World getWorld(){

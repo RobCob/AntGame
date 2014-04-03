@@ -33,6 +33,7 @@ public class World {
 			grid[sizeX-1][i] = new RockTile();
 		}
 		// create Ant hills
+		int count = 0;
 		boolean redAntHillPlaced = false;
 		boolean blackAntHillPlaced = false;
 		while(!redAntHillPlaced || !blackAntHillPlaced){
@@ -78,6 +79,11 @@ public class World {
 					}
 					blackAntHillPlaced = true;
 				}
+			}else{
+				count++;
+			}
+			if(count > 1000){
+				break;
 			}
 		}
 		// Place rocks
@@ -98,6 +104,11 @@ public class World {
 			if(!obstructed){
 				grid[randX][randY] = new RockTile();
 				placedRocks++;
+			}else{
+				count++;
+			}
+			if(count > 2000){
+				break;
 			}
 		}
 		// Place food
@@ -141,9 +152,18 @@ public class World {
 					((ClearTile)grid[x][y]).setFood(((ClearTile)grid[x][y]).getFood()+5);
 				}
 				placedFood++;
+			}else{
+				count++;
+			}
+			if(count > 3000){
+				break;
 			}
 		}
-		return new World(grid);
+		if(!redAntHillPlaced || !blackAntHillPlaced || (placedRocks < rockCount) || (placedFood < foodPileCount)){
+			return null;
+		}else{
+			return new World(grid);
+		}
 	}
 	
 	public World(Tile[][] grid){
