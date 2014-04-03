@@ -277,9 +277,9 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 		if (world == null) {
         	worldValidateImage.displaySecond();
         } else {
-        	this.antWorld = world;
         	worldValidateImage.displayFirst();
         }
+    	this.antWorld = world;
 	}
 
 	@Override
@@ -310,6 +310,7 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 		setWorld(null);
 		previewWorld();
 	}
+	
 }
 
 
