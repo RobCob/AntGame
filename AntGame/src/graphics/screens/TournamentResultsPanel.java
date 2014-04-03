@@ -7,6 +7,7 @@ import graphics.components.ListItem;
 import graphics.utilities.ImageLoader;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import model.Game;
 import model.Player;
@@ -35,7 +38,8 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 	
 	private Game game;
 	
-	private JPanel itemPanel;
+	private JPanel itemPanel; // list of players (ranked)
+	private JScrollPane listHolder; // scrollPane
 	
 	public TournamentResultsPanel(Game game) {
 		this.game = game;
@@ -56,10 +60,17 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 		BoxLayout itemPanelLayout = new BoxLayout(itemPanel, BoxLayout.Y_AXIS);
 		itemPanel.setLayout(itemPanelLayout);
 
+		listHolder = new JScrollPane(itemPanel);
+		listHolder.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		listHolder.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		listHolder.setPreferredSize(new Dimension(900, 275));
+		listHolder.setOpaque(true);
 		
 		// Panel that will be added to the centre of the screen;
 		JPanel centrePanel = new JPanel();
 		centrePanel.setOpaque(false);
+		centrePanel.add(itemPanel);
+		
 		
 		JPanel mainMenuButtonPanel = new JPanel();
 		mainMenuButtonPanel.setOpaque(false);
@@ -91,7 +102,7 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 		// Add players to list in ascending order.
 		for (Player p: players) {
 			// Create a list item and ad in the new player
-			ListItem newPlayerItem = new ListItem(p.getNickname(), "", itemPanel);
+			ListItem newPlayerItem = new ListItem(p.getNickname(), "(" + p.getBrain().getName() + ")", itemPanel);
 			JLabel score = new JLabel("" + getGame().getCurrentTournament().getScore(p));
 			newPlayerItem.changeSize(885, 50);
 			newPlayerItem.addRight(score);

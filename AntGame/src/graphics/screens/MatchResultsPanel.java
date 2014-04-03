@@ -45,6 +45,8 @@ public class MatchResultsPanel extends JPanel implements Screen{
 	private static final BufferedImage MAIN_MENU_BUTTON_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/mainMenuHover.png");
 	private static final BufferedImage NEXT_MATCH_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatch.png");
 	private static final BufferedImage NEXT_MATCH_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatchHover.png");
+	private static final BufferedImage VIEW_RESULTS_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatch.png");
+	private static final BufferedImage VIEW_RESULTS_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatchHover.png");
 	
 	//other parameters
 	private Game game;
@@ -287,7 +289,7 @@ public class MatchResultsPanel extends JPanel implements Screen{
 		        	}
 		        };
         	}else{
-        		goButton = new ImageButton(WINNER_IMAGE, STATS_IMAGE){
+        		goButton = new ImageButton(VIEW_RESULTS_IMAGE, VIEW_RESULTS_IMAGE_HOVER){
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						getGame().getCurrentTournament().nextMatch();

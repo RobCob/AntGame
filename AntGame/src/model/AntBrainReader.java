@@ -13,7 +13,7 @@ public class AntBrainReader {
 			for(int i = 0; i < stateList.length; i++){
 				stateList[i] = classifyState(stringList[i]);
 			}
-			return new AntBrain(stateList);
+			return new AntBrain(stateList, file.getName());
 		}catch(Exception e){
 			if(Game.DEBUG){
 				System.out.println("DEBUG | BRAIN READER: " + e.getMessage());
