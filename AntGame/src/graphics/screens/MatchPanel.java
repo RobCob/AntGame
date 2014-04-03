@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -93,6 +94,8 @@ public class MatchPanel extends JPanel implements Screen{
 	private ImageButton currentPauseResumeButton;
 	private ImageButton pauseButton;
 	private ImageButton resumeButton;
+	private JLabel currentZoomLabel;
+	private JLabel currentSpeedLabel;
 	
 	public MatchPanel(Game game){
 		this.game = game;
@@ -316,14 +319,14 @@ public class MatchPanel extends JPanel implements Screen{
 		zoomLabel.setFont(controlLabelFont);
 		zoomLabel.setForeground(Color.WHITE);
 		
-		final JLabel currentZoomLabel = new JLabel("+" + currentZoomLevel, JLabel.CENTER);
+		currentZoomLabel = new JLabel("+" + currentZoomLevel, JLabel.CENTER);
 		currentZoomLabel.setFont(controlLabelFont);
 		currentZoomLabel.setForeground(Color.WHITE);
 		currentZoomLabel.setMinimumSize(controlValueDimension);
 		currentZoomLabel.setMaximumSize(controlValueDimension);
 		currentZoomLabel.setPreferredSize(controlValueDimension);
 		
-		final JLabel currentSpeedLabel = new JLabel("Medium", JLabel.CENTER);
+		currentSpeedLabel = new JLabel("Medium", JLabel.CENTER);
 		currentSpeedLabel.setFont(controlLabelFont);
 		currentSpeedLabel.setForeground(Color.WHITE);
 		currentSpeedLabel.setMinimumSize(controlValueDimension);
@@ -634,6 +637,9 @@ public class MatchPanel extends JPanel implements Screen{
 
 	@Override
 	public void reset() {
-		getGame().setRoundsPerSecond(10);
+		getGame().setRoundsPerSecond(100);
+		currentZoomLevel = 1;
+		currentZoomLabel.setText("+" + currentZoomLevel);
+		currentSpeedLabel.setText("Medium");
 	}
 }

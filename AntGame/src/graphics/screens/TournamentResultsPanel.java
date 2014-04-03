@@ -7,7 +7,9 @@ import graphics.components.ListItem;
 import graphics.utilities.ImageLoader;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -63,13 +65,13 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 		listHolder = new JScrollPane(itemPanel);
 		listHolder.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		listHolder.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		listHolder.setPreferredSize(new Dimension(900, 275));
+		listHolder.setPreferredSize(new Dimension(900, 330));
 		listHolder.setOpaque(true);
 		
 		// Panel that will be added to the centre of the screen;
 		JPanel centrePanel = new JPanel();
 		centrePanel.setOpaque(false);
-		centrePanel.add(itemPanel);
+		centrePanel.add(listHolder);
 		
 		
 		JPanel mainMenuButtonPanel = new JPanel();
@@ -82,7 +84,7 @@ public class TournamentResultsPanel extends JPanel implements Screen{
         };
         
         mainMenuButtonPanel.add(mainMenuButton);
-        mainMenuButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
+        mainMenuButtonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
 		
 		// Add the panels to the main panel
 		this.add(titleContainer, BorderLayout.NORTH);
@@ -96,6 +98,7 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 	
 	@Override
 	public void update() {
+		reset();
 		// get players by score (ascending order)
 		ArrayList<Player> players = getGame().getCurrentTournament().getOrderedPlayers(true);
 
@@ -103,9 +106,17 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 		for (Player p: players) {
 			// Create a list item and ad in the new player
 			ListItem newPlayerItem = new ListItem(p.getNickname(), "(" + p.getBrain().getName() + ")", itemPanel);
-			JLabel score = new JLabel("" + getGame().getCurrentTournament().getScore(p));
+			
+			JLabel scoreLabel = new JLabel("" + getGame().getCurrentTournament().getScore(p));
+			scoreLabel.setForeground(Color.BLACK);
+			scoreLabel.setFont(new Font("Helvetica", 0, 25));
+			
+			JPanel scorePanel = new JPanel();
+			scorePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+			scorePanel.setOpaque(false);
+			
 			newPlayerItem.changeSize(885, 50);
-			newPlayerItem.addRight(score);
+			newPlayerItem.addRight(scoreLabel);
 			newPlayerItem.setPlayer(p);
 			
 			// Add the item to the item panel and refresh the scrollpane.
@@ -118,7 +129,7 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 
 	@Override
 	public void reset() {
-		
+		itemPanel.removeAll();
 	}
 	
 	 @Override
