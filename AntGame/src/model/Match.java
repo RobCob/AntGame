@@ -10,7 +10,7 @@ public class Match {
 	private World world;
 	private Player winner;
 	private boolean isDraw;
-	private HashMap<Colour, Integer> scores;
+	private HashMap<Colour, Integer[]> scores;
 	private int roundNumber;
 	
 	/**
@@ -30,7 +30,7 @@ public class Match {
 	public Match(){
 		player1 = null;
 		player2 = null;
-		scores = new HashMap<Colour, Integer>();
+		scores = new HashMap<Colour, Integer[]>();
 		this.winner = null;
 		isDraw = false;
 		roundNumber = 0;
@@ -39,13 +39,14 @@ public class Match {
 	public void setPlayer1(Player player){
 		this.player1 = player;
 		player1.setColour(Colour.BLACK);
-		scores.put(player1.getColour(), 0);
+		scores.put(player1.getColour(), new Integer[2]);
 	}
 	
 	public void setPlayer2(Player player){
 		this.player2 = player;
 		player2.setColour(Colour.RED);
-		scores.put(player2.getColour(), 0);
+		Integer[] score = {0, 0};
+		scores.put(player2.getColour(), score);
 	}
 	
 	public void setWorld(World world){
@@ -69,23 +70,37 @@ public class Match {
 			if(winner == null && !isDraw){
 				ArrayList<AntHillTile> antHills = world.getAntHills();
 				int redScore = 0;
+				int redAntHillCount = 0;
 				int blackScore = 0;
 				for(int i = 0; i < antHills.size(); i++){
 					Colour c = antHills.get(i).getColour();
 					if(c.equals(Colour.RED)){
+						redAntHillCount++;
 						redScore += antHills.get(i).getFood();
 					}
 					if(c.equals(Colour.BLACK)){
 						blackScore += antHills.get(i).getFood();
 					}
 				}
-				scores.put(Colour.RED, redScore);
-				scores.put(Colour.BLACK, blackScore);
-				if(scores.get(player1.getColour()) > scores.get(player2.getColour())){
+				HashMap<Integer, Ant> ants = world.getAnts();
+				Integer[] antIDs = ants.keySet().toArray(new Integer[0]);
+				int redAntCount = 0;
+				for(int i = 0; i < antIDs.length; i++){
+					if(ants.get(antIDs[i]).getColour().equals(Colour.RED)){
+						redAntCount++;
+					}
+				}
+				int redDeaths = (redAntHillCount - redAntCount);
+				int blackDeaths = ((antHills.size()-redAntHillCount) - (antIDs.length - redAntCount));
+				scores.get(Colour.RED)[0] = redScore;
+				scores.get(Colour.RED)[1] = blackDeaths;
+				scores.get(Colour.BLACK)[0] = blackScore;
+				scores.get(Colour.BLACK)[1] = redDeaths;
+				if(scores.get(player1.getColour())[0] > scores.get(player2.getColour())[0]){
 					winner = player1;
 				}else{
-					if(scores.get(player2.getColour()) > scores.get(player1.getColour())){
-						winner = player1;
+					if(scores.get(player2.getColour())[0] > scores.get(player1.getColour())[0]){
+						winner = player2;
 					}else{
 						winner = null;
 						isDraw = true;
@@ -107,8 +122,8 @@ public class Match {
 		return player2;
 	}
 	
-	public int getScore(Player player){
-		return scores.get(player.getColour());
+	public int getScore(Player player, int i){
+		return scores.get(player.getColour())[i];
 	}
 	
 	public int getRoundNumber(){
@@ -133,6 +148,6 @@ public class Match {
 		}
 		Player winner = match.getWinner();
 		System.out.println(winner.getNickname() + " Wins!("+winner.getColour()+")");
-		System.out.println("Score:\nBlack: " + match.getScore(p1) + "\tRed: " + match.getScore(p2));
+		System.out.println("Score:\nBlack: " + match.getScore(p1, 0) + "\tRed: " + match.getScore(p2, 0));
 	}
 }

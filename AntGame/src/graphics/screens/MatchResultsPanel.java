@@ -258,32 +258,16 @@ public class MatchResultsPanel extends JPanel implements Screen{
 		}else{
 			winnerLabel.setText(match.getWinner().getNickname());
 		}
-		blackLabel.setText(player1.getNickname());
-		blackFoodCollected.setText("Food collected: "+match.getScore(player1));
-		ArrayList<AntHillTile> antHills = match.getWorld().getAntHills();
-		int redCount = 0;
-		for(int i = 0; i < antHills.size(); i++){
-			if(antHills.get(i).getColour().equals(Colour.RED)){
-				redCount++;
-			}
-		}
-		HashMap<Integer, Ant> ants = match.getWorld().getAnts();
-		Integer[] antIDs = ants.keySet().toArray(new Integer[0]);
-		int redAntCount = 0;
-		for(int i = 0; i < antIDs.length; i++){
-			if(ants.get(antIDs[i]).getColour().equals(Colour.RED)){
-				redAntCount++;
-			}
-		}
-		int redDeaths = (redCount - redAntCount);
-		int blackDeaths = ((antHills.size()-redCount) - (antIDs.length - redAntCount));
-		blackKillCount.setText("Ants killed: "+ redDeaths);
-		blackAntDeaths.setText("Ants Died: "+ blackDeaths);
+		blackLabel.setText("Black Team: " +player1.getNickname());
+		blackFoodCollected.setText("Food collected: "+match.getScore(player1, 0));
+		blackKillCount.setText("Ants killed: "+ match.getScore(player1, 1));
+		blackAntDeaths.setText("Ants Died: "+ match.getScore(player2, 1));
 		
-		redLabel.setText(player2.getNickname());
-		redFoodCollected.setText("Food collected: "+match.getScore(player2));
-		redKillCount.setText("Ants killed: " + blackDeaths);
-		redAntDeaths.setText("Ants Died: " + redDeaths);
+		redLabel.setText("Red Team: " + player2.getNickname());
+		redFoodCollected.setText("Food collected: "+match.getScore(player2, 0));
+		redKillCount.setText("Ants killed: " + match.getScore(player2, 1));
+		redAntDeaths.setText("Ants Died: " + match.getScore(player1, 1));
+		
 		if(getGame().getCurrentTournament() == null){
 	        goButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
 	        	public void mouseClicked(MouseEvent e) {
