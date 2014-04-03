@@ -39,14 +39,14 @@ public class Match {
 	public void setPlayer1(Player player){
 		this.player1 = player;
 		player1.setColour(Colour.BLACK);
-		Integer[] score = {0, 0};
+		Integer[] score = {0, 0, 0};
 		scores.put(player1.getColour(), score);
 	}
 	
 	public void setPlayer2(Player player){
 		this.player2 = player;
 		player2.setColour(Colour.RED);
-		Integer[] score = {0, 0};
+		Integer[] score = {0, 0, 0};
 		scores.put(player2.getColour(), score);
 	}
 	
@@ -107,12 +107,15 @@ public class Match {
 				redAntCount++;
 			}
 		}
+		int blackAntCount = ants.size() - redAntCount;
 		int redDeaths = (redAntHillCount - redAntCount);
 		int blackDeaths = ((antHills.size()-redAntHillCount) - (antIDs.length - redAntCount));
 		scores.get(Colour.RED)[0] = redScore;
-		scores.get(Colour.RED)[1] = blackDeaths;
+		scores.get(Colour.RED)[1] = redAntCount;
+		scores.get(Colour.RED)[2] = redDeaths;
 		scores.get(Colour.BLACK)[0] = blackScore;
-		scores.get(Colour.BLACK)[1] = redDeaths;
+		scores.get(Colour.BLACK)[1] = blackAntCount;
+		scores.get(Colour.BLACK)[2] = blackDeaths;
 	}
 	
 	public World getWorld(){
@@ -135,8 +138,12 @@ public class Match {
 		return getScore(player, 0);
 	}
 	
-	public int getAntDeaths(Player player){
+	public int getAliveCount(Player player){
 		return getScore(player, 1);
+	}
+	
+	public int getDeadCount(Player player){
+		return getScore(player, 2);
 	}
 	
 	public int getRoundNumber(){
