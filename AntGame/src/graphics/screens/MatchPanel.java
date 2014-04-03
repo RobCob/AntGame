@@ -38,7 +38,6 @@ import model.Player;
 
 public class MatchPanel extends JPanel implements Screen{
 	
-	//images
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage LOW_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/lowSpeedButton.png");
 	private static final BufferedImage LOW_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/lowSpeedButtonHover.png");
@@ -47,7 +46,9 @@ public class MatchPanel extends JPanel implements Screen{
 	private static final BufferedImage HIGH_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/highSpeedButton.png");
 	private static final BufferedImage HIGH_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/highSpeedButtonHover.png");
 	private static final BufferedImage GAME_SPEED_IMAGE = ImageLoader.loadImage("/MatchPanelImages/gameSpeedImage.png");
-	
+	private static final BufferedImage CONTROLS_IMAGE = ImageLoader.loadImage("/MatchPanelImages/controlsImage.png");
+	private static final BufferedImage PLAYERS_IMAGE = ImageLoader.loadImage("/MatchPanelImages/playersImage.png");
+
 	private Game game;
 	private HexGrid grid;
 	private JScrollPane scrollPane;
@@ -80,9 +81,9 @@ public class MatchPanel extends JPanel implements Screen{
 		
 		// COMMON VALUES:
 		Dimension hudDimension = new Dimension(300, 576);
-		Dimension valueLabelDimension = new Dimension(100, 20);
-		Dimension statLabelDimension = new Dimension(90, 20);
-		Dimension labelPanelDimension = new Dimension(500, 40);
+		Dimension valueLabelDimension = new Dimension(100, 15);
+		Dimension statLabelDimension = new Dimension(90, 15);
+		Dimension labelPanelDimension = new Dimension(500, 35);
 		Font valueLabelFont = new Font("Helvetica", 0, 18);
 		Font statLabelFont = new Font("Helvetica", 0, 18);
 		
@@ -96,14 +97,14 @@ public class MatchPanel extends JPanel implements Screen{
 		hud.setOpaque(false);
 		
 		// CREATE TITLE AND ADD TO HUD
-		//TODO
+		ImagePanel playersTitle = new ImagePanel(PLAYERS_IMAGE);
 		
 		// CREATE PLAYER 1 INFO PANEL 
 		player1InfoPanel = new JPanel();
 		BoxLayout p1Layout = new BoxLayout(player1InfoPanel, BoxLayout.Y_AXIS);
 		player1InfoPanel.setLayout(p1Layout);
 		player1InfoPanel.setBackground(new Color(0, 0, 0, 80));
-		player1InfoPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.black));
+		player1InfoPanel.setBorder(BorderFactory.createMatteBorder(3, 0, 3, 0, Color.black));
 
 		// CREATE PLAYER 2 INFO PANEL
 		player2InfoPanel = new JPanel();
@@ -111,7 +112,13 @@ public class MatchPanel extends JPanel implements Screen{
 		player2InfoPanel.setLayout(p2Layout);
 		player2InfoPanel.setBackground(new Color(200, 20, 20, 40));
 		player2InfoPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.black));
-
+		
+		// CREATE CONTROL PANEL
+		JPanel controlPanel = new JPanel();
+		BoxLayout controlPanelLayout = new BoxLayout(controlPanel, BoxLayout.Y_AXIS);
+		controlPanel.setLayout(controlPanelLayout);
+		controlPanel.setOpaque(false);
+		
 		// CREATE P1 ELEMENTS
 		p1NicknameLabel = new JLabel("Player 1");
 		p1NicknameLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -268,31 +275,36 @@ public class MatchPanel extends JPanel implements Screen{
 		p2KillsPanel.add(p2DeathsValueLabel);
 		
 		// CREATE CONTROL ELEMENTS
-		JPanel controlPanel = new JPanel();
-		BoxLayout controlPanelLayout = new BoxLayout(controlPanel, BoxLayout.Y_AXIS);
-		controlPanel.setLayout(controlPanelLayout);
-		//TODO
+		ImagePanel controlsTitle = new ImagePanel(CONTROLS_IMAGE);
 		
+		// ADD CONTROL ELEMENTS TO CONTROL PANEL
+		controlPanel.add(new FixedSpacerPanel(10, 10));
+		controlPanel.add(controlsTitle);
+		controlPanel.add(new FixedSpacerPanel(10, 10));
+
 		// ADD P1 ELEMENTS TO P1 INFO PANEL
+		player1InfoPanel.add(new FixedSpacerPanel(10, 10));
 		player1InfoPanel.add(p1NicknameLabel);
 		player1InfoPanel.add(p1FoodPanel);
 		player1InfoPanel.add(p1DeathsPanel);
 		player1InfoPanel.add(p1KillsPanel);
 
 		// ADD P2 ELEMENTS TO P2 INFO PANEL
+		player2InfoPanel.add(new FixedSpacerPanel(10, 10));
 		player2InfoPanel.add(p2NicknameLabel);
 		player2InfoPanel.add(p2FoodPanel);
 		player2InfoPanel.add(p2DeathsPanel);
 		player2InfoPanel.add(p2KillsPanel);
 		
 		// ADD P1 AND P2 INFO TO HUD
+		hud.add(new FixedSpacerPanel(10, 10));
+		hud.add(playersTitle);
+		hud.add(new FixedSpacerPanel(10, 10));
 		hud.add(player1InfoPanel);
 		hud.add(player2InfoPanel);
 		
 		// ADD CONTROL ELEMENTS TO HUD
-		//TODO
-		
-		
+		hud.add(controlPanel);
 		
 		// DEBUG ELEMENTS
 		NormalButton refreshScreenButton = new NormalButton("Decrease Game Speed", NormalButton.GREEN_THEME) {
@@ -433,7 +445,7 @@ public class MatchPanel extends JPanel implements Screen{
 		this.add(hud, BorderLayout.EAST);
 		this.add(horizontalHUD, BorderLayout.SOUTH);
 		
-		if (Game.GUI_DEBUG && true) this.add(debugHUD, BorderLayout.WEST);
+		if (Game.GUI_DEBUG && false) this.add(debugHUD, BorderLayout.WEST);
 
 	}
 	
@@ -478,7 +490,7 @@ public class MatchPanel extends JPanel implements Screen{
 		p2AliveValueLabel.setText("" + curMatch.getAliveCount(p2));
 		p2DeathsValueLabel.setText("" + curMatch.getDeadCount(p2));
 		
-		this.revalidate();
+		//this.revalidate();
 		this.repaint();
 	}
 	
