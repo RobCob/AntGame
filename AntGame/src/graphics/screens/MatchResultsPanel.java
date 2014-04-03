@@ -37,14 +37,14 @@ import model.Player;
 public class MatchResultsPanel extends JPanel implements Screen{
 	
 	//images
-	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/scoresTitle.png");
-	private static final BufferedImage WINNER_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/winner.png");
+	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/scoresTitle.png");
+	private static final BufferedImage WINNER_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/winner.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
-	private static final BufferedImage STATS_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/stats.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/mainMenu.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentResultsPanelImages/mainMenuHover.png");
-	private static final BufferedImage NEXT_MATCH_IMAGE = ImageLoader.loadImage("/NonTournamentResultsPanelImages/nextMatch.png");
-	private static final BufferedImage NEXT_MATCH_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentResultsPanelImages/nextMatchHover.png");
+	private static final BufferedImage STATS_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/stats.png");
+	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/mainMenu.png");
+	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/mainMenuHover.png");
+	private static final BufferedImage NEXT_MATCH_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatch.png");
+	private static final BufferedImage NEXT_MATCH_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/nextMatchHover.png");
 	
 	//other parameters
 	private Game game;

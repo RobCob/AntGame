@@ -5,12 +5,12 @@ import graphics.components.Hexagon;
 import graphics.screens.MainMenuPanel;
 import graphics.screens.MatchPanel;
 import graphics.screens.MatchResultsPanel;
-import graphics.screens.MatchBrainSelectionPanel;
+import graphics.screens.SingleMatchPlayerPanel;
 import graphics.screens.Screen;
 import graphics.screens.TournamentResultsPanel;
 import graphics.screens.TournamentSelectionPanel;
 import graphics.screens.CustomWorldSelectionPanel;
-import graphics.screens.MatchWorldSelectionPanel;
+import graphics.screens.SingleMatchWorldPanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -54,13 +54,13 @@ public class Game extends JFrame{
 	private MatchResultsPanel nonTournamentResults = new MatchResultsPanel(this);
 	public static final String MATCH_RESULTS_SCREEN = "Match Results";
 	
-	private MatchBrainSelectionPanel nonTournamentPanel = new MatchBrainSelectionPanel(this);
+	private SingleMatchPlayerPanel nonTournamentPanel = new SingleMatchPlayerPanel(this);
 	public static final String MATCH_BRAIN_SELECTION_SCREEN = "Match Brain Select";
 	
 	private TournamentResultsPanel tournamentResults = new TournamentResultsPanel(this);
 	public static final String TOURNAMENT_RESULTS_SCREEN = "Tournament Results";
 	
-	private MatchWorldSelectionPanel worldSelectionPanel = new MatchWorldSelectionPanel(this);
+	private SingleMatchWorldPanel worldSelectionPanel = new SingleMatchWorldPanel(this);
 	public static final String WORLD_SELECTION_SCREEN = "World Selection Screen";
 
 	private CustomWorldSelectionPanel worldEditorPanel = new CustomWorldSelectionPanel(this, worldSelectionPanel);

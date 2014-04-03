@@ -29,15 +29,15 @@ import javax.swing.event.DocumentListener;
  * NonTournamentSelection: A screen for the AntGame. This screen allows both players
  * to enter a nickname and provide an ant-brain. Validation is performed on both.
  */
-public class MatchBrainSelectionPanel  extends JPanel implements Screen{
-	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/playerSelectTitle.png");
+public class SingleMatchPlayerPanel  extends JPanel implements Screen{
+	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/SingleMatchPlayerPanelImages/playerSelectTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
 	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/GlobalImages/cross.png");
-	private static final BufferedImage UPLOAD_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImage.png");
-	private static final BufferedImage UPLOAD_ROLL_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/uploadButtonImageHover.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImage.png");
-	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/NonTournamentSelectionImages/nextButtonImageHover.png");
+	private static final BufferedImage UPLOAD_IMAGE = ImageLoader.loadImage("/SingleMatchPlayerPanelImages/uploadButtonImage.png");
+	private static final BufferedImage UPLOAD_ROLL_IMAGE = ImageLoader.loadImage("/SingleMatchPlayerPanelImages/uploadButtonImageHover.png");
+	private static final BufferedImage NEXT_BUTTON_IMAGE = ImageLoader.loadImage("/SingleMatchPlayerPanelImages/nextButtonImage.png");
+	private static final BufferedImage NEXT_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/SingleMatchPlayerPanelImages/nextButtonImageHover.png");
 
 	private Game game;
 	private AntBrain player1Brain;
@@ -58,7 +58,7 @@ public class MatchBrainSelectionPanel  extends JPanel implements Screen{
 	 * This screen allows users to 
 	 * @param game the game model that this screen is a part of.
 	 */
-	public MatchBrainSelectionPanel(Game game) {
+	public SingleMatchPlayerPanel(Game game) {
 		this.game = game;
 		this.setLayout(new BorderLayout());
 		fc = new JFileChooser(); // Default OS file chooser.
@@ -130,7 +130,7 @@ public class MatchBrainSelectionPanel  extends JPanel implements Screen{
 
 		ImageButton openButton1 = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
 			public void mouseClicked(MouseEvent e) {
-				int returnVal = fc.showOpenDialog(MatchBrainSelectionPanel.this);
+				int returnVal = fc.showOpenDialog(SingleMatchPlayerPanel.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File brainFile = fc.getSelectedFile();
 					AntBrain brain = AntBrainReader.readBrain(brainFile);
@@ -218,7 +218,7 @@ public class MatchBrainSelectionPanel  extends JPanel implements Screen{
 
 		ImageButton openButton2 = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
 			public void mouseClicked(MouseEvent e) {
-				int returnVal = fc.showOpenDialog(MatchBrainSelectionPanel.this);
+				int returnVal = fc.showOpenDialog(SingleMatchPlayerPanel.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File brainFile = fc.getSelectedFile();
 					AntBrain brain = AntBrainReader.readBrain(brainFile); 
@@ -284,7 +284,7 @@ public class MatchBrainSelectionPanel  extends JPanel implements Screen{
 				String errorMessage = getErrorMessage();
 				boolean valid = errorMessage == null;
 				if (!valid) {
-					JOptionPane.showMessageDialog(MatchBrainSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(SingleMatchPlayerPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					player1 = new Player(p1NickField.getText().trim(), player1Brain);
 					player2 = new Player(p2NickField.getText().trim(), player2Brain);
@@ -427,7 +427,7 @@ public class MatchBrainSelectionPanel  extends JPanel implements Screen{
 		JFrame frame = new JFrame("World File Chooser");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1024, 576);
-		frame.add(new MatchBrainSelectionPanel(null));
+		frame.add(new SingleMatchPlayerPanel(null));
 		frame.setResizable(false);
 
 		//Display the window.

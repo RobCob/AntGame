@@ -48,9 +48,9 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	private JLabel sizeOfAnthillLabel;
 	private JTextField firstDimension;
 	private JTextField secondDimension;
-	private MatchWorldSelectionPanel parentPanel;
+	private SingleMatchWorldPanel parentPanel;
 	
-	public CustomWorldSelectionPanel(Game game, MatchWorldSelectionPanel parentPanel){
+	public CustomWorldSelectionPanel(Game game, SingleMatchWorldPanel parentPanel){
 		
 		this.game = game;
 		this.parentPanel = parentPanel;
@@ -427,7 +427,7 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	 * Returns the world selection screen that this panel is linked to.
 	 * @return the world selection screen that this panel is linked to.
 	 */
-	public MatchWorldSelectionPanel getWorldScreen() {
+	public SingleMatchWorldPanel getWorldScreen() {
 		return parentPanel;
 	}
 	

@@ -39,19 +39,19 @@ import model.State;
 import model.World;
 import model.WorldReader;
 
-public class MatchWorldSelectionPanel extends JPanel implements Screen{
-	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/WorldSelectionPanelImages/selectWorldTitle.png");
+public class SingleMatchWorldPanel extends JPanel implements Screen{
+	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/SingleMatchWorldPanelImages/selectWorldTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
 	private static final BufferedImage CROSS_IMAGE = ImageLoader.loadImage("/GlobalImages/cross.png");
-	private static final BufferedImage UPLOAD_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/uploadWorldButton.png");
-	private static final BufferedImage UPLOAD_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/uploadWorldButtonHover.png");
-	private static final BufferedImage CREATE_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/createWorldButton.png");
-	private static final BufferedImage CREATE_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/createWorldButtonHover.png");
-	private static final BufferedImage RANDOM_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/randomWorldButton.png");
-	private static final BufferedImage RANDOM_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/randomWorldButtonHover.png");
-	private static final BufferedImage PLAY_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/playButton.png");
-	private static final BufferedImage PLAY_ROLL_BUTTON = ImageLoader.loadImage("/WorldSelectionPanelImages/playButtonHover.png");
+	private static final BufferedImage UPLOAD_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/uploadWorldButton.png");
+	private static final BufferedImage UPLOAD_ROLL_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/uploadWorldButtonHover.png");
+	private static final BufferedImage CREATE_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/createWorldButton.png");
+	private static final BufferedImage CREATE_ROLL_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/createWorldButtonHover.png");
+	private static final BufferedImage RANDOM_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/randomWorldButton.png");
+	private static final BufferedImage RANDOM_ROLL_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/randomWorldButtonHover.png");
+	private static final BufferedImage PLAY_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/playButton.png");
+	private static final BufferedImage PLAY_ROLL_BUTTON = ImageLoader.loadImage("/SingleMatchWorldPanelImages/playButtonHover.png");
 	
 	private Game game; 
 	private World antWorld;
@@ -62,7 +62,7 @@ public class MatchWorldSelectionPanel extends JPanel implements Screen{
 	private JFileChooser fc; //This is the file chooser
 	private DualImagePanel worldValidateImage;
 	
-	public MatchWorldSelectionPanel(Game game) {
+	public SingleMatchWorldPanel(Game game) {
 		this.game = game;
 		this.grid = new HexGrid(100, 100, 6, 1);
 		this.fc = new JFileChooser(); // Default OS file chooser.
@@ -120,7 +120,7 @@ public class MatchWorldSelectionPanel extends JPanel implements Screen{
 		randomWorldButton.setAlignmentY(LEFT_ALIGNMENT);
 		ImageButton uploadWorldButton = new ImageButton(UPLOAD_BUTTON, UPLOAD_ROLL_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				int returnVal = fc.showOpenDialog(MatchWorldSelectionPanel.this);
+				int returnVal = fc.showOpenDialog(SingleMatchWorldPanel.this);
 	            if (returnVal == JFileChooser.APPROVE_OPTION) {
 	                File worldFile = fc.getSelectedFile();
 	                World world = WorldReader.readWorld(worldFile);
@@ -189,7 +189,7 @@ public class MatchWorldSelectionPanel extends JPanel implements Screen{
 				String errorMessage = getErrorMessage();
 				boolean valid = (errorMessage == null);
 				if (!valid) {
-					JOptionPane.showMessageDialog(MatchWorldSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(SingleMatchWorldPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					getGame().getCurrentMatch().setWorld(antWorld);
 					getGame().createMatchPanelGrid(antWorld.sizeX, antWorld.sizeY, 2, 1);
@@ -280,7 +280,7 @@ public class MatchWorldSelectionPanel extends JPanel implements Screen{
 		JFrame frame = new JFrame("World Selection");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1024, 576);
-		frame.add(new MatchWorldSelectionPanel(null));
+		frame.add(new SingleMatchWorldPanel(null));
 		frame.setResizable(false);
 
 		//Display the window.
