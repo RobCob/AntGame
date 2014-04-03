@@ -73,10 +73,10 @@ public class Match {
 				for(int i = 0; i < antHills.size(); i++){
 					Colour c = antHills.get(i).getColour();
 					if(c.equals(Colour.RED)){
-						redScore = antHills.get(i).getFood();
+						redScore += antHills.get(i).getFood();
 					}
 					if(c.equals(Colour.BLACK)){
-						blackScore = antHills.get(i).getFood();
+						blackScore += antHills.get(i).getFood();
 					}
 				}
 				scores.put(Colour.RED, redScore);
