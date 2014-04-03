@@ -140,7 +140,7 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 					playerNames.add(playerName.getText().trim());
 					
 					// Create a list item and ad in the new player
-					ListItem newPlayerItem = new ListItem(playerName.getText().trim(), currentBrainName, itemPanel);
+					ListItem newPlayerItem = new ListItem(playerName.getText().trim(), "(" + currentBrainName + ")", itemPanel);
 					newPlayerItem.changeSize(885, 50);
 					newPlayerItem.setRemoveButton(DELETE_IMAGE, DELETE_IMAGE_HOVER, TournamentSelectionPanel.this);
 					newPlayerItem.setPlayer(player);

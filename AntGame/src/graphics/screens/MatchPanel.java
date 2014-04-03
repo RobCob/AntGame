@@ -59,6 +59,9 @@ public class MatchPanel extends JPanel implements Screen{
 	private static final BufferedImage RESUME_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/resumeButton.png");
 	private static final BufferedImage RESUME_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/resumeButtonHover.png");
 	
+	private static final BufferedImage SKIP_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/skipButton.png");
+	private static final BufferedImage SKIP_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/skipButtonHover.png");
+	
 	
 	private static final int SLOW_SPEED = 10;
 	private static final int MED_SPEED = 100;
@@ -333,8 +336,8 @@ public class MatchPanel extends JPanel implements Screen{
 		JPanel speedPanel = new JPanel();
 		speedPanel.setOpaque(false);
 
-		final JPanel pausePanel = new JPanel();
-		pausePanel.setOpaque(false);
+		final JPanel pauseAndSkipPanel = new JPanel();
+		pauseAndSkipPanel.setOpaque(false);
 
 		JPanel gridlinesPanel = new JPanel();
 		gridlinesPanel.setOpaque(false);
@@ -407,13 +410,22 @@ public class MatchPanel extends JPanel implements Screen{
 			}
 		};
 		
-		ImageButton gridlinesButtonOn = new ImageButton(PLUS_BUTTON_IMAGE, PLUS_BUTTON_IMAGE_HOVER) {
+		ImageButton skipButton = new ImageButton(SKIP_BUTTON_IMAGE, SKIP_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
-				// TODO
+				if (!getGame().isPaused()){
+					getGame().setRoundsPerSecond(100000);
+				} else {
+					currentPauseResumeButton = resumeButton;
+					pauseAndSkipPanel.removeAll();
+					pauseAndSkipPanel.add(currentPauseResumeButton);
+					MatchPanel.this.revalidate();
+					MatchPanel.this.repaint();
+					getGame().setRoundsPerSecond(100000);
+				}
 			}
 		};
 		
-		ImageButton toggleGridlines = new ImageButton(PLUS_BUTTON_IMAGE, PLUS_BUTTON_IMAGE_HOVER) {
+		ImageButton s = new ImageButton(PLUS_BUTTON_IMAGE, SKIP_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
 				// TODO
 			}
@@ -422,8 +434,8 @@ public class MatchPanel extends JPanel implements Screen{
 		pauseButton = new ImageButton(PAUSE_BUTTON_IMAGE, PAUSE_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
 				currentPauseResumeButton = resumeButton;
-				pausePanel.removeAll();
-				pausePanel.add(currentPauseResumeButton);
+				pauseAndSkipPanel.removeAll();
+				pauseAndSkipPanel.add(currentPauseResumeButton);
 				MatchPanel.this.revalidate();
 				MatchPanel.this.repaint();
 				previousSpeed = getGame().getRoundsPerSecond();
@@ -434,8 +446,8 @@ public class MatchPanel extends JPanel implements Screen{
 		resumeButton = new ImageButton(RESUME_BUTTON_IMAGE, RESUME_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
 				currentPauseResumeButton = pauseButton;
-				pausePanel.removeAll();
-				pausePanel.add(currentPauseResumeButton);
+				pauseAndSkipPanel.removeAll();
+				pauseAndSkipPanel.add(currentPauseResumeButton);
 				MatchPanel.this.revalidate();
 				MatchPanel.this.repaint();
 				getGame().setRoundsPerSecond(previousSpeed);
@@ -454,7 +466,8 @@ public class MatchPanel extends JPanel implements Screen{
 		speedPanel.add(speedUpButton);
 		
 		currentPauseResumeButton = pauseButton;
-		pausePanel.add(currentPauseResumeButton);
+		pauseAndSkipPanel.add(currentPauseResumeButton);
+		//pauseAndSkipPanel.add(skipButton);
 
 		// ADD CONTROL ELEMENTS TO CONTROL PANEL
 		controlPanel.add(new FixedSpacerPanel(10, 5));
@@ -462,8 +475,7 @@ public class MatchPanel extends JPanel implements Screen{
 		controlPanel.add(new FixedSpacerPanel(10, 5));
 		controlPanel.add(zoomPanel);
 		controlPanel.add(speedPanel);
-		controlPanel.add(pausePanel);
-		controlPanel.add(gridlinesPanel);
+		controlPanel.add(pauseAndSkipPanel);
 		
 		// ADD P1 ELEMENTS TO P1 INFO PANEL
 		player1InfoPanel.add(new FixedSpacerPanel(10, 5));

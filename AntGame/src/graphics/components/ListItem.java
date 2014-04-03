@@ -26,7 +26,7 @@ public class ListItem extends JPanel{
 		leftTextLabel.setForeground(Color.BLACK);
 		leftTextLabel.setFont(new Font("Helvetica", 0, 25));
 		
-		centerTextLabel = new JLabel("|     " + centerText);
+		centerTextLabel = new JLabel(centerText);
 		centerTextLabel.setBorder(BorderFactory.createEmptyBorder(0, 35, 0, 0));
 		centerTextLabel.setForeground(Color.BLACK);
 		centerTextLabel.setFont(new Font("Helvetica", 0, 25));

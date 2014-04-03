@@ -43,7 +43,6 @@ public class Tournament {
 		}
 	}
 	
-	
 	public Match getCurrentMatch(){
 		return matches.get(currentMatch);
 	}
@@ -91,6 +90,42 @@ public class Tournament {
 				matches.add(new Match((World) world.clone(), (Player) player2.clone(), (Player) player1.clone()));// OR THE AFTICAN CHILDREN WILL CRY
 			}
 		}
+	}
+
+	public ArrayList<Player> getOrderedPlayers(boolean ascending) {
+		ArrayList<Player> sortedPlayers = new ArrayList<Player>();
+		ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
+		if (ascending) {
+			int maxPlayerIndex = -1;
+			boolean finished = false;
+			
+			while(!finished) {
+				// Find the next best player.
+				int maxScore = -1;
+				for (int i = 0; i < tempPlayers.size(); i++) {
+					if (getScore(tempPlayers.get(i)) >= maxScore) {
+						maxScore = getScore(tempPlayers.get(i));
+						maxPlayerIndex = i;
+					}
+				}
+				
+				// Place player in sorted.
+				sortedPlayers.add(tempPlayers.get(maxPlayerIndex));
+				
+				// Remove player from temp.
+				tempPlayers.remove(maxPlayerIndex);
+				
+				if (tempPlayers.size() <= 0) {
+					finished = true;
+				}
+			}
+			
+			return sortedPlayers;
+		} else {
+			// TODO descending
+			return players;
+		}
+		
 	}
 
 }
