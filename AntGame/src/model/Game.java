@@ -41,7 +41,9 @@ public class Game extends JFrame{
 	
 	private int frames = 0; // for the FPS counter.
 	
-	private Timer displayTimer;
+	private Timer displayTimer; // update the match screens grid
+	private Timer statsTimer;   // update the stats for the players.
+
 	private Random rand = new Random();
 	
 	// Initialise all of the games screens.
@@ -91,21 +93,30 @@ public class Game extends JFrame{
 		addScreen(worldEditorPanel, WORLD_EDITOR_SCREEN);
 		addScreen(tournamentSelectionPanel, TOURNAMENT_SELECTION_SCREEN);
 
-
 		// JFrame properties 
 		this.add(screens);
 		this.setTitle("Ant Game  |  " + WIDTH + "x" + HEIGHT );
 		this.setSize(WIDTH, HEIGHT);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
 	
+	/**
+	 * Switch the screen that's being displayed to the specified screen.
+	 * @param panelName screen to switch in.
+	 */
 	public void switchScreen(String panelName){
 		screenMap.get(panelName).update();
 		cardLayout.show(screens, panelName);
 	}
 	
+	/**
+	 * Adds the screen to the game so that it can be swapped to when needed.
+	 * Adds a mapping between a screen and it's name
+	 * @param screen
+	 * @param screenName
+	 */
 	public void addScreen(JPanel screen, String screenName) {
 		screenMap.put(screenName, (Screen) screen);
 		screens.add(screen, screenName);
@@ -215,7 +226,21 @@ public class Game extends JFrame{
 			}
 		});
 		displayTimer.start(); // Start updating the screen periodically.
-		if (Game.DEBUG) System.out.println("DEBUG | Game:runDisplay() Updates started!");
+		if (Game.DEBUG) System.out.println("DEBUG | Game:runDisplay() displayTimer started!");
+		
+		
+		// Periodically update the player stats.
+		statsTimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!runningMatch) {
+	            	displayTimer.stop();
+	            }
+				getMatchScreen().updatePlayerStats();
+			}
+		});
+		statsTimer.start(); // Start updating the screen periodically.
+		if (Game.DEBUG) System.out.println("DEBUG | Game:runDisplay() statsTimer started!");
 	}
 	
 	/**
@@ -275,6 +300,14 @@ public class Game extends JFrame{
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Returns the screen displaying the current match.
+	 * @return the screen displaying the current match.
+	 */
+	public MatchPanel getMatchScreen() {
+		return this.matchPanel;
 	}
 	
 	/**

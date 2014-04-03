@@ -46,6 +46,14 @@ public class MatchPanel extends JPanel implements Screen{
 	private HexGrid grid;
 	private JScrollPane scrollPane;
 	
+	private JLabel p1FoodLabel;
+	private JLabel p1DeathsLabel;
+	private JLabel p1KillsLabel;
+
+	private JLabel p2FoodLabel;
+	private JLabel p2DeathsLabel;
+	private JLabel p2KillsLabel;
+	
 	public MatchPanel(Game game){
 		
 		this.game = game;
@@ -62,150 +70,105 @@ public class MatchPanel extends JPanel implements Screen{
 		scrollPane.setBackground(Color.WHITE);
 		
 		// HUD
-		JPanel hud = new JPanel(new GridLayout(8,1));
-				
-		NormalButton refreshScreenButton = new NormalButton("Decrease Game Speed", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
-				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond()-(getGame().getRoundsPerSecond()/5));			
-			}
-		};
+		JPanel hud = new JPanel();
+		BoxLayout hudLayout = new BoxLayout(hud, BoxLayout.Y_AXIS);
+		hud.setLayout(hudLayout);
 		
-		NormalButton addAntTestButton = new NormalButton("Increase Game Speed", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
-				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond()+(getGame().getRoundsPerSecond()/5));
-			}
-		};
+		JPanel player1InfoPanel = new JPanel();
+		BoxLayout p1Layout = new BoxLayout(hud, BoxLayout.Y_AXIS);
+		player1InfoPanel.setLayout(p1Layout);
 		
-		NormalButton removeAllButton = new NormalButton("Clear Grid", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
-				getGrid().clearAll();
-				getGrid().refresh();	
-			}
-		};
+		JPanel player2InfoPanel = new JPanel();
+		BoxLayout p2Layout = new BoxLayout(hud, BoxLayout.Y_AXIS);
+		player1InfoPanel.setLayout(p2Layout);
 		
-		NormalButton increaseSizeButton = new NormalButton("Zoom In (+)", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
-				getGrid().increaseSize();
-				getGrid().revalidate();
-				getScrollPane().revalidate();
-			}
-		};
+		// CREATE P1 ELEMENTS
 		
-		NormalButton decreaseSizeButton = new NormalButton("Zoom Out (-)", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
-				getGrid().decreaseSize();
-				getGrid().revalidate();
-				getScrollPane().revalidate();
-			}
-		};
+		// CREATE P2 ELEMENTS
 		
-		NormalButton stopGameButton = new NormalButton("Stop Match",  NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
-				getGame().stopMatch();
-
-			}
-		};
+		// CREATE CONTROL ELEMENTS
 		
-		NormalButton gridLinesCheckBox = new NormalButton("Toggle Gridlines",  NormalButton.GREEN_THEME) {
-			boolean gridlines = true;
-			public void mouseClicked(MouseEvent e) {
-				if (gridlines) {
-					getGrid().removeOutlines();
-					getGrid().refresh();
-					gridlines = false;
-				} else {
-					getGrid().addDefaultOutlines();
-					getGrid().refresh();
-					gridlines = true;
+		// ADD P1 ELEMENTS
+		
+		// ADD P2 ELEMENTS
+		
+		// ADD CONTROL ELEMENTS
+		
+		// DEBUG ELEMENTS
+		
+		if (Game.GUI_DEBUG) {
+			NormalButton refreshScreenButton = new NormalButton("Decrease Game Speed", NormalButton.GREEN_THEME) {
+				public void mouseClicked(MouseEvent e) {
+					getGame().setRoundsPerSecond(getGame().getRoundsPerSecond()-(getGame().getRoundsPerSecond()/5));			
 				}
-
-			}
-		};
-		/*
-		JButton refreshScreenButton = new JButton("Refresh Screen");
-		refreshScreenButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				getGrid().refresh();
-			}
-		});
-		
-		JButton addAntTestButton = new JButton("Add Ant Test");
-		addAntTestButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				getGrid().getHexagon(rand.nextInt(getGrid().getColumns()), rand.nextInt(getGrid().getRows())).setFillColor(Color.RED);
-				getGrid().refresh();
-			}
-		});
-		
-		JButton removeAllButton = new JButton("Clear Grid");
-		removeAllButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				getGrid().clearAll();
-				getGrid().refresh();
-			}
-		});
-		
-		JButton increaseSizeButton = new JButton("Zoom In (+)");
-		increaseSizeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				getGrid().increaseSize();
-				getGrid().revalidate();
-				getScrollPane().revalidate();
-				//getScrollPane().paintAll(scrollPane.getGraphics());
-				//getGrid().refresh();
-			}
-		});
-	
-		
-		JButton decreaseSizeButton = new JButton("Zoom Out (-)");
-		decreaseSizeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				getGrid().decreaseSize();
-				getGrid().revalidate();
-				getScrollPane().revalidate();
-				//getScrollPane().paintAll(scrollPane.getGraphics());
-				//getGrid().refresh();
-			}
-		});
-		
-		JButton stopGameButton = new JButton("Stop Match");
-		stopGameButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				getGame().stopMatch();
-			}
-		});
+			};
 			
-		
-		JCheckBox gridLinesCheckBox = new JCheckBox("Gridlines ");
-		gridLinesCheckBox.setSelected(true);
-		gridLinesCheckBox.setOpaque(false);
-		gridLinesCheckBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.DESELECTED) {
-					getGrid().removeOutlines();
-					getGrid().refresh();
-				} else {
-					getGrid().addDefaultOutlines();
-					getGrid().refresh();
+			NormalButton addAntTestButton = new NormalButton("Increase Game Speed", NormalButton.GREEN_THEME) {
+				public void mouseClicked(MouseEvent e) {
+					getGame().setRoundsPerSecond(getGame().getRoundsPerSecond()+(getGame().getRoundsPerSecond()/5));
 				}
-			}
-		});
-		
-		*/
-		
-		JLabel debugLabel = new JLabel("Debugging Tools", JLabel.CENTER);
-		debugLabel.setFont(new Font("Helvetica", Font.BOLD, 16));
-		debugLabel.setForeground(new Color(220, 250, 220));
-		
-		hud.add(debugLabel);
-		hud.add(refreshScreenButton);
-		hud.add(addAntTestButton);
-		hud.add(removeAllButton);
-		hud.add(increaseSizeButton);
-		hud.add(decreaseSizeButton);
-		hud.add(stopGameButton);
-		hud.add(gridLinesCheckBox);
-		hud.setBackground( new Color(42, 88, 40));
+			};
+			
+			NormalButton removeAllButton = new NormalButton("Clear Grid", NormalButton.GREEN_THEME) {
+				public void mouseClicked(MouseEvent e) {
+					getGrid().clearAll();
+					getGrid().refresh();	
+				}
+			};
+			
+			NormalButton increaseSizeButton = new NormalButton("Zoom In (+)", NormalButton.GREEN_THEME) {
+				public void mouseClicked(MouseEvent e) {
+					getGrid().increaseSize();
+					getGrid().revalidate();
+					getScrollPane().revalidate();
+				}
+			};
+			
+			NormalButton decreaseSizeButton = new NormalButton("Zoom Out (-)", NormalButton.GREEN_THEME) {
+				public void mouseClicked(MouseEvent e) {
+					getGrid().decreaseSize();
+					getGrid().revalidate();
+					getScrollPane().revalidate();
+				}
+			};
+			
+			NormalButton stopGameButton = new NormalButton("Stop Match",  NormalButton.GREEN_THEME) {
+				public void mouseClicked(MouseEvent e) {
+					getGame().stopMatch();
+	
+				}
+			};
+			
+			NormalButton gridLinesCheckBox = new NormalButton("Toggle Gridlines",  NormalButton.GREEN_THEME) {
+				boolean gridlines = true;
+				public void mouseClicked(MouseEvent e) {
+					if (gridlines) {
+						getGrid().removeOutlines();
+						getGrid().refresh();
+						gridlines = false;
+					} else {
+						getGrid().addDefaultOutlines();
+						getGrid().refresh();
+						gridlines = true;
+					}
+				}
+			};
+			
+			JLabel debugLabel = new JLabel("Debugging Tools", JLabel.CENTER);
+			debugLabel.setFont(new Font("Helvetica", Font.BOLD, 16));
+			debugLabel.setForeground(new Color(220, 250, 220));
+			
+			JPanel debugHUD = new JPanel(new GridLayout(10, 1));
+			debugHUD.add(debugLabel);
+			debugHUD.add(refreshScreenButton);
+			debugHUD.add(addAntTestButton);
+			debugHUD.add(removeAllButton);
+			debugHUD.add(increaseSizeButton);
+			debugHUD.add(decreaseSizeButton);
+			debugHUD.add(stopGameButton);
+			debugHUD.add(gridLinesCheckBox);
+			debugHUD.setBackground( new Color(42, 88, 40));
+		}
 		
 		//Horizontal HUD
 		JPanel horizontalHUD = new JPanel();
@@ -229,6 +192,7 @@ public class MatchPanel extends JPanel implements Screen{
         		getGame().setRoundsPerSecond(10);
         	}
         };
+        
         lowSpeed.setAlignmentX(CENTER_ALIGNMENT);
         lowSpeed.setAlignmentY(CENTER_ALIGNMENT);
 
@@ -272,6 +236,8 @@ public class MatchPanel extends JPanel implements Screen{
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(hud, BorderLayout.EAST);
 		this.add(horizontalHUD, BorderLayout.SOUTH);
+		
+		//if (Game.)
 	}
 	
 	public Game getGame(){
@@ -294,6 +260,15 @@ public class MatchPanel extends JPanel implements Screen{
 		return this.scrollPane;
 	}
 	
+	public void updatePlayerStats() {
+//		p1FoodLabel.setText(getGame().getCurrentMatch().get...);
+//		p1DeathsLabel.setText(getGame().getCurrentMatch().get...);
+//		p1KillsLabel.setText(getGame().getCurrentMatch().get...);
+//
+//		p2FoodLabel.setText(getGame().getCurrentMatch().get...);
+//		p2DeathsLabel.setText(getGame().getCurrentMatch().get...);
+//		p2KillsLabel.setText(getGame().getCurrentMatch().get...);
+	}
 	
 	//Used for debug
 	public static void main(String[] args){
