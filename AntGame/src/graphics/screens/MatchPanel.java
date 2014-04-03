@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -81,6 +82,7 @@ public class MatchPanel extends JPanel implements Screen{
 		Dimension hudDimension = new Dimension(300, 576);
 		Dimension valueLabelDimension = new Dimension(100, 20);
 		Dimension statLabelDimension = new Dimension(90, 20);
+		Dimension labelPanelDimension = new Dimension(500, 40);
 		Font valueLabelFont = new Font("Helvetica", 0, 18);
 		Font statLabelFont = new Font("Helvetica", 0, 18);
 		
@@ -100,15 +102,17 @@ public class MatchPanel extends JPanel implements Screen{
 		player1InfoPanel = new JPanel();
 		BoxLayout p1Layout = new BoxLayout(player1InfoPanel, BoxLayout.Y_AXIS);
 		player1InfoPanel.setLayout(p1Layout);
-		player1InfoPanel.setOpaque(false);
-		player1InfoPanel.setBackground(new Color(0, 0, 0, 20));
+		player1InfoPanel.setBackground(new Color(0, 0, 0, 80));
+		player1InfoPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.black));
 
-		// CREATE PLAYER 2 INFOR PANEL
+		// CREATE PLAYER 2 INFO PANEL
 		player2InfoPanel = new JPanel();
 		BoxLayout p2Layout = new BoxLayout(player2InfoPanel, BoxLayout.Y_AXIS);
 		player2InfoPanel.setLayout(p2Layout);
 		//player2InfoPanel.setOpaque(false);
-		player2InfoPanel.setBackground(new Color(200, 20, 20, 20));
+		player2InfoPanel.setBackground(new Color(200, 20, 20, 40));
+		player2InfoPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.black));
+
 
 		// CREATE P1 ELEMENTS
 		p1NicknameLabel = new JLabel("Player 1");
@@ -137,21 +141,21 @@ public class MatchPanel extends JPanel implements Screen{
 		p1KillsLabel.setMaximumSize(statLabelDimension);
 		p1KillsLabel.setPreferredSize(statLabelDimension);
 		
-		p1FoodValueLabel = new JLabel("0", JLabel.CENTER);
+		p1FoodValueLabel = new JLabel("0", JLabel.RIGHT);
 		p1FoodValueLabel.setForeground(Color.WHITE);
 		p1FoodValueLabel.setFont(valueLabelFont);
 		p1FoodValueLabel.setMinimumSize(valueLabelDimension);
 		p1FoodValueLabel.setMaximumSize(valueLabelDimension);
 		p1FoodValueLabel.setPreferredSize(valueLabelDimension);
 		
-		p1DeathsValueLabel = new JLabel("0", JLabel.CENTER);
+		p1DeathsValueLabel = new JLabel("0", JLabel.RIGHT);
 		p1DeathsValueLabel.setForeground(Color.WHITE);
 		p1DeathsValueLabel.setFont(valueLabelFont);
 		p1DeathsValueLabel.setMinimumSize(valueLabelDimension);
 		p1DeathsValueLabel.setMaximumSize(valueLabelDimension);
 		p1DeathsValueLabel.setPreferredSize(valueLabelDimension);
 		
-		p1KillsValueLabel = new JLabel("0", JLabel.CENTER);
+		p1KillsValueLabel = new JLabel("0", JLabel.RIGHT);
 		p1KillsValueLabel.setForeground(Color.WHITE);
 		p1KillsValueLabel.setFont(valueLabelFont);
 		p1KillsValueLabel.setMinimumSize(valueLabelDimension);
@@ -159,8 +163,19 @@ public class MatchPanel extends JPanel implements Screen{
 		p1KillsValueLabel.setPreferredSize(valueLabelDimension);
 		
 		JPanel p1FoodPanel = new JPanel();
+		p1FoodPanel.setMaximumSize(labelPanelDimension);
+		p1FoodPanel.setMinimumSize(labelPanelDimension);
+		p1FoodPanel.setPreferredSize(labelPanelDimension);
+
 		JPanel p1DeathsPanel = new JPanel();
+		p1DeathsPanel.setMaximumSize(labelPanelDimension);
+		p1DeathsPanel.setMinimumSize(labelPanelDimension);
+		p1DeathsPanel.setPreferredSize(labelPanelDimension);
+
 		JPanel p1KillsPanel = new JPanel();
+		p1KillsPanel.setMaximumSize(labelPanelDimension);
+		p1KillsPanel.setMinimumSize(labelPanelDimension);
+		p1KillsPanel.setPreferredSize(labelPanelDimension);
 		
 		p1FoodPanel.setOpaque(false);
 		p1DeathsPanel.setOpaque(false);
@@ -207,21 +222,21 @@ public class MatchPanel extends JPanel implements Screen{
 		p2KillsLabel.setMaximumSize(statLabelDimension);
 		p2KillsLabel.setPreferredSize(statLabelDimension);
 
-		p2FoodValueLabel = new JLabel("0", JLabel.CENTER);
+		p2FoodValueLabel = new JLabel("0", JLabel.RIGHT);
 		p2FoodValueLabel.setForeground(Color.WHITE);
 		p2FoodValueLabel.setFont(valueLabelFont);
 		p2FoodValueLabel.setMinimumSize(valueLabelDimension);
 		p2FoodValueLabel.setMaximumSize(valueLabelDimension);
 		p2FoodValueLabel.setPreferredSize(valueLabelDimension);
 		
-		p2DeathsValueLabel = new JLabel("0", JLabel.CENTER);
+		p2DeathsValueLabel = new JLabel("0", JLabel.RIGHT);
 		p2DeathsValueLabel.setForeground(Color.WHITE);
 		p2DeathsValueLabel.setFont(valueLabelFont);
 		p2DeathsValueLabel.setMinimumSize(valueLabelDimension);
 		p2DeathsValueLabel.setMaximumSize(valueLabelDimension);
 		p2DeathsValueLabel.setPreferredSize(valueLabelDimension);
 		
-		p2KillsValueLabel = new JLabel("0", JLabel.CENTER);
+		p2KillsValueLabel = new JLabel("0", JLabel.RIGHT);
 		p2KillsValueLabel.setForeground(Color.WHITE);
 		p2KillsValueLabel.setFont(valueLabelFont);
 		p2KillsValueLabel.setMinimumSize(valueLabelDimension);
@@ -229,8 +244,19 @@ public class MatchPanel extends JPanel implements Screen{
 		p2KillsValueLabel.setPreferredSize(valueLabelDimension);
 		
 		JPanel p2FoodPanel = new JPanel();
+		p2FoodPanel.setMaximumSize(labelPanelDimension);
+		p2FoodPanel.setMinimumSize(labelPanelDimension);
+		p2FoodPanel.setPreferredSize(labelPanelDimension);
+		
 		JPanel p2DeathsPanel = new JPanel();
+		p2DeathsPanel.setMaximumSize(labelPanelDimension);
+		p2DeathsPanel.setMinimumSize(labelPanelDimension);
+		p2DeathsPanel.setPreferredSize(labelPanelDimension);
+		
 		JPanel p2KillsPanel = new JPanel();
+		p2KillsPanel.setMaximumSize(labelPanelDimension);
+		p2KillsPanel.setMinimumSize(labelPanelDimension);
+		p2KillsPanel.setPreferredSize(labelPanelDimension);
 		
 		p2FoodPanel.setOpaque(false);
 		p2DeathsPanel.setOpaque(false);
