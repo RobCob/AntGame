@@ -49,6 +49,16 @@ public class MatchPanel extends JPanel implements Screen{
 	private static final BufferedImage CONTROLS_IMAGE = ImageLoader.loadImage("/MatchPanelImages/controlsImage.png");
 	private static final BufferedImage PLAYERS_IMAGE = ImageLoader.loadImage("/MatchPanelImages/playersImage.png");
 
+	private static final BufferedImage PLUS_BUTTON_IMAGE = ImageLoader.loadImage("/GlobalImages/plusButton.png");
+	private static final BufferedImage PLUS_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/GlobalImages/plusButtonHover.png");
+	private static final BufferedImage MINUS_BUTTON_IMAGE = ImageLoader.loadImage("/GlobalImages/minusButton.png");
+	private static final BufferedImage MINUS_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/GlobalImages/minusButtonHover.png");
+	
+	private static final BufferedImage PAUSE_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/pauseButton.png");
+	private static final BufferedImage PAUSE_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/pauseButtonHover.png");
+	private static final BufferedImage RESUME_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/resumeButton.png");
+	private static final BufferedImage RESUME_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/resumeButtonHover.png");
+
 	private Game game;
 	private HexGrid grid;
 	private JScrollPane scrollPane;
@@ -67,9 +77,17 @@ public class MatchPanel extends JPanel implements Screen{
 	private JLabel p2AliveValueLabel;
 	private JLabel p2DeathsValueLabel;
 	
+	private int currentZoomLevel;
+	private int previousSpeed;
+	
+	private ImageButton currentPauseResumeButton;
+	private ImageButton pauseButton;
+	private ImageButton resumeButton;
+	
 	public MatchPanel(Game game){
 		this.game = game;
 		this.grid = new HexGrid(0, 0, 0, 0);
+		this.setLayout(new BorderLayout());
 		
 		// SCROLL PANE HOLDING GRID
 		this.scrollPane = new JScrollPane(grid);
@@ -84,8 +102,11 @@ public class MatchPanel extends JPanel implements Screen{
 		Dimension valueLabelDimension = new Dimension(100, 15);
 		Dimension statLabelDimension = new Dimension(90, 15);
 		Dimension labelPanelDimension = new Dimension(500, 35);
+		Dimension controlValueDimension = new Dimension(100, 40);
+
 		Font valueLabelFont = new Font("Helvetica", 0, 18);
 		Font statLabelFont = new Font("Helvetica", 0, 18);
+		Font controlLabelFont = new Font("Helvetica", 0, 22);
 		
 		// HUD
 		JPanel hud = new JPanel();
@@ -277,11 +298,125 @@ public class MatchPanel extends JPanel implements Screen{
 		// CREATE CONTROL ELEMENTS
 		ImagePanel controlsTitle = new ImagePanel(CONTROLS_IMAGE);
 		
+		JLabel speedLabel = new JLabel("Speed:");
+		speedLabel.setFont(controlLabelFont);
+		speedLabel.setForeground(Color.WHITE);
+		
+		JLabel zoomLabel = new JLabel("Zoom:");
+		zoomLabel.setFont(controlLabelFont);
+		zoomLabel.setForeground(Color.WHITE);
+		
+		JLabel currentZoomLabel = new JLabel(currentZoomLevel + "%", JLabel.CENTER);
+		currentZoomLabel.setFont(controlLabelFont);
+		currentZoomLabel.setForeground(Color.WHITE);
+		currentZoomLabel.setMinimumSize(controlValueDimension);
+		currentZoomLabel.setMaximumSize(controlValueDimension);
+		currentZoomLabel.setPreferredSize(controlValueDimension);
+		
+		JLabel currentSpeedLabel = new JLabel("Medium", JLabel.CENTER);
+		currentSpeedLabel.setFont(controlLabelFont);
+		currentSpeedLabel.setForeground(Color.WHITE);
+		currentSpeedLabel.setMinimumSize(controlValueDimension);
+		currentSpeedLabel.setMaximumSize(controlValueDimension);
+		currentSpeedLabel.setPreferredSize(controlValueDimension);
+		
+		JPanel zoomPanel = new JPanel();
+		zoomPanel.setOpaque(false);
+		
+		JPanel speedPanel = new JPanel();
+		speedPanel.setOpaque(false);
+
+		final JPanel pausePanel = new JPanel();
+		pausePanel.setOpaque(false);
+
+		JPanel gridlinesPanel = new JPanel();
+		gridlinesPanel.setOpaque(false);
+		
+		ImageButton zoomOutButton = new ImageButton(MINUS_BUTTON_IMAGE, MINUS_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				getGrid().decreaseSize();
+				getGrid().revalidate();
+				getScrollPane().revalidate();
+			}
+		};
+		
+		ImageButton zoomInButton = new ImageButton(PLUS_BUTTON_IMAGE, PLUS_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				getGrid().increaseSize();
+				getGrid().revalidate();
+				getScrollPane().revalidate();
+			}
+		};
+		
+		ImageButton slowDownButton = new ImageButton(MINUS_BUTTON_IMAGE, MINUS_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				// TODO
+			}
+		};
+		
+		ImageButton speedUpButton = new ImageButton(PLUS_BUTTON_IMAGE, PLUS_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				// TODO
+			}
+		};
+		
+		ImageButton gridlinesButtonOn = new ImageButton(PLUS_BUTTON_IMAGE, PLUS_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				// TODO
+			}
+		};
+		
+		ImageButton toggleGridlines = new ImageButton(PLUS_BUTTON_IMAGE, PLUS_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				// TODO
+			}
+		};
+		
+		pauseButton = new ImageButton(PAUSE_BUTTON_IMAGE, PAUSE_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				currentPauseResumeButton = resumeButton;
+				pausePanel.removeAll();
+				pausePanel.add(currentPauseResumeButton);
+				MatchPanel.this.revalidate();
+				MatchPanel.this.repaint();
+				previousSpeed = getGame().getRoundsPerSecond();
+				getGame().setRoundsPerSecond(0);
+			}
+		};
+		
+		resumeButton = new ImageButton(RESUME_BUTTON_IMAGE, RESUME_BUTTON_IMAGE_HOVER) {
+			public void mouseClicked(MouseEvent e) {
+				currentPauseResumeButton = pauseButton;
+				pausePanel.removeAll();
+				pausePanel.add(currentPauseResumeButton);
+				MatchPanel.this.revalidate();
+				MatchPanel.this.repaint();
+				getGame().setRoundsPerSecond(previousSpeed);
+			}
+		};
+
+		zoomPanel.add(zoomLabel);
+		zoomPanel.add(zoomOutButton);
+		zoomPanel.add(currentZoomLabel);
+		zoomPanel.add(zoomInButton);
+		
+		speedPanel.add(speedLabel);
+		speedPanel.add(slowDownButton);
+		speedPanel.add(currentSpeedLabel);
+		speedPanel.add(speedUpButton);
+		
+		currentPauseResumeButton = pauseButton;
+		pausePanel.add(currentPauseResumeButton);
+
 		// ADD CONTROL ELEMENTS TO CONTROL PANEL
 		controlPanel.add(new FixedSpacerPanel(10, 10));
 		controlPanel.add(controlsTitle);
 		controlPanel.add(new FixedSpacerPanel(10, 10));
-
+		controlPanel.add(zoomPanel);
+		controlPanel.add(speedPanel);
+		controlPanel.add(pausePanel);
+		controlPanel.add(gridlinesPanel);
+		
 		// ADD P1 ELEMENTS TO P1 INFO PANEL
 		player1InfoPanel.add(new FixedSpacerPanel(10, 10));
 		player1InfoPanel.add(p1NicknameLabel);
@@ -440,7 +575,6 @@ public class MatchPanel extends JPanel implements Screen{
 //        formatHUD.add(horizontalHUD, BorderLayout.CENTER);
 //        formatHUD.add(new FixedSpacerPanel(0, 20), BorderLayout.SOUTH);
         
-		this.setLayout(new BorderLayout());
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(hud, BorderLayout.EAST);
 		//this.add(horizontalHUD, BorderLayout.SOUTH);
