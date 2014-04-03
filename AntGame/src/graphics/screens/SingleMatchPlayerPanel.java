@@ -286,7 +286,7 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		ImageButton nextButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
 				String errorMessage = getErrorMessage();
-				boolean valid = errorMessage == null;
+				boolean valid = (errorMessage == null);
 				if (!valid) {
 					JOptionPane.showMessageDialog(SingleMatchPlayerPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {

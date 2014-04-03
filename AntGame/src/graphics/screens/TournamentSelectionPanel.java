@@ -128,9 +128,7 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		ImageButton addPlayer = new ImageButton(ADD_IMAGE, ADD_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
 				String errorMessage = getErrorMessage();
-				boolean valid = errorMessage == null;
-				// TODO REMOVE LINE BELOW AFTER DEBUGGING!
-				valid = true;
+				boolean valid = (errorMessage == null);
 				if (!valid) {
 					JOptionPane.showMessageDialog(TournamentSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
@@ -176,7 +174,8 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		
 		ImageButton playButton = new ImageButton(PLAY_IMAGE, PLAY_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
-				boolean valid = true;
+				String errorMessage = getPlayErrorMessage();
+				boolean valid = (errorMessage == null);
 				if(valid){
 					System.out.println(getGame());
 					getGame().createTournament();
@@ -190,6 +189,8 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 					getGame().createMatchPanelGrid(getGame().getCurrentMatch().getWorld().sizeX, getGame().getCurrentMatch().getWorld().sizeY, 2, 1);
 					getGame().switchScreen(Game.MATCH_SCREEN);
 					getGame().startMatch();
+				} else {
+					JOptionPane.showMessageDialog(TournamentSelectionPanel.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		};
@@ -278,32 +279,46 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 
 		// New Player nickname validation
 		if(!nameValidate.isFirstShown()){
-			output += "New player's nickname is invalid!\n";
+			output += "Invalid nickname!\n";
 		}
 
 		// New Player ant-brain validation
 		if(!brainValidate.isFirstShown()){
-			output += "New player's ant-brain is invalid!\n";
+			output += "Invalid ant-brain!\n";
+		}
+
+		if (output.equals("")) {
+			output = null;
 		}
 		
+		return output;
+	}
+	
+	public String getPlayErrorMessage(){
+		String output = "";
+
 		int worldNumber;
 		
 		try{
 			worldNumber = Integer.parseInt(worldNumberField.getText());
-			if(worldNumber <0){
-				output += "The number of worlds should be an integer bigger than 1.\n";
+			if(worldNumber < 0){
+				output += "The number of worlds must be an integer bigger than 1.\n";
 			}
 			else if(worldNumber > 100){
-				output += "The number of worlds should be an integer smaller than 100.\n";
+				output += "The number of worlds must be an integer smaller than 100.\n";
 			}
 		}catch(NumberFormatException e){
-			output += "The number of worlds should be an integer. \n";
+			output += "The number of worlds must be an integer.\n";
 		}
 
+		if (players.size() < 2) {
+			output += "There must be at least two players to start the tournament.\n";
+		}
+		
 		if(output.equals("")){
 			output = null;
 		}
-
+		
 		return output;
 	}
 	
@@ -329,16 +344,15 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		
 	}
 
-
 	@Override
 	public void update() {
-		//reset();
+		reset();
 	}
-
 
 	@Override
 	public void reset() {
-		// TODO: stuff
+		players = new ArrayList<Player>();
+		playerNames = new ArrayList<String>();
 	}
 }
 
