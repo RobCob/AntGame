@@ -104,15 +104,15 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 			public void mouseClicked(MouseEvent e) {
 				int antHillSize = 0;
 				while(antHillSize < 5 | antHillSize > 12){
-					antHillSize = State.randomInt(12);
+					antHillSize = Game.randomInt(12);
 				}
 				int rockCount = 0;
 				while(rockCount < 5 | rockCount > 20){
-					rockCount = State.randomInt(20);
+					rockCount = Game.randomInt(20);
 				}
 				int foodPileCount = 0;
 				while(foodPileCount < 4 | foodPileCount > 15){
-					foodPileCount = State.randomInt(15);
+					foodPileCount = Game.randomInt(15);
 				}
 				World world = World.generateWorld(100, 100, antHillSize, rockCount, foodPileCount);
                 setWorld(world);
@@ -203,7 +203,6 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 		
 		ImageButton backButton = new ImageButton(BACK_BUTTON, BACK_HOVER_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				reset();
 				getGame().switchScreen(Game.MATCH_BRAIN_SELECTION_SCREEN);
 			}
 		};
@@ -303,17 +302,13 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		previewWorld();
 	}
 
 	@Override
 	public void reset() {
-		antWorld = null;
-		//have the grid go back to its original state
-		this.grid = new HexGrid(150, 150, 6, 1);
-		//the default validation for the uploaded world file is a cross
-		this.worldValidateImage.displaySecond();
+		setWorld(null);
+		previewWorld();
 	}
 }
 

@@ -197,7 +197,6 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		//Back button
 		ImageButton backButton = new ImageButton(BACK_BUTTON, BACK_HOVER_BUTTON){
 			public void mouseClicked(MouseEvent e) {
-				//reset();
 				getGame().switchScreen(Game.MAIN_MENU_SCREEN);
 			}
 		};

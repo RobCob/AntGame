@@ -304,8 +304,6 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		ImageButton backButton = new ImageButton(BACK_BUTTON_IMAGE, BACK_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
 				getGame().switchScreen(Game.MAIN_MENU_SCREEN);
-				reset();
-				
 			}
 		};
 		

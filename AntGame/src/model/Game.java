@@ -28,6 +28,24 @@ import javax.swing.*;
  * Uses collection of JPanels that are switched to the front of the screen when needed.
  */
 public class Game extends JFrame{
+	
+	public static int seed = 0;
+	private static int count = 0;
+	/**
+	 * Generates a pseudo-random number between 0 (inclusive) and n (exclusive).
+	 * @param n The upper limit.
+	 * @return A pseudo-random number.
+	 */
+	public static int randomInt(int n){
+		for(; count < 3; count++){
+			seed = seed * 22695477 + 1;
+		}
+		seed = seed * 22695477 + 1;
+		count++;
+		int value = (((seed/65536) % 16384) + 16384) % 16384;
+		return ((value % n) + n) % n;
+	}
+	
 	public static final boolean GUI_DEBUG = true; // GUI debugging print statements on/off.
 	public static final boolean DEBUG = true;
 	
@@ -376,6 +394,16 @@ public class Game extends JFrame{
 		}else{
 			lastSpeed = getRoundsPerSecond();
 			setRoundsPerSecond(0);
+		}
+	}
+	
+	public void resetScreens(){
+		String[] screens = screenMap.keySet().toArray(new String[0]);
+		for(int i = 0; i < screens.length; i++){
+			if(Game.DEBUG){
+				System.out.println("DEBUG | Resetting screen: " + screens[i]);
+			}
+			screenMap.get(screens[i]).reset();
 		}
 	}
 }

@@ -92,7 +92,7 @@ public class MainMenuPanel extends JPanel implements Screen{
 
 	@Override
 	public void update() {
-		reset();
+		getGame().resetScreens();
 	}
 
 	@Override
