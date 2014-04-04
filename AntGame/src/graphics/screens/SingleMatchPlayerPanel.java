@@ -28,7 +28,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
- * NonTournamentSelection: A screen for the AntGame. This screen allows both players
+ * SingleMatchPlayerPanel: A screen for the AntGame. This screen allows both players
  * to enter a nickname and provide an ant-brain. Validation is performed on both.
  */
 public class SingleMatchPlayerPanel  extends JPanel implements Screen{
@@ -58,9 +58,9 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 	private DualImagePanel p2BrainValidate; // Tick/Cross for player 2 brain
 
 	/**
-	 * Initialises the screen that allows players to be chosen for a non-tournament match
-	 * This screen allows users to 
-	 * @param game the game model that this screen is a part of.
+	 * Constructor: Initialises the screen that allows players to be chosen for 
+	 * a non-tournament match
+	 * @param game the ant-game controller that this screen is a part of.
 	 */
 	public SingleMatchPlayerPanel(Game game) {
 		this.game = game;

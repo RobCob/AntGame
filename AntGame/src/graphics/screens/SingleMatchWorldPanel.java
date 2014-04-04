@@ -39,7 +39,12 @@ import model.State;
 import model.World;
 import model.WorldReader;
 
+/**
+ * SingleMatchWorldPanel: A screen for the AntGame. This screen allows the players to 
+ * select a world to use for their match.
+ */
 public class SingleMatchWorldPanel extends JPanel implements Screen{
+	
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/SingleMatchWorldPanelImages/selectWorldTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
@@ -64,6 +69,10 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 	private JFileChooser fc; //This is the file chooser
 	private DualImagePanel worldValidateImage;
 	
+	/**
+	 * Constructor: Initialises the screen that allows players to choose a world to play on.
+	 * @param game the ant-game controller that this screen is a part of.
+	 */
 	public SingleMatchWorldPanel(Game game) {
 		this.game = game;
 		this.grid = new HexGrid(100, 100, 6, 1);
@@ -226,6 +235,10 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 		
 	}
 	
+	/**
+	 * Displays the world held in the screen on the preview grid.
+	 * If no world is stored, it will preview an empty, 150x150 world.
+	 */
 	public void previewWorld() {
 		if (antWorld != null) {
 			Hexagon[][] gridBuffer = new Hexagon[antWorld.sizeX][antWorld.sizeY];
@@ -254,6 +267,10 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 		scrollPane.repaint();
 	}
 	
+	/**
+	 * Finds and returns the reasons why the players can not proceed to the next screen.
+	 * @return a string of reasons why the players can not proceed to the next screen.
+	 */
 	public String getErrorMessage(){
 		String output = "";
 		if(!worldValidateImage.isFirstShown()){
@@ -265,16 +282,28 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 		return output;
 	}
 	
+	/**
+	 * Gets the Game model linked with screen.
+	 * @return the Game model linked with screen.
+	 */
 	public Game getGame(){
 		return game;
 	}
 	
+	/**
+	 * Sets the grid to display on the screen.
+	 * @param grid the grid to display on the screen.
+	 */
 	public void setGrid(HexGrid grid) {
 		this.grid = grid;
 		this.scrollPane.revalidate();
 		this.scrollPane.repaint();
 	}
 	
+	/**
+	 * Sets the world to use in the match.
+	 * @param world the world to use in the match.
+	 */
 	public void setWorld(World world) {
 		if (world == null) {
         	worldValidateImage.displaySecond();
@@ -284,22 +313,13 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
     	this.antWorld = world;
 	}
 
+	/**
+	 * Overridden to paint the background image.
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
-	}
-
-	public static void main(String[] args) {
-		//Add content to the window.
-		JFrame frame = new JFrame("World Selection");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1024, 576);
-		frame.add(new SingleMatchWorldPanel(null));
-		frame.setResizable(false);
-
-		//Display the window.
-		frame.setVisible(true);
 	}
 
 	@Override
@@ -313,6 +333,22 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 		previewWorld();
 	}
 	
+	/**
+	 * Used to test this particular screen without the need for a Game model.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		//Add content to the window.
+		JFrame frame = new JFrame("World Selection");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(1024, 576);
+		frame.add(new SingleMatchWorldPanel(null));
+		frame.setResizable(false);
+
+		//Display the window.
+		frame.setVisible(true);
+	}
+
 }
 
 

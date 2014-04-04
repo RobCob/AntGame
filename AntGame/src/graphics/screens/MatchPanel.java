@@ -4,7 +4,6 @@ import graphics.components.FixedSpacerPanel;
 import graphics.components.HexGrid;
 import graphics.components.ImageButton;
 import graphics.components.ImagePanel;
-import graphics.components.NormalButton;
 import graphics.utilities.ImageLoader;
 
 import java.awt.BorderLayout;
@@ -15,51 +14,39 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import javax.swing.SwingConstants;
 
 import model.Game;
 import model.Match;
 import model.Player;
 
+/**
+ * MatchPanel: the screen which displays the current match in play.
+ * @author 105957
+ */
 public class MatchPanel extends JPanel implements Screen{
+	private static final long serialVersionUID = 1L;
 	
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
-	private static final BufferedImage LOW_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/lowSpeedButton.png");
-	private static final BufferedImage LOW_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/lowSpeedButtonHover.png");
-	private static final BufferedImage MEDIUM_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/mediumSpeedButton.png");
-	private static final BufferedImage MEDIUM_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/mediumSpeedButtonHover.png");
-	private static final BufferedImage HIGH_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/highSpeedButton.png");
-	private static final BufferedImage HIGH_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/highSpeedButtonHover.png");
-	private static final BufferedImage GAME_SPEED_IMAGE = ImageLoader.loadImage("/MatchPanelImages/gameSpeedImage.png");
 	private static final BufferedImage CONTROLS_IMAGE = ImageLoader.loadImage("/MatchPanelImages/controlsImage.png");
 	private static final BufferedImage PLAYERS_IMAGE = ImageLoader.loadImage("/MatchPanelImages/playersImage.png");
-
 	private static final BufferedImage PLUS_BUTTON_IMAGE = ImageLoader.loadImage("/GlobalImages/plusButton.png");
 	private static final BufferedImage PLUS_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/GlobalImages/plusButtonHover.png");
 	private static final BufferedImage MINUS_BUTTON_IMAGE = ImageLoader.loadImage("/GlobalImages/minusButton.png");
 	private static final BufferedImage MINUS_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/GlobalImages/minusButtonHover.png");
-	
 	private static final BufferedImage PAUSE_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/pauseButton.png");
 	private static final BufferedImage PAUSE_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/pauseButtonHover.png");
 	private static final BufferedImage RESUME_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/resumeButton.png");
 	private static final BufferedImage RESUME_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/resumeButtonHover.png");
-	
 	private static final BufferedImage SKIP_BUTTON_IMAGE = ImageLoader.loadImage("/MatchPanelImages/skipButton.png");
 	private static final BufferedImage SKIP_BUTTON_IMAGE_HOVER = ImageLoader.loadImage("/MatchPanelImages/skipButtonHover.png");
 	
@@ -86,15 +73,20 @@ public class MatchPanel extends JPanel implements Screen{
 	private JLabel p2AliveValueLabel;
 	private JLabel p2DeathsValueLabel;
 	
-	private int currentZoomLevel = 1;
-	private int previousSpeed;
-	
 	private ImageButton currentPauseResumeButton;
 	private ImageButton pauseButton;
 	private ImageButton resumeButton;
 	private JLabel currentZoomLabel;
 	private JLabel currentSpeedLabel;
 	
+	private int currentZoomLevel = 1;
+	private int previousSpeed;
+	
+	/**
+	 * Constructor: Initialises the screen that allows players see and control 
+	 * the current match.
+	 * @param game the ant-game controller that this screen is a part of.
+	 */
 	public MatchPanel(Game game){
 		this.game = game;
 		this.grid = new HexGrid(0, 0, 0, 0);
@@ -428,7 +420,6 @@ public class MatchPanel extends JPanel implements Screen{
 		
 		ImageButton s = new ImageButton(PLUS_BUTTON_IMAGE, SKIP_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
-				// TODO
 			}
 		};
 		
@@ -503,50 +494,65 @@ public class MatchPanel extends JPanel implements Screen{
 		hud.add(controlPanel);
 		
 		// DEBUG ELEMENTS
-		NormalButton refreshScreenButton = new NormalButton("Decrease Game Speed", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
-				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond()-(getGame().getRoundsPerSecond()/5));			
+		JButton refreshScreenButton = new JButton("Decrease Game Speed");
+		refreshScreenButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond()-(getGame().getRoundsPerSecond()/5));
 			}
-		};
-
-		NormalButton addAntTestButton = new NormalButton("Increase Game Speed", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
+		}); 
+		
+		JButton addAntTestButton = new JButton("Decrease Game Speed");
+		refreshScreenButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				getGame().setRoundsPerSecond(getGame().getRoundsPerSecond()+(getGame().getRoundsPerSecond()/5));
 			}
-		};
-
-		NormalButton removeAllButton = new NormalButton("Clear Grid", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
+		});
+		
+		JButton removeAllButton = new JButton("remove all");
+		refreshScreenButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				getGrid().clearAll();
 				getGrid().refresh();	
 			}
-		};
+		});
 
-		NormalButton increaseSizeButton = new NormalButton("Zoom In (+)", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
+
+		JButton increaseSizeButton = new JButton("increase size");
+		refreshScreenButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				getGrid().increaseSize();
 				getGrid().revalidate();
-				getScrollPane().revalidate();
+				getScrollPane().revalidate();	
 			}
-		};
+		});
 
-		NormalButton decreaseSizeButton = new NormalButton("Zoom Out (-)", NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
-				getGrid().decreaseSize();
+		JButton decreaseSizeButton = new JButton("Decrease size");
+		refreshScreenButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getGrid().increaseSize();
 				getGrid().revalidate();
-				getScrollPane().revalidate();
+				getScrollPane().revalidate();	
 			}
-		};
+		});
 
-		NormalButton stopGameButton = new NormalButton("Pause/Play Match",  NormalButton.GREEN_THEME) {
-			public void mouseClicked(MouseEvent e) {
+		JButton stopGameButton = new JButton("Pause/Play Match");
+		refreshScreenButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				getGame().togglePause();
+	
 			}
-		};
-
-		NormalButton gridLinesCheckBox = new NormalButton("Toggle Gridlines",  NormalButton.GREEN_THEME) {
+		});
+		
+		JButton gridLinesCheckBox = new JButton("gridLinesCheckBox");
+		refreshScreenButton.addActionListener(new ActionListener() {
 			boolean gridlines = true;
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				if (gridlines) {
 					getGrid().removeOutlines();
 					getGrid().refresh();
@@ -557,7 +563,7 @@ public class MatchPanel extends JPanel implements Screen{
 					gridlines = true;
 				}
 			}
-		};
+		});
 
 		JLabel debugLabel = new JLabel("Debugging Tools", JLabel.CENTER);
 		debugLabel.setFont(new Font("Helvetica", Font.BOLD, 16));
@@ -577,23 +583,37 @@ public class MatchPanel extends JPanel implements Screen{
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(hud, BorderLayout.EAST);
 		if (Game.GUI_DEBUG && false) this.add(debugHUD, BorderLayout.WEST);
-
 	}
-	
-	 @Override
-	 protected void paintComponent(Graphics g) {
-		 super.paintComponent(g);
-		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
-	 }
-	 
+
+	/**
+	 * Overridden to paint the background image.
+	 */
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	}
+
+	/**
+	 * Get the Game model linked with screen.
+	 * @return the Game model linked with screen.
+	 */
 	public Game getGame(){
 		return this.game;
 	}
-	
+
+	/**
+	 * Gets the hex grid stored in the panel.
+	 * @return the hex grid stored in the panel.
+	 */
 	public HexGrid getGrid(){
 		return this.grid;
 	}
-	
+
+	/**
+	 * Sets the hex grid stored in the panel.
+	 * @param grid the hex grid to display.
+	 */
 	public void setGrid(HexGrid grid) {
 		this.grid = grid;
 		//this.scrollPane.removeAll();
@@ -602,10 +622,17 @@ public class MatchPanel extends JPanel implements Screen{
 		scrollPane.repaint();
 	}
 		
+	/**
+	 * Gets the scroll pane that the grid is contained in.
+	 * @return the scroll pane that the grid is contained in.
+	 */
 	public JScrollPane getScrollPane() {
 		return this.scrollPane;
 	}
 	
+	/**
+	 * Updates both players statistics.
+	 */
 	public void updatePlayerStats() {
 		Player p1 = getGame().getCurrentMatch().getPlayer1();
 		Player p2 = getGame().getCurrentMatch().getPlayer2();

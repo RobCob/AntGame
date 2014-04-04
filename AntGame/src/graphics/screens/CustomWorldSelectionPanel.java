@@ -27,6 +27,12 @@ import model.Game;
 import model.Player;
 import model.World;
 
+/**
+ * CustomWorldSelectionPanel: A screen for the AntGame. This screen allows players
+ * to create a world (by setting various parameters) to play their match on.
+ * @author 105957
+ * @author 109195
+ */
 public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	
 	private static final BufferedImage PLUS_IMAGE = ImageLoader.loadImage("/WorldEditorImages/plusButton.png");
@@ -55,6 +61,12 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 	private SingleMatchWorldPanel parentPanel;
 	private DualImagePanel worldDimensionValidate;
 	
+	/**
+	 * Constructor: Initialises the screen that allows players to create a world
+	 * to play their match on.
+	 * @param game the ant-game controller that this screen is a part of.
+	 * @param parentpanel the SingleMatchWorldPanel that will open this screen.
+	 */
 	public CustomWorldSelectionPanel(Game game, SingleMatchWorldPanel parentPanel){
 		
 		this.game = game;
@@ -72,7 +84,6 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		titleContainer.add(new FixedSpacerPanel(100, 40));
 		titleContainer.setOpaque(false);
 
-		
 		//Panel containing the selector (Rocks,Food and Anthill size)
 		JPanel selectorPanel = new JPanel();
 		BoxLayout selectorLayout = new BoxLayout(selectorPanel, BoxLayout.Y_AXIS);
@@ -83,14 +94,14 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		JPanel rocksPanel = new JPanel();
 		BoxLayout rocksLayout = new BoxLayout(rocksPanel, BoxLayout.X_AXIS);
 		rocksPanel.setLayout(rocksLayout);
-		//Label
+		
+		// Rocks value label
 		rocksLabel = new JLabel("Medium", SwingConstants.CENTER);
 		rocksLabel.setForeground(Color.WHITE);
 		rocksLabel.setFont(new Font("Helvetica", 0, 25));
 		rocksLabel.setMinimumSize(labelDimension);
 		rocksLabel.setMaximumSize(labelDimension);
 		rocksLabel.setPreferredSize(labelDimension);
-
 		
 		//ImageButtons
 		ImageButton rocksMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
@@ -106,6 +117,7 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 				}
 			}
 		};
+		
 		ImageButton rocksPlusButton = new ImageButton(PLUS_IMAGE, PLUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(rocksLabel.getText().equals("Low")){
@@ -120,14 +132,14 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 			}
 		};
 		
-		//rocks title
+		// Rocks title
 		JPanel rocksTitleContainer = new JPanel();
 		BoxLayout rocksTitleLayout = new BoxLayout(rocksTitleContainer, BoxLayout.Y_AXIS);
 		rocksTitleContainer.setLayout(rocksTitleLayout);
 		rocksTitleContainer.add(new ImagePanel(ROCKS_IMAGE));
 		rocksTitleContainer.setOpaque(false);
 		
-		//add the elements to the panel
+		// Add the elements to the panel
 		rocksPanel.add(rocksTitleContainer);
 		rocksPanel.add(new FixedSpacerPanel(54, 0));
 		rocksPanel.add(rocksMinusButton);
@@ -135,7 +147,6 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		rocksPanel.add(rocksLabel);
 		rocksPanel.add(new FixedSpacerPanel(50, 0));
 		rocksPanel.add(rocksPlusButton);
-		
 		rocksPanel.setOpaque(false);
 		
 		//Number of Food panel
@@ -156,12 +167,8 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 			public void mouseClicked(MouseEvent e) {
 				if(foodLabel.getText().equals("Medium")){
 					foodLabel.setText("Low");
-				}
-				else if(foodLabel.getText().equals("High")){
+				} else if(foodLabel.getText().equals("High")){
 					foodLabel.setText("Medium");
-				}
-				else{
-					//do nothing
 				}
 			}
 		};
@@ -169,24 +176,20 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 			public void mouseClicked(MouseEvent e) {
 				if(foodLabel.getText().equals("Low")){
 					foodLabel.setText("Medium");
-				}
-				else if(foodLabel.getText().equals("Medium")){
+				} else if(foodLabel.getText().equals("Medium")){
 					foodLabel.setText("High");
-				}
-				else{
-					//do nothing
 				}
 			}
 		};
 		
-		//food title
+		// Food title
 		JPanel foodTitleContainer = new JPanel();
 		BoxLayout foodTitleLayout = new BoxLayout(foodTitleContainer, BoxLayout.Y_AXIS);
 		foodTitleContainer.setLayout(foodTitleLayout);
 		foodTitleContainer.add(new ImagePanel(FOOD_IMAGE));
 		foodTitleContainer.setOpaque(false);
 		
-		//add the elements to the panel
+		// Add the elements to the panel
 		foodPanel.add(foodTitleContainer);
 		foodPanel.add(new FixedSpacerPanel(68, 0));
 		foodPanel.add(foodMinusButton);
@@ -194,7 +197,6 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		foodPanel.add(foodLabel);
 		foodPanel.add(new FixedSpacerPanel(50, 0));
 		foodPanel.add(foodPlusButton);
-		
 		foodPanel.setOpaque(false);
 		
 		//Size of Anthill panel
@@ -202,7 +204,7 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		BoxLayout anthillLayout = new BoxLayout(sizeOfAnthillPanel, BoxLayout.X_AXIS);
 		sizeOfAnthillPanel.setLayout(anthillLayout);
 		
-		//Label
+		// Anthill size value label
 		sizeOfAnthillLabel = new JLabel("Medium", SwingConstants.CENTER);
 		sizeOfAnthillLabel.setForeground(Color.WHITE);
 		sizeOfAnthillLabel.setFont(new Font("Helvetica", 0, 25));
@@ -210,42 +212,35 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		sizeOfAnthillLabel.setMaximumSize(labelDimension);
 		sizeOfAnthillLabel.setPreferredSize(labelDimension);
 		
-		//ImageButtons
+		// ImageButtons
 		ImageButton sizeOfAnthillMinusButton = new ImageButton(MINUS_IMAGE, MINUS_HOVER_IMAGE){
 			public void mouseClicked(MouseEvent e) {
 				if(sizeOfAnthillLabel.getText().equals("Medium")){
 					sizeOfAnthillLabel.setText("Small");
-				}
-				else if(sizeOfAnthillLabel.getText().equals("Large")){
+				} else if(sizeOfAnthillLabel.getText().equals("Large")){
 					sizeOfAnthillLabel.setText("Medium");
-				}
-				else{
-					//do nothing
-				}
-			}
-		};
-		ImageButton sizeOfAnthillPlusButton = new ImageButton(PLUS_IMAGE, PLUS_HOVER_IMAGE){
-			public void mouseClicked(MouseEvent e) {
-				if(sizeOfAnthillLabel.getText().equals("Small")){
-					sizeOfAnthillLabel.setText("Medium");
-				}
-				else if(sizeOfAnthillLabel.getText().equals("Medium")){
-					sizeOfAnthillLabel.setText("Large");
-				}
-				else{
-					//do nothing
 				}
 			}
 		};
 		
-		//Anthill title
+		ImageButton sizeOfAnthillPlusButton = new ImageButton(PLUS_IMAGE, PLUS_HOVER_IMAGE){
+			public void mouseClicked(MouseEvent e) {
+				if(sizeOfAnthillLabel.getText().equals("Small")){
+					sizeOfAnthillLabel.setText("Medium");
+				} else if(sizeOfAnthillLabel.getText().equals("Medium")){
+					sizeOfAnthillLabel.setText("Large");
+				}
+			}
+		};
+		
+		// Ant hill title
 		JPanel anthillTitleContainer = new JPanel();
 		BoxLayout anthillTitleLayout = new BoxLayout(anthillTitleContainer, BoxLayout.Y_AXIS);
 		anthillTitleContainer.setLayout(anthillTitleLayout);
 		anthillTitleContainer.add(new ImagePanel(ANTHILL_IMAGE));
 		anthillTitleContainer.setOpaque(false);
 
-		//Add the elements to the panel
+		// Add the elements to the panel
 		sizeOfAnthillPanel.add(anthillTitleContainer);
 		sizeOfAnthillPanel.add(new FixedSpacerPanel(100, 0));
 		sizeOfAnthillPanel.add(sizeOfAnthillMinusButton);
@@ -255,13 +250,13 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		sizeOfAnthillPanel.add(sizeOfAnthillPlusButton);
 		sizeOfAnthillPanel.setOpaque(false);
 		
-		//WorldSize chooser is simply two text areas that allow the user to input
-		//the desired world dimensions
+		// WorldSize chooser is simply two text areas that allow the user to input
+		// the desired world dimensions.
 		JPanel worldSizeChooser = new JPanel();
 		BoxLayout worldSizeLayout = new BoxLayout(worldSizeChooser, BoxLayout.X_AXIS);
 		worldSizeChooser.setLayout(worldSizeLayout);
 		
-		//First JText Area
+		// First JText SingleMatchWorldPanel
 		firstDimension = new JTextField("150", 4);
 		firstDimension.setFont(new Font("Helvetica", 0, 25));
 		firstDimension.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
@@ -272,13 +267,13 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		firstDimension.setBackground(new Color(255,255,255,0));
 		firstDimension.setMaximumSize(new Dimension(87,30));
 		
-		//MiddleJLabel
+		// Middle JLabel
 		JLabel plusLabel = new JLabel("X", SwingConstants.CENTER);
 		plusLabel.setForeground(Color.WHITE);
 		plusLabel.setFont(new Font("Helvetica", 0, 25));
 		plusLabel.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
 		
-		//Second text area
+		// Second text field
 		secondDimension = new JTextField("150", 4);
 		secondDimension.setFont(new Font("Helvetica", 0, 25));
 		secondDimension.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
@@ -451,27 +446,14 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		return parentPanel;
 	}
 	
-	/**
-	 * Used to test this particular screen without the need for a Game model.
-	 * @param args
-	 */
-	public static void main(String[] args){
-		//Add content to the window.
-		JFrame frame = new JFrame("World Editor");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1024, 576);
-		frame.add(new CustomWorldSelectionPanel(null, null));
-		frame.setResizable(false);
-
-		//Display the window.
-		frame.setVisible(true);
-	}
-
 	@Override
 	public void update() {
 		reset();
 	}
 	
+	/**
+	 * Changes the validate image for the dimensions, based on the dimensions validity.
+	 */
 	private void validateDimensions(){
 		String dimension1 = firstDimension.getText().trim();
 		String dimension2 = secondDimension.getText().trim();
@@ -538,18 +520,30 @@ public class CustomWorldSelectionPanel extends JPanel implements Screen{
 		
 		return output;
 	}
+	
+	
 	@Override
-	/**
-	 * This method simply resets the values of various parameters
-	 * back to their default values.
-	 * To be used when switching screen.
-	 * No need for a button that calls the method, as it is only called on code-level.
-	 */
 	public void reset() {
 		rocksLabel.setText("Medium");
 		foodLabel.setText("Medium");
 		sizeOfAnthillLabel.setText("Medium");
 		firstDimension.setText("150");
 		secondDimension.setText("150");
+	}
+	
+	/**
+	 * Used to test this particular screen without the need for a Game model.
+	 * @param args
+	 */
+	public static void main(String[] args){
+		//Add content to the window.
+		JFrame frame = new JFrame("World Editor");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(1024, 576);
+		frame.add(new CustomWorldSelectionPanel(null, null));
+		frame.setResizable(false);
+
+		//Display the window.
+		frame.setVisible(true);
 	}
 }
