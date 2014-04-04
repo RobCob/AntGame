@@ -38,12 +38,12 @@ public class AntBrainReader {
 	
 	/**
 	 * Reads and parses an AntBrain from a filepath.
-	 * @param filepath The path of the file to be read.
+	 * @param filePath The path of the file to be read.
 	 * @return The AntBrain parsed from file, null if the brain is not syntactically correct.
 	 */
-	public static AntBrain readBrain(String filepath){
+	public static AntBrain readBrain(String filePath){
 		try{
-			File file = new File(filepath);
+			File file = new File(filePath);
 			return readBrain(file);
 		}catch(Exception e){
 			System.out.println(e.getMessage());

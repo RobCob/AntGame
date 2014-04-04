@@ -47,16 +47,21 @@ public class WorldReader {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Reads the given file from filepath and returns the World in the file.
+	 * @param filePath The path of the file to be loaded
+	 * @return The World if it is valid, and null if it is not.
+	 */
 	public static World readWorld(String filePath) {
 		File file = new File(filePath);
 		return readWorld(file);
 	}
 	
 	/**
-	 * Load world from file
-	 * @param path - The filepath of the file.
-	 * @return The contents of the file as a continuous string.
+	 * Load world as a String from file
+	 * @param path The filepath of the file.
+	 * @return The contents of the file as a continuous string with new lines replaced with the line separator character.
 	 */
 	private static String[] readFromFile(File file){
 		String mapOutput = "";
@@ -89,16 +94,16 @@ public class WorldReader {
 	}
 	
 	/**
-	 * Iterates through each string in the stateList matching it to a State token
-	 * @param stateList
-	 * @return An array of States
+	 * Iterates through each character in the world String.
+	 * @param worldString The entire world as a String.
+	 * @return An array of Tiles
 	 */
-	private static Tile[] createTileList(String worldLine){
-		Tile[] output = new Tile[worldLine.length()];
-		String[] tiles = new String[worldLine.length()];
+	private static Tile[] createTileList(String worldString){
+		Tile[] output = new Tile[worldString.length()];
+		String[] tiles = new String[worldString.length()];
 		//have to use for each as split() creates on undesired character at the start
 		for(int i = 0; i < tiles.length; i++){
-			tiles[i] = "" + worldLine.charAt(i);
+			tiles[i] = "" + worldString.charAt(i);
 		}
 		// For each tile in a line
 		// Start at 1, as the trim() method creates an invisible character at the start of the string
