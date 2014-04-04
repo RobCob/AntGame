@@ -236,7 +236,7 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 			for (int x = 0; x < cols; x++) {
 				for (int y = 0; y < rows; y++) {
 					Hexagon h = new Hexagon(x, y, 6, 1);
-					h.setFillColor(Game.getTileColor(antWorld.getTile(x, y)));
+					Game.setTileColor(h, antWorld.getTile(x, y));
 					gridBuffer[x][y] = h;
 				}
 			}
@@ -245,7 +245,9 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 		} else {
 			grid.newGrid(150, 150, 6, 1);
 			grid.refreshDimensions();
-			System.out.println("THE GRID SHOULD BE EMPTY!");
+			if(Game.GUI_DEBUG){
+				System.out.println("THE GRID SHOULD BE EMPTY!");
+			}
 		}
 		
 		scrollPane.revalidate();

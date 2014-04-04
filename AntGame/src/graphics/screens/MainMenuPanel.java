@@ -45,7 +45,7 @@ public class MainMenuPanel extends JPanel implements Screen{
 				getGame().switchScreen(Game.MATCH_BRAIN_SELECTION_SCREEN);
 			}
 		};
-
+		
 		JButton debugButton = new JButton("Debug Button");
 		debugButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

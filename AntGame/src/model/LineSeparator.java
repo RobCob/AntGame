@@ -1,13 +1,15 @@
 package model;
 
+/**
+ * An empty Tile implementation used in the WorldReader for validity parsing.
+ * It is used to indicate line separation.
+ * @author 109195
+ *
+ */
 public class LineSeparator implements Tile{
-	
-	//empty class merely used as a Token to indicate line separation
-	//Used in parsing the ant world
 	
 	@Override
 	public boolean isRocky() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

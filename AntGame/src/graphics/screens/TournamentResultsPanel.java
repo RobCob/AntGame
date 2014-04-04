@@ -105,7 +105,7 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 		// Add players to list in ascending order.
 		for (Player p: players) {
 			// Create a list item and ad in the new player
-			ListItem newPlayerItem = new ListItem(p.getNickname(), "(" + p.getBrain().getName() + ")", itemPanel);
+			ListItem newPlayerItem = new ListItem(p.getNickname(), "(" + p.getBrain().getFileName() + ")", itemPanel);
 			
 			JLabel scoreLabel = new JLabel("Score: " + getGame().getCurrentTournament().getScore(p));
 			scoreLabel.setForeground(Color.BLACK);

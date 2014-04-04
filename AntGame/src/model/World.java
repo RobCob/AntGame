@@ -1,11 +1,18 @@
 package model;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * A class to represent the ant world in which the game
+ * is simulated.
+ * This class makes use of tile IDs, an ID is equal to the number of
+ * rows (y coordinate) multipled by the maximum X coordinate (sizeX)
+ * and then added to the number of columns (x coordinate).
+ * @author 108069
+ *
+ */
 public class World {
 	
 	private Tile[][] grid;
@@ -14,6 +21,15 @@ public class World {
 	private ArrayList<AntHillTile> antHills;
 	public final int sizeX,sizeY;
 	
+	/**
+	 * Generates a valid World with the given parameters.
+	 * @param sizeX The number of columns in the returned World.
+	 * @param sizeY The number of rows in the returned World.
+	 * @param antHillSize The length of each side of the generated ant hills.
+	 * @param rockCount The number of individual rocks generated in the world.
+	 * @param foodPileCount The number of 5x5 food rectangles generated in the world, with 5 food in each tile.
+	 * @return The generated World.
+	 */
 	public static World generateWorld(int sizeX, int sizeY, int antHillSize, int rockCount, int foodPileCount){
 		Tile[][] grid = new Tile[sizeX][sizeY];
 		// Fill grid with clear tiles
@@ -130,7 +146,7 @@ public class World {
 				startID = getAhead(4+randOrientation, startID, sizeX);
 				int currentID = startID;
 				int increment = 1;
-				for(int j = 0; j <= 6 & !obstructed; j+= increment){
+				for(int j = 0; j < 6 & !obstructed; j+= increment){
 					increment = (increment % 2) + 1;
 					for(int k = 0; k < i*2 & !obstructed; k++){
 						int x = ((currentID % sizeX) + sizeX) % sizeX;
@@ -166,6 +182,10 @@ public class World {
 		}
 	}
 	
+	/**
+	 * Constructs a World from the given 2d Array of Tile objects.
+	 * @param grid The 2d Array.
+	 */
 	public World(Tile[][] grid){
 		this.grid = grid;
 		sizeX = grid.length;
@@ -175,10 +195,15 @@ public class World {
 		changes = new HashSet<Integer>();
 	}
 	
+	/**
+	 * Goes through the entire world and places an Ant on each AntHillTile with the respective Colour.
+	 * @param player1 The player used to determine which ant brain is used for the ants of one Colour.
+	 * @param player2 The player used to determine which ant brain is used for the ants of the other Colour
+	 */
 	public void populate(Player player1, Player player2){
 		for(int i = 0; i < sizeX; i++){
 			for(int j = 0; j < sizeY; j++){
-				setChange((j*sizeX) + i); // Disable for fog of war lolol
+				setChange((j*sizeX) + i); // Disable for fog of war
 				Tile tile = getTile(i,j);
 				if(!tile.isRocky() && ((ClearTile)tile).isAnthill()){
 					AntHillTile aHill = (AntHillTile) tile;
@@ -204,18 +229,34 @@ public class World {
 		}
 	}
 	
+	/**
+	 * Returns a HashSet of tile IDs of tiles that have changed
+	 * @return A HashSet of tile IDs (Integers).
+	 */
 	public HashSet<Integer> getChanges(){
 		return changes;
 	}
 	
+	/**
+	 * Adds the tileID to the set of changes.
+	 * @param tileID The tileID that is now marked as changed.
+	 * @return True if it was already in the set, False if otherwise.
+	 */
 	public boolean setChange(int tileID){
 		return changes.add(tileID);
 	}
 	
+	/**
+	 * Clears the set of changes. Used after the changes have been processed.
+	 */
 	public void resetChanges(){
 		changes = new HashSet<Integer>();
 	}
 	
+	/**
+	 * Triggers updates in the given tile and the tiles surrounding the given tile ID
+	 * @param tileID The tile which is triggering updates.
+	 */
 	public void triggerUpdates(int tileID) {
 		update(tileID);
 		for(int i = 0; i < Ant.POSSIBLE_DIRECTIONS; i++){
@@ -223,8 +264,12 @@ public class World {
 		}
 	}
 	
+	/**
+	 * Checks if the tile can be updated for events such as ant death.
+	 * @param tileID The ID of the tile to be updated.
+	 */
 	private void update(int tileID){
-//		changes.add(tileID); // Enable for fog of war lolol
+//		changes.add(tileID); // Enable for fog of war
 		int x1 = ((tileID % sizeX) + sizeX) % sizeX;
 		int y1 = tileID / sizeX;
 		Tile currentTile = getTile(x1, y1);
@@ -251,22 +296,49 @@ public class World {
 		}
 	}
 	
-	public void setTile(int x, int y, Tile t){
-		grid[x][y] = t;
+	/**
+	 * Replaces the tile at the coordinate with the given tile.
+	 * @param x The X coordinate.
+	 * @param y The Y coordinate.
+	 * @param tile The new Tile.
+	 */
+	public void setTile(int x, int y, Tile tile){
+		grid[x][y] = tile;
 	}
 	
+	/**
+	 * Gets the tile at the coordinate.
+	 * @param x The X coordinate.
+	 * @param y The Y coordinate.
+	 * @return The tile at that coordinate.
+	 */
 	public Tile getTile(int x, int y){
 		return grid[x][y];
 	}
-
+	
+	/**
+	 * Gets a HashMap of Ants mapping from AntID to Ant.
+	 * @return A HashMap of Ants.
+	 */
 	public HashMap<Integer, Ant> getAnts() {
 		return ants;
 	}
-
+	
+	/**
+	 * Gets an ArrayList of all AntHillTiles in the World.
+	 * @return An ArrayList of AntHillTile objects.
+	 */
 	public ArrayList<AntHillTile> getAntHills() {
 		return antHills;
 	}
 	
+	/**
+	 * Gets the tile neighboring to the given tile in the specified direction.
+	 * @param direction The direction from the original tile in which to get.
+	 * @param currentTile The original tile ID
+	 * @param sizeX The maximum X coordinate of the world.
+	 * @return The tile ID of the required neighbor.
+	 */
 	public static int getAhead(int direction, int currentTile, int sizeX){
 		int x = ((currentTile % sizeX) + sizeX) % sizeX;
 		int y = currentTile / sizeX;

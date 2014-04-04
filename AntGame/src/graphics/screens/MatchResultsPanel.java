@@ -262,14 +262,14 @@ public class MatchResultsPanel extends JPanel implements Screen{
 			winnerLabel.setText(match.getWinner().getNickname());
 		}
 		blackLabel.setText("Black Team: " +player1.getNickname());
-		blackFoodCollected.setText("Food collected: "+match.getScore(player1, 0));
-		blackKillCount.setText("Ants Alive: "+ match.getScore(player1, 1));
-		blackAntDeaths.setText("Ants Died: "+ match.getScore(player1, 2));
+		blackFoodCollected.setText("Food collected: " + match.getFoodScore(player1));
+		blackKillCount.setText("Ants Alive: " + match.getAliveCount(player1));
+		blackAntDeaths.setText("Ants Died: " + match.getDeadCount(player1));
 		
 		redLabel.setText("Red Team: " + player2.getNickname());
-		redFoodCollected.setText("Food collected: "+match.getScore(player2, 0));
-		redKillCount.setText("Ants Alive: " + match.getScore(player2, 1));
-		redAntDeaths.setText("Ants Died: " + match.getScore(player2, 2));
+		redFoodCollected.setText("Food collected: "+ match.getFoodScore(player2));
+		redKillCount.setText("Ants Alive: " + match.getAliveCount(player2));
+		redAntDeaths.setText("Ants Died: " + match.getDeadCount(player2));
 		
 		if(getGame().getCurrentTournament() == null){
 	        goButton = new ImageButton(MAIN_MENU_BUTTON_IMAGE, MAIN_MENU_BUTTON_HOVER) {

@@ -1,6 +1,5 @@
 package model;
 
-import graphics.components.HexGrid;
 import graphics.components.Hexagon;
 import graphics.screens.MainMenuPanel;
 import graphics.screens.MatchPanel;
@@ -15,7 +14,6 @@ import graphics.screens.SingleMatchWorldPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -204,7 +202,6 @@ public class Game extends JFrame{
 						updates++;
 						modelDelta--;
 						if(currentMatch.getRoundNumber() >= Match.MAX_ROUNDS || !runningMatch){
-							updateModel();
 							if (Game.DEBUG) setTitle("Ant Game  |  " + getWidth() + "x" + getHeight()  + "  |  UPDATES: " + updates + "/sec  |  ROUND: " + currentMatch.getRoundNumber() + "  |  FPS: " + frames);
 							break;
 						}
@@ -217,7 +214,7 @@ public class Game extends JFrame{
 						updates = 0; // reset number of updates per sec.
 					}
 				}
-				if (currentMatch.getRoundNumber() == Match.MAX_ROUNDS) {
+				if (currentMatch.getRoundNumber() >= Match.MAX_ROUNDS) {
 					runningMatch = false;
 					switchScreen(Game.MATCH_RESULTS_SCREEN);
 				}
@@ -280,7 +277,7 @@ public class Game extends JFrame{
 			int x = ((currentID % drawnWorld.sizeX) + drawnWorld.sizeX) % drawnWorld.sizeX;
 			int y = currentID / drawnWorld.sizeX;
 			Tile tile = drawnWorld.getTile(x, y);
-			gridBuffer[x][y].setFillColor(getTileColor(tile));
+			setTileColor(gridBuffer[x][y], tile);
 		}
 //		for(int i = 0; i < drawnWorld.sizeX; i++){ // Leave this in for debugging
 //			for(int j = 0; j < drawnWorld.sizeY; j++){
@@ -296,32 +293,40 @@ public class Game extends JFrame{
 		currentMatch.nextRound();
 	}
 	
-	public static Color getTileColor(Tile tile){
+	public static void setTileColor(Hexagon hexTile, Tile tile){
+		Color color = null;
 		if(tile.isRocky()){
-			return Hexagon.ROCK_COLOR;
+			color = Hexagon.ROCK_COLOR;
 		}else{
 			if(((ClearTile)tile).hasAnt()){
 				if(((ClearTile)tile).getAnt().getColour().equals(Colour.RED)){
-					return Hexagon.RED_ANT_COLOR;
+					color = Hexagon.RED_ANT_COLOR;
 				}else{
-					return Hexagon.BLACK_ANT_COLOR;
+					color = Hexagon.BLACK_ANT_COLOR;
 				}
 			}else{
-				if(((ClearTile)tile).getFood()>0){
-					return Hexagon.FOOD_COLOR;
+				int food = ((ClearTile)tile).getFood();
+				if(food > 0){
+					color = Hexagon.FOOD_COLOR;
+//					color = Hexagon.EMPTY_CELL_COLOR;
+//					hexTile.setOutlineColor(Hexagon.FOOD_COLOR);
+//					hexTile.setStrokeWidth(5);
 				}else{
+//					hexTile.setStrokeWidth(1);
+//					hexTile.setOutlineColor(Color.BLACK);
 					if(((ClearTile)tile).isAnthill()){
 						if(((AntHillTile)tile).getColour().equals(Colour.RED)){
-							return Hexagon.RED_ANTHILL_COLOR;
+							color = Hexagon.RED_ANTHILL_COLOR;
 						}else{
-							return Hexagon.BLACK_ANTHILL_COLOR;
+							color = Hexagon.BLACK_ANTHILL_COLOR;
 						}
 					}else{
-						return Hexagon.EMPTY_CELL_COLOR;
+						color = Hexagon.EMPTY_CELL_COLOR;
 					}
 				}
 			}
 		}
+		hexTile.setFillColor(color);
 	}
 	
 	/**

@@ -4,14 +4,28 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * A file reader used to read and parse AntBrain files,
+ * converting them into AntBrains.
+ * @author 108069
+ *
+ */
 public class AntBrainReader {
 	
+	/**
+	 * Reads and parses an AntBrain from a file.
+	 * @param file The file to be read.
+	 * @return The AntBrain parsed from file, null if the brain is not syntactically correct.
+	 */
 	public static AntBrain readBrain(File file){
 		try{
 			String[] stringList = separateLines(readFromFile(file));
 			State[] stateList = new State[stringList.length];
+			if(stateList.length > 9999){
+				throw new Exception("Too many lines in Ant Brain.");
+			}
 			for(int i = 0; i < stateList.length; i++){
-				stateList[i] = classifyState(stringList[i]);
+				stateList[i] = classifyState(stringList[i], stateList.length);
 			}
 			return new AntBrain(stateList, file.getName());
 		}catch(Exception e){
@@ -21,6 +35,12 @@ public class AntBrainReader {
 		}
 		return null;
 	}
+	
+	/**
+	 * Reads and parses an AntBrain from a filepath.
+	 * @param filepath The path of the file to be read.
+	 * @return The AntBrain parsed from file, null if the brain is not syntactically correct.
+	 */
 	public static AntBrain readBrain(String filepath){
 		try{
 			File file = new File(filepath);
@@ -30,10 +50,11 @@ public class AntBrainReader {
 		}
 		return null;
 	}
+	
 	/**
-	 * Load ant brain from file
-	 * @param path - The filepath of the file.
-	 * @return The contents of the file as a continuous string.
+	 * Read states as a string from file used to create a brain once parsed.
+	 * @param file The file in which the brain is stored.
+	 * @return The contents of the file as a continuous string with new line characters between states.
 	 */
 	private static String readFromFile(File file){
 		String output = "";
@@ -60,9 +81,10 @@ public class AntBrainReader {
         }
 		return output;
 	}
+	
 	/**
 	 * A simple method to separate each line of the input string into it's own array index.
-	 * @param input - The input string.
+	 * @param input The input string.
 	 * @return An array of Strings with each entry representing a new line.
 	 */
 	private static String[] separateLines(String input){
@@ -71,121 +93,121 @@ public class AntBrainReader {
 	}
 	
 	/**
-	 * Iterates through each string in the stateList matching it to a State token
-	 * @param state
-	 * @return An array of States
+	 * Classifies a string into a state.
+	 * @param state The state as a string.
+	 * @param totalStateCount The total number of states in the states being parsed. Used to check if a state is valid
+	 * @return A State object.
+	 * @throws Exception if the state fails to be classified.
 	 */
-	private static State classifyState(String state) throws Exception{
-		State output = null;
-		// For each line
-		
+	private static State classifyState(String state, int totalStateCount) throws Exception{
 		// Trim input sentence and then split into 'words' (strings separated by whitespace)
 		//TODO: Decide how strict input checking should be. Should I trim or should it cause an error? eg " Drop 2 "
-		String[] stateTokens = state.trim().split(" ");
 		// Try matching the first word in the line to each of the instructions. 
 		// Check the appropriate words and convert them to ints/enums, throwing exceptions on each error.
-		// If there are no errors, create appropriate state and add it to the output list of states.
-		// Catch all exceptions thrown.
+		// If there are no errors, create appropriate state and output it.
+		State output = null;
+		String[] stateTokens = state.trim().split(" ");
 		switch(stateTokens[0].toUpperCase()){
-		case "SENSE":
-			SenseDir direction = checkSenseDirection(stateTokens[1]);
-			int st1 = checkState(stateTokens[2]);
-			int st2 = checkState(stateTokens[3]);
-			Condition condition = checkCondition(stateTokens[4]);
-			// Extra variable needed if the state is sensing for a Marker
-			if(condition == Condition.MARKER){
-				int scent = checkMark(stateTokens[5]);						
-				output = new Sense(direction, st1, st2, condition, scent);
-			}else{
-				output = new Sense(direction, st1, st2, condition);
-			}
-			break;
-			
-		case "MARK":
-				int scent = checkMark(stateTokens[1]);
-				st1 = checkState(stateTokens[2]);
-				output = new Mark(scent, st1);
-			break;
-			
-		case "UNMARK":
-				scent = checkMark(stateTokens[1]);
-				st1 = checkState(stateTokens[2]);
-				output = new Mark(scent, st1);
-			break;
-			
-		case "PICKUP":
-				st1 = checkState(stateTokens[1]);
-				st2 = checkState(stateTokens[2]);
-				output = new PickUp(st1, st2);
-			break;
-			
-		case "DROP":
-				st1 = checkState(stateTokens[1]);
-				output = new Drop(st1);
-			break;
-			
-		case "TURN":
-				TurnDir turnDirection = checkTurnDirection(stateTokens[1]);
-				st1 = checkState(stateTokens[2]);
-				output = new Turn(turnDirection, st1);
-			break;
-			
-		case "MOVE":
-				st1 = checkState(stateTokens[1]);
-				st2 = checkState(stateTokens[2]);
-				output = new Move(st1, st2);
-			break;
-			
-		case "FLIP":
-				int p = Integer.parseInt(stateTokens[1]);
-				st1 = checkState(stateTokens[2]);
-				st2 = checkState(stateTokens[3]);
-				output = new Flip(p, st1, st2);
-			break;
-			
-		default:
-			throw new Exception("Invalid state");
+			case "SENSE":
+				SenseDir direction = checkSenseDirection(stateTokens[1]);
+				int st1 = checkStateNumber(stateTokens[2], totalStateCount);
+				int st2 = checkStateNumber(stateTokens[3], totalStateCount);
+				Condition condition = checkCondition(stateTokens[4]);
+				// Extra variable needed if the state is sensing for a Marker
+				if(condition == Condition.MARKER){
+					int scent = checkMark(stateTokens[5]);						
+					output = new Sense(direction, st1, st2, condition, scent);
+				}else{
+					output = new Sense(direction, st1, st2, condition);
+				}
+				break;
+				
+			case "MARK":
+					int scent = checkMark(stateTokens[1]);
+					st1 = checkStateNumber(stateTokens[2], totalStateCount);
+					output = new Mark(scent, st1);
+				break;
+				
+			case "UNMARK":
+					scent = checkMark(stateTokens[1]);
+					st1 = checkStateNumber(stateTokens[2], totalStateCount);
+					output = new Mark(scent, st1);
+				break;
+				
+			case "PICKUP":
+					st1 = checkStateNumber(stateTokens[1], totalStateCount);
+					st2 = checkStateNumber(stateTokens[2], totalStateCount);
+					output = new PickUp(st1, st2);
+				break;
+				
+			case "DROP":
+					st1 = checkStateNumber(stateTokens[1], totalStateCount);
+					output = new Drop(st1);
+				break;
+				
+			case "TURN":
+					TurnDir turnDirection = checkTurnDirection(stateTokens[1]);
+					st1 = checkStateNumber(stateTokens[2], totalStateCount);
+					output = new Turn(turnDirection, st1);
+				break;
+				
+			case "MOVE":
+					st1 = checkStateNumber(stateTokens[1], totalStateCount);
+					st2 = checkStateNumber(stateTokens[2], totalStateCount);
+					output = new Move(st1, st2);
+				break;
+				
+			case "FLIP":
+					int p = Integer.parseInt(stateTokens[1]);
+					st1 = checkStateNumber(stateTokens[2], totalStateCount);
+					st2 = checkStateNumber(stateTokens[3], totalStateCount);
+					output = new Flip(p, st1, st2);
+				break;
+				
+			default:
+				throw new Exception("Invalid state");
 		}
 		return output;
 	}
 	
 	/**
-	 * Private method to check if the supplied state is acceptable.
-	 * @param s - The string containing the state.
+	 * Private method to check if the supplied state ID is acceptable.
+	 * @param stringStateID The string containing the state.
+	 * @param max The total state count in the read file.
 	 * @return The state as an int.
-	 * @throws Exception - If Integer.parseInt(String) fails or if the state is not a value from 0 to 999.
+	 * @throws Exception If Integer.parseInt(String) fails or if the state is not a value from 0 to 9999.
 	 */
-	private static int checkState(String s) throws Exception{
-		int state = Integer.parseInt(s);
-		if((state < 0)||state > 9999){
-			throw new Exception("False state: "+ s);
+	private static int checkStateNumber(String stringStateID, int max) throws Exception{
+		int stateID = Integer.parseInt(stringStateID);
+		if((stateID < 0)||stateID > 9999){
+			throw new Exception("False state: "+ stringStateID);
 		}
-		return state;
+		return stateID;
 	}
 	
 	/**
 	 * Private method to check if the supplied marker scent is acceptable.
-	 * @param s - The string containing the marker id.
+	 * @param stringScent The string containing the marker id.
 	 * @return The scent as an int.
-	 * @throws Exception - If Integer.parseInt(String) fails or the the scent is not a value from 0 to 5.
+	 * @throws Exception If Integer.parseInt(String) fails or the the scent is not a value from 0 to 5.
 	 */
-	private static int checkMark(String s) throws Exception{
-		int state = Integer.parseInt(s);
-		if((state < 0)||state > 5){
-			throw new Exception("False mark: "+ s);
+	private static int checkMark(String stringScent) throws Exception{
+		int scent = Integer.parseInt(stringScent);
+		if((scent < 0)||scent > 5){
+			throw new Exception("False mark: "+ stringScent);
 		}
-		return state;
+		return scent;
 	}
 	
 	/**
 	 * Private method to check if the supplied sense direction is acceptable.
-	 * @param s - The string containing the sense direction.
-	 * @return The sense direction as an enum.
+	 * @param stringDirection - The string containing the sense direction.
+	 * @return The sense direction as a SenseDir enum.
 	 * @throws Exception - If the string doesn't match the possible directions.
 	 */
-	private static SenseDir checkSenseDirection(String s) throws Exception{
+	private static SenseDir checkSenseDirection(String stringDirection) throws Exception{
 		SenseDir direction;
-		switch(s.toUpperCase()){
+		switch(stringDirection.toUpperCase()){
 		case "HERE":
 			direction = SenseDir.HERE;
 			break;
@@ -199,20 +221,20 @@ public class AntBrainReader {
 			direction = SenseDir.RIGHTAHEAD;
 			break;
 		default:
-			throw new Exception("False direction: " + s);
+			throw new Exception("False direction: " + stringDirection);
 		}
 		return direction;
 	}
 	
 	/**
 	 * Private method to check if the supplied turn direction is acceptable.
-	 * @param s - The string containing the turn direction.
-	 * @return The turn direction as an enum.
-	 * @throws Exception - If the string doesn't match the possible directions.
+	 * @param stringDirection The string containing the turn direction.
+	 * @return The turn direction as a TurnDir enum.
+	 * @throws Exception If the string doesn't match the possible directions.
 	 */
-	private static TurnDir checkTurnDirection(String s) throws Exception {
+	private static TurnDir checkTurnDirection(String stringDirection) throws Exception {
 		TurnDir direction;
-		switch(s.toUpperCase())	{
+		switch(stringDirection.toUpperCase())	{
 		case "LEFT":
 			direction = TurnDir.LEFT;
 			break;
@@ -220,16 +242,16 @@ public class AntBrainReader {
 			direction = TurnDir.RIGHT;
 			break;
 		default:
-			throw new Exception("False turn direction: " + s);
+			throw new Exception("False turn direction: " + stringDirection);
 		}
 		return direction;
 	}
 	
 	/**
 	 * Private method to check if the supplied sense condition is acceptable.
-	 * @param s - The string containing the sense condition.
-	 * @return The condition as an enum.
-	 * @throws Exception - If the string doesn't match the possible directions.
+	 * @param s The string containing the sense condition.
+	 * @return The condition as a Condition enum.
+	 * @throws Exception If the string doesn't match the possible directions.
 	 */
 	private static Condition checkCondition(String s) throws Exception{
 		Condition condition;

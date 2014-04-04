@@ -4,8 +4,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * A file reader used to read and parse World files,
+ * converting them into World objects.
+ * @author 109195
+ *
+ */
 public class WorldReader {
 	
+	/**
+	 * Reads the given file and returns the World in the file.
+	 * @param file
+	 * @return The World if it is valid, and null if it is not.
+	 */
 	public static World readWorld(File file) {
 		try{
 			String[] map = readFromFile(file);
@@ -131,7 +142,7 @@ public class WorldReader {
 	}
 	
 	/**
-	 * Goes through the ant-world tiles and checks if it conforms to the specified x and y dimensions
+	 * Goes through the ant-world tiles and checks if it conforms to the specified x and y dimensions and has a solid rock boarder.
 	 * @param tiles
 	 * @return True if the map is semantically correct, false otherwise
 	 */
@@ -140,6 +151,11 @@ public class WorldReader {
 		boolean isCorrect = true;
 		while(isCorrect && i < tiles.length){
 			if(!(tiles[i] instanceof LineSeparator)){
+				if(countx == 0 || county == 0 || countx == sizeX -1 || county == sizeY - 1){
+					if(!(tiles[i].isRocky())){
+						isCorrect = false;
+					}
+				}
 				countx++;
 			}else{
 				//if there are x tiles in a line
