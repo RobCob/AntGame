@@ -7,26 +7,18 @@ import graphics.utilities.ImageLoader;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import model.Ant;
-import model.AntHillTile;
-import model.Colour;
 import model.Game;
 import model.Match;
 import model.Player;
@@ -66,6 +58,11 @@ public class MatchResultsPanel extends JPanel implements Screen{
 	private JLabel redKillCount;
 	private JLabel redAntDeaths;
 	
+	/**
+	 * Constructor: Initialises the screen that allows players to see the results of
+	 * the previous match.
+	 * @param game the ant-game controller that this screen is a part of.
+	 */
 	public MatchResultsPanel(Game game) {
 		this.game = game;
 		this.setLayout(new BorderLayout());
@@ -214,27 +211,38 @@ public class MatchResultsPanel extends JPanel implements Screen{
         this.add(centerPanel, BorderLayout.CENTER);
 		this.add(goPanel, BorderLayout.SOUTH);
 	}
-	
-	 @Override
-	 protected void paintComponent(Graphics g) {
-		 super.paintComponent(g);
-		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
-	 }
-	 
-	 public Game getGame(){
+
+	/**
+	 * Overridden to paint the background image.
+	 */
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	}
+
+	/**
+	 * Get the Game model linked with screen.
+	 * @return the Game model linked with screen.
+	 */
+	public Game getGame(){
 		return game; 
-	 }
-	 
+	}
+	
+	/**
+	 * Used to test this particular screen without the need for a Game model.
+	 * @param args
+	 */
 	public static void main(String[] args){
 		//Add content to the window.
-        JFrame frame = new JFrame("Results");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1024, 576);
-        frame.add(new MatchResultsPanel(null));
-        frame.setResizable(false);
-        
-        //Display the window.
-        frame.setVisible(true);
+		JFrame frame = new JFrame("Results");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(1024, 576);
+		frame.add(new MatchResultsPanel(null));
+		frame.setResizable(false);
+
+		//Display the window.
+		frame.setVisible(true);
 	}
 
 	@Override

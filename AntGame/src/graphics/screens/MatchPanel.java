@@ -29,7 +29,12 @@ import model.Game;
 import model.Match;
 import model.Player;
 
+/**
+ * MatchPanel: the screen which displays the current match in play.
+ * @author 105957
+ */
 public class MatchPanel extends JPanel implements Screen{
+	private static final long serialVersionUID = 1L;
 	
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage CONTROLS_IMAGE = ImageLoader.loadImage("/MatchPanelImages/controlsImage.png");
@@ -68,15 +73,20 @@ public class MatchPanel extends JPanel implements Screen{
 	private JLabel p2AliveValueLabel;
 	private JLabel p2DeathsValueLabel;
 	
-	private int currentZoomLevel = 1;
-	private int previousSpeed;
-	
 	private ImageButton currentPauseResumeButton;
 	private ImageButton pauseButton;
 	private ImageButton resumeButton;
 	private JLabel currentZoomLabel;
 	private JLabel currentSpeedLabel;
 	
+	private int currentZoomLevel = 1;
+	private int previousSpeed;
+	
+	/**
+	 * Constructor: Initialises the screen that allows players see and control 
+	 * the current match.
+	 * @param game the ant-game controller that this screen is a part of.
+	 */
 	public MatchPanel(Game game){
 		this.game = game;
 		this.grid = new HexGrid(0, 0, 0, 0);
@@ -410,7 +420,6 @@ public class MatchPanel extends JPanel implements Screen{
 		
 		ImageButton s = new ImageButton(PLUS_BUTTON_IMAGE, SKIP_BUTTON_IMAGE_HOVER) {
 			public void mouseClicked(MouseEvent e) {
-				// TODO
 			}
 		};
 		
@@ -574,23 +583,37 @@ public class MatchPanel extends JPanel implements Screen{
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(hud, BorderLayout.EAST);
 		if (Game.GUI_DEBUG && false) this.add(debugHUD, BorderLayout.WEST);
-
 	}
-	
-	 @Override
-	 protected void paintComponent(Graphics g) {
-		 super.paintComponent(g);
-		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
-	 }
-	 
+
+	/**
+	 * Overridden to paint the background image.
+	 */
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	}
+
+	/**
+	 * Get the Game model linked with screen.
+	 * @return the Game model linked with screen.
+	 */
 	public Game getGame(){
 		return this.game;
 	}
-	
+
+	/**
+	 * Gets the hex grid stored in the panel.
+	 * @return the hex grid stored in the panel.
+	 */
 	public HexGrid getGrid(){
 		return this.grid;
 	}
-	
+
+	/**
+	 * Sets the hex grid stored in the panel.
+	 * @param grid the hex grid to display.
+	 */
 	public void setGrid(HexGrid grid) {
 		this.grid = grid;
 		//this.scrollPane.removeAll();
@@ -599,10 +622,17 @@ public class MatchPanel extends JPanel implements Screen{
 		scrollPane.repaint();
 	}
 		
+	/**
+	 * Gets the scroll pane that the grid is contained in.
+	 * @return the scroll pane that the grid is contained in.
+	 */
 	public JScrollPane getScrollPane() {
 		return this.scrollPane;
 	}
 	
+	/**
+	 * Updates both players statistics.
+	 */
 	public void updatePlayerStats() {
 		Player p1 = getGame().getCurrentMatch().getPlayer1();
 		Player p2 = getGame().getCurrentMatch().getPlayer2();

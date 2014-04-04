@@ -266,6 +266,10 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		}
 	}
 	
+	/**
+	 * Remove a player from the tournament being created.
+	 * @param player the player to remove.
+	 */
 	public void removePlayer(Player player) {
 		players.remove(player);
 		playerNames.remove(player.getNickname());
@@ -275,6 +279,11 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		}
 	}
 	
+	/**
+	 * Creates a returns the error message to be displayed to the user 
+	 * based on their nickname and brain fields.
+	 * @return the error message string if error exist, null otherwise.
+	 */
 	public String getErrorMessage(){
 		String output = "";
 
@@ -295,6 +304,11 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		return output;
 	}
 	
+	/**
+	 * Creates and returns the error message string to be displayed to the users based on the 
+	 * number of worlds to play on and the number of players in the tournament. 
+	 * @return the error message string if error exist, null otherwise.
+	 */
 	public String getPlayErrorMessage(){
 		String output = "";
 
@@ -332,19 +346,6 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		return game;
 	}
 	
-	/**
-	 * Used to test this particular screen without the need for a Game model.
-	 * @param args
-	 */
-	public static void main(String args[]){
-		JFrame jframe = new JFrame();
-		jframe.add(new TournamentSelectionPanel(null));
-		jframe.setVisible(true);
-		jframe.setSize(1024, 576);
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-	}
-
 	@Override
 	public void update() {
 		reset();
@@ -360,6 +361,18 @@ public class TournamentSelectionPanel extends JPanel implements Screen{
 		currentBrain = null;
 		currentBrainName = null;
 		itemPanel.removeAll();
+	}
+	
+	/**
+	 * Used to test this particular screen without the need for a Game model.
+	 * @param args
+	 */
+	public static void main(String args[]){
+		JFrame jframe = new JFrame();
+		jframe.add(new TournamentSelectionPanel(null));
+		jframe.setVisible(true);
+		jframe.setSize(1024, 576);
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
 

@@ -27,7 +27,8 @@ import model.Game;
 import model.Player;
 
 /**
- * The final results of the tournament.
+ * TournamentResultsPanel: The screen that displays the final results of the tournament.
+ * @author 105957
  */
 public class TournamentResultsPanel extends JPanel implements Screen{
 	
@@ -95,6 +96,10 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 		this.add(mainMenuButtonPanel, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Get the Game model linked with screen.
+	 * @return the Game model linked with screen.
+	 */
 	public Game getGame() {
 		return this.game;
 	}
@@ -122,11 +127,11 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 			newPlayerItem.changeSize(885, 50);
 			newPlayerItem.addRight(scorePanel);
 			newPlayerItem.setPlayer(p);
-			
+
 			// Add the item to the item panel and refresh the scrollpane.
 			itemPanel.add(newPlayerItem);
 		}
-		
+
 		this.revalidate();
 		this.repaint();
 	}
@@ -135,22 +140,29 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 	public void reset() {
 		itemPanel.removeAll();
 	}
-	
-	 @Override
-	 protected void paintComponent(Graphics g) {
-		 super.paintComponent(g);
-		 g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
-	 }
-	 
+
+	/**
+	 * Overridden to paint the background image.
+	 */
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(BACKGROUND_IMAGE, 0, 0, null);
+	}
+
+	/**
+	 * Used to test this particular screen without the need for a Game model.
+	 * @param args
+	 */
 	public static void main(String[] args){
 		//Add content to the window.
-        JFrame frame = new JFrame("Results");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1024, 576);
-        frame.add(new TournamentResultsPanel(null));
-        frame.setResizable(false);
-        
-        //Display the window.
-        frame.setVisible(true);
+		JFrame frame = new JFrame("Results");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(1024, 576);
+		frame.add(new TournamentResultsPanel(null));
+		frame.setResizable(false);
+
+		//Display the window.
+		frame.setVisible(true);
 	}
 }
