@@ -64,6 +64,10 @@ public class SingleMatchWorldPanel extends JPanel implements Screen{
 	private JFileChooser fc; //This is the file chooser
 	private DualImagePanel worldValidateImage;
 	
+	/**
+	 * Constructor: Initialises the screen that allows players to choose a world to play on.
+	 * @param game the ant-game controller that this screen is a part of.
+	 */
 	public SingleMatchWorldPanel(Game game) {
 		this.game = game;
 		this.grid = new HexGrid(100, 100, 6, 1);

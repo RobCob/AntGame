@@ -58,9 +58,9 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 	private DualImagePanel p2BrainValidate; // Tick/Cross for player 2 brain
 
 	/**
-	 * Initialises the screen that allows players to be chosen for a non-tournament match
-	 * This screen allows users to 
-	 * @param game the game model that this screen is a part of.
+	 * Constructor: Initialises the screen that allows players to be chosen for 
+	 * a non-tournament match
+	 * @param game the ant-game controller that this screen is a part of.
 	 */
 	public SingleMatchPlayerPanel(Game game) {
 		this.game = game;

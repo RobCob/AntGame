@@ -17,6 +17,8 @@ import model.Game;
 
 /**
  * MainMenuPanel: JPanel that represents the main menu for the AntGame. 
+ * @author 105957
+ * @author 109195
  */
 public class MainMenuPanel extends JPanel implements Screen{
 	private Game game;

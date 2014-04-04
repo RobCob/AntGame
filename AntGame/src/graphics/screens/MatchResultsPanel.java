@@ -32,7 +32,9 @@ import model.Match;
 import model.Player;
 
 /**
- * Results given after a non-tournament match.
+ * MatchResultsPanel: Results screen shown after a non-tournament match.
+ * @author 105957
+ * @author 109195
  */
 public class MatchResultsPanel extends JPanel implements Screen{
 	
@@ -48,10 +50,7 @@ public class MatchResultsPanel extends JPanel implements Screen{
 	private static final BufferedImage VIEW_RESULTS_IMAGE = ImageLoader.loadImage("/MatchResultsPanelImages/viewResults.png");
 	private static final BufferedImage VIEW_RESULTS_IMAGE_HOVER = ImageLoader.loadImage("/MatchResultsPanelImages/viewResultsHover.png");
 	
-	//other parameters
 	private Game game;
-	private Player winner; //the winner of the game that just went on, no need for further distinction
-	private Player loser;
 	
 	private JPanel goPanel;
 	private ImageButton goButton;
@@ -70,13 +69,8 @@ public class MatchResultsPanel extends JPanel implements Screen{
 	public MatchResultsPanel(Game game) {
 		this.game = game;
 		this.setLayout(new BorderLayout());
-		// get results from previously played match
-		// display the results.
-		// display back to main-menu button.
-		// display re-match button?
-		//only use for a rematch button if allow them to reupload the brains, otherwise no point
-		
-        // Create title container
+
+		// Create title container
         JPanel titleContainer = new JPanel();
 		BoxLayout titleLayout = new BoxLayout(titleContainer, BoxLayout.Y_AXIS);
 		titleContainer.setLayout(titleLayout);
@@ -84,15 +78,6 @@ public class MatchResultsPanel extends JPanel implements Screen{
 		titleContainer.add(new ImagePanel(TITLE_IMAGE));
 		titleContainer.add(new FixedSpacerPanel(100, 20));
 		titleContainer.setOpaque(false);
-		
-//		//this label simply display the text "Winner"
-//		JPanel winnerContainer = new JPanel();
-//		BoxLayout winnerLayout = new BoxLayout(winnerContainer, BoxLayout.Y_AXIS);
-//		winnerContainer.setLayout(winnerLayout);
-//		winnerContainer.add(new FixedSpacerPanel(100, 20));
-//		winnerContainer.add(new ImagePanel(WINNER_IMAGE));
-//		winnerContainer.add(new FixedSpacerPanel(100, 70)); 
-//		winnerContainer.setOpaque(false);
 		
 		//Create the text to diplay the game's winner
 		//just for testing purposes, on final version should be winner.name()
@@ -116,7 +101,7 @@ public class MatchResultsPanel extends JPanel implements Screen{
         BoxLayout winnerStatsLayout = new BoxLayout(blackStats, BoxLayout.Y_AXIS);
         blackStats.setLayout(winnerStatsLayout);
 
-        //Winner name -- clone, because you can only reference a JPanel in one place at a time
+        //Winner name. Clone, because you can only reference a JPanel in one place at a time
         blackLabel = new JLabel("Player 1");
         blackLabel.setForeground(Color.WHITE);
         blackLabel.setFont(new Font("Helvetica", 0, 31));
@@ -124,21 +109,23 @@ public class MatchResultsPanel extends JPanel implements Screen{
         blackLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
-        blackFoodCollected = new JLabel("Food collected: 31"); //just to test, should have actual values
+        blackFoodCollected = new JLabel("Food Collected: 0"); //just to test, should have actual values
         blackFoodCollected.setForeground(Color.WHITE);
         blackFoodCollected.setFont(new Font("Helvetica", 0, 20));
         blackFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
         
 		//Ants killed
-        blackKillCount = new JLabel("Ants killed: 7"); //just to test, should have actual values
+        blackKillCount = new JLabel("Ants Alive: 0"); 
         blackKillCount.setForeground(Color.WHITE);
         blackKillCount.setFont(new Font("Helvetica", 0, 20));
         blackKillCount.setAlignmentX(CENTER_ALIGNMENT);
+        
         //Deaths in team
-        blackAntDeaths = new JLabel("Number of team deaths: 3"); //just to test, should have actual values
+        blackAntDeaths = new JLabel("Ants Died: 0"); //just to test, should have actual values
         blackAntDeaths.setForeground(Color.WHITE);
         blackAntDeaths.setFont(new Font("Helvetica", 0, 20));
         blackAntDeaths.setAlignmentX(CENTER_ALIGNMENT);
+        
         //add values to panel
         blackStats.add(blackLabel);
         blackStats.add(blackFoodCollected);
@@ -158,21 +145,24 @@ public class MatchResultsPanel extends JPanel implements Screen{
         redLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 
         //Food Collected
-        redFoodCollected = new JLabel("Food collected: 22"); //just to test, should have actual values
+        redFoodCollected = new JLabel("Food Collected: 0"); //just to test, should have actual values
         redFoodCollected.setForeground(Color.WHITE);
         redFoodCollected.setFont(new Font("Helvetica", 0, 20));
         redFoodCollected.setAlignmentX(CENTER_ALIGNMENT);
-		//Ants killed
-        redKillCount = new JLabel("Ants killed: 5"); //just to test, should have actual values
+        
+		// Ants killed
+        redKillCount = new JLabel("Ants Alive: 0"); //just to test, should have actual values
         redKillCount.setForeground(Color.WHITE);
         redKillCount.setFont(new Font("Helvetica", 0, 20));
         redKillCount.setAlignmentX(CENTER_ALIGNMENT);
-        //Deaths in team
-        redAntDeaths = new JLabel("Number of team deaths: 11"); //just to test, should have actual values
+        
+        // Deaths in team
+        redAntDeaths = new JLabel("Ants Died: 0"); //just to test, should have actual values
         redAntDeaths.setForeground(Color.WHITE);
         redAntDeaths.setFont(new Font("Helvetica", 0, 20));
         redAntDeaths.setAlignmentX(CENTER_ALIGNMENT);
-        //add values to panel
+        
+        // Add values to panel
         redStats.add(redLabel);
         redStats.add(redFoodCollected);
         redStats.add(redKillCount);
@@ -189,12 +179,12 @@ public class MatchResultsPanel extends JPanel implements Screen{
         statsSplitPane.setBorder(null);
         statsSplitPane.setDividerSize(0);
         
+        // Main menu button
         goButton = new ImageButton(MAIN_MENU_BUTTON_IMAGE, MAIN_MENU_BUTTON_HOVER){
         	public void mouseClicked(MouseEvent e) {
         		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
         	}
         };
-        //Button for replaying
 
         goPanel = new JPanel();
         goPanel.setOpaque(false);
@@ -212,7 +202,7 @@ public class MatchResultsPanel extends JPanel implements Screen{
         entireStatsPanel.add(statsSplitPane, BorderLayout.CENTER);
         entireStatsPanel.setOpaque(false);
         
-        // Centre container
+        // Center container
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
         centerPanel.add(winnerPanel, BorderLayout.NORTH);
@@ -223,10 +213,6 @@ public class MatchResultsPanel extends JPanel implements Screen{
         this.add(titleContainer, BorderLayout.NORTH);
         this.add(centerPanel, BorderLayout.CENTER);
 		this.add(goPanel, BorderLayout.SOUTH);
-	}
-	
-	public void setValues(Match match){
-		
 	}
 	
 	 @Override
@@ -262,12 +248,12 @@ public class MatchResultsPanel extends JPanel implements Screen{
 			winnerLabel.setText(match.getWinner().getNickname());
 		}
 		blackLabel.setText("Black Team: " +player1.getNickname());
-		blackFoodCollected.setText("Food collected: "+match.getScore(player1, 0));
+		blackFoodCollected.setText("Food Collected: "+match.getScore(player1, 0));
 		blackKillCount.setText("Ants Alive: "+ match.getScore(player1, 1));
 		blackAntDeaths.setText("Ants Died: "+ match.getScore(player1, 2));
 		
 		redLabel.setText("Red Team: " + player2.getNickname());
-		redFoodCollected.setText("Food collected: "+match.getScore(player2, 0));
+		redFoodCollected.setText("Food Collected: "+match.getScore(player2, 0));
 		redKillCount.setText("Ants Alive: " + match.getScore(player2, 1));
 		redAntDeaths.setText("Ants Died: " + match.getScore(player2, 2));
 		

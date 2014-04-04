@@ -43,6 +43,10 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 	private JPanel itemPanel; // list of players (ranked)
 	private JScrollPane listHolder; // scrollPane
 	
+	/**
+	 * Constructor: Initialises the screen that shows the final results after a tournament.
+	 * @param game the ant-game controller that this screen is a part of.
+	 */
 	public TournamentResultsPanel(Game game) {
 		this.game = game;
 		this.setLayout(new BorderLayout());
@@ -55,7 +59,6 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 		titleContainer.add(new ImagePanel(TITLE_IMAGE));
 		titleContainer.add(new FixedSpacerPanel(100, 20));
 		titleContainer.setOpaque(false);
-		
 		
 		// The ranking list
 		itemPanel = new JPanel();
@@ -73,10 +76,10 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 		centrePanel.setOpaque(false);
 		centrePanel.add(listHolder);
 		
-		
 		JPanel mainMenuButtonPanel = new JPanel();
 		mainMenuButtonPanel.setOpaque(false);
 		
+		// Button to go back to the main menu.
         ImageButton mainMenuButton = new ImageButton(MAIN_MENU_BUTTON_IMAGE, MAIN_MENU_BUTTON_HOVER){
         	public void mouseClicked(MouseEvent e) {
         		getGame().switchScreen(Game.MAIN_MENU_SCREEN);
@@ -91,7 +94,7 @@ public class TournamentResultsPanel extends JPanel implements Screen{
 		this.add(centrePanel, BorderLayout.CENTER);
 		this.add(mainMenuButtonPanel, BorderLayout.SOUTH);
 	}
-
+	
 	public Game getGame() {
 		return this.game;
 	}

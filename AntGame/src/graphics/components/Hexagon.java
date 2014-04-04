@@ -5,10 +5,14 @@ import java.awt.Polygon;
 
 /**
  * Hexagon: A regular hexagon formed from a AWT Polygon.
+ * @author 105957
  */
 public class Hexagon extends Polygon {
-	public static final Color RED_ANT_COLOR = new Color(225, 34, 34); //Color.RED; 
-	public static final Color BLACK_ANT_COLOR = new Color(35, 35, 35); //Color.GRAY;
+	private static final long serialVersionUID = 1L;
+	
+	// Colours
+	public static final Color RED_ANT_COLOR = new Color(225, 34, 34);
+	public static final Color BLACK_ANT_COLOR = new Color(35, 35, 35);
 	public static final Color EMPTY_CELL_COLOR = Color.WHITE;
 	public static final Color DEFAULT_OUTLINE_COLOR = Color.BLACK; 
 	public static final Color RED_ANTHILL_COLOR = new Color(200, 105, 105);
@@ -18,9 +22,9 @@ public class Hexagon extends Polygon {
 
 	private Color fillColor;
 	private Color outlineColor;
-	private int strokeWidth;
-	private double centerX; // Centre x co-ord (px)
-	private double centerY; // Centre y co-ord (px)
+	private int strokeWidth; // Outline width
+	private double centerX; // Center x co-ord (px)
+	private double centerY; // Center y co-ord (px)
 	private int x;
 	private int y;
 	private int size; // Size of hexagon (similar to the radius)
@@ -43,19 +47,6 @@ public class Hexagon extends Polygon {
 		setSize(size);
 		// Set the points of the hexagon, corresponding to the centre points and size.
 	    setPoints();
-	}
-	
-	/**
-	 * Sets the points of the Polygon to be a hexagon at the correct (x,y) position.
-	 */
-	private void setPoints(){
-		this.reset();
-		for (int i = 0; i < 6; i++) {
-	    	double angle = 2 * Math.PI /6* (i+0.5);
-	    	int xPoint = (int)Math.round(centerX + (size-strokeWidth/2)*Math.cos(angle));
-	    	int yPoint = (int)Math.round(centerY + (size-strokeWidth/2)*Math.sin(angle));
-	    	this.addPoint(xPoint, yPoint);
-	    }
 	}
 	
 	/**
@@ -85,6 +76,19 @@ public class Hexagon extends Polygon {
 	}
 	
 	/**
+	 * Sets the points of the Polygon to be a hexagon at the correct (x,y) position.
+	 */
+	private void setPoints(){
+		this.reset();
+		for (int i = 0; i < 6; i++) {
+	    	double angle = 2 * Math.PI /6* (i+0.5);
+	    	int xPoint = (int)Math.round(centerX + (size-strokeWidth/2)*Math.cos(angle));
+	    	int yPoint = (int)Math.round(centerY + (size-strokeWidth/2)*Math.sin(angle));
+	    	this.addPoint(xPoint, yPoint);
+	    }
+	}
+	
+	/**
 	 * Gets the hexagon's current stroke width.
 	 * @return the width of the hexagon's current stroke.
 	 */
@@ -102,7 +106,7 @@ public class Hexagon extends Polygon {
 	}
 
 	/**
-	 * Gets the fill colour of the hexagon.
+	 * Gets the fill colour of the Hexagon.
 	 * @return the fill Color of the Hexagon.
 	 */
 	public Color getFillColor() {
@@ -110,7 +114,7 @@ public class Hexagon extends Polygon {
 	}
 	
 	/**
-	 * Gets the outline colour of the hexagon.
+	 * Gets the outline colour of the Hexagon.
 	 * @return the Color of the Hexagon's outline.
 	 */
 	public Color getOutlineColor() {
@@ -118,7 +122,7 @@ public class Hexagon extends Polygon {
 	}
 	
 	/**
-	 * Set the fill colour of the hexagon.
+	 * Sets the fill colour of the hexagon.
 	 * @param fill the fill Color of the Hexagon.
 	 */
 	public void setFillColor(Color fill) {
