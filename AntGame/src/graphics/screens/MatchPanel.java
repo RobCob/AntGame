@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
-import model.Game;
+import controller.Game;
 import model.Match;
 import model.Player;
 

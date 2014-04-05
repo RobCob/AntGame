@@ -1,5 +1,6 @@
-package graphics;
+package toBeDeleted;
 
+import controller.Game;
 import model.*;
 
 public class GUI_Testing{

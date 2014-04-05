@@ -13,7 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import model.Game;
+import controller.Game;
 
 /**
  * MainMenuPanel: JPanel that represents the main menu for the AntGame. 

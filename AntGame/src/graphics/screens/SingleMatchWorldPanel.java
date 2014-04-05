@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
+import controller.Game;
 import graphics.components.DualImagePanel;
 import graphics.components.FixedSpacerPanel;
 import graphics.components.HexGrid;
@@ -33,11 +34,10 @@ import graphics.components.ImagePanel;
 import graphics.utilities.ImageLoader;
 import model.AntBrain;
 import model.AntBrainReader;
-import model.Game;
 import model.Player;
-import model.State;
 import model.World;
 import model.WorldReader;
+import model.state.State;
 
 /**
  * SingleMatchWorldPanel: A screen for the AntGame. This screen allows the players to 

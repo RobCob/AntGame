@@ -27,6 +27,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import controller.Game;
+
 /**
  * SingleMatchPlayerPanel: A screen for the AntGame. This screen allows both players
  * to enter a nickname and provide an ant-brain. Validation is performed on both.

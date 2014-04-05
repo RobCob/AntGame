@@ -1,9 +1,11 @@
 package graphics.utilities;
 
-import model.Game;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+
 import javax.imageio.ImageIO;
+
+import controller.Game;
 
 /**
  * ImageLoader: Load in an image (as a BufferedImage) that is stored in the res folder.

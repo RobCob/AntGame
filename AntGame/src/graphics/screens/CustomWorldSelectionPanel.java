@@ -23,7 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import model.Game;
+import controller.Game;
 import model.Player;
 import model.World;
 

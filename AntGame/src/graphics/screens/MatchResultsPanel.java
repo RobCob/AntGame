@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import model.Game;
+import controller.Game;
 import model.Match;
 import model.Player;
 
