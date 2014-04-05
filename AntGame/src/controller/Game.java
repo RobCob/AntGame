@@ -8,7 +8,7 @@ import graphics.screens.SingleMatchPlayerPanel;
 import graphics.screens.Screen;
 import graphics.screens.TournamentResultsPanel;
 import graphics.screens.TournamentSelectionPanel;
-import graphics.screens.CustomWorldSelectionPanel;
+import graphics.screens.WorldEditorPanel;
 import graphics.screens.SingleMatchWorldPanel;
 
 import java.awt.*;
@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Stack;
 
 import javax.swing.*;
@@ -36,6 +35,7 @@ import model.tile.Tile;
  */
 public class Game extends JFrame {
 
+	private static final long serialVersionUID = -3977845427044676630L;
 	public static int seed = 0;
 	private static int count = 0;
 
@@ -72,8 +72,6 @@ public class Game extends JFrame {
 	private Timer displayTimer; // update the match screens grid
 	private Timer statsTimer; // update the stats for the players.
 
-	private Random rand = new Random();
-
 	// Initialise all of the games screens.
 	private MainMenuPanel mainMenuPanel = new MainMenuPanel(this);
 	public static final String MAIN_MENU_SCREEN = "Main Menu";
@@ -81,30 +79,29 @@ public class Game extends JFrame {
 	private MatchPanel matchPanel = new MatchPanel(this);
 	public static final String MATCH_SCREEN = "Match";
 
-	private MatchResultsPanel nonTournamentResults = new MatchResultsPanel(this);
+	private MatchResultsPanel matchResults = new MatchResultsPanel(this);
 	public static final String MATCH_RESULTS_SCREEN = "Match Results";
 
-	private SingleMatchPlayerPanel nonTournamentPanel = new SingleMatchPlayerPanel(this);
+	private SingleMatchPlayerPanel matchBrainSelection = new SingleMatchPlayerPanel(this);
 	public static final String MATCH_BRAIN_SELECTION_SCREEN = "Match Brain Select";
 
 	private TournamentResultsPanel tournamentResults = new TournamentResultsPanel(this);
 	public static final String TOURNAMENT_RESULTS_SCREEN = "Tournament Results";
 
-	private SingleMatchWorldPanel worldSelectionPanel = new SingleMatchWorldPanel(this);
+	private SingleMatchWorldPanel worldSelection = new SingleMatchWorldPanel(this);
 	public static final String WORLD_SELECTION_SCREEN = "World Selection Screen";
 
-	private CustomWorldSelectionPanel worldEditorPanel = new CustomWorldSelectionPanel(this, worldSelectionPanel);
+	private WorldEditorPanel worldEditor = new WorldEditorPanel(this, worldSelection);
 	public static final String WORLD_EDITOR_SCREEN = "World Editor Screen";
 
-	private TournamentSelectionPanel tournamentSelectionPanel = new TournamentSelectionPanel(this);
+	private TournamentSelectionPanel tournamentSelection = new TournamentSelectionPanel(this);
 	public static final String TOURNAMENT_SELECTION_SCREEN = "Tournament Selection Screen";
 
 	// Stack of previous windows. (MAY NOT USE)
 	Stack<String> panelHistory = new Stack<String>();
 
 	private Tournament currentTournament = null;
-	private Match currentMatch = new Match(World.generateWorld(150, 150, 7, 14, 11), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")),
-			new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
+	private Match currentMatch = null;
 	private int roundsPerSec = 10; // Number of rounds to perform every second
 	private int lastSpeed = 10;
 	private double roundTime = 1000000000.0 / roundsPerSec; // number of times to run update per second
@@ -114,16 +111,20 @@ public class Game extends JFrame {
 	 * Constructs the Game and initialises the screens.
 	 */
 	public Game() {
+		if (DEBUG | GUI_DEBUG) {
+			currentMatch = new Match(World.generateWorld(150, 150, 7, 14, 11), new Player("BLACKP1", AntBrainReader.readBrain("cleverbrain1.brain")),
+					new Player("REDP2", AntBrainReader.readBrain("cleverbrain4.brain")));
+		}
 		screenMap = new HashMap<String, Screen>();
 		// Add all screens used within the game.
 		addScreen(mainMenuPanel, MAIN_MENU_SCREEN);
+		addScreen(tournamentSelection, TOURNAMENT_SELECTION_SCREEN);
+		addScreen(matchBrainSelection, MATCH_BRAIN_SELECTION_SCREEN);
+		addScreen(worldSelection, WORLD_SELECTION_SCREEN);
+		addScreen(worldEditor, WORLD_EDITOR_SCREEN);
 		addScreen(matchPanel, MATCH_SCREEN);
-		addScreen(nonTournamentResults, MATCH_RESULTS_SCREEN);
+		addScreen(matchResults, MATCH_RESULTS_SCREEN);
 		addScreen(tournamentResults, TOURNAMENT_RESULTS_SCREEN);
-		addScreen(nonTournamentPanel, MATCH_BRAIN_SELECTION_SCREEN);
-		addScreen(worldSelectionPanel, WORLD_SELECTION_SCREEN);
-		addScreen(worldEditorPanel, WORLD_EDITOR_SCREEN);
-		addScreen(tournamentSelectionPanel, TOURNAMENT_SELECTION_SCREEN);
 
 		// JFrame properties
 		this.add(screens);
@@ -151,7 +152,7 @@ public class Game extends JFrame {
 	 * @param screen
 	 * @param screenName
 	 */
-	public void addScreen(JPanel screen, String screenName) {
+	private void addScreen(JPanel screen, String screenName) {
 		screenMap.put(screenName, (Screen) screen);
 		screens.add(screen, screenName);
 	}
@@ -192,7 +193,7 @@ public class Game extends JFrame {
 	/**
 	 * The main game loop for the model.
 	 */
-	public void runModel() {
+	private void runModel() {
 		modelThread = new Thread(new Runnable() {
 			public void run() {
 				if (Game.DEBUG)
@@ -248,7 +249,7 @@ public class Game extends JFrame {
 	 * 
 	 * Starts updating the hexagon grid to display the current state of the current match.
 	 */
-	public void runDisplay() {
+	private void runDisplay() {
 		int maxFps = 60;
 		displayTimer = new Timer(1000 / maxFps, new ActionListener() {
 			@Override
@@ -365,7 +366,7 @@ public class Game extends JFrame {
 	 * 
 	 * @return the screen displaying the current match.
 	 */
-	public MatchPanel getMatchScreen() {
+	private MatchPanel getMatchScreen() {
 		return this.matchPanel;
 	}
 

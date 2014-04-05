@@ -13,6 +13,7 @@ import javax.swing.JPanel;
  * specified for hovering, likewise when not hovered the button will display the BufferedImage specified for normal use.
  */
 public abstract class ImageButton extends JPanel implements MouseListener {
+	private static final long serialVersionUID = 6471609370519651146L;
 	private BufferedImage hoverImage; // Background image when not being hovered over.
 	private BufferedImage backgroundImage; // Background image when being hovered over.
 

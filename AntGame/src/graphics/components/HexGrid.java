@@ -14,6 +14,7 @@ import javax.swing.JPanel;
  * @author 105957
  */
 public class HexGrid extends JPanel {
+	private static final long serialVersionUID = 1529204209662756949L;
 	private Hexagon[][] grid;
 	private int rows;
 	private int cols;
@@ -35,7 +36,7 @@ public class HexGrid extends JPanel {
 		this.strokeWidth = strokeWidth;
 		this.rows = rows;
 		this.cols = cols;
-		newGrid(rows, cols, size, strokeWidth);
+		newGrid(this.rows, this.cols, this.size, this.strokeWidth);
 	}
 
 	/**

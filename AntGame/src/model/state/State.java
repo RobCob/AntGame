@@ -1,11 +1,7 @@
 package model.state;
 
-import controller.Game;
 import model.Ant;
 import model.World;
-import model.tile.AntHillTile;
-import model.tile.ClearTile;
-import model.tile.Tile;
 
 /**
  * A public class to represent a single state of an ant brain.

@@ -1,20 +1,23 @@
 package toBeDeleted;
 
-import java.io.*;
-import java.net.URL;
-import java.util.ArrayList;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
-import javax.swing.*;
-import javax.swing.filechooser.*;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import model.World;
 import model.WorldReader;
-import model.tile.Tile;
 
 public class WorldFileChooser extends JPanel implements ActionListener {
 
+	private static final long serialVersionUID = 1526406091455693849L;
 	JButton openButton;
 	JTextArea info;
 	JFileChooser fc; // This is the file chooser

@@ -1,8 +1,10 @@
 package graphics.screens;
 
-import model.*;
-import graphics.components.*;
-import graphics.utilities.*;
+import graphics.components.DualImagePanel;
+import graphics.components.FixedSpacerPanel;
+import graphics.components.ImageButton;
+import graphics.components.ImagePanel;
+import graphics.utilities.ImageLoader;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,7 +12,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,13 +28,17 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import model.AntBrain;
+import model.AntBrainReader;
+import model.Player;
 import controller.Game;
 
 /**
- * SingleMatchPlayerPanel: A screen for the AntGame. This screen allows both players
- * to enter a nickname and provide an ant-brain. Validation is performed on both.
+ * SingleMatchPlayerPanel: A screen for the AntGame. This screen allows both players to enter a nickname and provide an ant-brain. Validation is performed on
+ * both.
  */
-public class SingleMatchPlayerPanel  extends JPanel implements Screen{
+public class SingleMatchPlayerPanel extends JPanel implements Screen {
+	private static final long serialVersionUID = 7241212845383828360L;
 	private static final BufferedImage TITLE_IMAGE = ImageLoader.loadImage("/SingleMatchPlayerPanelImages/playerSelectTitle.png");
 	private static final BufferedImage BACKGROUND_IMAGE = ImageLoader.loadImage("/GlobalImages/background.jpg");
 	private static final BufferedImage TICK_IMAGE = ImageLoader.loadImage("/GlobalImages/tick.png");
@@ -60,27 +65,28 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 	private DualImagePanel p2BrainValidate; // Tick/Cross for player 2 brain
 
 	/**
-	 * Constructor: Initialises the screen that allows players to be chosen for 
-	 * a non-tournament match
-	 * @param game the ant-game controller that this screen is a part of.
+	 * Constructor: Initialises the screen that allows players to be chosen for a non-tournament match
+	 * 
+	 * @param game
+	 *            the ant-game controller that this screen is a part of.
 	 */
 	public SingleMatchPlayerPanel(Game game) {
 		this.game = game;
 		this.setLayout(new BorderLayout());
 		fc = new JFileChooser(); // Default OS file chooser.
 
-		/////////////////////////////////////////////////////////////////////////////
-		//////////////////////////// PLAYER 1 SIDE //////////////////////////////////
-		/////////////////////////////////////////////////////////////////////////////
+		// ///////////////////////////////////////////////////////////////////////////
+		// ////////////////////////// PLAYER 1 SIDE //////////////////////////////////
+		// ///////////////////////////////////////////////////////////////////////////
 		// Player 1 heading label
 		JLabel p1Label = new JLabel("Player 1");
 		p1Label.setForeground(Color.WHITE);
 		p1Label.setFont(new Font("Helvetica", 0, 35));
 		p1Label.setAlignmentX(CENTER_ALIGNMENT);
 
-		/////////////////////////////////////////////////////////////////////////////
-		//////////// Player 1 Nickname panel (label, text-field, tick/cross image) //
-		/////////////////////////////////////////////////////////////////////////////
+		// ///////////////////////////////////////////////////////////////////////////
+		// ////////// Player 1 Nickname panel (label, text-field, tick/cross image) //
+		// ///////////////////////////////////////////////////////////////////////////
 		JPanel p1NickPanel = new JPanel();
 		p1NickPanel.setOpaque(false);
 		p1NickPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
@@ -99,13 +105,13 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		p1NickField.setHorizontalAlignment(JTextField.CENTER);
 		p1NickField.setCaretColor(Color.WHITE);
 		p1NickField.setForeground(Color.WHITE);
-		p1NickField.setBackground(new Color(255,255,255,0));
+		p1NickField.setBackground(new Color(255, 255, 255, 0));
 		p1NickField.setAlignmentX(CENTER_ALIGNMENT);
 
 		p1NickPanel.add(p1NickLabel);
 		p1NickPanel.add(p1NickField);
 
-		p1NickValidate = new DualImagePanel(TICK_IMAGE,CROSS_IMAGE);
+		p1NickValidate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
 		p1NickField.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent arg0) {
 				validateNicknames();
@@ -121,9 +127,9 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		});
 		p1NickPanel.add(p1NickValidate);
 
-		/////////////////////////////////////////////////////////////////////////////
-		///////////////////////// Player 1 Ant-Brain panel.//////////////////////////
-		/////////////////////////////////////////////////////////////////////////////
+		// ///////////////////////////////////////////////////////////////////////////
+		// /////////////////////// Player 1 Ant-Brain panel.//////////////////////////
+		// ///////////////////////////////////////////////////////////////////////////
 		JPanel p1BrainPanel = new JPanel();
 		p1BrainPanel.setOpaque(false);
 		p1BrainPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
@@ -135,6 +141,8 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		p1AntBrainLabel.setFont(new Font("Helvetica", 0, 25));
 
 		ImageButton openButton1 = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
+			private static final long serialVersionUID = 541192053293223372L;
+
 			public void mouseClicked(MouseEvent e) {
 				int returnVal = fc.showOpenDialog(SingleMatchPlayerPanel.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -151,7 +159,7 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		};
 
 		// Tick/Cross for player 1 ant brain
-		p1BrainValidate = new DualImagePanel(TICK_IMAGE,CROSS_IMAGE);
+		p1BrainValidate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
 		p1BrainValidate.displaySecond();
 
 		// Add components to player 1 brain panel
@@ -159,9 +167,9 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		p1BrainPanel.add(openButton1);
 		p1BrainPanel.add(p1BrainValidate);
 
-		//////////////////////////////////////////////////////////////////////////
-		///////////////////////////  PLAYER 2 SIDE  //////////////////////////////
-		//////////////////////////////////////////////////////////////////////////
+		// ////////////////////////////////////////////////////////////////////////
+		// ///////////////////////// PLAYER 2 SIDE //////////////////////////////
+		// ////////////////////////////////////////////////////////////////////////
 		JLabel p2Label = new JLabel("Player 2");
 		p2Label.setForeground(Color.WHITE);
 		p2Label.setFont(new Font("Helvetica", 0, 35));
@@ -181,9 +189,9 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		p2NickField.setHorizontalAlignment(JTextField.CENTER);
 		p2NickField.setCaretColor(Color.WHITE);
 		p2NickField.setForeground(Color.WHITE);
-		p2NickField.setBackground(new Color(255,255,255,0));
+		p2NickField.setBackground(new Color(255, 255, 255, 0));
 		p2NickField.setAlignmentX(CENTER_ALIGNMENT);
-		p2NickValidate = new DualImagePanel(TICK_IMAGE,CROSS_IMAGE);
+		p2NickValidate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
 		p2NickField.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent arg0) {
 				validateNicknames();
@@ -198,9 +206,9 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 			}
 		});
 
-		/////////////////////////////////////////////////////////////////////////////
-		////////// Player 2 Nickname panel (label, textfield, tick/cross image) /////
-		/////////////////////////////////////////////////////////////////////////////
+		// ///////////////////////////////////////////////////////////////////////////
+		// //////// Player 2 Nickname panel (label, textfield, tick/cross image) /////
+		// ///////////////////////////////////////////////////////////////////////////
 		JPanel p2NickPanel = new JPanel();
 		p2NickPanel.setOpaque(false);
 		p2NickPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
@@ -209,9 +217,9 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		p2NickPanel.add(p2NickField);
 		p2NickPanel.add(p2NickValidate);
 
-		/////////////////////////////////////////////////////////////////////////////
-		///////////////////////// Player 2 Ant-Brain panel.//////////////////////////
-		/////////////////////////////////////////////////////////////////////////////
+		// ///////////////////////////////////////////////////////////////////////////
+		// /////////////////////// Player 2 Ant-Brain panel.//////////////////////////
+		// ///////////////////////////////////////////////////////////////////////////
 		JPanel p2BrainPanel = new JPanel();
 		p2BrainPanel.setOpaque(false);
 		p2BrainPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
@@ -223,11 +231,13 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		p2AntBrainLabel.setFont(new Font("Helvetica", 0, 25));
 
 		ImageButton openButton2 = new ImageButton(UPLOAD_IMAGE, UPLOAD_ROLL_IMAGE) {
+			private static final long serialVersionUID = 5845397971522034736L;
+
 			public void mouseClicked(MouseEvent e) {
 				int returnVal = fc.showOpenDialog(SingleMatchPlayerPanel.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File brainFile = fc.getSelectedFile();
-					AntBrain brain = AntBrainReader.readBrain(brainFile); 
+					AntBrain brain = AntBrainReader.readBrain(brainFile);
 					if (brain == null) {
 						p2BrainValidate.displaySecond();
 					} else {
@@ -239,7 +249,7 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		};
 
 		// Tick/Cross for player 1 ant brain
-		p2BrainValidate = new DualImagePanel(TICK_IMAGE,CROSS_IMAGE);
+		p2BrainValidate = new DualImagePanel(TICK_IMAGE, CROSS_IMAGE);
 		p2BrainValidate.displaySecond();
 
 		// Add components to player 1 brain panel
@@ -266,8 +276,8 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		rightPanel.add(p2BrainPanel);
 
 		// Create and set up the split pane.
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); //add split pane
-		splitPane.setDividerLocation(1000/2); // HACK -- (half the width of the screen)
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); // add split pane
+		splitPane.setDividerLocation(1000 / 2); // HACK -- (half the width of the screen)
 		splitPane.setEnabled(false); // Stops it being re-sizable.
 		splitPane.setOpaque(false); // display the background through it.
 		splitPane.setLeftComponent(leftPanel);
@@ -281,11 +291,13 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		titleContainer.setLayout(titleLayout);
 		titleContainer.add(new FixedSpacerPanel(100, 20));
 		titleContainer.add(new ImagePanel(TITLE_IMAGE));
-		titleContainer.add(new FixedSpacerPanel(100, 70)); 
+		titleContainer.add(new FixedSpacerPanel(100, 70));
 		titleContainer.setOpaque(false);
 
-		//Create Go button
+		// Create Go button
 		ImageButton nextButton = new ImageButton(NEXT_BUTTON_IMAGE, NEXT_BUTTON_IMAGE_HOVER) {
+			private static final long serialVersionUID = 2049467443453453349L;
+
 			public void mouseClicked(MouseEvent e) {
 				String errorMessage = getErrorMessage();
 				boolean valid = (errorMessage == null);
@@ -301,14 +313,16 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 				}
 			}
 		};
-		
-		//Create Back button
+
+		// Create Back button
 		ImageButton backButton = new ImageButton(BACK_BUTTON_IMAGE, BACK_BUTTON_IMAGE_HOVER) {
+			private static final long serialVersionUID = 1899594026870556953L;
+
 			public void mouseClicked(MouseEvent e) {
 				getGame().switchScreen(Game.MAIN_MENU_SCREEN);
 			}
 		};
-		
+
 		JPanel nextButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		nextButtonPanel.add(backButton);
 		nextButtonPanel.add(new FixedSpacerPanel(80, 20));
@@ -316,12 +330,11 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		nextButtonPanel.add(nextButton);
 		nextButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
-		//Add containers
+		// Add containers
 		add(titleContainer, BorderLayout.NORTH);
 		add(splitPane, BorderLayout.CENTER);
 		add(nextButtonPanel, BorderLayout.SOUTH);
 	}
-
 
 	/**
 	 * Overridden to paint the background image.
@@ -333,33 +346,34 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 	}
 
 	/**
-	 * gets the messages associated with validation errors. 
+	 * gets the messages associated with validation errors.
+	 * 
 	 * @return a string of errors that need correcting by the user, null if no problems exist.
 	 */
-	public String getErrorMessage(){
+	public String getErrorMessage() {
 		String output = "";
 
 		// Player 1 nickname validation
-		if(!p1NickValidate.isFirstShown()){
+		if (!p1NickValidate.isFirstShown()) {
 			output += "Player 1's nickname is invalid!\n";
 		}
 
 		// Player 2 nickname validation
-		if(!p2NickValidate.isFirstShown()){
+		if (!p2NickValidate.isFirstShown()) {
 			output += "Player 2's nickname is invalid!\n";
 		}
 
 		// Player 1 ant-brain validation
-		if(!p1BrainValidate.isFirstShown()){
+		if (!p1BrainValidate.isFirstShown()) {
 			output += "Player 1's ant-brain is invalid!\n";
 		}
 
 		// Player 1 ant-brain validation
-		if(!p2BrainValidate.isFirstShown()){
+		if (!p2BrainValidate.isFirstShown()) {
 			output += "Player 2's ant-brain is invalid!\n";
 		}
 
-		if(output.equals("")){
+		if (output.equals("")) {
 			output = null;
 		}
 
@@ -369,34 +383,27 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 	/**
 	 * Changes the nickname images depending on the nickname field's contents.
 	 * 
-	 * Checks that the:
-	 * 	- Nicknames aren't greater than 20 characters.
-	 * 	- Nicknames aren't just whitespace.
-	 * 	- Nicknames aren't the same as each other.
+	 * Checks that the: - Nicknames aren't greater than 20 characters. - Nicknames aren't just whitespace. - Nicknames aren't the same as each other.
 	 */
-	public void validateNicknames(){
+	public void validateNicknames() {
 		String p1nickText = p1NickField.getText().trim();
 		String p2nickText = p2NickField.getText().trim();
 
 		// Rule for player 1 nickname
-		boolean nick1valid = p1nickText.length() <= 20
-				&& !p1nickText.equals("")
-				&& !p1nickText.equals(p2nickText);
+		boolean nick1valid = p1nickText.length() <= 20 && !p1nickText.equals("") && !p1nickText.equals(p2nickText);
 
 		// Rule for player 2 nickname
-		boolean nick2valid = p2nickText.length() <= 20
-				&& !p2nickText.equals("")
-				&& !p2nickText.equals(p1nickText);
+		boolean nick2valid = p2nickText.length() <= 20 && !p2nickText.equals("") && !p2nickText.equals(p1nickText);
 
 		// Update validate image for player 1
-		if(nick1valid){
+		if (nick1valid) {
 			p1NickValidate.displayFirst();
 		} else {
 			p1NickValidate.displaySecond();
 		}
 
 		// Update validate image for player 2
-		if(nick2valid){
+		if (nick2valid) {
 			p2NickValidate.displayFirst();
 		} else {
 			p2NickValidate.displaySecond();
@@ -405,17 +412,16 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 
 	/**
 	 * Get the Game model linked with screen.
+	 * 
 	 * @return the Game model linked with screen.
 	 */
-	public Game getGame(){
+	public Game getGame() {
 		return game;
 	}
 
 	/**
-	 * This method simply resets the values of various parameters
-	 * back to their default values.
-	 * To be used when switching screen.
-	 * No need for a button that calls the method, as it is only called on code-level.
+	 * This method simply resets the values of various parameters back to their default values. To be used when switching screen. No need for a button that
+	 * calls the method, as it is only called on code-level.
 	 */
 	public void resetScreen() {
 		player1Brain = null;
@@ -424,37 +430,36 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		player2 = null;
 		p1NickField.setText("Player 1");
 		p2NickField.setText("Player 2");
-		//reset cross/tick to their original value
-		//nicks have a tick by default
-		p1NickValidate.displayFirst(); 
-		p2NickValidate.displayFirst(); 
-		//brains have a cross by default
-		p1BrainValidate.displaySecond(); 
-		p2BrainValidate.displaySecond(); 
+		// reset cross/tick to their original value
+		// nicks have a tick by default
+		p1NickValidate.displayFirst();
+		p2NickValidate.displayFirst();
+		// brains have a cross by default
+		p1BrainValidate.displaySecond();
+		p2BrainValidate.displaySecond();
 	}
 
 	/**
 	 * Used to test this particular screen without the need for a Game model.
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//Add content to the window.
+		// Add content to the window.
 		JFrame frame = new JFrame("World File Chooser");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1024, 576);
 		frame.add(new SingleMatchPlayerPanel(null));
 		frame.setResizable(false);
 
-		//Display the window.
+		// Display the window.
 		frame.setVisible(true);
 	}
-
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 	}
-
 
 	@Override
 	public void reset() {
@@ -462,7 +467,7 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		player2Brain = null;
 		player1 = null;
 		player2 = null;
-		
+
 		p1NickField.setText("Player1");
 		p2NickField.setText("Player2");
 		p1NickValidate.displayFirst();
@@ -471,4 +476,3 @@ public class SingleMatchPlayerPanel  extends JPanel implements Screen{
 		p2BrainValidate.displaySecond();
 	}
 }
-

@@ -15,7 +15,7 @@ import model.*;
  * is contained in.
  */
 public class ListItem extends JPanel {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4542831128346761094L;
 	private JLabel leftTextLabel;
 	private JLabel centerTextLabel;
 	private JPanel imageButtonPanel;
@@ -82,6 +82,8 @@ public class ListItem extends JPanel {
 		this.screen = screenPanel;
 		JPanel buttonPanel = new JPanel();
 		ImageButton button = new ImageButton(normal, hover) {
+			private static final long serialVersionUID = 2797501661682755624L;
+
 			public void mouseClicked(MouseEvent e) {
 				parent.remove(ListItem.this);
 				parent.revalidate();
