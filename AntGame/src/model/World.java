@@ -322,7 +322,7 @@ public class World {
 				ants.remove(((ClearTile) currentTile).getAnt().getID());
 				setChange(tileID);
 				((ClearTile) currentTile).removeAnt();
-				((ClearTile) currentTile).setFood(3);
+				((ClearTile) currentTile).setFood(((ClearTile) currentTile).getFood() + 3);
 			}
 		}
 	}

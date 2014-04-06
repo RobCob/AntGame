@@ -29,10 +29,14 @@ public class PickUp extends State {
 	@Override
 	public void execute(Ant ant, World world) {
 		ClearTile tile = ((ClearTile) (world.getTile(ant.getX(), ant.getY())));
-		ant.setFood(tile.takeFood());
-		if (ant.hasFood()) {
-			ant.setState(state1);
-			world.setChange(ant.getY() * world.sizeX + ant.getX());
+		if(tile.getFood() > 0){
+			if (!ant.hasFood()) {
+				ant.setFood(tile.takeFood());
+				world.setChange(ant.getY() * world.sizeX + ant.getX());
+				ant.setState(state1);
+			}else{
+				ant.setState(state2);
+			}
 		} else {
 			ant.setState(state2);
 		}

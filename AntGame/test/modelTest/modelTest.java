@@ -75,7 +75,7 @@ public class modelTest {
 						if(tiledata[0].equals("red hill")){
 							int food = ((ClearTile)tile).getFood();
 							tile = new AntHillTile(Colour.RED);
-							((ClearTile)tile).setFood(food);
+							((AntHillTile)tile).setFood(food);
 						}
 						if(tiledata[0].split(" ")[1].equals("marks:")){
 							tile = new ClearTile();
@@ -89,7 +89,7 @@ public class modelTest {
 						if(tiledata[0].equals("black hill")){
 							int food = ((ClearTile)tile).getFood();
 							tile = new AntHillTile(Colour.BLACK);
-							((ClearTile)tile).setFood(food);
+							((AntHillTile)tile).setFood(food);
 						}
 						if(tiledata[0].split(" ")[1].equals("marks:")){
 							tile = new ClearTile();
@@ -101,6 +101,11 @@ public class modelTest {
 					}
 					for(int i = 0; i < tiledata.length; i++){
 						if(tiledata[i].split(" ")[0].equals("black")){
+							if(tiledata[i].split(" ")[1].equals("hill")){
+								int food = ((ClearTile)tile).getFood();
+								tile = new AntHillTile(Colour.BLACK);
+								((AntHillTile)tile).setFood(food);
+							}
 							if(tiledata[i].split(" ")[1].equals("ant")){
 								String[] antData = tiledata[i].split(", ");
 								Ant bAnt = new Ant(p1, Integer.parseInt(antData[0].substring(16)));
@@ -132,6 +137,11 @@ public class modelTest {
 							}
 						}
 						if(tiledata[i].split(" ")[0].equals("red")){
+							if(tiledata[i].split(" ")[1].equals("hill")){
+								int food = ((ClearTile)tile).getFood();
+								tile = new AntHillTile(Colour.RED);
+								((AntHillTile)tile).setFood(food);
+							}
 							if(tiledata[i].split(" ")[1].equals("ant")){
 								String[] antData = tiledata[i].split(", ");
 								Ant rAnt = new Ant(p2, Integer.parseInt(antData[0].substring(14)));

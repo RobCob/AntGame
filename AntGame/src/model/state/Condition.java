@@ -26,7 +26,7 @@ public enum Condition {
 	 * @return if the condition is true.
 	 */
 	public boolean isTrue(Tile target, Ant ant, int scent) {
-		boolean success;
+		boolean success = false;
 		switch (this) {
 		case FOE:
 			success = (!target.isRocky()) && ((ClearTile) target).hasAnt() && !((ClearTile) target).getAnt().getColour().equals(ant.getColour());
@@ -35,7 +35,9 @@ public enum Condition {
 			success = (!target.isRocky()) && ((ClearTile) target).isAntHill() && !((AntHillTile) target).getColour().equals(ant.getColour());
 			break;
 		case FOEMARKER:
-			success = (!target.isRocky()) && ((ClearTile) target).getMarker(ant.getColour().getEnemy(), scent);
+			for(int i = 0; i < 6 && !success; i++){
+				success = (!target.isRocky()) && ((ClearTile) target).getMarker(ant.getColour().getEnemy(), i);
+			}
 			break;
 		case FOEWITHFOOD:
 			success = (!target.isRocky()) && ((ClearTile) target).hasAnt() && !((ClearTile) target).getAnt().getColour().equals(ant.getColour())

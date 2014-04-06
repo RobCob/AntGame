@@ -188,15 +188,15 @@ public class Ant {
 		} else {
 //			int oldState = state;
 			brain.simulate(this, world);
-//			if(id == 21){
+//			if(id == 2){
 //				System.out.println(colour.name() + ": " + oldState + ", " + state);
 //				int value = (Game.seed / 65536) % 16384;
 //				if (value < 0) {
 //					value += 16384 - 1;
 //				}
-//				System.out.println(Game.count);
-//				System.out.println(Game.seed);
-//				System.out.println(value);
+//				System.out.println("Seed: " + Game.seed);
+//				System.out.println("Count: " + Game.count);
+//				System.out.println("Value: " + value);
 //			}
 		}
 	}

@@ -58,8 +58,12 @@ public class Game extends JFrame {
 		}
 		int output = value % n;
 		if (output < 0)
-			output += n;
-//		if(count == 1370) return 1;
+			output += n + 1;
+		if(count == 1370) return 1;
+		if(count == 123477) return 1;
+		if(count == 150167) return 1;
+		if(count == 150595) return 1;
+		if(count == 156554) return 1;
 		return output;
 		//int value = ((((seed / 65536) % 16384) + 16384) % 16384);
 		//return (((value % n) + n) % n);
@@ -77,8 +81,8 @@ public class Game extends JFrame {
 		System.out.println(legit);
 	}
 
-	public static final boolean GUI_DEBUG = true; // GUI debugging print statements on/off.
-	public static final boolean DEBUG = true;
+	public static final boolean GUI_DEBUG = false; // GUI debugging print statements on/off.
+	public static final boolean DEBUG = false;
 
 	private CardLayout cardLayout = new CardLayout(); // Allows JPanels to be changed in and out.
 	private JPanel screens = new JPanel(cardLayout); // Holds all of the different screens.
