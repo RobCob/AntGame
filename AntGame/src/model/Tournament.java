@@ -91,8 +91,8 @@ public class Tournament {
 					if (current.isDraw()) {
 						Player player1 = current.getPlayer1();
 						Player player2 = current.getPlayer2();
-						scores.put(player1.getNickname(), scores.get(player1) + 1);
-						scores.put(player2.getNickname(), scores.get(player2) + 1);
+						scores.put(player1.getNickname(), scores.get(player1.getNickname()) + 1);
+						scores.put(player2.getNickname(), scores.get(player2.getNickname()) + 1);
 					}
 				} else {
 					scores.put(winner.getNickname(), scores.get(winner.getNickname()) + 2);

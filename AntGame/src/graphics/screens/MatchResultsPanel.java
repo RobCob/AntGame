@@ -304,9 +304,9 @@ public class MatchResultsPanel extends JPanel implements Screen {
 					}
 				};
 			}
-			goPanel.removeAll();
-			goPanel.add(goButton);
 		}
+		goPanel.removeAll();
+		goPanel.add(goButton);
 	}
 
 	@Override
