@@ -222,25 +222,27 @@ public class World {
 	 *            The player used to determine which ant brain is used for the ants of the other Colour
 	 */
 	public void populate(Player player1, Player player2) {
-		for (int x = 0; x < sizeX; x++) {
-			for (int j = 0; j < sizeY; j++) {
-				Tile tile = getTile(x, j);
+		int idCounter = 0;
+		for (int y = 0; y < sizeY; y++) {
+			for (int x = 0; x < sizeX; x++) {
+				Tile tile = getTile(x, y);
 				if (!tile.isRocky() && ((ClearTile) tile).isAntHill()) {
 					AntHillTile aHill = (AntHillTile) tile;
 					antHills.add(aHill);
 					if (aHill.getColour().equals(player1.getColour())) {
-						Ant ant = new Ant(player1);
+						Ant ant = new Ant(player1, idCounter);
 						ant.setX(x);
-						ant.setY(j);
+						ant.setY(y);
 						aHill.setAnt(ant);
 						ants.put(ant.getID(), ant);
 					} else {
-						Ant ant = new Ant(player2);
+						Ant ant = new Ant(player2, idCounter);
 						ant.setX(x);
-						ant.setY(j);
+						ant.setY(y);
 						aHill.setAnt(ant);
 						ants.put(ant.getID(), ant);
 					}
+					idCounter++;
 				}
 			}
 		}

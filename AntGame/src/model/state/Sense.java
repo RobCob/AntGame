@@ -12,7 +12,7 @@ import model.tile.Tile;
  */
 public class Sense extends State {
 	SenseDir senseDirection;
-	int st1, st2, scent;
+	int state1, state2, scent;
 	Condition condition;
 
 	/**
@@ -47,8 +47,8 @@ public class Sense extends State {
 	 */
 	public Sense(SenseDir direction, int trueState, int falseState, Condition condition, int scent) {
 		this.senseDirection = direction;
-		this.st1 = trueState;
-		this.st2 = falseState;
+		this.state1 = trueState;
+		this.state2 = falseState;
 		this.condition = condition;
 		this.scent = scent;
 	}
@@ -76,9 +76,9 @@ public class Sense extends State {
 		}
 		success = condition.isTrue(target, ant, scent);
 		if (success) {
-			ant.setState(st1);
+			ant.setState(state1);
 		} else {
-			ant.setState(st2);
+			ant.setState(state2);
 		}
 	}
 }

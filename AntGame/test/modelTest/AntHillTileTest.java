@@ -3,7 +3,6 @@ package modelTest;
 import static org.junit.Assert.*;
 import model.Colour;
 import model.tile.AntHillTile;
-import model.tile.ClearTile;
 
 import org.junit.Test;
 
@@ -29,6 +28,7 @@ public class AntHillTileTest {
 		AntHillTile tile = new AntHillTile(Colour.RED);
 		Object clone = tile.clone();
 		assertEquals("The clone of a tile should be equal to the original tile", clone, tile);
+		assertNotSame("The clone of a tile should be equal to the original tile", clone, tile);
 	}
 
 }

@@ -27,7 +27,7 @@ public class ClearTileTest {
 		ClearTile tile = new ClearTile();
 		assertNull("Initial Ant should be null.", tile.getAnt());
 
-		Ant ant = new Ant(new Player(null, null));
+		Ant ant = new Ant(new Player(null, null), 1);
 		tile.setAnt(ant);
 		assertEquals("Set Ant should be equal to supplied ant.", tile.getAnt(), ant);
 

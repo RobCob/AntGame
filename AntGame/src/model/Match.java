@@ -80,7 +80,6 @@ public class Match {
 	 */
 	public void setWorld(World world) {
 		this.world = world;
-		Ant.ID_COUNTER = 0;
 		world.populate(player1, player2);
 	}
 

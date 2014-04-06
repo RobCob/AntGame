@@ -59,6 +59,8 @@ public class AntHillTile extends ClearTile {
 		AntHillTile other = (AntHillTile) obj;
 		if (colour != other.colour)
 			return false;
+		if(!super.equals(obj))
+			return false;
 		return true;
 	}
 }

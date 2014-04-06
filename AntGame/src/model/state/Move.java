@@ -34,8 +34,8 @@ public class Move extends State {
 		int x = ((tileNumber % world.sizeX) + world.sizeX) % world.sizeX;
 		int y = tileNumber / world.sizeX;
 		Tile target = world.getTile(x, y);
-		success = !target.isRocky();
-		if (success && !((ClearTile) target).hasAnt()) {
+		success = !target.isRocky() && !((ClearTile) target).hasAnt();
+		if (success) {
 			world.setChange(ant.getY() * world.sizeX + ant.getX());
 			((ClearTile) (world.getTile(ant.getX(), ant.getY()))).removeAnt();
 			((ClearTile) target).setAnt(ant);

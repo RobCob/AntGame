@@ -1,5 +1,8 @@
 package model;
 
+import controller.Game;
+import model.state.TurnDir;
+
 /**
  * This class is a representation of an ant. It is used to simulate a ant character in a World and it's actions are determined by the AntBrain that it holds.
  * 
@@ -8,7 +11,6 @@ package model;
  */
 public class Ant {
 	public static final int POSSIBLE_DIRECTIONS = 6;
-	protected static int ID_COUNTER = 0;
 	private int id, state, x, y, direction, resting;
 	private boolean hasFood;
 	private AntBrain brain;
@@ -20,8 +22,8 @@ public class Ant {
 	 * @param player
 	 *            The 'owner' of the ant.
 	 */
-	public Ant(Player player) {
-		this.id = ID_COUNTER++;
+	public Ant(Player player, int id) {
+		this.id = id;
 		this.brain = player.getBrain();
 		this.state = 0;
 		this.x = 0;
@@ -39,6 +41,15 @@ public class Ant {
 	 */
 	public int getID() {
 		return id;
+	}
+	
+	/**
+	 * Returns the AntBrain which is used to control the ant.
+	 * 
+	 * @return The Unique ID of the ant.
+	 */
+	public AntBrain getAntBrain() {
+		return brain;
 	}
 
 	/**
@@ -175,7 +186,75 @@ public class Ant {
 		if (resting > 0) {
 			resting--;
 		} else {
+//			int oldState = state;
 			brain.simulate(this, world);
+//			if(id == 21){
+//				System.out.println(colour.name() + ": " + oldState + ", " + state);
+//				int value = (Game.seed / 65536) % 16384;
+//				if (value < 0) {
+//					value += 16384 - 1;
+//				}
+//				System.out.println(Game.count);
+//				System.out.println(Game.seed);
+//				System.out.println(value);
+//			}
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((brain == null) ? 0 : brain.hashCode());
+		result = prime * result + ((colour == null) ? 0 : colour.hashCode());
+		result = prime * result + direction;
+		result = prime * result + (hasFood ? 1231 : 1237);
+		result = prime * result + id;
+		result = prime * result + resting;
+		result = prime * result + state;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Ant other = (Ant) obj;
+		if (brain == null) {
+			if (other.brain != null)
+				return false;
+		} else if (!brain.equals(other.brain))
+			return false;
+		if (colour != other.colour)
+			return false;
+		if (direction != other.direction)
+			return false;
+		if (hasFood != other.hasFood)
+			return false;
+		if (id != other.id)
+			return false;
+		if (resting != other.resting)
+			return false;
+		if (state != other.state)
+			return false;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
+	}
+	public static void main(String[] args) {
+		Player p1 = new Player("Player 1", null);
+		p1.setColour(Colour.BLACK);
+		Ant ant = new Ant(p1, 1);
+		System.out.println(ant.getDirection());
+		ant.setDirection(ant.getDirection() + TurnDir.RIGHT.getValue());
+		System.out.println(ant.getDirection());
 	}
 }

@@ -17,6 +17,7 @@ import model.state.SenseDir;
 import model.state.State;
 import model.state.Turn;
 import model.state.TurnDir;
+import model.state.Unmark;
 
 /**
  * A file reader used to read and parse AntBrain files, converting them into AntBrains.
@@ -157,7 +158,7 @@ public class AntBrainReader {
 		case "UNMARK":
 			scent = checkMark(stateTokens[1]);
 			st1 = checkStateNumber(stateTokens[2], totalStateCount);
-			output = new Mark(scent, st1);
+			output = new Unmark(scent, st1);
 			break;
 
 		case "PICKUP":

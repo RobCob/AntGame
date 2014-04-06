@@ -28,7 +28,7 @@ public class Drop extends State {
 		if (ant.hasFood()) {
 			((ClearTile) (world.getTile(ant.getX(), ant.getY()))).addFood();
 			world.setChange(ant.getY() * world.sizeX + ant.getX());
-			ant.setState(state);
 		}
+		ant.setState(state);
 	}
 }

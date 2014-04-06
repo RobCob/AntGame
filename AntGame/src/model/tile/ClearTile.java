@@ -33,6 +33,8 @@ public class ClearTile implements Tile {
 	 */
 	public ClearTile(int food) {
 		this.markers = new HashMap<Colour, HashSet<Integer>>();
+		markers.put(Colour.RED, new HashSet<Integer>());
+		markers.put(Colour.BLACK, new HashSet<Integer>());
 		setFood(food);
 		setAnt(null);
 	}
@@ -96,7 +98,7 @@ public class ClearTile implements Tile {
 	 * @return True if found, False if not.
 	 */
 	public boolean getMarker(Colour colour, int scent) {
-		return markers.containsKey(colour) && markers.get(colour).contains(scent);
+		return markers.get(colour).contains(scent);
 	}
 
 	/**
@@ -108,13 +110,7 @@ public class ClearTile implements Tile {
 	 *            The ID of the marker.
 	 */
 	public void placeMarker(Colour colour, int scent) {
-		if (markers.containsKey(colour)) {
-			markers.get(colour).add(scent);
-		} else {
-			HashSet<Integer> set = new HashSet<Integer>();
-			set.add(scent);
-			markers.put(colour, set);
-		}
+		markers.get(colour).add(scent);
 	}
 
 	/**
@@ -126,9 +122,7 @@ public class ClearTile implements Tile {
 	 *            The ID of the marker.
 	 */
 	public void removeMarker(Colour colour, int scent) {
-		if (markers.containsKey(colour)) {
-			markers.get(colour).remove(scent);
-		}
+		markers.get(colour).remove(scent);
 	}
 
 	/**
