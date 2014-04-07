@@ -134,6 +134,7 @@ public class AntBrainReader {
 		// If there are no errors, create appropriate state and output it.
 		State output = null;
 		String[] stateTokens = state.trim().split(" ");
+		int length;
 		switch (stateTokens[0].toUpperCase()) {
 		case "SENSE":
 			SenseDir direction = checkSenseDirection(stateTokens[1]);
@@ -144,8 +145,10 @@ public class AntBrainReader {
 			if (condition == Condition.MARKER) {
 				int scent = checkMark(stateTokens[5]);
 				output = new Sense(direction, st1, st2, condition, scent);
+				length = 6;
 			} else {
 				output = new Sense(direction, st1, st2, condition);
+				length = 5;
 			}
 			break;
 
@@ -153,35 +156,41 @@ public class AntBrainReader {
 			int scent = checkMark(stateTokens[1]);
 			st1 = checkStateNumber(stateTokens[2], totalStateCount);
 			output = new Mark(scent, st1);
+			length = 3;
 			break;
 
 		case "UNMARK":
 			scent = checkMark(stateTokens[1]);
 			st1 = checkStateNumber(stateTokens[2], totalStateCount);
 			output = new Unmark(scent, st1);
+			length = 3;
 			break;
 
 		case "PICKUP":
 			st1 = checkStateNumber(stateTokens[1], totalStateCount);
 			st2 = checkStateNumber(stateTokens[2], totalStateCount);
 			output = new PickUp(st1, st2);
+			length = 3;
 			break;
 
 		case "DROP":
 			st1 = checkStateNumber(stateTokens[1], totalStateCount);
 			output = new Drop(st1);
+			length = 2;
 			break;
 
 		case "TURN":
 			TurnDir turnDirection = checkTurnDirection(stateTokens[1]);
 			st1 = checkStateNumber(stateTokens[2], totalStateCount);
 			output = new Turn(turnDirection, st1);
+			length = 3;
 			break;
 
 		case "MOVE":
 			st1 = checkStateNumber(stateTokens[1], totalStateCount);
 			st2 = checkStateNumber(stateTokens[2], totalStateCount);
 			output = new Move(st1, st2);
+			length = 3;
 			break;
 
 		case "FLIP":
@@ -189,10 +198,18 @@ public class AntBrainReader {
 			st1 = checkStateNumber(stateTokens[2], totalStateCount);
 			st2 = checkStateNumber(stateTokens[3], totalStateCount);
 			output = new Flip(p, st1, st2);
+			length = 4;
 			break;
-
 		default:
 			throw new Exception("Invalid state");
+		}
+		if(stateTokens.length > length){
+			while(stateTokens[length].matches("\\s")||stateTokens[length].equals("")){
+				length++;
+			}
+			if(!stateTokens[length].startsWith(";")){
+				throw new Exception("Invalid state");
+			}
 		}
 		return output;
 	}

@@ -50,15 +50,16 @@ public class Game extends JFrame {
 		for (; count < 3; count++) {
 			seed = seed * 22695477 + 1;
 		}
-		seed = seed * 22695477 + 1;
+		seed = (seed * 22695477) + 1;
 		count++;
 		int value = (int) ((Math.floor((float)seed / 65536)) % 16384);
 		if (value < 0) {
-			value = (value + 16384) % 16384;
+			value = ((value + 16384) % 16384);
 		}
 		int output = value % n;
-		if (output < 0)
+		if (output < 0){
 			output = (output + n) % n ;
+		}
 		return output;
 		
 //		int value = ((seed / 65536) % 16384);

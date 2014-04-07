@@ -21,4 +21,6 @@ public interface Tile {
 	 */
 	public Object clone();
 
+	public abstract boolean equals(Object obj);
+	public abstract int hashCode();
 }

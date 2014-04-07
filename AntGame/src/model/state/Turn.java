@@ -32,4 +32,29 @@ public class Turn extends State {
 		world.setChange(ant.getY() * world.sizeX + ant.getX());
 		ant.setState(state);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
+		result = prime * result + state;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Turn other = (Turn) obj;
+		if (direction != other.direction)
+			return false;
+		if (state != other.state)
+			return false;
+		return true;
+	}
 }

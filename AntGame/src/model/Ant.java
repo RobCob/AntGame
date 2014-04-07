@@ -186,23 +186,7 @@ public class Ant {
 		if (resting > 0) {
 			resting--;
 		} else {
-//			int oldState = state;
-//			if(id == 7 && Game.count == 15810){
-//				oldState = state;
-////				System.out.println();
-//			}
 			brain.simulate(this, world);
-//			if(id == 7){
-//				System.out.println(colour.name() + ": " + oldState + ", " + state);
-//				int value = (int) ((Math.floor((float)Game.seed / 65536)) % 16384);
-////				int value = ((seed / 65536) % 16384);
-//				if (value < 0) {
-//					value = (value + 16384) % 16384;
-//				}
-//				System.out.println("Seed: " + Game.seed);
-//				System.out.println("Count: " + Game.count);
-//				System.out.println("Value: " + value);
-//			}
 		}
 	}
 

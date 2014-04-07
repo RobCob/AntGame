@@ -20,4 +20,7 @@ public abstract class State {
 	 *            The world in which the state is executed.
 	 */
 	public abstract void execute(Ant ant, World world);
+	
+	public abstract boolean equals(Object obj);
+	public abstract int hashCode();
 }

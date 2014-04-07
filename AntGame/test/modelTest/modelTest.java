@@ -175,6 +175,8 @@ public class modelTest {
 					}
 					Tile worldTile = world.getTile(x, y);
 					if(!tile.equals(worldTile)){
+						System.out.println("Seed: " + Game.seed);
+						System.out.println("Count: " + Game.count);
 						System.out.println(x + "," + y);
 						System.out.println("Round number: " + (roundCount-1) + ", " + match.getRoundNumber());
 						System.out.println("Line number: " + lineCount);
