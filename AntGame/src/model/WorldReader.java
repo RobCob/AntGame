@@ -112,8 +112,9 @@ public class WorldReader {
 	 * @param worldString
 	 *            The entire world as a String.
 	 * @return An array of Tiles
+	 * @throws Exception 
 	 */
-	private static Tile[] createTileList(String worldString) {
+	private static Tile[] createTileList(String worldString) throws Exception {
 		Tile[] output = new Tile[worldString.length()];
 		String[] tiles = new String[worldString.length()];
 		// have to use for each as split() creates on undesired character at the start
@@ -124,38 +125,33 @@ public class WorldReader {
 		// Start at 1, as the trim() method creates an invisible character at the start of the string
 		for (int i = 0; i < tiles.length; i++) {
 			String tile = tiles[i];
-			try {
-				if (tile.matches("[1-9]")) {
-					output[i] = new ClearTile(Integer.parseInt(tile)); // Simply parse the int contained in the String
-				} else {
-					switch (tile) {
-					case ".":
-						output[i] = new ClearTile();
-						break;
+			if (tile.matches("[1-9]")) {
+				output[i] = new ClearTile(Integer.parseInt(tile)); // Simply parse the int contained in the String
+			} else {
+				switch (tile) {
+				case ".":
+					output[i] = new ClearTile();
+					break;
 
-					case "#":
-						output[i] = new RockTile();
-						break;
+				case "#":
+					output[i] = new RockTile();
+					break;
 
-					case "+":
-						output[i] = new AntHillTile(Colour.RED);
-						break;
+				case "+":
+					output[i] = new AntHillTile(Colour.RED);
+					break;
 
-					case "-":
-						output[i] = new AntHillTile(Colour.BLACK);
-						break;
+				case "-":
+					output[i] = new AntHillTile(Colour.BLACK);
+					break;
 
-					case "$":
-						output[i] = new LineSeparator();
-						break;
+				case "$":
+					output[i] = new LineSeparator();
+					break;
 
-					default:
-						throw new Exception("Invalid tile");
-					}
+				default:
+					throw new Exception("Invalid tile");
 				}
-			} catch (Exception e) {
-				System.err.println("Error on string: " + tile);
-				System.err.println(e.getMessage());
 			}
 		}
 		return output;

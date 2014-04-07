@@ -52,22 +52,22 @@ public class Game extends JFrame {
 		}
 		seed = (seed * 22695477) + 1;
 		count++;
-		int value = (int) ((Math.floor((float)seed / 65536)) % 16384);
+		int value = (int) ((Math.floor((double) seed / 65536)) % 16384);
 		if (value < 0) {
 			value = ((value + 16384) % 16384);
 		}
 		int output = value % n;
-		if (output < 0){
-			output = (output + n) % n ;
-		}
+		// if (output < 0){
+		// output = (output + n) % n ;
+		// }
 		return output;
-		
-//		int value = ((seed / 65536) % 16384);
-//		if (output < 0)
-//			output += n - 1;
-		
-		//int value = ((((seed / 65536) % 16384) + 16384) % 16384);
-		//return (((value % n) + n) % n);
+
+		// int value = ((seed / 65536) % 16384);
+		// if (output < 0)
+		// output += n - 1;
+
+		// int value = ((((seed / 65536) % 16384) + 16384) % 16384);
+		// return (((value % n) + n) % n);
 	}
 
 	public static void main(String[] args) {

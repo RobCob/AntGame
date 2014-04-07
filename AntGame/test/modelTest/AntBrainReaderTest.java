@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class AntBrainReaderTest {
 
-	private State[] createStateList(int x){
+	public static State[] createStateList(int x){
 		State[] stateList = new State[8];
 		stateList[0] = new Drop(x);
 		stateList[1] = new Flip(1, x, 3);

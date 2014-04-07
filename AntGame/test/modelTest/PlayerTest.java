@@ -26,7 +26,7 @@ public class PlayerTest {
 		AntBrain initialBrain = new AntBrain(null);
 		Player player = new Player(null, initialBrain);
 		assertEquals("Supplied brain should persist", initialBrain, player.getBrain());
-
+		State[] stateList = AntBrainReaderTest.createStateList(1);
 		AntBrain newBrain = new AntBrain(new State[10]);
 		player.setBrain(newBrain);
 		assertEquals("Supplied brain should be stored", newBrain, player.getBrain());
@@ -48,6 +48,8 @@ public class PlayerTest {
 		Player player = new Player("TestName", new AntBrain(new State[10]));
 		player.setColour(Colour.RED);
 		Object clone = player.clone();
-		assertEquals("Supplied red colour should be stored", clone, player);
+		assertEquals("Cloned object class should equal", clone.getClass(), player.getClass());
+		assertNotSame("Cloned object should not be the same object", clone, player);
+		assertEquals("Cloned object should equal", clone, player);
 	}
 }
