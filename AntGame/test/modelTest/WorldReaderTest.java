@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class WorldReaderTest {
 /*
- * check all legal, boundary numbers and text 
+ * check all legal, boundary numbers and text and gaps in walls 
  */
 	@Test
 	public void validReadTest() {
@@ -46,6 +46,11 @@ public class WorldReaderTest {
 		}
 	}
 	@Test
+	public void validReadTest12() {
+		World readWorld = WorldReader.readWorld("assWorldTest10.world");
+		assertNull("Testing 2 red and 1 black hill: ", readWorld);
+	}
+	@Test
 	public void validReadTest4() {
 		World readWorld = WorldReader.readWorld("assWorldTest2.world");
 		assertNull("Test should fail on clear cell '-1': ", readWorld);
@@ -68,7 +73,22 @@ public class WorldReaderTest {
 	@Test
 	public void validReadTest8() {
 		World readWorld = WorldReader.readWorld("assWorldTest6.world");
-		assertNull("Test should fail when there is a gap in the wall: ", readWorld);
+		assertNull("Test should fail when there is a gap in the east wall: ", readWorld);
+	}
+	@Test
+	public void validReadTest9() {
+		World readWorld = WorldReader.readWorld("assWorldTest6.world");
+		assertNull("Test should fail when there is a gap in the north wall: ", readWorld);
+	}
+	@Test
+	public void validReadTest10() {
+		World readWorld = WorldReader.readWorld("assWorldTest6.world");
+		assertNull("Test should fail when there is a gap in the south wall: ", readWorld);
+	}
+	@Test
+	public void validReadTes11() {
+		World readWorld = WorldReader.readWorld("assWorldTest6.world");
+		assertNull("Test should fail when there is a gap in the east wall: ", readWorld);
 	}
 	public Tile[][] createGrid(){
 		int sizeX = 5;
