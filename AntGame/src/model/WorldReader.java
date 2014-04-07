@@ -169,12 +169,21 @@ public class WorldReader {
 	 */
 	private static boolean checkWorldSemantics(Tile[] tiles, int sizeX, int sizeY) {
 		int countx = 0, county = 0, i = 0;
+		int redCount = 0;
+		int blackCount = 0;
 		boolean isCorrect = true;
 		while (isCorrect && i < tiles.length) {
 			if (!(tiles[i] instanceof LineSeparator)) {
 				if (countx == 0 || county == 0 || countx == sizeX - 1 || county == sizeY - 1) {
 					if (!(tiles[i].isRocky())) {
 						isCorrect = false;
+					}
+				}
+				if(tiles[i] instanceof AntHillTile){
+					if(((AntHillTile)tiles[i]).getColour().equals(Colour.RED)){
+						redCount++;
+					}else{
+						blackCount++;
 					}
 				}
 				countx++;
@@ -190,7 +199,7 @@ public class WorldReader {
 			i++;
 		}
 		// check if the the y dimensions of the world are correct
-		if (county != sizeY) {
+		if (county != sizeY || redCount != blackCount) {
 			isCorrect = false;
 		}
 		return isCorrect;
