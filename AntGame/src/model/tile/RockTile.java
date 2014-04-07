@@ -16,4 +16,15 @@ public class RockTile implements Tile {
 	public Object clone() {
 		return new RockTile();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
+	}
 }
