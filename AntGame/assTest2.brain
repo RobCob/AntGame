@@ -1,0 +1,8 @@
+Drop 10000 
+Flip 1 10000 3
+Mark 1 10000 
+Move 10000 2 
+PickUp 10000 2 
+Sense Ahead 10000 2 Foe 
+Turn Left 10000 
+Unmark 1 10000
