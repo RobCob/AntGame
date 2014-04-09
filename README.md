@@ -10,9 +10,12 @@ To access the ant-game and the documentation, click "Download ZIP":
 The .jar file for the game is located in the root directory and is called "AntGame.jar"
 
 Canditate Numbers:
-	- 74120
-	- 105957
-	- 108069 
-	- 108252 
-	- 109195
+<ol>
+<li>74120</li>
+<li>105957</li>
+<li>108069 </li>
+<li>108252 </li>
+<li>109195</li>
+</ol>
+	
 	
