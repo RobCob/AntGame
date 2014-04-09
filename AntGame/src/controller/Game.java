@@ -57,29 +57,13 @@ public class Game extends JFrame {
 			value = ((value + 16384) % 16384);
 		}
 		int output = value % n;
-		// if (output < 0){
-		// output = (output + n) % n ;
-		// }
 		return output;
-
-		// int value = ((seed / 65536) % 16384);
-		// if (output < 0)
-		// output += n - 1;
-
-		// int value = ((((seed / 65536) % 16384) + 16384) % 16384);
-		// return (((value % n) + n) % n);
 	}
 
 	public static void main(String[] args) {
 		seed = 12345;
-		String rand = "";
-		String legit = "7193, 2932, 10386, 5575, 100, 15976, 430, 9740, 9449, 1636, 11030, 9848, 13965, 16051, 14483, 6708, 5184, 15931, 7014, 461, 11371, 5856, 2136, 9139, 1684, 15900, 10236, 13297, 1364, 6876, 15687, 14127, 11387, 13469, 11860, 15589, 14209, 16327, 7024, 3297, 3120, 842, 12397, 9212, 5520, 4983, 7205, 7193, 4883, 7712, 6732, 7006, 10241, 1012, 15227, 9910, 14119, 15124, 6010, 13191, 5820, 14074, 5582, 5297, 10387, 4492, 14468, 7879, 8839, 12668, 5436, 8081, 4900, 10723, 10360, 1218, 11923, 3870, 12071, 3574, 12232, 15592, 12909, 9711, 6638, 2488, 12725, 16145, 9746, 9053, 5881, 3867, 10512, 4312, 8529, 1576, 15803, 5498, 12730, 7397, ";
-		for (int i = 0; i < 100; i++) {
-			rand += "" + randomInt(213980471) + ", ";
-		}
-		System.out.println(rand.equals(legit));
-		System.out.println(rand);
-		System.out.println(legit);
+		@SuppressWarnings("unused")
+		Game g = new Game();
 	}
 
 	public static final boolean GUI_DEBUG = false; // GUI debugging print statements on/off.
@@ -325,11 +309,6 @@ public class Game extends JFrame {
 			Tile tile = drawnWorld.getTile(x, y);
 			setTileColor(gridBuffer[x][y], tile);
 		}
-		// for(int i = 0; i < drawnWorld.sizeX; i++){ // Leave this in for debugging
-		// for(int j = 0; j < drawnWorld.sizeY; j++){
-		// gridBuffer[i][j].setFillColor(getTileColor(drawnWorld.getTile(i, j)));
-		// }
-		// }
 
 		matchPanel.getGrid().setHexagonGrid(gridBuffer);
 		matchPanel.getScrollPane().repaint();
@@ -366,12 +345,7 @@ public class Game extends JFrame {
 				int food = ((ClearTile) tile).getFood();
 				if (food > 0) {
 					color = Hexagon.FOOD_COLOR;
-					// color = Hexagon.EMPTY_CELL_COLOR;
-					// hexTile.setOutlineColor(Hexagon.FOOD_COLOR);
-					// hexTile.setStrokeWidth(5);
 				} else {
-					// hexTile.setStrokeWidth(1);
-					// hexTile.setOutlineColor(Color.BLACK);
 					if (((ClearTile) tile).isAntHill()) {
 						if (((AntHillTile) tile).getColour().equals(Colour.RED)) {
 							color = Hexagon.RED_ANTHILL_COLOR;
