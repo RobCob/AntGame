@@ -1,6 +1,10 @@
 package modelTest;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
+import model.Ant;
 import model.Colour;
 import model.Player;
 import model.World;
@@ -22,8 +26,10 @@ public class WorldTest {
 		int foodPileCount = 11;
 		World world = World.generateWorld(sizeX, sizeY, antHillSize, rockCount, foodPileCount);
 		int foundRocks = 0;
-		for(int x = 0; x < sizeX; x++){
-			for(int y = 0; y < sizeY; y++){
+		int redCount = 0;
+		int blackCount = 0;
+		for(int y = 0; y < sizeY; y++){
+			for(int x = 0; x < sizeX; x++){
 				Tile tile = world.getTile(x, y);
 				if(x == 0 || y == 0 || x == sizeX-1 || y == sizeY-1){
 					assertTrue(tile instanceof RockTile);
@@ -38,11 +44,18 @@ public class WorldTest {
 						}
 						foundRocks++;
 					}else{
-						fail("Test not completed, needs more functionality");
+						if(((ClearTile)tile).isAntHill()){
+							if(((AntHillTile)tile).getColour().equals(Colour.RED)){
+								redCount++;
+							}else{
+								blackCount++;
+							}
+						}
 					}
 				}
 			}
 		}
+		assertTrue(redCount == blackCount);
 		assertTrue(foundRocks == rockCount);
 	}
 
@@ -75,6 +88,23 @@ public class WorldTest {
 	}
 	
 	@Test
+	public void getAntHillsTest() {
+		World world = new World(createGrid());
+		ArrayList<AntHillTile> antHills = world.getAntHills();
+		for (int x = 0; x < world.sizeX; x++) {
+			for (int y = 0; y < world.sizeY; y++) {
+				Tile currentTile = world.getTile(x, y);
+				if (!currentTile.isRocky()) {
+					if (((ClearTile) currentTile).isAntHill()) {
+						assertTrue("Every AntHillTile should contain an ant.", antHills.remove(currentTile));
+					}
+				}
+			}
+		}
+		assertTrue("All ant hills should have been in the world", antHills.isEmpty());
+	}
+	
+	@Test
 	public void populateTest() {
 		World world = new World(createGrid());
 		Player p1 = new Player(null, null);
@@ -82,8 +112,8 @@ public class WorldTest {
 		p1.setColour(Colour.BLACK);
 		p2.setColour(Colour.RED);
 		world.populate(p1, p2);
-		for (int x = 0; x < world.sizeX; x++) {
-			for (int y = 0; y < world.sizeY; y++) {
+		for (int y = 0; y < world.sizeY; y++) {
+			for (int x = 0; x < world.sizeX; x++) {
 				Tile currentTile = world.getTile(x, y);
 				if (!currentTile.isRocky()) {
 					if (((ClearTile) currentTile).isAntHill()) {

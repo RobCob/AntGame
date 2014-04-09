@@ -32,21 +32,38 @@ public class AntBrainReaderTest {
 		stateList[7] = new Unmark(1, x);
 		return stateList;
 	}
+	
 	@Test
 	public void validReadTest() {
 		AntBrain readBrain = AntBrainReader.readBrain("assTest.brain");
 		AntBrain oracle = new AntBrain(createStateList(1), "assTest.brain");
-		assertTrue("Is the test brain equal to the oracle: ",readBrain.equals(oracle));
+		assertTrue("Is the test brain equal to the oracle (ignoring comments): ", readBrain.equals(oracle));
 	}
-//	@Test
-//	public void validRead1Test() {
-//		AntBrain readBrain = AntBrainReader.readBrain("assTest1.brain");
-//		assertNull("Does the test fail for -1: ",readBrain);
-//	}
-//	@Test
-//	public void validRead2Test() {
-//		AntBrain readBrain = AntBrainReader.readBrain("assTest2.brain");
-//		assertNull("Does the test fail for 10000: ",readBrain);
-//	}
+	
+	@Test
+	public void validRead1Test() {
+		AntBrain readBrain = AntBrainReader.readBrain("assTest1.brain");
+		assertNull("Does the test fail for -1: ",readBrain);
+	}
+	@Test
+	public void validRead2Test() {
+		AntBrain readBrain = AntBrainReader.readBrain("assTest2.brain");
+		assertNull("Does the test fail for 10000: ",readBrain);
+	}
+	@Test
+	public void validRead3Test() {
+		AntBrain readBrain = AntBrainReader.readBrain("assTest3.brain");
+		assertNull("Does the test fail for false state: ",readBrain);
+	}
+	@Test
+	public void validRead4Test() {
+		AntBrain readBrain = AntBrainReader.readBrain("assTest4.brain");
+		assertNull("Does the test fail for false comment: ",readBrain);
+	}
+	@Test
+	public void validRead5Test() {
+		AntBrain readBrain = AntBrainReader.readBrain("assTest5.brain");
+		assertNull("Does the test fail for false sense condition: ",readBrain);
+	}
 
 }

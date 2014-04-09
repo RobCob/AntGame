@@ -23,7 +23,7 @@ import org.junit.Test;
 
 import controller.Game;
 
-public class modelTest {
+public class SimulationTest {
 
 	@Test
 	public void test() {

@@ -206,9 +206,13 @@ public class World {
 		antHills = new ArrayList<AntHillTile>();
 		ants = new HashMap<Integer, Ant>();
 		changes = new HashSet<Integer>();
-		for (int x = 0; x < sizeX; x++) {
-			for (int y = 0; y < sizeY; y++) {
+		for (int y = 0; y < sizeY; y++) {
+			for (int x = 0; x < sizeX; x++) {
 				setChange((y * sizeX) + x); // Disable for fog of war
+				if (!grid[x][y].isRocky() && ((ClearTile) grid[x][y]).isAntHill()) {
+					AntHillTile aHill = (AntHillTile) grid[x][y];
+					antHills.add(aHill);
+				}
 			}
 		}
 	}
